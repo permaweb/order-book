@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es2021",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"allowJs": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"alwaysStrict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"noImplicitAny": false,
+		"noImplicitThis": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strictNullChecks": false,
+		"resolveJsonModule": true
+	},
+	"include": ["src"]
+}
