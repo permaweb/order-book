@@ -12,8 +12,12 @@ async function main() {
     wallet: new ArweaveSigner(jwk),
     src,
     initState: JSON.stringify({
-      pairs: [],
-      name: "orderbook"
+      name: "asset",
+      balances: {
+        "vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI": 100000,
+        "mKwDzpvCyhfHrkNmY7bBllvGWRtDyKcOqL_b7ic34Oo": 100000
+      },
+      claimable: []
     }),
     //initState,
     evaluationManifest: {
