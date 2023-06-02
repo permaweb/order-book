@@ -9,7 +9,6 @@
 		"test": "ts-node tests/framework.test.ts",
 		"build": "tsc",
 		"build:publish": "npm run build && npm publish",
-		"prepare": "husky install",
 		"check-packages": "node src/workers/check-packages.mjs"
 	},
 	"dependencies": {
