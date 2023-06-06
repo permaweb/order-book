@@ -12,7 +12,8 @@
     "format": "(cd app && npm run format) && (cd lib && npm run format) && (cd contract && npm run format) && npm run commit",
     "start-arlocal": "npx arlocal",
     "local": "node ./scripts/deploy-u-local.mjs ./local/U",
-    "read-state-local": "node ./scripts/read-state-local.mjs"
+    "read-state-local": "node ./scripts/read-state-local.mjs",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/permaweb/order-book#readme",
   "devDependencies": {
+    "husky": "8.0.3",
     "warp-contracts": "1.4.10",
     "warp-contracts-plugin-deploy": "1.0.8"
   }
