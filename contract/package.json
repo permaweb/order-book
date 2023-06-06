@@ -6,13 +6,12 @@
   "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.17.19",
-    "prettier": "^2.8.8",
     "uvu": "^0.5.6",
     "warp-contracts": "^1.4.10"
   },
   "scripts": {
     "test": "uvu test",
-    "fmt": "prettier src test --write",
+    "format": "npx prettier src test --write",
     "build": "node build.js",
     "deploy": "node scripts/deploy.js"
   },
