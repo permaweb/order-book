@@ -2,7 +2,7 @@
 - [Permaweb Order Book](#permaweb-order-book)
   - [Setup](#setup)
   - [Local](#local)
-  - [Format (TODO)](#format-todo)
+  - [Format](#format)
 
 
 An order book is where owners can list their assets for sale at a specific price, for a specific token. For example, I want to sell my Jack Russell Moonshot NFT for 1 RebAR, within a given window of time. (A limit order). 
@@ -26,8 +26,8 @@ If you'd like to check that the contract is deployed and the state is correct:
 
 - `npm run read-state-local -- <contract-id>`
 
-## Format (TODO)
+## Format
 
-This will format the entire repo.
+This will format the entire repo and commit/push the changes.
 
 - `npm run format`
