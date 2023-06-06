@@ -8,7 +8,7 @@
   },
   "scripts": {
     "install": "(cd app && npm i) && (cd lib && npm i) && (cd contract && npm i)",
-    "commit": "git commit -am \"chore: format\" && git push --no-verify",
+    "commit": "git commit -am \"chore: format\" --allow-empty && git push --no-verify",
     "format": "(cd app && npm run format) && (cd lib && npm run format) && (cd contract && npm run format) && npm run commit",
     "start-arlocal": "npx arlocal",
     "local": "node ./scripts/deploy-u-local.mjs ./local/U",
