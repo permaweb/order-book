@@ -1,0 +1,30 @@
+{
+  "name": "root",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "install": "(cd app && npm i) && (cd lib && npm i) && (cd contract && npm i)",
+    "format": "(cd app && npm run format)",
+    "start-arlocal": "npx arlocal",
+    "local": "node ./scripts/deploy-u-local.mjs ./local/U",
+    "read-state-local": "node ./scripts/read-state-local.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/permaweb/order-book.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/permaweb/order-book/issues"
+  },
+  "homepage": "https://github.com/permaweb/order-book#readme",
+  "devDependencies": {
+    "warp-contracts": "1.4.10",
+    "warp-contracts-plugin-deploy": "1.0.8"
+  }
+}
