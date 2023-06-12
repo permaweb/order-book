@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import { env } from 'api';
+import React from 'react';
+import * as env from 'api';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
 const ORDERBOOK_CONTRACT = 'hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8';
 
 export default function Landing() {
-	const { getUserAssets } = env;
-
 	const [ordersState, setOrdersState] = React.useState<any>(null);
-
-	useEffect(() => {
-		getUserAssets('9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4')
-			.then((data) => {
+	const [data, setData] = React.useState<any>();
+	React.useEffect(() => {
+		env
+			.getUserAssets('9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4')
+			.then((data: any) => {
 				console.log('Fetched user assets:', data);
+				setData(data);
 			})
 			.catch(console.log);
 	}, []);
@@ -30,6 +30,7 @@ export default function Landing() {
 			{ordersState.pairs.map((order: any, index: number) => {
 				return <p key={index}>{`Asset ${order.pair[0]}`}</p>;
 			})}
+			{data && JSON.stringify(data)}
 		</div>
 	) : null;
 }
