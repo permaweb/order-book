@@ -1,3 +1,1 @@
-import { getUserAssets } from './get-user-assets';
-
-export const env = { getUserAssets };
+export * from './get-user-assets';

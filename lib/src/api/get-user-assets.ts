@@ -14,11 +14,7 @@ export const getUserAssets = async (tx: string, page?: string, limit?: string): 
 	return of({ tx, page, limit }).chain(fromPromise(fetchUserAssets)).toPromise();
 };
 
-export async function fetchUserAssets(input: {
-	tx: string;
-	page?: string;
-	limit?: string;
-}): Promise<GetUserAssetsOutput> {
+async function fetchUserAssets(input: { tx: string; page?: string; limit?: string }): Promise<GetUserAssetsOutput> {
 	const { tx, page, limit } = input;
 	return fetch(
 		`https://contracts.warp.cc/balances?walletAddress=${tx}&limit=${limit || '30'}${page ? `&page=${page}` : ''}`
@@ -46,6 +42,6 @@ interface Data {
 	balances: Balance[];
 }
 
-interface GetUserAssetsOutput {
+export interface GetUserAssetsOutput {
 	data: Data;
 }
