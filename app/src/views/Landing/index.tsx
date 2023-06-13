@@ -1,7 +1,9 @@
 import React from 'react';
 import * as env from 'api';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
-
+// NICK
+// env.getUserAssets
+// env.GetUserAssetsOutput
 const ORDERBOOK_CONTRACT = 'hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8';
 
 export default function Landing() {
