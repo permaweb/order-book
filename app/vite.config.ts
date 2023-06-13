@@ -14,6 +14,7 @@ export default defineConfig({
 			},
 			{ find: 'global', replacement: path.resolve(__dirname, 'src/global/') },
 			{ find: 'helpers', replacement: path.resolve(__dirname, 'src/helpers/') },
+			{ find: 'api', replacement: path.resolve(__dirname, 'src/api/') },
 			{
 				find: 'navigation',
 				replacement: path.resolve(__dirname, 'src/navigation/'),
