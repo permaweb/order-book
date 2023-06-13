@@ -37,11 +37,7 @@ interface Balance {
 	sort_key: string;
 }
 
-interface GetUserAssetsOutput {
+export interface GetUserAssetsOutput {
 	paging: Paging;
 	balances: Balance[];
 }
-
-// export interface GetUserAssetsOutput {
-// 	data: Data;
-// }
