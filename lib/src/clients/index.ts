@@ -1,13 +1,5 @@
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
-import {
-	ArweaveClientType,
-	EnvType,
-	InitArgs,
-	OrderBookType,
-	SellArgs,
-	TransactionFlowArgs,
-	ValidateArgs,
-} from '../helpers/types';
+import { ArweaveClientType, EnvType, InitArgs, OrderBookType, SellArgs, ValidateArgs } from '../helpers/types';
 import { pairExists } from '../helpers/utils';
 
 import { ArweaveClient } from './arweave';
@@ -113,7 +105,7 @@ const client: OrderBookType = {
 		return orderTx;
 	},
 
-	// validation incomplete
+	// TODO: validation incomplete
 	validateAsset: async function (args: ValidateArgs) {
 		// validate collection if provided
 		// validate contract

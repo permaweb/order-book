@@ -73,11 +73,14 @@ export const GlobalStyle = createGlobalStyle`
 
   h1 {
     font-size: ${(props) => props.theme.typography.size.h1};
-    font-family: ${(props) => props.theme.typography.family.alt1};
+    font-family: ${(props) => props.theme.typography.family.primary};
   }
 
   h2 {
     font-size: ${(props) => props.theme.typography.size.h2};
+    font-family: ${(props) => props.theme.typography.family.primary};
+    font-weight: ${(props) => props.theme.typography.weight.bold};
+    color: ${(props) => props.theme.colors.font.primary.alt1};
   }
 
   b {
@@ -169,7 +172,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .border-wrapper {
-    background: ${(props) => props.theme.colors.container.primary.background};
+    background: ${(props) => props.theme.colors.container.primary.background1};
+    border-radius: ${STYLING.dimensions.borderRadius};
+    border: 1px solid ${(props) => props.theme.colors.border.primary};
+  }
+
+  .border-wrapper-alt {
+    background: ${(props) => props.theme.colors.container.alt3.background};
     border-radius: ${STYLING.dimensions.borderRadius};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
   }

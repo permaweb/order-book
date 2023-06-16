@@ -5,7 +5,7 @@ import { STYLING } from 'helpers/styling';
 export const Wrapper = styled.main`
 	min-height: calc(100vh - ${STYLING.dimensions.navHeight});
 	width: 100%;
-	margin: ${STYLING.dimensions.navHeight} auto 0 auto;
+	// background: ${(props) => `linear-gradient(to bottom, ${props.theme.colors.container.primary.background3}, ${props.theme.colors.container.primary.background2}, ${props.theme.colors.container.primary.background1})`};
+	margin: 0 auto;
 	position: relative;
-	border: 1px solid transparent;
 `;

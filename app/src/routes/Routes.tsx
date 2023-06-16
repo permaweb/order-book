@@ -5,6 +5,8 @@ import { Loader } from 'components/atoms/Loader';
 import * as urls from 'helpers/urls';
 import { View } from 'wrappers/View';
 
+const Account = getLazyImport('Account');
+const Asset = getLazyImport('Asset');
 const Landing = getLazyImport('Landing');
 const NotFound = getLazyImport('NotFound');
 
@@ -17,6 +19,22 @@ export default function _Routes() {
 					element={
 						<View>
 							<Landing />
+						</View>
+					}
+				/>
+				<Route
+					path={urls.account}
+					element={
+						<View>
+							<Account />
+						</View>
+					}
+				/>
+				<Route
+					path={`${urls.asset}:id`}
+					element={
+						<View>
+							<Asset />
 						</View>
 					}
 				/>

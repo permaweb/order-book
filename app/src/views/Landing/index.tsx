@@ -1,57 +1,53 @@
 import React from 'react';
-import * as env from 'api';
-import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
-// NICK
-// env.getUserAssets
-// env.GetUserAssetsOutput
-const ORDERBOOK_CONTRACT = 'hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8';
+
+import * as OrderBook from 'permaweb-orderbook';
+
+import { AssetsGrid } from 'global/AssetsGrid';
+import { AssetsList } from 'global/AssetsList';
+import { FEATURE_COUNT } from 'helpers/config';
 
 export default function Landing() {
-	const [ordersState, setOrdersState] = React.useState<any>(null);
-	const [data, setData] = React.useState<any>();
-	React.useEffect(() => {
-		env
-			.getUserAssets('9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4')
-			.then((data: any) => {
-				console.log('Fetched user assets:', data);
-				setData(data);
-			})
-			.catch(console.log);
-	}, []);
+	const [assets, setAssets] = React.useState<OrderBook.AssetType[] | null>(null);
+
+	const [featuredAssets, setFeaturedAssets] = React.useState<OrderBook.AssetType[] | null>(null);
+	const [remainingAssets, setRemainingAssets] = React.useState<OrderBook.AssetType[] | null>(null);
 
 	React.useEffect(() => {
 		(async function () {
-			setOrdersState(await readState(ORDERBOOK_CONTRACT));
+			setAssets(await OrderBook.getAssetsByContract());
 		})();
 	}, []);
 
-	console.log(ordersState);
+	// TODO: get featured
+	React.useEffect(() => {
+		if (assets) {
+			if (assets.length >= FEATURE_COUNT) {
+				setFeaturedAssets(assets.slice(0, FEATURE_COUNT));
+				setRemainingAssets(assets.slice(FEATURE_COUNT));
+			}
+			else {
+				setFeaturedAssets(assets);
+				setRemainingAssets([]);
+			}
+		}
+	}, [assets])
 
-	return ordersState ? (
-		<div className={'view-wrapper max-cutoff'}>
-			{ordersState.pairs.map((order: any, index: number) => {
-				return <p key={index}>{`Asset ${order.pair[0]}`}</p>;
-			})}
-			{data && JSON.stringify(data)}
-		</div>
-	) : null;
+	function getFeaturedAssets() {
+		if (featuredAssets) {
+			return <AssetsGrid assets={featuredAssets} />;
+		}
+	}
+
+	function getRemainingAssets() {
+		if (remainingAssets) {
+			return <AssetsList assets={remainingAssets} />;
+		}
+	}
+
+	return (
+		<>
+			{getFeaturedAssets()}
+			{getRemainingAssets()}
+		</>
+	);
 }
-
-export const readState = async (tx: string) => {
-	const warp = WarpFactory.forMainnet({
-		...defaultCacheOptions,
-		inMemory: true,
-	});
-	const contract = await warp
-		.contract(tx)
-		.connect('use_wallet')
-		.setEvaluationOptions({
-			internalWrites: true,
-			unsafeClient: 'skip',
-			remoteStateSyncSource: 'https://dre-6.warp.cc/contract',
-			remoteStateSyncEnabled: false,
-			allowBigInt: true,
-		})
-		.readState();
-	return contract.cachedValue.state;
-};

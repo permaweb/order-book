@@ -1,6 +1,6 @@
 {
 	"name": "permaweb-orderbook",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Orderbook sdk",
 	"author": "VinceJuliano",
 	"license": "ISC",
@@ -14,7 +14,6 @@
 	"dependencies": {
 		"arweave": "1.13.7",
 		"esbuild-node-loader": "0.8.0",
-		"hyper-async": "1.1.1",
 		"mime": "^3.0.0",
 		"warp-contracts": "1.4.6",
 		"warp-contracts-plugin-deploy": "1.0.8"

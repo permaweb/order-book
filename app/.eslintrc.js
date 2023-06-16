@@ -16,7 +16,7 @@ module.exports = {
 					{
 						groups: [
 							['^react', '^@?\\w'],
-							['^(@|arcframework)(/.*|$)'],
+							['^(@|permaweb-orderbook)(/.*|$)'],
 							[
 								'^(@|app)(/.*|$)',
 								'^(@|assets)(/.*|$)',

@@ -1,6 +1,6 @@
 import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
-import { ArweaveSigner, DeployPlugin, InjectedArweaveSigner } from 'warp-contracts-plugin-deploy';
+import { ArweaveSigner, InjectedArweaveSigner } from 'warp-contracts-plugin-deploy';
 
 import { ArweaveClientType, WriteContractArgs } from '../../helpers';
 
@@ -16,8 +16,8 @@ const LOGGING = false;
 
 const options = {
 	allowBigInt: true,
-	//remoteStateSyncEnabled: true,
 	internalWrites: true,
+	remoteStateSyncEnabled: true,
 	unsafeClient: 'skip',
 };
 

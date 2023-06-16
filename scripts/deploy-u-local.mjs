@@ -80,14 +80,7 @@ async function deploy(folder) {
       src: contractSrc,
     });
     console.log('\x1b[32m', `contractTxId ${deployed.contractTxId}`);
-
-    // execSync(
-    //   `(cd ../app && npm i && VITE_CONTRACT=${deployed.contractTxId} VITE_LOCAL=true npm run dev)`,
-    //   {
-    //     encoding: 'utf8',
-    //     stdio: 'inherit',
-    //   }
-    // );
+    
   } catch (e) {
     console.log('ERROR', e);
     console.error(

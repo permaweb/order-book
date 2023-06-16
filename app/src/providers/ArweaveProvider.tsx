@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { getArweaveBalanceEndpoint } from 'permaweb-orderbook';
+
 import { Modal } from 'components/molecules/Modal';
 import { AR_WALLETS, WALLET_PERMISSIONS } from 'helpers/config';
-import { getBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { STYLING } from 'helpers/styling';
 
@@ -113,7 +114,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	}
 
 	const getUserBalance = async (wallet: string) => {
-		const rawBalance = await fetch(getBalanceEndpoint(wallet));
+		const rawBalance = await fetch(getArweaveBalanceEndpoint(wallet));
 		const jsonBalance = await rawBalance.json();
 		return jsonBalance / 1e12;
 	};

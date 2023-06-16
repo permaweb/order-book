@@ -18,12 +18,12 @@ export const WalletDropdown = styled.ul`
 	top: 60.5px;
 	right: 19.5px;
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	background: ${(props) => props.theme.colors.container.primary.background};
+	background: ${(props) => props.theme.colors.container.primary.background1};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		right: auto;
-		left: 17.5px;
+		left: -45.5px;
 		top: 67.5px;
 	}
 	li {
