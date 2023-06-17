@@ -1,6 +1,7 @@
 node_modules
 wallet.json
 wallet2.json
+eye-blob.json
 dist
 cache
 logs

@@ -194,6 +194,10 @@ export const CreateOrder = async (state, action) => {
           balances[foreignCalls[i].input.target] = foreignCalls[i].input.qty;
         }
       } else {
+        // console.log({
+        //   contract: foreignCalls[i].contract,
+        //   input: foreignCalls[i].input
+        // })
         // @ts-expect-error
         const result = await SmartWeave.contracts.write(
           foreignCalls[i].contract,
@@ -331,20 +335,21 @@ export default function matchOrder(input, orderbook) {
           input: {
             function: "transfer",
             target: currentOrder.creator,
-            qty: Math.round(remainingQuantity * 0.98),
+            //qty: Math.round(remainingQuantity * 0.98),
+            qty: remainingQuantity,
           },
         });
 
         // send fee
-        foreignCalls.push({
-          txID: SmartWeave.transaction.id,
-          contract: input.pair.from,
-          input: {
-            function: "transfer",
-            target: feeWallet,
-            qty: Math.round(remainingQuantity * 0.02),
-          },
-        });
+        // foreignCalls.push({
+        //   txID: SmartWeave.transaction.id,
+        //   contract: input.pair.from,
+        //   input: {
+        //     function: "transfer",
+        //     target: feeWallet,
+        //     qty: Math.round(remainingQuantity * 0.02),
+        //   },
+        // });
       }
 
       // no tokens left in the input order to be matched
@@ -375,20 +380,21 @@ export default function matchOrder(input, orderbook) {
         input: {
           function: "transfer",
           target: currentOrder.creator,
-          qty: Math.round(sendAmount * 0.98),
+          //qty: Math.round(sendAmount * 0.98),
+          qty: sendAmount,
         },
       });
 
       // send fee
-      foreignCalls.push({
-        txID: SmartWeave.transaction.id,
-        contract: input.pair.from,
-        input: {
-          function: "transfer",
-          target: feeWallet,
-          qty: Math.round(sendAmount * 0.02),
-        },
-      });
+      // foreignCalls.push({
+      //   txID: SmartWeave.transaction.id,
+      //   contract: input.pair.from,
+      //   input: {
+      //     function: "transfer",
+      //     target: feeWallet,
+      //     qty: Math.round(sendAmount * 0.02),
+      //   },
+      // });
 
       // no tokens left in the current order to be matched
       currentOrder.quantity = 0;
@@ -456,20 +462,21 @@ export default function matchOrder(input, orderbook) {
     input: {
       function: "transfer",
       target: input.creator,
-      qty: Math.round(receiveAmount * 0.98),
+      //qty: Math.round(receiveAmount * 0.98),
+      qty: receiveAmount,
     },
   });
 
   // send fee
-  foreignCalls.push({
-    txID: SmartWeave.transaction.id,
-    contract: input.pair.to,
-    input: {
-      function: "transfer",
-      target: feeWallet,
-      qty: Math.round(receiveAmount * 0.02),
-    },
-  });
+  // foreignCalls.push({
+  //   txID: SmartWeave.transaction.id,
+  //   contract: input.pair.to,
+  //   input: {
+  //     function: "transfer",
+  //     target: feeWallet,
+  //     qty: Math.round(receiveAmount * 0.02),
+  //   },
+  // });
 
   return {
     orderbook,
@@ -478,7 +485,7 @@ export default function matchOrder(input, orderbook) {
   };
 }
 
-const feeWallet = "SMft-XozLyxl0ztM-gPSYKvlZVCBiiftNIb4kGFI7wg";
+//const feeWallet = "SMft-XozLyxl0ztM-gPSYKvlZVCBiiftNIb4kGFI7wg";
 
 /**
  * Use Warp internalWrite to call the `claim` function of contract
