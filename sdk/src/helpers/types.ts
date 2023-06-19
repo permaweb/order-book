@@ -34,7 +34,19 @@ export type EnvType = {
 export type InitArgs = {
 	currency: 'U';
 	wallet: any;
+	arweaveGet: any;
+	arweavePost: any;
+	warp: any;
 };
+
+export type ApiClientInitArgs = {
+	arClient: ArweaveClientType;
+}
+
+export type ApiClientType = {
+	arClient: ArweaveClientType;
+	init: (args: ApiClientInitArgs) => ApiClientType;
+}
 
 export type WriteContractArgs = {
 	contract: string;
@@ -55,15 +67,19 @@ export type TransactionFlowArgs = {
 	env: EnvType;
 };
 
+export type ArweaveClientInitArgs = {
+	arweaveGet: any;
+	arweavePost: any;
+	warp: any;
+}
+
 export type ArweaveClientType = {
-	init: () => ArweaveClientType;
+	init: (args: ArweaveClientInitArgs) => ArweaveClientType;
 	arweaveGet: any;
 	arweavePost: any;
 	warpDefault: any;
 	writeContract: (args: WriteContractArgs) => Promise<any>;
 	read: (id: string) => Promise<any>;
-	warpPluginArweaveSigner: (wallet: any) => any;
-	warpPluginInjectedArweaveSigner: (wallet: any) => any;
 };
 
 export type OrderBookType = {
@@ -72,6 +88,7 @@ export type OrderBookType = {
 	sell: (args: SellArgs) => Promise<any>;
 	buy: (args: BuyArgs) => Promise<any>;
 	validateAsset: (args: ValidateArgs) => Promise<void>;
+	api: ApiClientType;
 };
 
 export type PagingType = {
@@ -136,6 +153,7 @@ export type AssetArgsType = {
 	uploader: string | null;
 	cursor: string | null;
 	reduxCursor: string | null;
+	arClient: ArweaveClientType;
 };
 
 export type AssetsResponseType = {

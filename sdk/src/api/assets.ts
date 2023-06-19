@@ -1,6 +1,6 @@
-import { ArweaveClient } from '../clients/arweave';
 import { getAssetsByIds } from '../gql';
 import {
+	ArweaveClientType,
 	AssetsResponseType,
 	AssetType,
 	BalanceType,
@@ -14,8 +14,8 @@ import {
 	UserBalancesType
 } from '../helpers';
 
-export async function getAssetsByContract(): Promise<AssetType[]> {
-	const arClient = ArweaveClient.init();
+export async function getAssetsByContract(args: {arClient: ArweaveClientType}): Promise<AssetType[]> {
+	const arClient = args.arClient;
 	const contract = arClient.warpDefault.contract(ORDERBOOK_CONTRACT).setEvaluationOptions({
 		allowBigInt: true,
 		remoteStateSyncEnabled: true,
@@ -32,6 +32,7 @@ export async function getAssetsByContract(): Promise<AssetType[]> {
 			uploader: null,
 			cursor: null,
 			reduxCursor: null,
+			arClient: args.arClient
 		});
 
 		return getValidatedAssets(gqlData, assets);
@@ -41,7 +42,7 @@ export async function getAssetsByContract(): Promise<AssetType[]> {
 	return [];
 }
 
-export async function getAssetsByUser(args: { walletAddress: string }): Promise<AssetType[]> {
+export async function getAssetsByUser(args: { walletAddress: string, arClient: ArweaveClientType }): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
 		const assetIds = ((await result.json()) as UserBalancesType).balances.map((balance: BalanceType) => {
@@ -53,6 +54,7 @@ export async function getAssetsByUser(args: { walletAddress: string }): Promise<
 			uploader: null,
 			cursor: null,
 			reduxCursor: null,
+			arClient: args.arClient
 		});
 
 		return getValidatedAssets(gqlData);
