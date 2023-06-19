@@ -9,7 +9,7 @@ const apiClient: ApiClientType = {
 		return this;
 	},
 
-
+    
 }
 
 export { apiClient as ApiClient };
