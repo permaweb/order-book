@@ -4,61 +4,102 @@ import { fadeIn2, open } from 'helpers/animations';
 import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.div`
-    width: calc(100% + 25px);
-    display: flex;
-    flex-wrap: wrap;
-    margin: -12.5px;
-    @media (max-width: ${STYLING.cutoffs.initial}) {
-        width: 100%;
-        margin: 0;
-    }
+	width: calc(100% + 25px);
+	display: flex;
+	flex-wrap: wrap;
+	margin: -12.5px;
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		width: 100%;
+		margin: 0;
+	}
 `;
 
 export const PICWrapper = styled.div`
-    margin: 15px;
-    width: calc(33.3% - 30px);
-    @media (max-width: ${STYLING.cutoffs.initial}) {
+	margin: 15px;
+	width: calc(33.3% - 30px);
+    animation: ${open} ${fadeIn2};
+	@media (max-width: ${STYLING.cutoffs.initial}) {
 		width: 100%;
 		margin: 0 0 40px 0;
 	}
 `;
 
+export const HCWrapper = styled.div`
+    height: 40px;
+	width: 100%;
+    background: ${(props) => props.theme.colors.container.primary.background1};
+	border-top-left-radius: ${STYLING.dimensions.borderRadius};
+	border-top-right-radius: ${STYLING.dimensions.borderRadius};
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+    border-top: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+`;
+
 export const PCWrapper = styled.div`
 	height: 425px;
 	width: 100%;
-	animation: ${open} ${fadeIn2};
-	border-radius: ${STYLING.dimensions.borderRadius};
 	position: relative;
-    background: ${(props) => props.theme.colors.container.alt1.background};
-    border: 1px solid ${(props) => props.theme.colors.border.primary};
-	a {
-		height: calc(100% - 42.5px);
-		width: 100%;
-		display: block;
-	}
+	background: ${(props) => props.theme.colors.container.primary.background1};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
 `;
 
 export const ICWrapper = styled.div`
-    height: 55px;
+	width: 100%;
+    padding: 10px;
+    background: ${(props) => props.theme.colors.container.primary.background1};
+	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
+	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
+	position: relative;
+    border-top: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+`;
+
+export const ICFlex = styled.div`
+    display: flex;
+	align-items: center;
+	justify-content: space-between;
+`;
+
+export const AssetData = styled.div`
+    height: 50px;
     width: 100%;
-    animation: ${open} ${fadeIn2};
-    margin: 15px 0 0 0;
-    border-radius: ${STYLING.dimensions.borderRadius};
-    position: relative;
+    margin: 10px 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding: 0 10px;
+    background: ${(props) => props.theme.colors.container.primary.background1};
+    border: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-radius: ${STYLING.dimensions.borderRadiusField};
+    span {
+        margin: 0 10px 0 0;
+        font-size: ${(props) => props.theme.typography.size.small};
+        font-weight: ${(props) => props.theme.typography.weight.regular};
+        color: ${(props) => props.theme.colors.font.primary.alt1};
+    }
+    p {
+        font-size: ${(props) => props.theme.typography.size.lg};
+        font-weight: ${(props) => props.theme.typography.weight.bold};
+        color: ${(props) => props.theme.colors.font.primary.alt1};
+    }
 `;
 
 export const AssetPrice = styled.div`
-    height: 100%;
-    width: 50px;
+	height: 100%;
+	width: 50px;
 `;
 
 export const Frame = styled.iframe`
 	height: 100%;
 	width: 100%;
-    padding: 20px;
+	padding: 20px;
 	scrollbar-width: none;
 `;
 

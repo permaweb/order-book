@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { OrderBook, AssetType } from 'permaweb-orderbook';
+import { AssetType, OrderBook } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
 import { ASSETS } from 'helpers/config';

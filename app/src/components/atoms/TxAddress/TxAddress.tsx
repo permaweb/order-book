@@ -10,9 +10,9 @@ import * as S from './styles';
 import { IProps } from './types';
 
 export default function TxAddress(props: IProps) {
-    const [copied, setCopied] = React.useState<boolean>(false);
+	const [copied, setCopied] = React.useState<boolean>(false);
 
-    const copyAddress = React.useCallback(async () => {
+	const copyAddress = React.useCallback(async () => {
 		if (props.address) {
 			if (props.address.length > 0) {
 				await navigator.clipboard.writeText(props.address);
@@ -22,14 +22,10 @@ export default function TxAddress(props: IProps) {
 		}
 	}, [props.address]);
 
-    return (
-        <S.Wrapper>
-            <p>{formatAddress(props.address, props.wrap)}</p>
-            <IconButton
-                type={'primary'}
-                src={copied ? ASSETS.checkmark : ASSETS.copy}
-                handlePress={copyAddress}
-            />
-        </S.Wrapper>
-    )
+	return (
+		<S.Wrapper>
+			<p>{formatAddress(props.address, props.wrap)}</p>
+			<IconButton type={'primary'} src={copied ? ASSETS.checkmark : ASSETS.copy} handlePress={copyAddress} />
+		</S.Wrapper>
+	);
 }

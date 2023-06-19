@@ -14,16 +14,11 @@ import {
 	UserBalancesType
 } from '../helpers';
 
-export async function getAssetsByContract(args: {arClient: ArweaveClientType}): Promise<AssetType[]> {
-	const arClient = args.arClient;
-	const contract = arClient.warpDefault.contract(ORDERBOOK_CONTRACT).setEvaluationOptions({
-		allowBigInt: true,
-		remoteStateSyncEnabled: true,
-		unsafeClient: 'skip',
-		internalWrites: true,
-	});
+import { ArweaveClient } from '../clients';
+
+export async function getAssetsByContract(args: { arClient: ArweaveClientType }): Promise<AssetType[]> {
 	try {
-		const pairs: OrderBookPairType[] = ((await contract.readState()) as any).cachedValue.state.pairs;
+		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
 		const assets = pairs.filter((pair: OrderBookPairType) => pair.orders.length > 0);
 
 		const gqlData: AssetsResponseType = await getAssetsByIds({

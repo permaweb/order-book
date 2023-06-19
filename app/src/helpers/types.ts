@@ -18,11 +18,11 @@ export type MintStatusType = 'pending' | 'confirmed';
 
 export type RefType = { current: HTMLElement };
 
-export type RenderType = 'renderer' | 'raw'
-export type ContentType = 'renderer' | 'image/png'
+export type RenderType = 'renderer' | 'raw';
+export type ContentType = 'renderer' | 'image/png';
 
 export type AssetRenderType = {
-	url: string,
-	type: RenderType
-	contentType: ContentType
-}
+	url: string;
+	type: RenderType;
+	contentType: ContentType;
+};

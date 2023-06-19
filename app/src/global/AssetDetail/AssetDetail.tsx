@@ -1,8 +1,8 @@
 import React from 'react';
-
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
-import { OrderBook, AssetType, OrderBookPairOrderType, OrderBookType } from 'permaweb-orderbook';
+
+import { AssetType, OrderBook, OrderBookPairOrderType, OrderBookType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
@@ -54,20 +54,22 @@ export default function AssetDetail(props: IProps) {
 			inMemory: true,
 		});
 
-		setOrderBook(OrderBook.init({
-			currency: 'U',
-			wallet: 'use_wallet',
-			arweaveGet: arweaveGet,
-			arweavePost: arweavePost,
-			warp: warp
-		}));
+		setOrderBook(
+			OrderBook.init({
+				currency: 'U',
+				wallet: 'use_wallet',
+				arweaveGet: arweaveGet,
+				arweavePost: arweavePost,
+				warp: warp,
+			})
+		);
 	}, []);
 
 	React.useEffect(() => {
-		if(orderBook) {
+		if (orderBook) {
 			(async function () {
 				setLoading(true);
-				
+
 				const assets = await orderBook.api.getAssetsByContract();
 				for (let i = 0; i < assets.length; i++) {
 					if (assets[i].data.id === props.assetId) {
@@ -78,7 +80,7 @@ export default function AssetDetail(props: IProps) {
 			})();
 		}
 	}, [orderBook]);
-	
+
 	async function buyAsset(quantity: number) {
 		if (asset && orderBook) {
 			setLoading(true);
@@ -112,8 +114,7 @@ export default function AssetDetail(props: IProps) {
 						})}
 					</>
 				);
-			}
-			else {
+			} else {
 				return null;
 			}
 			// return (

@@ -72,7 +72,6 @@ export default function Header() {
 						</S.MenuContainer>
 					</S.NCMobile>
 				</>
-
 			);
 		}
 	}

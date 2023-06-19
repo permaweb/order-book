@@ -13,7 +13,7 @@ export default function AssetData(props: IProps) {
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 
-    // TODO: add all raw types
+	// TODO: add all raw types
 	React.useEffect(() => {
 		(async function () {
 			const renderWith =

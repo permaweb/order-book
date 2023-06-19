@@ -7,9 +7,9 @@
     "lib": "lib"
   },
   "scripts": {
-    "install": "(cd app && npm i) && (cd lib && npm i) && (cd contract && npm i)",
+    "install": "(cd app && npm i) && (cd sdk && npm i) && (cd contract && npm i)",
     "commit": "git commit -am \"chore: format\" --allow-empty && git push --no-verify",
-    "format": "(cd app && npm run format) && (cd lib && npm run format) && (cd contract && npm run format)",
+    "format": "(cd app && npm run format) && (cd sdk && npm run format) && (cd contract && npm run format)",
     "start-arlocal": "npx arlocal",
     "local": "node ./scripts/deploy-u-local.mjs ./local/U",
     "read-state-local": "node ./scripts/read-state-local.mjs",
