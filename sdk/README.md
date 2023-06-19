@@ -23,7 +23,7 @@ let warp = WarpFactory.forMainnet({
 let orderbook = OrderBook.init({
 	currency: 'U',
 	wallet: 'jwk, use_wallet, window.arweaveWallet',
-	// optionally, you can specify a different instance for querying/posting
+	// optionally, you can specify a different instance of arweave for querying/posting
 	// for example if you want to post to arweave.net and retrieve from goldsky
 	// here we are using the same instance
 	arweaveGet: arweave,
@@ -63,7 +63,7 @@ let warp = WarpFactory.forMainnet({
 let orderbook = OrderBook.init({
 	currency: 'U',
 	wallet: 'jwk, use_wallet, window.arweaveWallet',
-	// optionally, you can specify a different instance for querying/posting
+	// optionally, you can specify a different instance of arweave for querying/posting
 	// for example if you want to post to arweave.net and retrieve from goldsky
 	// here we are using the same instance
 	arweaveGet: arweave,
