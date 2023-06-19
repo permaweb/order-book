@@ -43,9 +43,15 @@ export type ApiClientInitArgs = {
 	arClient: ArweaveClientType;
 }
 
+export type GetAssetsByUserArgs = {
+	walletAddress: string;
+}
+
 export type ApiClientType = {
 	arClient: ArweaveClientType;
 	init: (args: ApiClientInitArgs) => ApiClientType;
+	getAssetsByContract: () => Promise<AssetType[]>;
+	getAssetsByUser: (args: GetAssetsByUserArgs) => Promise<AssetType[]>;
 }
 
 export type WriteContractArgs = {
