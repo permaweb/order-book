@@ -7,7 +7,7 @@
 	"license": "ISC",
 	"scripts": {
 		"start": "NODE_ENV=development webpack serve --port 3003",
-		"start:win": "webpack serve --port 3002",
+		"start:win": "webpack serve --port 3003",
 		"format": "eslint --fix . && npx prettier --write .",
 		"test": "npm test",
 		"test:verbose": "npm test -- --verbose",
@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@types/react-router-dom": "^5.3.3",
 		"html-react-parser": "^3.0.4",
-		"permaweb-orderbook": "file:../lib",
+		"permaweb-orderbook": "file:../sdk",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-markdown": "^8.0.7",
@@ -30,7 +30,8 @@
 		"react-svg": "^15.1.11",
 		"redux-persist": "^6.0.0",
 		"redux-thunk": "^2.4.2",
-		"styled-components": "^5.3.6"
+		"styled-components": "^5.3.6",
+		"warp-contracts": "1.4.6"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.20.12",

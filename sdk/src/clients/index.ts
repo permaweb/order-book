@@ -1,20 +1,29 @@
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
-import { ArweaveClientType, EnvType, InitArgs, OrderBookType, SellArgs, ValidateArgs } from '../helpers/types';
+import { ArweaveClientType, EnvType, InitArgs, OrderBookType, SellArgs, ValidateArgs, ApiClientType } from '../helpers/types';
 import { pairExists } from '../helpers/utils';
 
 import { ArweaveClient } from './arweave';
+import { ApiClient } from './api';
 
 const client: OrderBookType = {
 	env: null,
+	api: null,
 
 	init: function (args: InitArgs) {
 		this.env = {
 			orderBookContract: ORDERBOOK_CONTRACT,
 			currency: args.currency,
 			currencyContract: CURRENCY_DICT[args.currency],
-			arClient: ArweaveClient.init(),
+			arClient: ArweaveClient.init({
+				arweaveGet: args.arweaveGet,
+				arweavePost: args.arweavePost,
+				warp: args.warp
+			}),
 			wallet: args.wallet,
 		};
+
+		let api: ApiClientType = ApiClient.init({ arClient: this.env.arClient });
+		this.api = api;
 
 		return this;
 	},
@@ -119,7 +128,7 @@ const client: OrderBookType = {
 		if (!args.assetState.claimable) {
 			throw new Error(`No claimable array found in the asset state`);
 		}
-	},
+	}
 };
 
 export { client as OrderBook };

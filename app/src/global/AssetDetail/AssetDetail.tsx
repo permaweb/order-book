@@ -1,6 +1,8 @@
 import React from 'react';
+import Arweave from 'arweave';
+import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
-import * as OrderBook from 'permaweb-orderbook';
+import { AssetType, OrderBook, OrderBookPairOrderType, OrderBookType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
@@ -18,34 +20,76 @@ import { IProps } from './types';
 // TODO: if fractionally owned get sell pie chart component
 // TODO: cache orders -> get order from cache by id
 export default function AssetDetail(props: IProps) {
-	const [asset, setAsset] = React.useState<OrderBook.AssetType | null>(null);
+	const [asset, setAsset] = React.useState<AssetType | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
+	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
 	React.useEffect(() => {
-		(async function () {
-			setLoading(true);
-			const assets = await OrderBook.getAssetsByContract();
-			for (let i = 0; i < assets.length; i++) {
-				if (assets[i].data.id === props.assetId) {
-					setAsset(assets[i]);
-				}
-			}
-			setLoading(false);
-		})();
-	}, []);
-	
-	async function buyAsset(quantity: number) {
-		if (asset) {
-			setLoading(true);
-			let orderbook = await OrderBook.OrderBook.init({
+		const GET_ENDPOINT = 'arweave-search.goldsky.com';
+		const POST_ENDPOINT = 'arweave.net';
+
+		const PORT = 443;
+		const PROTOCOL = 'https';
+		const TIMEOUT = 40000;
+		const LOGGING = false;
+
+		let arweaveGet = Arweave.init({
+			host: GET_ENDPOINT,
+			port: PORT,
+			protocol: PROTOCOL,
+			timeout: TIMEOUT,
+			logging: LOGGING,
+		});
+
+		let arweavePost = Arweave.init({
+			host: POST_ENDPOINT,
+			port: PORT,
+			protocol: PROTOCOL,
+			timeout: TIMEOUT,
+			logging: LOGGING,
+		});
+
+		let warp = WarpFactory.forMainnet({
+			...defaultCacheOptions,
+			inMemory: true,
+		});
+
+		setOrderBook(
+			OrderBook.init({
 				currency: 'U',
 				wallet: 'use_wallet',
-			});
+				arweaveGet: arweaveGet,
+				arweavePost: arweavePost,
+				warp: warp,
+			})
+		);
+	}, []);
 
-			let orderTx = await orderbook.buy({
+	React.useEffect(() => {
+		if (orderBook) {
+			(async function () {
+				setLoading(true);
+
+				const assets = await orderBook.api.getAssetsByContract();
+				for (let i = 0; i < assets.length; i++) {
+					if (assets[i].data.id === props.assetId) {
+						setAsset(assets[i]);
+					}
+				}
+				setLoading(false);
+			})();
+		}
+	}, [orderBook]);
+
+	async function buyAsset(quantity: number) {
+		if (asset && orderBook) {
+			setLoading(true);
+
+			let orderTx = await orderBook.buy({
 				assetId: asset.data.id,
 				qty: quantity,
 			});
+
 			setLoading(false);
 			console.log(orderTx);
 		}
@@ -56,7 +100,7 @@ export default function AssetDetail(props: IProps) {
 			if (asset.orders) {
 				return (
 					<>
-						{asset.orders.map((order: OrderBook.OrderBookPairOrderType, index: number) => {
+						{asset.orders.map((order: OrderBookPairOrderType, index: number) => {
 							return (
 								<Button
 									key={index}
@@ -70,8 +114,7 @@ export default function AssetDetail(props: IProps) {
 						})}
 					</>
 				);
-			}
-			else {
+			} else {
 				return null;
 			}
 			// return (

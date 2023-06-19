@@ -37,3 +37,9 @@ export const AR_WALLETS = [{ name: 'arconnect', logo: ASSETS.wallets.arconnect }
 export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH'];
 
 export const FEATURE_COUNT = 3;
+
+export const PAGINATOR = 100;
+
+export const STORAGE = {
+	none: 'N/A',
+};

@@ -2,6 +2,7 @@ import React from 'react';
 
 import * as OrderBook from 'permaweb-orderbook';
 
+import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
 
 import * as S from './styles';
@@ -12,7 +13,7 @@ export default function AssetData(props: IProps) {
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 
-    // TODO: add all raw types
+	// TODO: add all raw types
 	React.useEffect(() => {
 		(async function () {
 			const renderWith =
@@ -22,12 +23,12 @@ export default function AssetData(props: IProps) {
 			const parsedRenderWith = JSON.parse(renderWith);
 			if (parsedRenderWith.length) {
 				setAssetRender({
-					url: OrderBook.getRendererEndpoint(parsedRenderWith, props.asset.data.id),
+					url: getRendererEndpoint(parsedRenderWith, props.asset.data.id),
 					type: 'renderer',
 					contentType: 'renderer',
 				});
 			} else {
-				const assetResponse = await fetch(OrderBook.getTxEndpoint(props.asset.data.id));
+				const assetResponse = await fetch(getTxEndpoint(props.asset.data.id));
 				const contentType = assetResponse.headers.get('content-type');
 				if (assetResponse.status === 200 && contentType) {
 					setAssetRender({

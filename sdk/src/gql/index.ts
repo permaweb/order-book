@@ -1,6 +1,6 @@
 import { ArweaveClient } from '../clients/arweave';
 import { CURSORS, PAGINATOR, SEARCH } from '../helpers/config';
-import { CursorEnum, CursorObjectKeyType, GQLResponseType, TagFilterType } from '../helpers/types';
+import { ArweaveClientType, CursorEnum, CursorObjectKeyType, GQLResponseType, TagFilterType } from '../helpers/types';
 import { checkGqlCursor, unquoteJsonKeys } from '../helpers/utils';
 
 export async function getGQLData(args: {
@@ -11,8 +11,9 @@ export async function getGQLData(args: {
 	reduxCursor: string | null;
 	cursorObject: CursorObjectKeyType;
 	useArweavePost?: boolean;
+	arClient: ArweaveClientType;
 }): Promise<{ data: GQLResponseType[]; nextCursor: string | null }> {
-	const arClient = ArweaveClient.init();
+	const arClient = args.arClient;
 	let nextCursor: string | null = null;
 	const data: GQLResponseType[] = [];
 
