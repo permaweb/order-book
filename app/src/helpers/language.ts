@@ -19,5 +19,5 @@ export const language = {
 	provenanceDetails: `Provenance Details`,
 	standard: `Standard`,
 	transactionId: `Transaction ID`,
-	walletNotConnected: `Connect a wallet to continue`
+	walletNotConnected: `Connect a wallet to continue`,
 };

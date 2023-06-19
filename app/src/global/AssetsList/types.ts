@@ -1,5 +1,5 @@
-import { AssetType } from 'permaweb-orderbook'
+import { AssetType } from 'permaweb-orderbook';
 
 export interface IProps {
-    assets: AssetType[] | null;
+	assets: AssetType[] | null;
 }

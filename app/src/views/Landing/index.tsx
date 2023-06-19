@@ -1,8 +1,8 @@
 import React from 'react';
-
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
-import { OrderBook, AssetType, OrderBookType  } from 'permaweb-orderbook';
+
+import { AssetType, OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { AssetsGrid } from 'global/AssetsGrid';
 import { AssetsList } from 'global/AssetsList';
@@ -45,17 +45,19 @@ export default function Landing() {
 			inMemory: true,
 		});
 
-		setOrderBook(OrderBook.init({
-			currency: 'U',
-			wallet: 'use_wallet',
-			arweaveGet: arweaveGet,
-			arweavePost: arweavePost,
-			warp: warp
-		}));
+		setOrderBook(
+			OrderBook.init({
+				currency: 'U',
+				wallet: 'use_wallet',
+				arweaveGet: arweaveGet,
+				arweavePost: arweavePost,
+				warp: warp,
+			})
+		);
 	}, []);
 
 	React.useEffect(() => {
-		if(orderBook) {
+		if (orderBook) {
 			(async function () {
 				setAssets(await orderBook.api.getAssetsByContract());
 			})();
@@ -90,7 +92,7 @@ export default function Landing() {
 	return (
 		<>
 			{getFeaturedAssets()}
-			{getRemainingAssets()}
+			{/* {getRemainingAssets()} */}
 		</>
 	);
 }

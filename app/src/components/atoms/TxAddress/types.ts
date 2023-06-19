@@ -1,4 +1,4 @@
 export interface IProps {
-    address: string;
-    wrap: boolean;
+	address: string;
+	wrap: boolean;
 }

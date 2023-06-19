@@ -14,17 +14,13 @@ export default function Drawer(props: IProps) {
 			<S.Action onClick={() => setOpen(!open)}>
 				<S.Label>
 					<S.Title>
-						{props.icon &&
-							<ReactSVG src={props.icon} />
-						}
+						{props.icon && <ReactSVG src={props.icon} />}
 						<span>{props.title}</span>
 					</S.Title>
 					<ReactSVG src={ASSETS.arrowDown} />
 				</S.Label>
 			</S.Action>
-			{open && 
-				<S.Content>{props.content}</S.Content>
-			}
+			{open && <S.Content>{props.content}</S.Content>}
 		</S.Wrapper>
 	);
 }

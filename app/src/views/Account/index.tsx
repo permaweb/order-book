@@ -1,8 +1,8 @@
 import React from 'react';
-
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
-import { OrderBook, AssetType, OrderBookType  } from 'permaweb-orderbook';
+
+import { AssetType, OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -17,7 +17,7 @@ export default function Account() {
 	const [loading, setLoading] = React.useState<boolean>(false);
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
-	
+
 	React.useEffect(() => {
 		const GET_ENDPOINT = 'arweave-search.goldsky.com';
 		const POST_ENDPOINT = 'arweave.net';
@@ -48,15 +48,16 @@ export default function Account() {
 			inMemory: true,
 		});
 
-		setOrderBook(OrderBook.init({
-			currency: 'U',
-			wallet: 'use_wallet',
-			arweaveGet: arweaveGet,
-			arweavePost: arweavePost,
-			warp: warp
-		}));
+		setOrderBook(
+			OrderBook.init({
+				currency: 'U',
+				wallet: 'use_wallet',
+				arweaveGet: arweaveGet,
+				arweavePost: arweavePost,
+				warp: warp,
+			})
+		);
 	}, []);
-
 
 	React.useEffect(() => {
 		setTimeout(() => {

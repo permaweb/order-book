@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { OrderBook, AssetType } from 'permaweb-orderbook';
+import { AssetType, OrderBook } from 'permaweb-orderbook';
 
 import { ButtonLink } from 'components/atoms/ButtonLink';
 import { Loader } from 'components/atoms/Loader';
@@ -17,11 +17,20 @@ import { IProps } from './types';
 function AssetTile(props: { asset: AssetType }) {
 	return (
 		<S.PICWrapper>
+			<S.HCWrapper>
+
+			</S.HCWrapper>
 			<S.PCWrapper>
 				<AssetData asset={props.asset} />
 			</S.PCWrapper>
 			<S.ICWrapper>
-				<S.AssetPrice></S.AssetPrice>
+				<S.ICFlex>
+					<S.AssetData>
+						<span># 1</span>
+						<p>{props.asset.data.title}</p>
+					</S.AssetData>
+				</S.ICFlex>
+				{/* <S.AssetPrice></S.AssetPrice>
 				<ButtonLink
 					type={'primary'}
 					label={language.details}
@@ -29,7 +38,7 @@ function AssetTile(props: { asset: AssetType }) {
 					icon={ASSETS.details}
 					iconLeftAlign
 					noMinWidth
-				/>
+				/> */}
 			</S.ICWrapper>
 		</S.PICWrapper>
 	);
