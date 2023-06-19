@@ -5,7 +5,7 @@
 ```js
 import { OrderBook } from 'permaweb-orderbook';
 
-let orderbook = await OrderBook.init({
+let orderbook = OrderBook.init({
 	currency: 'U',
 	wallet: 'jwk, use_wallet, window.arweaveWallet',
 });
@@ -24,7 +24,7 @@ console.log(orderTx);
 ```js
 import { OrderBook } from 'permaweb-orderbook';
 
-let orderbook = await OrderBook.init({
+let orderbook = OrderBook.init({
 	currency: 'U',
 	wallet: 'jwk, use_wallet, window.arweaveWallet',
 });
