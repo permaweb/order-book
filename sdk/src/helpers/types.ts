@@ -90,7 +90,7 @@ export type ArweaveClientType = {
 
 export type OrderBookType = {
 	env: EnvType;
-	init: (args: InitArgs) => Promise<OrderBookType>;
+	init: (args: InitArgs) => OrderBookType;
 	sell: (args: SellArgs) => Promise<any>;
 	buy: (args: BuyArgs) => Promise<any>;
 	validateAsset: (args: ValidateArgs) => Promise<void>;

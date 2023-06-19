@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as OrderBook from 'permaweb-orderbook';
+import { OrderBook, AssetType } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
 import { ASSETS } from 'helpers/config';
@@ -11,12 +11,12 @@ import { IProps } from './types';
 
 // TODO: add title
 // TODO: add orders list
-function AssetRow(props: { asset: OrderBook.AssetType }) {
+function AssetRow(props: { asset: AssetType }) {
 	return <p>Asset Row</p>;
 }
 
 export default function AssetsList(props: IProps) {
-	const [assets, setAssets] = React.useState<OrderBook.AssetType[] | null>(null);
+	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 
 	// TODO: filters
 	React.useEffect(() => {
@@ -38,7 +38,7 @@ export default function AssetsList(props: IProps) {
 
 		// if (assets) {
 		// 	if (assets.length > 0) {
-		// 		return assets.map((asset: OrderBook.AssetType) => {
+		// 		return assets.map((asset: AssetType) => {
 		// 			return <AssetRow asset={asset} key={asset.data.id} />;
 		// 		});
 		// 	} else {

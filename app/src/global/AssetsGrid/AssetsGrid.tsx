@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as OrderBook from 'permaweb-orderbook';
+import { OrderBook, AssetType } from 'permaweb-orderbook';
 
 import { ButtonLink } from 'components/atoms/ButtonLink';
 import { Loader } from 'components/atoms/Loader';
@@ -14,7 +14,7 @@ import { IProps } from './types';
 
 // TODO: add title
 // TODO: add orders list
-function AssetTile(props: { asset: OrderBook.AssetType }) {
+function AssetTile(props: { asset: AssetType }) {
 	return (
 		<S.PICWrapper>
 			<S.PCWrapper>
@@ -36,7 +36,7 @@ function AssetTile(props: { asset: OrderBook.AssetType }) {
 }
 
 export default function AssetsGrid(props: IProps) {
-	const [assets, setAssets] = React.useState<OrderBook.AssetType[] | null>(null);
+	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 
 	// TODO: filters
 	React.useEffect(() => {
@@ -48,7 +48,7 @@ export default function AssetsGrid(props: IProps) {
 	function getData() {
 		if (assets) {
 			if (assets.length > 0) {
-				return assets.map((asset: OrderBook.AssetType) => {
+				return assets.map((asset: AssetType) => {
 					return <AssetTile asset={asset} key={asset.data.id} />;
 				});
 			} else {
