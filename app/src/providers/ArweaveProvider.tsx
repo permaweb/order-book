@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { getArweaveBalanceEndpoint } from 'permaweb-orderbook';
-
 import { Modal } from 'components/molecules/Modal';
 import { AR_WALLETS, WALLET_PERMISSIONS } from 'helpers/config';
+import { getArweaveBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { STYLING } from 'helpers/styling';
 
