@@ -5,7 +5,7 @@
 ```js
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
-import { OrderBook, AssetType, OrderBookType  } from 'permaweb-orderbook';
+import { OrderBook } from 'permaweb-orderbook';
 
 let arweave = Arweave.init({
 	host: 'arweave.net',
@@ -45,7 +45,7 @@ console.log(orderTx);
 ```js
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
-import { OrderBook, AssetType, OrderBookType  } from 'permaweb-orderbook';
+import { OrderBook } from 'permaweb-orderbook';
 
 let arweave = Arweave.init({
 	host: 'arweave.net',
