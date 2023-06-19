@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@types/react-router-dom": "^5.3.3",
 		"html-react-parser": "^3.0.4",
-		"permaweb-orderbook": "file:../lib",
+		"permaweb-orderbook": "file:../sdk",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-markdown": "^8.0.7",
