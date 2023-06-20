@@ -4,7 +4,7 @@ export const STYLING = {
 		initialWrapper: '1200px',
 		tablet: '840px',
 		secondary: '540px',
-		max: '1400px',
+		max: '1440px',
 		mobileLandscape: '600px',
 	},
 	dimensions: {

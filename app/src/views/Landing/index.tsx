@@ -92,7 +92,7 @@ export default function Landing() {
 	return (
 		<>
 			{getFeaturedAssets()}
-			{/* {getRemainingAssets()} */}
+			{getRemainingAssets()}
 		</>
 	);
 }

@@ -1,5 +1,6 @@
 export const language = {
 	account: `Account`,
+	atomicAsset: `Atomic Asset`,
 	appName: `BazAR`,
 	blockHeight: `Block Height`,
 	buyNow: `Buy Now`,
@@ -11,6 +12,7 @@ export const language = {
 	details: `Details`,
 	disconnect: `Disconnect`,
 	fetching: `Fetching`,
+	listing: `Listing`,
 	loading: `Loading`,
 	noAssets: `No Assets`,
 	overview: `Overview`,
@@ -18,6 +20,7 @@ export const language = {
 	pageNotFound: `Page Not Found`,
 	provenanceDetails: `Provenance Details`,
 	standard: `Standard`,
+	stampCount: `STAMPs`,
 	transactionId: `Transaction ID`,
 	walletNotConnected: `Connect a wallet to continue`,
 };
