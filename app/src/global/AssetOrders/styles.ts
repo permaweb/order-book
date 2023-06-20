@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 export const DropdownAction = styled.button`
     height: 100%;
     width: 100%;
-    background: ${(props) => props.theme.colors.container.primary.background1};
+    background: ${(props) => props.theme.colors.container.primary.background};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
     border-radius: ${STYLING.dimensions.borderRadiusField};
     padding: 0 10px;

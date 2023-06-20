@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
 	height: 55px;
 	width: 300px;
 	max-width: 90vw;
-	background: ${(props) => props.theme.colors.container.primary.background1};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.alt1};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	box-shadow: 0 0 2.5px ${(props) => props.theme.colors.shadow.primary};

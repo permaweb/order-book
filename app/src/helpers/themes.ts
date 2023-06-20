@@ -123,9 +123,10 @@ export const defaultTheme: DefaultTheme = {
 		},
 		container: {
 			primary: {
-				background1: DEFAULT.neutral1,
-				background2: DEFAULT.alt3,
-				background3: DEFAULT.primary,
+				background: DEFAULT.neutral1,
+				background1Gradient: DEFAULT.neutral6,
+				background2Gradient: DEFAULT.alt3,
+				backgroundGradient: DEFAULT.primary,
 				hover: DEFAULT.neutral2,
 			},
 			alt1: {
@@ -231,7 +232,7 @@ export const defaultTheme: DefaultTheme = {
 		},
 		navigation: {
 			footer: {
-				background: DEFAULT.neutral1,
+				background: DEFAULT.neutral6,
 			},
 			header: {
 				background: DEFAULT.primary,
@@ -294,7 +295,7 @@ export const defaultTheme: DefaultTheme = {
 		},
 		transparent: DEFAULT.transparent,
 		view: {
-			background: DEFAULT.neutral1,
+			background: DEFAULT.neutral6,
 		},
 		warning: DEFAULT.negative,
 	},

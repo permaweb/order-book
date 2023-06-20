@@ -6,6 +6,7 @@ import { AssetType } from 'permaweb-orderbook';
 import { Loader } from 'components/atoms/Loader';
 import { AssetData } from 'global/AssetData';
 import { AssetOrders } from 'global/AssetOrders';
+import { StampWidget } from 'global/StampWidget';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 
@@ -13,6 +14,7 @@ import * as S from './styles';
 import { IProps } from './types';
 
 // TODO: get stamp count
+// TODO: get renderer thumbnail
 function AssetRow(props: { asset: AssetType; index: number }) {
 	return (
 		<S.PICWrapper>
@@ -29,7 +31,7 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 						<AssetOrders asset={props.asset} />
 					</S.AOrders>
 					<S.SCValue>
-						<p>2</p>
+						<StampWidget assetId={props.asset.data.id} />
 					</S.SCValue>
 				</S.PCWrapper>
 			</Link>
@@ -52,12 +54,18 @@ export default function AssetsList(props: IProps) {
 			if (assets.length > 0) {
 				return (
 					<>
-						<S.HeaderWrapper>
+						{/* <S.HeaderWrapper>
 							<S.HSection1>
 								<p>#</p>
-								<S.AtomicAsset>{language.atomicAsset}</S.AtomicAsset>
-								<S.Listing>{language.listing}</S.Listing>
-								<S.StampCount>{language.stampCount}</S.StampCount>
+								<S.AtomicAsset>
+									<p>{language.atomicAsset}</p>
+								</S.AtomicAsset>
+								<S.Listing>
+									<p>{language.listing}</p>
+								</S.Listing>
+								<S.StampCount>
+									<p>{language.stampCount}</p>
+								</S.StampCount>
 							</S.HSection1>
 							<S.HSection2>
 								<p>#</p>
@@ -65,7 +73,7 @@ export default function AssetsList(props: IProps) {
 								<S.Listing>{language.listing}</S.Listing>
 								<S.StampCount>{language.stampCount}</S.StampCount>
 							</S.HSection2>
-						</S.HeaderWrapper>
+						</S.HeaderWrapper> */}
 						<S.C1>
 							{assets.map((asset: AssetType, index: number) => {
 								return <AssetRow key={asset.data.id} asset={asset} index={index + 1} />;

@@ -9,6 +9,7 @@ import { IconButton } from 'components/atoms/IconButton';
 import { Loader } from 'components/atoms/Loader';
 import { AssetData } from 'global/AssetData';
 import { AssetOrders } from 'global/AssetOrders';
+import { StampWidget } from 'global/StampWidget';
 import { ASSETS, FEATURE_COUNT } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
@@ -78,17 +79,13 @@ function AssetTile(props: { asset: AssetType; index: number }) {
 		data: props.asset.data,
 		orders: orders,
 	};
-
-	// TODO: get stamp count
+	
+	// TODO: get ownership chart
 	return (
 		<S.PICWrapper>
 			<S.HCWrapper>
 				<ReactSVG src={TEMP_FRACTION_SVG} />
-				<S.StampCountWrapper>
-					<p>2</p>
-					<div className={'s-divider'} />
-					<ReactSVG src={ASSETS.stamps} />
-				</S.StampCountWrapper>
+				<StampWidget assetId={props.asset.data.id} />
 			</S.HCWrapper>
 			<S.PCWrapper>
 				<AssetData asset={props.asset} />
@@ -96,7 +93,7 @@ function AssetTile(props: { asset: AssetType; index: number }) {
 			<S.ICWrapper>
 				<S.ICFlex>
 					<S.AssetData>
-						<span>{`# ${props.index}`}</span>
+						<span>{props.index}</span>
 						<div className={'a-divider'} />
 						<p>{props.asset.data.title}</p>
 					</S.AssetData>
