@@ -92,7 +92,11 @@ const client: OrderBookType = {
 	},
 
 	buy: async function (args: BuyArgs) {
-		// validate that number is SUs
+		// validate that number is an integer
+		// if it is a single unit token, verify that 
+		// the spend is the full price 
+		// otherwise if it is a multi unit token 
+		// verify the spend is within bounds 
 		let env: EnvType = this.env;
 		let arClient: ArweaveClientType = this.env.arClient;
 
