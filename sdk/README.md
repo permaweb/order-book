@@ -33,8 +33,10 @@ let orderbook = OrderBook.init({
 
 let orderTx = await orderbook.sell({
 	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
-	price: 1,
-	qty: 1000,
+	// price in sub $U
+	price: 1000000,
+	// quantity of asset
+	qty: 1,
 });
 
 console.log(orderTx);
@@ -71,9 +73,10 @@ let orderbook = OrderBook.init({
 	warp: warp
 });
 
-let orderTx = await orderbook.sell({
+let orderTx = await orderbook.buy({
 	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
-	qty: 1000,
+	// amount of sub $U to spend
+	spend: 1000,
 });
 
 console.log(orderTx);
