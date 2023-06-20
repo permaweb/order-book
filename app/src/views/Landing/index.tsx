@@ -8,6 +8,7 @@ import { AssetsGrid } from 'global/AssetsGrid';
 import { AssetsList } from 'global/AssetsList';
 import { FEATURE_COUNT } from 'helpers/config';
 
+// TODO: orderbook provider
 export default function Landing() {
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
@@ -79,7 +80,13 @@ export default function Landing() {
 
 	function getFeaturedAssets() {
 		if (featuredAssets) {
-			return <AssetsGrid assets={featuredAssets} />;
+			return (
+				<div className={'background-wrapper'}>
+					<div className={'view-wrapper max-cutoff'}>
+						<AssetsGrid assets={featuredAssets} />
+					</div>
+				</div>
+			);
 		}
 	}
 

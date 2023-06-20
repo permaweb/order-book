@@ -79,7 +79,7 @@ function AssetTile(props: { asset: AssetType; index: number }) {
 		data: props.asset.data,
 		orders: orders,
 	};
-	
+
 	// TODO: get ownership chart
 	return (
 		<S.PICWrapper>
@@ -143,10 +143,10 @@ export default function AssetsGrid(props: IProps) {
 				);
 			}
 		} else {
-			// TODO: get count
 			const keys = Array.from({ length: FEATURE_COUNT }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
+					<S.HCWrapper key={`hc_${element}`} />
 					<S.PCWrapper key={`pc_${element}`}>
 						<Loader placeholder />
 					</S.PCWrapper>
@@ -157,11 +157,5 @@ export default function AssetsGrid(props: IProps) {
 		}
 	}
 
-	return (
-		<div className={'gradient-wrapper'}>
-			<div className={'view-wrapper max-cutoff'}>
-				<S.Wrapper>{getData()}</S.Wrapper>
-			</div>
-		</div>
-	);
+	return <S.Wrapper>{getData()}</S.Wrapper>;
 }

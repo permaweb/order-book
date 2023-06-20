@@ -16,10 +16,15 @@ export const Wrapper = styled.div`
 
 export const C1Wrapper = styled.div`
 	width: ${C1_DIMENSION};
+	max-width: 100%;
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		width: 100%;
+	}
 `;
 
 export const C1 = styled.div`
 	width: ${C1_DIMENSION};
+	max-width: 100%;
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		width: 100%;
 	}
@@ -35,6 +40,10 @@ export const AssetWrapper = styled.div`
 
 export const AssetInfoWrapper = styled.div`
 	width: ${C1_DIMENSION};
+	max-width: 100%;
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		width: 100%;
+	}
 `;
 
 export const DrawerWrapper = styled.div`
@@ -102,6 +111,15 @@ export const C2 = styled.div`
 export const AssetCDetail = styled.div`
 	width: 100%;
 	padding: 20px;
+	h2 {
+		font-size: ${(props) => props.theme.typography.size.lg};
+	}
+`;
+
+export const ACHeader = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 `;
 
 export const AssetCAction = styled.div`

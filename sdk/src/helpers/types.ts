@@ -52,6 +52,7 @@ export type ApiClientType = {
 	init: (args: ApiClientInitArgs) => ApiClientType;
 	getAssetsByContract: () => Promise<AssetType[]>;
 	getAssetsByUser: (args: GetAssetsByUserArgs) => Promise<AssetType[]>;
+	getProfile: (args: {walletAddress: string}) => Promise<ProfileType>;
 }
 
 export type WriteContractArgs = {
@@ -169,3 +170,10 @@ export type AssetsResponseType = {
 };
 
 export type AGQLResponseType = { data: GQLResponseType[]; nextCursor: string | null };
+
+export type ProfileType = {
+	handle: string | null;
+	avatar: string | null;
+	twitter: string | null;
+	discord: string | null;
+};

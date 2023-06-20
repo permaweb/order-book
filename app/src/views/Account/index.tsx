@@ -8,12 +8,16 @@ import { Loader } from 'components/atoms/Loader';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { WalletBlock } from 'wallet/WalletBlock';
 
+import { AccountDetail } from './AccountDetail';
+import { AccountHeader } from './AccountHeader';
+
+// TODO: orderbook provider
 export default function Account() {
 	const arProvider = useArweaveProvider();
 
+	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 	const [showWalletBlock, setShowWalletBlock] = React.useState<boolean>(false);
 
-	const [data, setData] = React.useState<AssetType[] | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
@@ -71,28 +75,17 @@ export default function Account() {
 		(async function () {
 			if (arProvider.walletAddress && orderBook) {
 				setLoading(true);
-				setData(await orderBook.api.getAssetsByUser({ walletAddress: arProvider.walletAddress }));
+				setAssets(await orderBook.api.getAssetsByUser({ walletAddress: arProvider.walletAddress }));
 				setLoading(false);
 			}
 		})();
 	}, [arProvider.walletAddress, orderBook]);
 
-	function getData() {
-		if (data) {
-			return (
-				<>
-					{data.map((asset: AssetType, index: number) => {
-						return <p key={index}>{asset.data.id}</p>;
-					})}
-				</>
-			);
-		} else {
-			return loading ? <Loader /> : null;
-		}
-	}
-
 	return arProvider.walletAddress ? (
-		<div className={'view-wrapper max-cutoff'}>{getData()}</div>
+		<>
+			<AccountHeader />
+			<AccountDetail assets={assets} />
+		</>
 	) : (
 		showWalletBlock && <WalletBlock />
 	);

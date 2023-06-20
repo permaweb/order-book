@@ -14,8 +14,6 @@ import {
 	UserBalancesType
 } from '../helpers';
 
-import { ArweaveClient } from '../clients';
-
 export async function getAssetsByContract(args: { arClient: ArweaveClientType }): Promise<AssetType[]> {
 	try {
 		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs

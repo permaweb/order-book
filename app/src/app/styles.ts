@@ -183,8 +183,20 @@ export const GlobalStyle = createGlobalStyle`
     border: 1px solid ${(props) => props.theme.colors.border.primary};
   }
 
-  .gradient-wrapper {
-    background: ${(props) => `linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background2Gradient}, ${props.theme.colors.container.primary.background1Gradient})`};
+  .background-wrapper {
+    position: relative;
     overflow: visible;
   }
+  
+  .background-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 500px;
+    background: ${(props) => `linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background2Gradient}, ${props.theme.colors.container.primary.background1Gradient})`};
+    z-index: -1;
+  }
+  
 `;
