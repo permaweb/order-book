@@ -62,7 +62,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 		} else {
 			if (arProvider.walletAddress) {
 				if (arProvider.arProfile) {
-					return arProvider.arProfile.profile.handleName || formatAddress(arProvider.arProfile.addr, false);
+					return arProvider.arProfile.handle;
 				} else {
 					return formatAddress(arProvider.walletAddress, false);
 				}

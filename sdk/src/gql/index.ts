@@ -1,6 +1,6 @@
 import { ArweaveClient } from '../clients/arweave';
 import { CURSORS, PAGINATOR, SEARCH } from '../helpers/config';
-import { ArweaveClientType, CursorEnum, CursorObjectKeyType, GQLResponseType, TagFilterType } from '../helpers/types';
+import { ArweaveClientType, CursorEnum, CursorObjectKeyType, GQLResponseType, AGQLResponseType, TagFilterType } from '../helpers/types';
 import { checkGqlCursor, unquoteJsonKeys } from '../helpers/utils';
 
 export async function getGQLData(args: {
@@ -12,8 +12,7 @@ export async function getGQLData(args: {
 	cursorObject: CursorObjectKeyType;
 	useArweavePost?: boolean;
 	arClient: ArweaveClientType;
-}): Promise<{ data: GQLResponseType[]; nextCursor: string | null }> {
-	const arClient = args.arClient;
+}): Promise<AGQLResponseType> {
 	let nextCursor: string | null = null;
 	const data: GQLResponseType[] = [];
 
@@ -69,8 +68,8 @@ export async function getGQLData(args: {
 
     // TODO: handle cursors
 	const response = args.useArweavePost
-		? await arClient.arweavePost.api.post('/graphql', query)
-		: await arClient.arweaveGet.api.post('/graphql', query);
+		? await args.arClient.arweavePost.api.post('/graphql', query)
+		: await args.arClient.arweaveGet.api.post('/graphql', query);
 	if (response.data.data) {
 		const responseData = response.data.data.transactions.edges;
 		if (responseData.length > 0) {

@@ -307,7 +307,7 @@ export const defaultTheme: DefaultTheme = {
 		size: {
 			h1: 'clamp(38px, 4.5vw, 62px)',
 			h2: 'clamp(26px,3.15vw,38px)',
-			lg: '18px',
+			lg: 'clamp(18px, 1.75vw, 26px)',
 			base: '16px',
 			small: '15px',
 			xSmall: '14px',
@@ -316,7 +316,7 @@ export const defaultTheme: DefaultTheme = {
 		weight: {
 			regular: '400',
 			medium: '500',
-			bold: '600',
+			bold: '700',
 		},
 	},
 };

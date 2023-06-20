@@ -20,8 +20,14 @@ export default function AssetData(props: IProps) {
 				props.asset.data?.renderWith && props.asset.data.renderWith !== OrderBook.STORAGE.none
 					? props.asset.data.renderWith
 					: '[]';
-			const parsedRenderWith = JSON.parse(renderWith);
-			if (parsedRenderWith.length) {
+
+			let parsedRenderWith: string | null = null;
+			try {
+				parsedRenderWith = JSON.parse(renderWith);
+			} catch (e: any) {
+				parsedRenderWith = renderWith;
+			}
+			if (parsedRenderWith && parsedRenderWith.length) {
 				setAssetRender({
 					url: getRendererEndpoint(parsedRenderWith, props.asset.data.id),
 					type: 'renderer',

@@ -1,12 +1,12 @@
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
-import { 
-	ArweaveClientType, 
-	EnvType, 
-	InitArgs, 
-	OrderBookType, 
-	SellArgs, 
-	ValidateArgs, 
-	ApiClientType, 
+import {
+	ArweaveClientType,
+	EnvType,
+	InitArgs,
+	OrderBookType,
+	SellArgs,
+	ValidateArgs,
+	ApiClientType,
 	BuyArgs
 } from '../helpers/types';
 import { pairExists } from '../helpers/utils';
@@ -147,3 +147,4 @@ const client: OrderBookType = {
 
 export { client as OrderBook };
 export { ArweaveClient } from './arweave';
+export { ApiClient } from './api';

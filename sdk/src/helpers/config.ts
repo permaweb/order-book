@@ -30,8 +30,14 @@ export const TAGS = {
 			type: 'Type',
 			implements: 'Implements',
 		},
+		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With'
 	},
-	values: {},
+	values: {
+		profileVersions: {
+			'0.2': 'Account-0.2',
+			'0.3': 'Account-0.3',
+		}
+	},
 };

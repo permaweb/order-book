@@ -21,7 +21,7 @@ export const PICWrapper = styled.div`
     animation: ${open} ${fadeIn2};
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		width: 100%;
-        min-width: none;
+        min-width: 0;
 		margin: 0 0 20px 0;
 	}
 `;
@@ -57,9 +57,9 @@ export const PCWrapper = styled.div`
 `;
 
 export const ICWrapper = styled.div`
+    min-height: 50px;
 	width: 100%;
     padding: 5px 10px;
-    background: ${(props) => props.theme.colors.container.primary.background};
     background: ${(props) => props.theme.colors.container.alt1.background};
 	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
 	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
@@ -96,8 +96,13 @@ export const AssetData = styled.div`
     }
     p {
         font-size: ${(props) => props.theme.typography.size.base};
+        line-height: calc(${(props) => props.theme.typography.size.base} + 2px);
         font-weight: ${(props) => props.theme.typography.weight.bold};
         color: ${(props) => props.theme.colors.font.primary.alt1};
+        max-width: 200px;
+        overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
     }
     .a-divider {
         margin: 0 10px;
@@ -138,7 +143,6 @@ export const Frame = styled.iframe`
 `;
 
 export const NoAssetsContainer = styled.div`
-	margin: 12.5px 15px;
 	height: fit-content;
 	p {
 		color: ${(props) => props.theme.colors.warning};

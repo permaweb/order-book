@@ -9,6 +9,7 @@ import { Drawer } from 'components/atoms/Drawer';
 import { Loader } from 'components/atoms/Loader';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'global/AssetData';
+import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 
@@ -19,6 +20,8 @@ import { IProps } from './types';
 // TODO: else if no orders and connected wallet is owner get sell component
 // TODO: if fractionally owned get sell pie chart component
 // TODO: cache orders -> get order from cache by id
+// TODO: order book provider
+// TODO: for single unit assets on buy -> send: order.price
 export default function AssetDetail(props: IProps) {
 	const [asset, setAsset] = React.useState<AssetType | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
@@ -81,13 +84,13 @@ export default function AssetDetail(props: IProps) {
 		}
 	}, [orderBook]);
 
-	async function buyAsset(quantity: number) {
+	async function buyAsset(spend: number) {
 		if (asset && orderBook) {
 			setLoading(true);
 
 			let orderTx = await orderBook.buy({
 				assetId: asset.data.id,
-				qty: quantity,
+				spend: 1000,
 			});
 
 			setLoading(false);
@@ -105,8 +108,8 @@ export default function AssetDetail(props: IProps) {
 								<Button
 									key={index}
 									type={'alt1'}
-									label={`${language.buyNow} (Price: ${order.price / 1e6} Qty: ${order.quantity})`}
-									handlePress={() => buyAsset(order.quantity)}
+									label={`${language.buyNow} (Price: ${order.price} Qty: ${order.quantity})`}
+									handlePress={() => buyAsset(order.price)}
 									height={50}
 									width={275}
 								/>
@@ -133,7 +136,6 @@ export default function AssetDetail(props: IProps) {
 								<AssetData asset={asset} />
 							</S.AssetWrapper>
 						</S.C1>
-
 						<S.AssetInfoWrapper>
 							<S.DrawerWrapper>
 								<Drawer
@@ -179,14 +181,76 @@ export default function AssetDetail(props: IProps) {
 							</S.DrawerWrapper>
 						</S.AssetInfoWrapper>
 					</S.C1Wrapper>
-
 					<S.C2>
 						<div className={'border-wrapper-alt'}>
 							<S.AssetCDetail>
-								<h2>{asset.data.title}</h2>
+								<S.ACHeader>
+									<h2>{asset.data.title}</h2>
+									<StampWidget assetId={asset.data.id} />
+								</S.ACHeader>
 							</S.AssetCDetail>
 						</div>
 						{getAction()}
+						<S.DrawerWrapper>
+							<Drawer
+								title={language.activeSaleOrders}
+								icon={ASSETS.orders}
+								content={
+									<S.DrawerContent>
+										<S.DCLine>
+											<S.DCLineHeader>{language.transactionId}</S.DCLineHeader>
+											<TxAddress address={asset.data.id} wrap={false} />
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.blockHeight}</S.DCLineHeader>
+											<S.DCLineDetail>{'12346723'}</S.DCLineDetail>
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.standard}</S.DCLineHeader>
+											<S.DCLineDetail>{asset.data.implementation}</S.DCLineDetail>
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.owners}</S.DCLineHeader>
+											<S.DCLineDetail>{'3'}</S.DCLineDetail>
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.dateCreated}</S.DCLineHeader>
+											<S.DCLineDetail>{'November 6. 2022'}</S.DCLineDetail>
+										</S.DCLine>
+									</S.DrawerContent>
+								}
+							/>
+						</S.DrawerWrapper>
+						<S.DrawerWrapper>
+							<Drawer
+								title={language.currentAssetOwners}
+								icon={ASSETS.owners}
+								content={
+									<S.DrawerContent>
+										<S.DCLine>
+											<S.DCLineHeader>{language.transactionId}</S.DCLineHeader>
+											<TxAddress address={asset.data.id} wrap={false} />
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.blockHeight}</S.DCLineHeader>
+											<S.DCLineDetail>{'12346723'}</S.DCLineDetail>
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.standard}</S.DCLineHeader>
+											<S.DCLineDetail>{asset.data.implementation}</S.DCLineDetail>
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.owners}</S.DCLineHeader>
+											<S.DCLineDetail>{'3'}</S.DCLineDetail>
+										</S.DCLine>
+										<S.DCLine>
+											<S.DCLineHeader>{language.dateCreated}</S.DCLineHeader>
+											<S.DCLineDetail>{'November 6. 2022'}</S.DCLineDetail>
+										</S.DCLine>
+									</S.DrawerContent>
+								}
+							/>
+						</S.DrawerWrapper>
 					</S.C2>
 				</>
 			);
@@ -200,8 +264,10 @@ export default function AssetDetail(props: IProps) {
 	}
 
 	return (
-		<div className={'view-wrapper max-cutoff'}>
-			<S.Wrapper>{getData()}</S.Wrapper>
+		<div className={'background-wrapper'}>
+			<div className={'view-wrapper max-cutoff'}>
+				<S.Wrapper>{getData()}</S.Wrapper>
+			</div>
 		</div>
 	);
 }
