@@ -6,12 +6,12 @@ const DEFAULT = {
 	neutral3: '#FCFAFA',
 	neutral4: '#3A3A3A',
 	neutral5: '#D0D7DE',
-	neutral6: '#FFDECF',
+	neutral6: '#FAFAFA',
 	neutral7: '#757582',
-	neutral8: '#757582',
+	neutral8: '#BDBDBD',
 	neutral9: '#FCFAFA',
 	neutral10: '#757582',
-	neutral11: '#757582',
+	neutral11: '#000000',
 	neutral12: '#FAFAFA',
 	neutral13: '#F7F7F7',
 	neutral14: '#FFFFFF',
@@ -24,6 +24,7 @@ const DEFAULT = {
 	primary5: '#212530',
 	alt1: '#FF7A41',
 	alt2: '#FF621F',
+	alt3: '#FFDECF',
 	overlay1: 'rgba(255, 255, 255, 0.75)',
 	negative: '#D24646',
 	negativeHover: '#F26969',
@@ -70,14 +71,14 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt1: {
-				background: DEFAULT.alt1,
-				border: DEFAULT.transparent,
-				hover: DEFAULT.alt2,
+				background: DEFAULT.primary,
+				border: DEFAULT.primary,
+				hover: DEFAULT.primary2,
 				label: DEFAULT.neutral1,
 				active: {
-					background: DEFAULT.alt2,
-					hover: DEFAULT.alt1,
-					label: DEFAULT.primary,
+					background: DEFAULT.primary,
+					hover: DEFAULT.primary2,
+					label: DEFAULT.neutral1,
 				},
 				disabled: {
 					background: DEFAULT.neutral5,
@@ -123,9 +124,9 @@ export const defaultTheme: DefaultTheme = {
 		container: {
 			primary: {
 				background1: DEFAULT.neutral1,
-				background2: DEFAULT.neutral6,
+				background2: DEFAULT.alt3,
 				background3: DEFAULT.primary,
-				hover: DEFAULT.neutral9,
+				hover: DEFAULT.neutral2,
 			},
 			alt1: {
 				background: DEFAULT.neutral2,
@@ -140,7 +141,7 @@ export const defaultTheme: DefaultTheme = {
 				background: DEFAULT.neutral4,
 			},
 			alt5: {
-				background: DEFAULT.neutral11,
+				background: DEFAULT.neutral8,
 			},
 			alt6: {
 				background: DEFAULT.neutral5,

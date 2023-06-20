@@ -1,18 +1,40 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import { AssetType, OrderBook } from 'permaweb-orderbook';
+import { AssetType } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
-import { ASSETS } from 'helpers/config';
+import { AssetData } from 'global/AssetData';
+import { AssetOrders } from 'global/AssetOrders';
 import { language } from 'helpers/language';
+import * as urls from 'helpers/urls';
 
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: add title
-// TODO: add orders list
-function AssetRow(props: { asset: AssetType }) {
-	return <p>Asset Row</p>;
+// TODO: get stamp count
+function AssetRow(props: { asset: AssetType; index: number }) {
+	return (
+		<S.PICWrapper>
+			<Link to={`${urls.asset}${props.asset.data.id}`}>
+				<S.PCWrapper>
+					<S.AFlex>
+						<p>{props.index}</p>
+						<S.AWrapper>
+							<AssetData asset={props.asset} />
+						</S.AWrapper>
+						<p>{props.asset.data.title}</p>
+					</S.AFlex>
+					<S.AOrders>
+						<AssetOrders asset={props.asset} />
+					</S.AOrders>
+					<S.SCValue>
+						<p>2</p>
+					</S.SCValue>
+				</S.PCWrapper>
+			</Link>
+		</S.PICWrapper>
+	);
 }
 
 export default function AssetsList(props: IProps) {
@@ -26,40 +48,50 @@ export default function AssetsList(props: IProps) {
 	}, [props.assets]);
 
 	function getData() {
-		const keys = Array.from({ length: 3 }, (_, i) => i + 1);
-		const elements = keys.map((element) => (
-			<S.PICWrapper key={`pic_${element}`}>
-				<S.PCWrapper key={`pc_${element}`}>
-					<Loader placeholder />
-				</S.PCWrapper>
-			</S.PICWrapper>
-		));
-		return <>{elements}</>;
-
-		// if (assets) {
-		// 	if (assets.length > 0) {
-		// 		return assets.map((asset: AssetType) => {
-		// 			return <AssetRow asset={asset} key={asset.data.id} />;
-		// 		});
-		// 	} else {
-		// 		return (
-		// 			<S.NoAssetsContainer>
-		// 				<p>{language.noAssets}</p>
-		// 			</S.NoAssetsContainer>
-		// 		);
-		// 	}
-		// } else {
-		// 	// TODO: get count
-		// 	const keys = Array.from({ length: 3 }, (_, i) => i + 1);
-		// 	const elements = keys.map((element) => (
-		// 		<S.PICWrapper key={`pic_${element}`}>
-		// 			<S.PCWrapper key={`pc_${element}`}>
-		// 				<Loader placeholder />
-		// 			</S.PCWrapper>
-		// 		</S.PICWrapper>
-		// 	));
-		// 	return <>{elements}</>;
-		// }
+		if (assets) {
+			if (assets.length > 0) {
+				return (
+					<>
+						<S.HeaderWrapper>
+							<S.HSection1>
+								<p>#</p>
+								<S.AtomicAsset>{language.atomicAsset}</S.AtomicAsset>
+								<S.Listing>{language.listing}</S.Listing>
+								<S.StampCount>{language.stampCount}</S.StampCount>
+							</S.HSection1>
+							<S.HSection2>
+								<p>#</p>
+								<S.AtomicAsset>{language.atomicAsset}</S.AtomicAsset>
+								<S.Listing>{language.listing}</S.Listing>
+								<S.StampCount>{language.stampCount}</S.StampCount>
+							</S.HSection2>
+						</S.HeaderWrapper>
+						<S.C1>
+							{assets.map((asset: AssetType, index: number) => {
+								return <AssetRow key={asset.data.id} asset={asset} index={index + 1} />;
+							})}
+						</S.C1>
+					</>
+				);
+			} else {
+				return (
+					<S.NoAssetsContainer>
+						<p>{language.noAssets}</p>
+					</S.NoAssetsContainer>
+				);
+			}
+		} else {
+			// TODO: get count
+			const keys = Array.from({ length: 3 }, (_, i) => i + 1);
+			const elements = keys.map((element) => (
+				<S.PICWrapper key={`pic_${element}`}>
+					<S.PCWrapper key={`pc_${element}`}>
+						<Loader placeholder />
+					</S.PCWrapper>
+				</S.PICWrapper>
+			));
+			return <>{elements}</>;
+		}
 	}
 
 	return (

@@ -14,6 +14,10 @@ export const Wrapper = styled.div`
 	}
 `;
 
+export const C1Wrapper = styled.div`
+	width: 100%;
+`;
+
 export const C1 = styled.div`
 	width: ${C1_DIMENSION};
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
@@ -30,7 +34,7 @@ export const AssetWrapper = styled.div`
 `;
 
 export const AssetInfoWrapper = styled.div`
-	width: 100%;
+	width: ${C1_DIMENSION};
 `;
 
 export const DrawerWrapper = styled.div`
