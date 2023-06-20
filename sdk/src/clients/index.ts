@@ -1,4 +1,4 @@
-import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
+import { CURRENCY_DICT, ORDERBOOK_CONTRACT, STORAGE, TAGS } from '../helpers/config';
 import {
 	ArweaveClientType,
 	EnvType,
@@ -9,10 +9,11 @@ import {
 	ApiClientType,
 	BuyArgs
 } from '../helpers/types';
-import { pairExists } from '../helpers/utils';
+import { getTagValue, pairExists } from '../helpers/utils';
 
 import { ArweaveClient } from './arweave';
 import { ApiClient } from './api';
+import { getGQLData } from '../gql';
 
 const client: OrderBookType = {
 	env: null,
@@ -45,7 +46,7 @@ const client: OrderBookType = {
 		let currencyState = await arClient.read(env.currencyContract);
 		let orderBookState = await arClient.read(env.orderBookContract);
 
-		this.validateAsset({ asset: args.assetId, assetState: assetState });
+		await this.validateAsset({ asset: args.assetId, assetState: assetState });
 
 		let pair = [args.assetId, env.currencyContract];
 
@@ -132,15 +133,53 @@ const client: OrderBookType = {
 	validateAsset: async function (args: ValidateArgs) {
 		// validate collection if provided
 		// validate contract
-		// validate asset data (not 404)
-		// validate tags
 
 		if (!args.assetState) {
-			throw new Error(`No state found for asset`);
+			throw new Error(`Could not retrieve state for the asset`);
 		}
 
 		if (!args.assetState.claimable) {
 			throw new Error(`No claimable array found in the asset state`);
+		}
+
+		if (!args.assetState.balances) {
+			throw new Error(`No balances object found in the asset state`);
+		}
+
+		let keys = Object.keys(args.assetState.balances);
+  		if(keys.length < 1) {
+			throw new Error(`balances object is empty in the asset state`);
+		}
+
+		let gateway = this.env.arClient.arweavePost.api.config.host;
+		let protocol = this.env.arClient.arweavePost.api.config.protocol;
+		
+		const assetResponse = await fetch(`${protocol}://${gateway}/${args.asset}`);
+
+		if(!(assetResponse.status == 200)) {
+			throw new Error(`Asset data could not be retrieved`);
+		}
+
+		let assetGqlResponse = await getGQLData({
+				ids: [args.asset],
+				tagFilters: null,
+				uploader: null,
+				cursor: null,
+				reduxCursor: null,
+				cursorObject: null,
+				arClient: this.env.arClient
+		});
+
+		if(assetGqlResponse.data.length < 1) {
+			throw new Error(`Asset could not be found via gql`);
+		}
+
+		let ansTitle = getTagValue(assetGqlResponse.data[0].node.tags, TAGS.keys.ans110.title);
+		let ansDescription = getTagValue(assetGqlResponse.data[0].node.tags, TAGS.keys.ans110.description);
+		let ansType = getTagValue(assetGqlResponse.data[0].node.tags, TAGS.keys.ans110.type);
+
+		if((ansTitle === STORAGE.none) || (ansDescription === STORAGE.none) || (ansType === STORAGE.none)) {
+			throw new Error(`Asset must contain ANS-110 tags - Title, Description, and Type `);
 		}
 	}
 };
