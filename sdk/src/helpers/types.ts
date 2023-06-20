@@ -20,7 +20,7 @@ export type SellArgs = {
 
 export type BuyArgs = {
 	assetId: string;
-	qty: number;
+	spend: number;
 };
 
 export type EnvType = {

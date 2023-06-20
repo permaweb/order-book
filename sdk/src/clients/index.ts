@@ -1,5 +1,14 @@
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
-import { ArweaveClientType, EnvType, InitArgs, OrderBookType, SellArgs, ValidateArgs, ApiClientType } from '../helpers/types';
+import { 
+	ArweaveClientType, 
+	EnvType, 
+	InitArgs, 
+	OrderBookType, 
+	SellArgs, 
+	ValidateArgs, 
+	ApiClientType, 
+	BuyArgs
+} from '../helpers/types';
 import { pairExists } from '../helpers/utils';
 
 import { ArweaveClient } from './arweave';
@@ -82,14 +91,15 @@ const client: OrderBookType = {
 		return orderTx;
 	},
 
-	buy: async function (args: SellArgs) {
+	buy: async function (args: BuyArgs) {
+		// validate that number is SUs
 		let env: EnvType = this.env;
 		let arClient: ArweaveClientType = this.env.arClient;
 
 		let allowInput = {
 			function: 'allow',
 			target: env.orderBookContract,
-			qty: args.qty,
+			qty: args.spend,
 		};
 
 		let allowTx = await arClient.writeContract({
@@ -102,7 +112,7 @@ const client: OrderBookType = {
 			function: 'createOrder',
 			pair: [env.currencyContract, args.assetId],
 			transaction: allowTx.originalTxId,
-			qty: args.qty,
+			qty: args.spend,
 		};
 
 		let orderTx = await arClient.writeContract({
