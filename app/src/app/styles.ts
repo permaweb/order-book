@@ -172,7 +172,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .border-wrapper {
-    background: ${(props) => props.theme.colors.container.primary.background1};
+    background: ${(props) => props.theme.colors.container.primary.background};
     border-radius: ${STYLING.dimensions.borderRadius};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
   }
@@ -184,7 +184,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .gradient-wrapper {
-    background: ${(props) => `linear-gradient(to bottom, ${props.theme.colors.container.primary.background3}, ${props.theme.colors.container.primary.background2}, ${props.theme.colors.container.primary.background1})`};
+    background: ${(props) => `linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background2Gradient}, ${props.theme.colors.container.primary.background1Gradient})`};
     overflow: visible;
   }
 `;

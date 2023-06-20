@@ -12,7 +12,7 @@ export const C1 = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		flex-direction: column;
 	}
 `;
@@ -23,14 +23,14 @@ export const HeaderWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin: 0 0 20px 0;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		display: none;
 	}
 `;
 
 export const HSection1 = styled.div`
 	width: 49.5%;
-	background: ${(props) => props.theme.colors.container.primary.background1};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	display: flex;
@@ -41,26 +41,30 @@ export const HSection1 = styled.div`
         font-weight: ${(props) => props.theme.typography.weight.bold};
         color: ${(props) => props.theme.colors.font.primary.alt8};
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		display: none;
 	}
 `;
 
-export const AtomicAsset = styled.p`
+export const AtomicAsset = styled.div`
+	min-width: 110px;
 	margin: 0 0 0 20px;
+	border: 1px solid green;
 `;
 
-export const Listing = styled.p`
-	margin: 0 0 0 165px;
+export const Listing = styled.div`
+	// margin: 0 0 0 165px;
+	border: 1px solid blue;
 `;
 
-export const StampCount = styled.p`
-	margin: 0 0 0 235px;
+export const StampCount = styled.div`
+	// margin: 0 0 0 235px;
+	border: 1px solid red;
 `;
 
 export const HSection2 = styled(HSection1)`
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		display: none;
 	}
 `;
@@ -71,13 +75,13 @@ export const PICWrapper = styled.div`
 	a {
 		text-decoration: none !important;
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 	}
 `;
 
 export const PCWrapper = styled.div`
-	height: 125px;
+	min-height: 125px;
 	width: 100%;
 	animation: ${open} ${fadeIn2};
 	position: relative;
@@ -86,31 +90,42 @@ export const PCWrapper = styled.div`
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
 	padding: 20px;
 	position: relative;
 	transition: background .1s;
 	p {
+		max-width: 125px;
         font-size: ${(props) => props.theme.typography.size.base};
+		line-height: calc(${(props) => props.theme.typography.size.base} + 2px);
         font-weight: ${(props) => props.theme.typography.weight.bold};
         color: ${(props) => props.theme.colors.font.primary.alt1};
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
     }
 	&:hover {
 		cursor: pointer;
 		text-decoration: none !important;
 		background: ${(props) => props.theme.colors.container.alt1.background};
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		height: auto;
 		flex-wrap: wrap;
+	}
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+		flex-direction: column;
+		align-items: flex-start;
 	}
 `;
 
 export const AFlex = styled.div`
 	display: flex;
 	align-items: center;
-	width: 300px;
+	width: 280px;
 	max-width: 100%;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		margin: 0 0 20px 0;
 	}
@@ -119,24 +134,22 @@ export const AFlex = styled.div`
 export const AWrapper = styled.div`
 	height: 85px;
 	width: 85px;
-	background: ${(props) => props.theme.colors.container.primary.background1};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
-	margin: 0 20px;
+	margin: 0 15px;
 `;
 
 export const AOrders = styled.div`
 	height: 50px;
-	width: 100%;
-	max-width: 250px;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
-		max-width: none;
-		width: 90%;
-	}
+	width: 235px;
 `;
 
 export const SCValue = styled.div`
 	margin: 0 0 0 auto;
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+		margin: 20px 0 0 0;
+	}
 `;
 
 export const NoAssetsContainer = styled.div`

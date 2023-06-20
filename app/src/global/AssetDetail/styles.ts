@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 `;
 
 export const C1Wrapper = styled.div`
-	width: 100%;
+	width: ${C1_DIMENSION};
 `;
 
 export const C1 = styled.div`

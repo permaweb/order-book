@@ -47,33 +47,11 @@ export const HCWrapper = styled.div`
     }
 `;
 
-export const StampCountWrapper = styled.div`
-    height: 75%;
-    width: 75px;
-    background: ${(props) => props.theme.colors.container.alt5.background};
-    border-radius: ${STYLING.dimensions.borderRadius};
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    p {
-        font-size: ${(props) => props.theme.typography.size.base};
-        font-weight: ${(props) => props.theme.typography.weight.bold};
-        font-family: ${(props) => props.theme.typography.family.alt1};
-        color: ${(props) => props.theme.colors.font.primary.base};
-    }
-    .s-divider {
-        margin: 0 10px;
-        height: 65%;
-        width: 2px;
-        border-left: 2px solid ${(props) => props.theme.colors.border.alt3};
-    }
-`;
-
 export const PCWrapper = styled.div`
 	height: 350px;
 	width: 100%;
 	position: relative;
-	background: ${(props) => props.theme.colors.container.primary.background1};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
 `;
@@ -81,7 +59,7 @@ export const PCWrapper = styled.div`
 export const ICWrapper = styled.div`
 	width: 100%;
     padding: 5px 10px;
-    background: ${(props) => props.theme.colors.container.primary.background1};
+    background: ${(props) => props.theme.colors.container.primary.background};
     background: ${(props) => props.theme.colors.container.alt1.background};
 	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
 	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
@@ -108,7 +86,7 @@ export const AssetData = styled.div`
     display: flex;
     align-items: center;
     padding: 0 10px;
-    background: ${(props) => props.theme.colors.container.primary.background1};
+    background: ${(props) => props.theme.colors.container.primary.background};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
     border-radius: ${STYLING.dimensions.borderRadiusField};
     span {

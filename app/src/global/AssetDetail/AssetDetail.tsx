@@ -128,72 +128,66 @@ export default function AssetDetail(props: IProps) {
 			return (
 				<>
 					<S.C1Wrapper>
-						<div className={'gradient-wrapper'}>
-							<div className={'view-wrapper max-cutoff'}>
-								<S.C1>
-									<S.AssetWrapper>
-										<AssetData asset={asset} />
-									</S.AssetWrapper>
-								</S.C1>
-							</div>
-						</div>
-						<div className={'view-wrapper max-cutoff'}>
-							<S.AssetInfoWrapper>
-								<S.DrawerWrapper>
-									<Drawer
-										title={language.overview}
-										icon={ASSETS.overview}
-										content={
-											<S.DrawerContent>
-												<S.DCHeader>{asset.data.title}</S.DCHeader>
-												<S.DCLineDetail>{asset.data.description}</S.DCLineDetail>
-											</S.DrawerContent>
-										}
-									/>
-								</S.DrawerWrapper>
-								<S.DrawerWrapper>
-									<Drawer
-										title={language.provenanceDetails}
-										icon={ASSETS.provenance}
-										content={
-											<S.DrawerContent>
-												<S.DCLine>
-													<S.DCLineHeader>{language.transactionId}</S.DCLineHeader>
-													<TxAddress address={asset.data.id} wrap={false} />
-												</S.DCLine>
-												<S.DCLine>
-													<S.DCLineHeader>{language.blockHeight}</S.DCLineHeader>
-													<S.DCLineDetail>{'12346723'}</S.DCLineDetail>
-												</S.DCLine>
-												<S.DCLine>
-													<S.DCLineHeader>{language.standard}</S.DCLineHeader>
-													<S.DCLineDetail>{asset.data.implementation}</S.DCLineDetail>
-												</S.DCLine>
-												<S.DCLine>
-													<S.DCLineHeader>{language.owners}</S.DCLineHeader>
-													<S.DCLineDetail>{'3'}</S.DCLineDetail>
-												</S.DCLine>
-												<S.DCLine>
-													<S.DCLineHeader>{language.dateCreated}</S.DCLineHeader>
-													<S.DCLineDetail>{'November 6. 2022'}</S.DCLineDetail>
-												</S.DCLine>
-											</S.DrawerContent>
-										}
-									/>
-								</S.DrawerWrapper>
-							</S.AssetInfoWrapper>
-						</div>
+						<S.C1>
+							<S.AssetWrapper>
+								<AssetData asset={asset} />
+							</S.AssetWrapper>
+						</S.C1>
+
+						<S.AssetInfoWrapper>
+							<S.DrawerWrapper>
+								<Drawer
+									title={language.overview}
+									icon={ASSETS.overview}
+									content={
+										<S.DrawerContent>
+											<S.DCHeader>{asset.data.title}</S.DCHeader>
+											<S.DCLineDetail>{asset.data.description}</S.DCLineDetail>
+										</S.DrawerContent>
+									}
+								/>
+							</S.DrawerWrapper>
+							<S.DrawerWrapper>
+								<Drawer
+									title={language.provenanceDetails}
+									icon={ASSETS.provenance}
+									content={
+										<S.DrawerContent>
+											<S.DCLine>
+												<S.DCLineHeader>{language.transactionId}</S.DCLineHeader>
+												<TxAddress address={asset.data.id} wrap={false} />
+											</S.DCLine>
+											<S.DCLine>
+												<S.DCLineHeader>{language.blockHeight}</S.DCLineHeader>
+												<S.DCLineDetail>{'12346723'}</S.DCLineDetail>
+											</S.DCLine>
+											<S.DCLine>
+												<S.DCLineHeader>{language.standard}</S.DCLineHeader>
+												<S.DCLineDetail>{asset.data.implementation}</S.DCLineDetail>
+											</S.DCLine>
+											<S.DCLine>
+												<S.DCLineHeader>{language.owners}</S.DCLineHeader>
+												<S.DCLineDetail>{'3'}</S.DCLineDetail>
+											</S.DCLine>
+											<S.DCLine>
+												<S.DCLineHeader>{language.dateCreated}</S.DCLineHeader>
+												<S.DCLineDetail>{'November 6. 2022'}</S.DCLineDetail>
+											</S.DCLine>
+										</S.DrawerContent>
+									}
+								/>
+							</S.DrawerWrapper>
+						</S.AssetInfoWrapper>
 					</S.C1Wrapper>
-					{/* <div className={'view-wrapper max-cutoff'}> */}
-						{/* <S.C2>
-							<div className={'border-wrapper-alt'}>
-								<S.AssetCDetail>
-									<h2>{asset.data.title}</h2>
-								</S.AssetCDetail>
-							</div>
-							{getAction()}
-						</S.C2> */}
-					{/* </div> */}
+
+					<S.C2>
+						<div className={'border-wrapper-alt'}>
+							<S.AssetCDetail>
+								<h2>{asset.data.title}</h2>
+							</S.AssetCDetail>
+						</div>
+						{getAction()}
+					</S.C2>
 				</>
 			);
 		} else {
@@ -205,13 +199,9 @@ export default function AssetDetail(props: IProps) {
 		}
 	}
 
-	return <S.Wrapper>{getData()}</S.Wrapper>;
-
-	// return (
-	// 	<div className={'gradient-wrapper'}>
-	// 		<div className={'view-wrapper max-cutoff'}>
-	// 			<S.Wrapper>{getData()}</S.Wrapper>
-	// 		</div>
-	// 	</div>
-	// );
+	return (
+		<div className={'view-wrapper max-cutoff'}>
+			<S.Wrapper>{getData()}</S.Wrapper>
+		</div>
+	);
 }
