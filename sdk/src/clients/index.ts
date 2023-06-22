@@ -56,6 +56,7 @@ const client: OrderBookType = {
 			sellArgs: args,
 			assetState,
 			orderBookState,
+			wallet: this.env.wallet,
 			walletAddress: this.env.walletAddress
 		});
 
@@ -115,6 +116,7 @@ const client: OrderBookType = {
 			buyArgs: args,
 			assetState,
 			orderBookState,
+			wallet: this.env.wallet,
 			walletAddress: this.env.walletAddress
 		});
 
