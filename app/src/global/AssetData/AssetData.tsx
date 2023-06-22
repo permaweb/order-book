@@ -1,7 +1,9 @@
 import React from 'react';
+import { ReactSVG } from 'react-svg';
 
 import * as OrderBook from 'permaweb-orderbook';
 
+import { ASSETS } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
 
@@ -12,6 +14,7 @@ export default function AssetData(props: IProps) {
 	const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
+	const [loadRenderer, setLoadRenderer] = React.useState<boolean>(false);
 
 	// TODO: add all raw types
 	React.useEffect(() => {
@@ -20,7 +23,6 @@ export default function AssetData(props: IProps) {
 				props.asset.data?.renderWith && props.asset.data.renderWith !== OrderBook.STORAGE.none
 					? props.asset.data.renderWith
 					: '[]';
-
 			let parsedRenderWith: string | null = null;
 			try {
 				parsedRenderWith = JSON.parse(renderWith);
@@ -46,12 +48,38 @@ export default function AssetData(props: IProps) {
 			}
 		})();
 	}, [props.asset]);
-
+	
 	function getData() {
 		if (assetRender) {
 			switch (assetRender.type) {
 				case 'renderer':
-					return <S.Frame ref={iframeRef} src={assetRender.url} allowFullScreen />;
+					if (!props.preview) {
+						return loadRenderer || props.autoLoad ? (
+							<S.Frame
+								ref={iframeRef}
+								src={assetRender.url}
+								allowFullScreen
+								onLoad={() => {
+									if (iframeRef.current && iframeRef.current.contentWindow && props.frameMinHeight) {
+										iframeRef.current.contentWindow.postMessage(
+											{ type: 'setHeight', height: `${props.frameMinHeight}px` },
+											'*'
+										);
+									}
+								}}
+							/>
+						) : (
+							<S.FrameLoader onClick={() => setLoadRenderer(true)}>
+								<ReactSVG src={ASSETS.renderer} />
+							</S.FrameLoader>
+						);
+					} else {
+						return (
+							<S.Preview>
+								<ReactSVG src={ASSETS.renderer} />
+							</S.Preview>
+						);
+					}
 				case 'raw':
 					switch (assetRender.contentType) {
 						case 'image/png':

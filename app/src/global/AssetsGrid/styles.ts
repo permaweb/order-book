@@ -4,46 +4,56 @@ import { fadeIn2, open } from 'helpers/animations';
 import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.div`
-    width: 100%;
-	display: flex;
-    justify-content: space-between;
-	flex-wrap: wrap;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
-		width: 100%;
-		margin: 0;
-	}
+    width: calc(100% + 25px);
+    display: flex;
+    flex-wrap: wrap;
+    margin: -12.5px;
+    @media (max-width: ${STYLING.cutoffs.initial}) {
+        width: 100%;
+        margin: 0;
+    }
 `;
 
 export const PICWrapper = styled.div`
-    width: calc(25% - 10px);
-    min-width: 330px;
-    margin: 0 0 10px 0;
+    margin: 15px;
+    width: calc(33.3% - 30px);
+    border: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-radius: ${STYLING.dimensions.borderRadius};
+    overflow: hidden;
     animation: ${open} ${fadeIn2};
-	@media (max-width: ${STYLING.cutoffs.initial}) {
-		width: 100%;
-        min-width: 0;
-		margin: 0 0 20px 0;
-	}
+    @media (max-width: ${STYLING.cutoffs.initial}) {
+        width: 100%;
+        margin: 0 0 40px 0;
+    }
 `;
 
 export const HCWrapper = styled.div`
-    height: 50px;
+    height: 60px;
 	width: 100%;
-    background: ${(props) => props.theme.colors.container.alt1.background};
-	border-top-left-radius: ${STYLING.dimensions.borderRadius};
-	border-top-right-radius: ${STYLING.dimensions.borderRadius};
+    background: ${(props) => props.theme.colors.container.primary.background};
 	position: relative;
 	display: flex;
 	align-items: center;
-    padding: 0 10px;
-	justify-content: space-between;
-    border-top: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+	justify-content: flex-end;
+    > * {
+        margin: 0 20px 0 0;
+	}
     svg {
         height: 30px !important;
         width: 25px !important;
+    }
+`;
+
+export const HCLoader = styled(HCWrapper)`
+    > * {
+        margin: 0;
+    }
+`;
+
+export const RendererSVG = styled.div`
+    svg {
+        height: 40px !important;
+        width: 40px !important;
     }
 `;
 
@@ -52,22 +62,19 @@ export const PCWrapper = styled.div`
 	width: 100%;
 	position: relative;
 	background: ${(props) => props.theme.colors.container.primary.background};
-	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
 `;
 
 export const ICWrapper = styled.div`
     min-height: 50px;
 	width: 100%;
     padding: 5px 10px;
-    background: ${(props) => props.theme.colors.container.alt1.background};
-	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
-	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
+    background: ${(props) => props.theme.colors.container.primary.background};
 	position: relative;
-    border-top: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+`;
+
+export const ICLoader = styled(ICWrapper)`
+    height: 50px;
+    padding: 0;
 `;
 
 export const ICFlex = styled.div`

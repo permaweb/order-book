@@ -23,7 +23,7 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 					<S.AFlex>
 						<p>{props.index}</p>
 						<S.AWrapper>
-							<AssetData asset={props.asset} />
+							<AssetData asset={props.asset} preview />
 						</S.AWrapper>
 						<p>{props.asset.data.title}</p>
 					</S.AFlex>

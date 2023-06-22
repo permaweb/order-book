@@ -70,7 +70,7 @@ export const Primary = styled.button<{
 		text-overflow: ellipsis;
 		overflow: hidden;
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.primary.active.label : props.theme.colors.button.primary.label};
 	}

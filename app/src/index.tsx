@@ -1,22 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 
 import { App } from 'app';
 import { GlobalStyle } from 'app/styles';
+import { Loader } from 'components/atoms/Loader';
 import { defaultTheme } from 'helpers/themes';
 import { ArweaveProvider } from 'providers/ArweaveProvider';
+import { persistor, store } from 'state/store';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<React.StrictMode>
-		<ThemeProvider theme={defaultTheme}>
-			<ArweaveProvider>
-				<HashRouter>
-					<GlobalStyle />
-					<App />
-				</HashRouter>
-			</ArweaveProvider>
-		</ThemeProvider>
-	</React.StrictMode>
+	<Provider store={store}>
+		<PersistGate loading={<Loader />} persistor={persistor}>
+			<ThemeProvider theme={defaultTheme}>
+				<ArweaveProvider>
+					<HashRouter>
+						<GlobalStyle />
+						<App />
+					</HashRouter>
+				</ArweaveProvider>
+			</ThemeProvider>
+		</PersistGate>
+	</Provider>
 );

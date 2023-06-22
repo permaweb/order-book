@@ -30,6 +30,7 @@ export const NavContainer = styled.div`
 	width: 100%;
 	position: relative;
 	background: ${(props) => props.theme.colors.navigation.header.backgroundNav};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
 `;
 

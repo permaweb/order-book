@@ -4,7 +4,7 @@ import { checkGqlCursor, getTagValue } from '../helpers/utils';
 
 import { getGQLData } from '.';
 
-export async function getAssetsByIds(args: AssetArgsType): Promise<AssetsResponseType> {
+export async function getGqlDataByIds(args: AssetArgsType): Promise<AssetsResponseType> {
 	let cursor: string | null = null;
 	if (args.cursor && args.cursor !== CURSORS.p1 && args.cursor !== CURSORS.end && !checkGqlCursor(args.cursor)) {
 		cursor = args.cursor;
