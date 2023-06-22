@@ -16,8 +16,8 @@ import {
 
 export async function getAssetsByContract(args: { arClient: ArweaveClientType }): Promise<AssetType[]> {
 	try {
-		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
-		const assets = pairs.filter((pair: OrderBookPairType) => pair.orders.length > 0);
+		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
+		// const assets = pairs.filter((pair: OrderBookPairType) => pair.orders.length > 0);
 
 		const gqlData: AssetsResponseType = await getGqlDataByIds({
 			ids: assets.map((asset: OrderBookPairType) => asset.pair[0]),

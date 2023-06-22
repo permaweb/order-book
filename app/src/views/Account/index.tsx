@@ -4,7 +4,6 @@ import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
 import { AssetType, OrderBook, OrderBookType } from 'permaweb-orderbook';
 
-import { Loader } from 'components/atoms/Loader';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { WalletBlock } from 'wallet/WalletBlock';
 
