@@ -34,6 +34,7 @@ export type EnvType = {
 export type InitArgs = {
 	currency: 'U';
 	wallet: any;
+	walletAddress: string;
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
@@ -71,10 +72,14 @@ export type ValidateSellArgs = {
 	sellArgs: SellArgs;
 	assetState: any;
 	orderBookState: any;
+	walletAddress: string;
 };
 
 export type ValidateBuyArgs = {
-	
+	buyArgs: BuyArgs;
+	assetState: any;
+	orderBookState: any;
+	walletAddress: string;
 };
 
 export type TransactionFlowArgs = {

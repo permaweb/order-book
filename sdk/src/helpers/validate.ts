@@ -5,25 +5,46 @@ import {
     ValidateBuyArgs, 
     ValidateSellArgs 
 } from "./types";
-import { getTagValue } from "./utils";
+import { getTagValue, isSingleQtyAsset } from "./utils";
 
 
 
 export async function validateSell(args: ValidateSellArgs) {
-    // validate that number is an integer
-    // verify that they are selling all or less than their balance
-    // validate they aren't selling the same single asset twice
-    // if asset is already up for sell dont let them resell for more than the left available balance
+    if(!(args.walletAddress in args.assetState.balances)) {
+        throw new Error(`This wallet does not have a balance to sell on this asset`);
+    }
+
+    let sellQty = args.sellArgs.qty;
+    let walletQty = args.assetState.balances[args.walletAddress];
+
+    if((sellQty % 1 !== 0) || (sellQty === 0)) {
+        throw new Error(`Please provide an integer quantity greater than 0 to sell`);
+    }
+
+    // this blocks people trying to sell single assets twice 
+    // and trying to sell more balance than they have for a pst
+    if(sellQty > walletQty) {
+        throw new Error(`This wallet does not have enough balance of the asset to sell this amount`);
+    }
 }
 
 export async function validateBuy(args: ValidateBuyArgs) {
-    // validate that number is an integer
     // if it is a single unit token, verify that 
     // the spend is the full price 
     // otherwise if it is a multi unit token 
     // verify the spend is within bounds 
     // dont allow the same buy twice
     // if its multi unit it should always start with the lowest unit price and go up from there
+
+    let buySpend = args.buyArgs.spend;
+
+    if((buySpend % 1 !== 0) || (buySpend === 0)) {
+        throw new Error(`Please provide an integer quantity greater than 0 to buy`);
+    }
+
+    if(isSingleQtyAsset(args.assetState)) {
+        
+    }
 }
 
 export async function validateAsset(args: ValidateAssetArgs) {
