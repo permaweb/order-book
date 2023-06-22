@@ -5,7 +5,6 @@ import {
 	InitArgs,
 	OrderBookType,
 	SellArgs,
-	ValidateArgs,
 	ApiClientType,
 	BuyArgs
 } from '../helpers/types';
@@ -13,6 +12,7 @@ import { pairExists } from '../helpers/utils';
 
 import { ArweaveClient } from './arweave';
 import { ApiClient } from './api';
+import { validateAsset, validateSell, validateBuy } from '../helpers';
 
 const client: OrderBookType = {
 	env: null,
@@ -29,6 +29,7 @@ const client: OrderBookType = {
 				warp: args.warp
 			}),
 			wallet: args.wallet,
+			walletAddress: args.walletAddress
 		};
 
 		let api: ApiClientType = ApiClient.init({ arClient: this.env.arClient });
@@ -45,7 +46,19 @@ const client: OrderBookType = {
 		let currencyState = await arClient.read(env.currencyContract);
 		let orderBookState = await arClient.read(env.orderBookContract);
 
-		this.validateAsset({ asset: args.assetId, assetState: assetState });
+		await validateAsset({ 
+			asset: args.assetId, 
+			assetState: assetState, 
+			arClient: this.env.arClient
+		});
+
+		await validateSell({
+			sellArgs: args,
+			assetState,
+			orderBookState,
+			wallet: this.env.wallet,
+			walletAddress: this.env.walletAddress
+		});
 
 		let pair = [args.assetId, env.currencyContract];
 
@@ -92,13 +105,20 @@ const client: OrderBookType = {
 	},
 
 	buy: async function (args: BuyArgs) {
-		// validate that number is an integer
-		// if it is a single unit token, verify that 
-		// the spend is the full price 
-		// otherwise if it is a multi unit token 
-		// verify the spend is within bounds 
 		let env: EnvType = this.env;
 		let arClient: ArweaveClientType = this.env.arClient;
+
+		let assetState = await arClient.read(args.assetId);
+		let currencyState = await arClient.read(env.currencyContract);
+		let orderBookState = await arClient.read(env.orderBookContract);
+
+		await validateBuy({
+			buyArgs: args,
+			assetState,
+			orderBookState,
+			wallet: this.env.wallet,
+			walletAddress: this.env.walletAddress
+		});
 
 		let allowInput = {
 			function: 'allow',
@@ -126,25 +146,7 @@ const client: OrderBookType = {
 		});
 
 		return orderTx;
-	},
-
-	// TODO: validation incomplete
-	validateAsset: async function (args: ValidateArgs) {
-		// validate collection if provided
-		// validate contract
-		// validate asset data (not 404)
-		// validate tags
-
-		if (!args.assetState) {
-			throw new Error(`No state found for asset`);
-		}
-
-		if (!args.assetState.claimable) {
-			throw new Error(`No claimable array found in the asset state`);
-		}
 	}
 };
 
 export { client as OrderBook };
-export { ArweaveClient } from './arweave';
-export { ApiClient } from './api';

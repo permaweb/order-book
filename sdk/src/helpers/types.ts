@@ -34,6 +34,7 @@ export type EnvType = {
 export type InitArgs = {
 	currency: 'U';
 	wallet: any;
+	walletAddress: string | null;
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
@@ -62,9 +63,26 @@ export type WriteContractArgs = {
 	input: any;
 };
 
-export type ValidateArgs = {
+export type ValidateAssetArgs = {
 	asset: string;
 	assetState: any;
+	arClient: ArweaveClientType;
+};
+
+export type ValidateSellArgs = {
+	sellArgs: SellArgs;
+	assetState: any;
+	orderBookState: any;
+	wallet:any;
+	walletAddress: string | null;
+};
+
+export type ValidateBuyArgs = {
+	buyArgs: BuyArgs;
+	assetState: any;
+	orderBookState: any;
+	wallet: any;
+	walletAddress: string | null;
 };
 
 export type TransactionFlowArgs = {
@@ -95,7 +113,6 @@ export type OrderBookType = {
 	init: (args: InitArgs) => OrderBookType;
 	sell: (args: SellArgs) => Promise<any>;
 	buy: (args: BuyArgs) => Promise<any>;
-	validateAsset: (args: ValidateArgs) => Promise<void>;
 	api: ApiClientType;
 };
 
