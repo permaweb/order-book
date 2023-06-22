@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
@@ -13,6 +14,7 @@ import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
+import { RootState } from 'state/store';
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -24,13 +26,15 @@ import { IProps } from './types';
 // TODO: order book provider
 // TODO: for single unit assets on buy -> send: order.price
 export default function AssetDetail(props: IProps) {
+	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
+
 	const [asset, setAsset] = React.useState<AssetType | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 	const arProvider = useArweaveProvider();
 
 	React.useEffect(() => {
-		if(arProvider.walletAddress){
+		if (arProvider.walletAddress) {
 			const GET_ENDPOINT = 'arweave-search.goldsky.com';
 			const POST_ENDPOINT = 'arweave.net';
 
@@ -67,19 +71,18 @@ export default function AssetDetail(props: IProps) {
 					arweaveGet: arweaveGet,
 					arweavePost: arweavePost,
 					warp: warp,
-					walletAddress: arProvider.walletAddress
+					walletAddress: arProvider.walletAddress,
 				})
 			);
 		}
 	}, [arProvider.walletAddress]);
-
-	// TODO: set assets in redux
+	
 	React.useEffect(() => {
 		if (orderBook) {
 			(async function () {
 				setLoading(true);
 
-				const assets = await orderBook.api.getAssetsByContract();
+				const assets = assetsReducer.data ? assetsReducer.data : await orderBook.api.getAssetsByContract();
 				for (let i = 0; i < assets.length; i++) {
 					if (assets[i].data.id === props.assetId) {
 						setAsset(assets[i]);
