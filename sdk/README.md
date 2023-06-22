@@ -2,7 +2,7 @@
 
 ## Initialize
 
-### Optionally when initializing, you can specify a different instance of arweave for querying/posting, for example if you want to post to arweave.net and retrieve from goldsky. Below we are using the same instance for both.
+Optionally when initializing, you can specify a different instance of arweave for querying/posting, for example if you want to post to arweave.net and retrieve from goldsky. Below we are using the same instance for both.
 
 ```js
 import Arweave from 'arweave';
