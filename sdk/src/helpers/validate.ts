@@ -10,6 +10,10 @@ import { getTagValue, isSingleQtyAsset } from "./utils";
 
 
 export async function validateSell(args: ValidateSellArgs) {
+    if(!args.walletAddress || !args.wallet) {
+        throw new Error(`Please initialize OrderBook with a wallet and wallet address`);
+    }
+
     if(!(args.walletAddress in args.assetState.balances)) {
         throw new Error(`This wallet does not have a balance to sell on this asset`);
     }
@@ -35,6 +39,10 @@ export async function validateBuy(args: ValidateBuyArgs) {
     // verify the spend is within bounds 
     // dont allow the same buy twice
     // if its multi unit it should always start with the lowest unit price and go up from there
+
+    if(!args.walletAddress || !args.wallet) {
+        throw new Error(`Please initialize OrderBook with a wallet and wallet address`);
+    }
 
     let buySpend = args.buyArgs.spend;
 

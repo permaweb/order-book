@@ -72,14 +72,16 @@ export type ValidateSellArgs = {
 	sellArgs: SellArgs;
 	assetState: any;
 	orderBookState: any;
-	walletAddress: string;
+	wallet:any;
+	walletAddress: string | null;
 };
 
 export type ValidateBuyArgs = {
 	buyArgs: BuyArgs;
 	assetState: any;
 	orderBookState: any;
-	walletAddress: string;
+	wallet: any;
+	walletAddress: string | null;
 };
 
 export type TransactionFlowArgs = {
