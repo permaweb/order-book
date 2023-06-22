@@ -185,6 +185,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
+				walletAddress: null,
 			})
 		);
 	}, []);
@@ -192,7 +193,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	React.useEffect(() => {
 		(async function () {
 			if (walletAddress && orderBook) {
-				const profile = await orderBook.api.getProfile({walletAddress: walletAddress});
+				const profile = await orderBook.api.getProfile({ walletAddress: walletAddress });
 				if (profile) {
 					setArProfile(profile);
 				}
