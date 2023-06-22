@@ -59,6 +59,7 @@ export default function Account() {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
+				walletAddress: arProvider.walletAddress
 			})
 		);
 	}, []);

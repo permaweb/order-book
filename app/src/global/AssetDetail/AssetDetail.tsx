@@ -64,10 +64,12 @@ export default function AssetDetail(props: IProps) {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
+				walletAddress: null
 			})
 		);
 	}, []);
 
+	// TODO: set assets in redux
 	React.useEffect(() => {
 		if (orderBook) {
 			(async function () {
@@ -90,7 +92,7 @@ export default function AssetDetail(props: IProps) {
 
 			let orderTx = await orderBook.buy({
 				assetId: asset.data.id,
-				spend: 1000,
+				spend: spend,
 			});
 
 			setLoading(false);
@@ -133,7 +135,7 @@ export default function AssetDetail(props: IProps) {
 					<S.C1Wrapper>
 						<S.C1>
 							<S.AssetWrapper>
-								<AssetData asset={asset} />
+								<AssetData asset={asset} frameMinHeight={550} autoLoad />
 							</S.AssetWrapper>
 						</S.C1>
 						<S.AssetInfoWrapper>

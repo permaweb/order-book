@@ -1,4 +1,4 @@
-import { getAssetsByIds } from '../gql';
+import { getGqlDataByIds } from '../gql';
 import {
 	ArweaveClientType,
 	AssetsResponseType,
@@ -19,7 +19,7 @@ export async function getAssetsByContract(args: { arClient: ArweaveClientType })
 		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
 		const assets = pairs.filter((pair: OrderBookPairType) => pair.orders.length > 0);
 
-		const gqlData: AssetsResponseType = await getAssetsByIds({
+		const gqlData: AssetsResponseType = await getGqlDataByIds({
 			ids: assets.map((asset: OrderBookPairType) => asset.pair[0]),
 			owner: null,
 			uploader: null,
@@ -41,7 +41,7 @@ export async function getAssetsByUser(args: { walletAddress: string, arClient: A
 		const assetIds = ((await result.json()) as UserBalancesType).balances.map((balance: BalanceType) => {
 			return balance.contract_tx_id
 		});
-		const gqlData: AssetsResponseType = await getAssetsByIds({
+		const gqlData: AssetsResponseType = await getGqlDataByIds({
 			ids: assetIds,
 			owner: null,
 			uploader: null,
@@ -53,6 +53,20 @@ export async function getAssetsByUser(args: { walletAddress: string, arClient: A
 		return getValidatedAssets(gqlData);
 	}
 	return [];
+}
+
+export async function getAssetsByIds(args: { assetIds: string[], arClient: ArweaveClientType }): Promise<AssetType[]> {
+	const gqlData: AssetsResponseType = await getGqlDataByIds({
+		ids: args.assetIds,
+		owner: null,
+		uploader: null,
+		cursor: null,
+		reduxCursor: null,
+		arClient: args.arClient
+	});
+
+	return getValidatedAssets(gqlData);
+
 }
 
 // TODO: validate topic
