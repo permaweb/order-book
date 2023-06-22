@@ -34,7 +34,7 @@ export type EnvType = {
 export type InitArgs = {
 	currency: 'U';
 	wallet: any;
-	walletAddress: string;
+	walletAddress: string | null;
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
