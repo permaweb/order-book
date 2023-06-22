@@ -61,9 +61,20 @@ export type WriteContractArgs = {
 	input: any;
 };
 
-export type ValidateArgs = {
+export type ValidateAssetArgs = {
 	asset: string;
 	assetState: any;
+	arClient: ArweaveClientType;
+};
+
+export type ValidateSellArgs = {
+	sellArgs: SellArgs;
+	assetState: any;
+	orderBookState: any;
+};
+
+export type ValidateBuyArgs = {
+	
 };
 
 export type TransactionFlowArgs = {
@@ -94,7 +105,6 @@ export type OrderBookType = {
 	init: (args: InitArgs) => OrderBookType;
 	sell: (args: SellArgs) => Promise<any>;
 	buy: (args: BuyArgs) => Promise<any>;
-	validateAsset: (args: ValidateArgs) => Promise<void>;
 	api: ApiClientType;
 };
 
