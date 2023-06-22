@@ -29,6 +29,7 @@ const client: OrderBookType = {
 				warp: args.warp
 			}),
 			wallet: args.wallet,
+			walletAddress: args.walletAddress
 		};
 
 		let api: ApiClientType = ApiClient.init({ arClient: this.env.arClient });
@@ -48,13 +49,14 @@ const client: OrderBookType = {
 		await validateAsset({ 
 			asset: args.assetId, 
 			assetState: assetState, 
-			arClient: this.env.arClient 
+			arClient: this.env.arClient
 		});
 
 		await validateSell({
 			sellArgs: args,
 			assetState,
-			orderBookState
+			orderBookState,
+			walletAddress: this.env.walletAddress
 		});
 
 		let pair = [args.assetId, env.currencyContract];
@@ -110,7 +112,10 @@ const client: OrderBookType = {
 		let orderBookState = await arClient.read(env.orderBookContract);
 
 		await validateBuy({
-
+			buyArgs: args,
+			assetState,
+			orderBookState,
+			walletAddress: this.env.walletAddress
 		});
 
 		let allowInput = {
