@@ -33,9 +33,10 @@ export const C1 = styled.div`
 export const AssetWrapper = styled.div`
 	height: ${C1_DIMENSION};
 	width: 100%;
-	background: ${(props) => props.theme.colors.container.alt3.background};
-	border-radius: ${STYLING.dimensions.borderRadius};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadius};
+	overflow: hidden;
 `;
 
 export const AssetInfoWrapper = styled.div`

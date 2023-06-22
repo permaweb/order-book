@@ -50,18 +50,11 @@ export const HSection1 = styled.div`
 export const AtomicAsset = styled.div`
 	min-width: 110px;
 	margin: 0 0 0 20px;
-	border: 1px solid green;
 `;
 
-export const Listing = styled.div`
-	// margin: 0 0 0 165px;
-	border: 1px solid blue;
-`;
+export const Listing = styled.div``;
 
-export const StampCount = styled.div`
-	// margin: 0 0 0 235px;
-	border: 1px solid red;
-`;
+export const StampCount = styled.div``;
 
 export const HSection2 = styled(HSection1)`
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
@@ -85,7 +78,7 @@ export const PCWrapper = styled.div`
 	width: 100%;
 	animation: ${open} ${fadeIn2};
 	position: relative;
-	background: ${(props) => props.theme.colors.container.alt2.background};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	display: flex;
@@ -108,7 +101,7 @@ export const PCWrapper = styled.div`
 	&:hover {
 		cursor: pointer;
 		text-decoration: none !important;
-		background: ${(props) => props.theme.colors.container.alt1.background};
+		background: ${(props) => props.theme.colors.container.alt2.background};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		height: auto;
@@ -153,7 +146,6 @@ export const SCValue = styled.div`
 `;
 
 export const NoAssetsContainer = styled.div`
-	margin: 12.5px 15px;
 	height: fit-content;
 	p {
 		color: ${(props) => props.theme.colors.warning};

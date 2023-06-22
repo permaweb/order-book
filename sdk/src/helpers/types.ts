@@ -53,7 +53,8 @@ export type ApiClientType = {
 	init: (args: ApiClientInitArgs) => ApiClientType;
 	getAssetsByContract: () => Promise<AssetType[]>;
 	getAssetsByUser: (args: GetAssetsByUserArgs) => Promise<AssetType[]>;
-	getProfile: (args: {walletAddress: string}) => Promise<ProfileType>;
+	getAssetsByIds: (args: { assetIds: string[] }) => Promise<AssetType[]>;
+	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 }
 
 export type WriteContractArgs = {

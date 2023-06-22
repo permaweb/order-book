@@ -26,3 +26,8 @@ export type AssetRenderType = {
 	type: RenderType;
 	contentType: ContentType;
 };
+
+export type ReduxActionType = {
+	type: string;
+	payload: any;
+};

@@ -6,7 +6,7 @@ import {
 	ProfileType
 } from "../../helpers";
 
-import { getAssetsByContract, getAssetsByUser, getProfile } from "../../api";
+import { getAssetsByContract, getAssetsByIds, getAssetsByUser, getProfile } from "../../api";
 
 const apiClient: ApiClientType = {
 	arClient: null,
@@ -25,6 +25,13 @@ const apiClient: ApiClientType = {
 	getAssetsByUser: async function (args: GetAssetsByUserArgs): Promise<AssetType[]> {
 		return await getAssetsByUser({
 			walletAddress: args.walletAddress,
+			arClient: this.arClient
+		});
+	},
+
+	getAssetsByIds: async function (args: {assetIds: string[]}): Promise<AssetType[]> {
+		return await getAssetsByIds({
+			assetIds: args.assetIds,
 			arClient: this.arClient
 		});
 	},

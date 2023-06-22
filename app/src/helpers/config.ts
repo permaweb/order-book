@@ -15,6 +15,7 @@ import ordersSVG from 'assets/orders.svg';
 import overviewSVG from 'assets/overview.svg';
 import ownersSVG from 'assets/owners.svg';
 import provenanceSVG from 'assets/provenance.svg';
+import rendererSVG from 'assets/renderer.svg';
 import sellSVG from 'assets/sell.svg';
 import stampsSVG from 'assets/stamps.svg';
 import uSVG from 'assets/u.svg';
@@ -35,6 +36,7 @@ export const ASSETS = {
 	overview: overviewSVG,
 	owners: ownersSVG,
 	provenance: provenanceSVG,
+	renderer: rendererSVG,
 	sell: sellSVG,
 	stamps: stampsSVG,
 	u: uSVG,
@@ -48,6 +50,7 @@ export const DOM = {
 	loader: 'loader',
 	modal: 'modal',
 	notification: 'notification',
+	renderer: 'renderer'
 };
 
 export const CURRENCY_ICONS = {
@@ -58,7 +61,7 @@ export const AR_WALLETS = [{ name: 'arconnect', logo: ASSETS.wallets.arconnect }
 
 export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH'];
 
-export const FEATURE_COUNT = 4;
+export const FEATURE_COUNT = 3;
 
 export const PAGINATOR = 100;
 

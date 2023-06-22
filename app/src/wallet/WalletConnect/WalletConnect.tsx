@@ -75,7 +75,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	return (
 		<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>
 			<S.Wrapper>
-				<Button type={'primary'} label={getWalletLabel()} handlePress={handlePress} width={160} useMaxWidth />
+				<Button type={'alt2'} label={getWalletLabel()} handlePress={handlePress} width={160} useMaxWidth />
 				{showDropdown && (
 					<S.WalletDropdown>
 						<li onClick={handleViewAccount}>{language.account}</li>
