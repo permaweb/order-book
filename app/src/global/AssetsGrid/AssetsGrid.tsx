@@ -81,20 +81,14 @@ function AssetTile(props: { asset: AssetType; index: number }) {
 	};
 
 	// TODO: get ownership chart
-	// TODO: get renderer icon if renderer
 	return (
 		<S.PICWrapper>
 			<S.HCWrapper>
 				<ReactSVG src={TEMP_FRACTION_SVG} />
-
-				<S.RendererSVG>
-					<ReactSVG src={ASSETS.renderer} />
-				</S.RendererSVG>
-
 				<StampWidget assetId={props.asset.data.id} />
 			</S.HCWrapper>
 			<S.PCWrapper>
-				<AssetData asset={props.asset} frameMinHeight={350} />
+				<AssetData asset={props.asset} />
 			</S.PCWrapper>
 			<S.ICWrapper>
 				<S.ICFlex>
@@ -152,15 +146,11 @@ export default function AssetsGrid(props: IProps) {
 			const keys = Array.from({ length: FEATURE_COUNT }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
-					<S.HCLoader key={`hc_${element}`}>
-						<Loader placeholder />
-					</S.HCLoader>
+					<S.HCWrapper key={`hc_${element}`} />
 					<S.PCWrapper key={`pc_${element}`}>
 						<Loader placeholder />
 					</S.PCWrapper>
-					<S.ICLoader key={`ic_${element}`}>
-						<Loader placeholder />
-					</S.ICLoader>
+					<S.ICWrapper key={`ic_${element}`} />
 				</S.PICWrapper>
 			));
 			return <>{elements}</>;
