@@ -64,6 +64,7 @@ export default function AssetDetail(props: IProps) {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
+				walletAddress: null
 			})
 		);
 	}, []);

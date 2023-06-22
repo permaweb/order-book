@@ -54,6 +54,7 @@ export default function ReduxAssetsUpdate(props: { children: React.ReactNode }) 
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
+				walletAddress: null
 			})
 		);
 	}, []);
