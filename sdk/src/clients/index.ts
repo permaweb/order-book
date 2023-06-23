@@ -56,8 +56,8 @@ const client: OrderBookType = {
 			sellArgs: args,
 			assetState,
 			orderBookState,
-			wallet: this.env.wallet,
-			walletAddress: this.env.walletAddress
+			wallet: env.wallet,
+			walletAddress: env.walletAddress
 		});
 
 		let pair = [args.assetId, env.currencyContract];
@@ -117,7 +117,8 @@ const client: OrderBookType = {
 			assetState,
 			orderBookState,
 			wallet: this.env.wallet,
-			walletAddress: this.env.walletAddress
+			walletAddress: this.env.walletAddress,
+			currencyContract: env.currencyContract
 		});
 
 		let allowInput = {
