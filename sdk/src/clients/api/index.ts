@@ -11,9 +11,11 @@ import { getAssetsByContract, getAssetIdsByContract, getAssetById, getAssetsById
 
 const apiClient: ApiClientType = {
 	arClient: null,
+	orderBookContract: null,
 
 	init: function (args: ApiClientInitArgs) {
 		this.arClient = args.arClient;
+		this.orderBookContract = args.orderBookContract;
 		return this;
 	},
 
@@ -34,7 +36,7 @@ const apiClient: ApiClientType = {
 	},
 
 	getAssetById: async function (args: { id: string }): Promise<AssetDetailType> {
-		return await getAssetById({ ...args, arClient: this.arClient });
+		return await getAssetById({ ...args, arClient: this.arClient, orderBookContract: this.orderBookContract });
 	},
 
 	getProfile: async function (args: { walletAddress: string }): Promise<ProfileType> {

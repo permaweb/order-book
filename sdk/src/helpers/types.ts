@@ -13,6 +13,7 @@ export type AssetType = {
 
 export type AssetDetailType = AssetType & {
 	state: any;
+	orders: any;
 };
 
 export type SellArgs = {
@@ -48,6 +49,7 @@ export type InitArgs = {
 
 export type ApiClientInitArgs = {
 	arClient: ArweaveClientType;
+	orderBookContract: string;
 }
 
 export type AssetArgsType = {
@@ -65,6 +67,7 @@ export type AssetArgsClientType = AssetArgsType & {
 
 export type ApiClientType = {
 	arClient: ArweaveClientType;
+	orderBookContract: string;
 	init: (args: ApiClientInitArgs) => ApiClientType;
 	getAssetsByContract: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetIdsByContract: () => Promise<string[]>;

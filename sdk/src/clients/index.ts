@@ -32,7 +32,11 @@ const client: OrderBookType = {
 			walletAddress: args.walletAddress
 		};
 
-		let api: ApiClientType = ApiClient.init({ arClient: this.env.arClient });
+		let api: ApiClientType = ApiClient.init({ 
+			arClient: this.env.arClient, 
+			orderBookContract: ORDERBOOK_CONTRACT 
+		});
+		
 		this.api = api;
 
 		return this;
