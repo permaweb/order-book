@@ -16,7 +16,6 @@ export const CURSORS = {
 };
 
 export const SEARCH = {
-	cursorPrefix: 'searchCursor',
 	idTerm: '`*',
 	ownerTerm: '`%',
 };

@@ -48,7 +48,7 @@ export default function AssetData(props: IProps) {
 			}
 		})();
 	}, [props.asset]);
-	
+
 	function getData() {
 		if (assetRender) {
 			switch (assetRender.type) {

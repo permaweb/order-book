@@ -10,7 +10,7 @@ import { GlobalStyle } from 'app/styles';
 import { Loader } from 'components/atoms/Loader';
 import { defaultTheme } from 'helpers/themes';
 import { ArweaveProvider } from 'providers/ArweaveProvider';
-import { persistor, store } from 'state/store';
+import { persistor, store } from 'store';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<Provider store={store}>

@@ -1,24 +1,30 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { AssetType } from 'permaweb-orderbook';
+import { AssetType, CursorEnum, PAGINATOR } from 'permaweb-orderbook';
 
+import { Loader } from 'components/atoms/Loader';
 import { AssetsGrid } from 'global/AssetsGrid';
-import { AssetsList } from 'global/AssetsList';
+import { AssetsTable } from 'global/AssetsTable';
 import { FEATURE_COUNT } from 'helpers/config';
-import { ReduxAssetsUpdate } from 'state/assets/ReduxAssetsUpdate';
-import { RootState } from 'state/store';
+import { REDUX_TABLES } from 'helpers/redux';
+import { RootState } from 'store';
+import { ReduxAssetsUpdate } from 'store/assets/ReduxAssetsUpdate';
 
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 	const [featuredAssets, setFeaturedAssets] = React.useState<AssetType[] | null>(null);
-	const [remainingAssets, setRemainingAssets] = React.useState<AssetType[] | null>(null);
+	const [tableAssets, setTableAssets] = React.useState<AssetType[] | null>(null);
+
+	const [loading, setLoading] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		if (assetsReducer.data) {
+			setLoading(true);
 			setAssets(assetsReducer.data);
+			setLoading(false);
 		}
 	}, [assetsReducer.data]);
 
@@ -27,13 +33,28 @@ export default function Landing() {
 		if (assets) {
 			if (assets.length >= FEATURE_COUNT) {
 				setFeaturedAssets(assets.slice(0, FEATURE_COUNT));
-				setRemainingAssets(assets.slice(FEATURE_COUNT));
+				setTableAssets(assets.slice(FEATURE_COUNT));
 			} else {
 				setFeaturedAssets(assets);
-				setRemainingAssets([]);
+				setTableAssets([]);
 			}
 		}
 	}, [assets]);
+
+	function getAssets() {
+		if (assets) {
+			return (
+				<>
+					{getFeaturedAssets()}
+					{getAssetsTable()}
+				</>
+			);
+		} else {
+			if (loading) {
+				return <Loader />;
+			} else return null;
+		}
+	}
 
 	function getFeaturedAssets() {
 		if (featuredAssets) {
@@ -44,19 +65,36 @@ export default function Landing() {
 					</div>
 				</div>
 			);
+		} else {
+			return null;
 		}
 	}
 
-	function getRemainingAssets() {
-		if (remainingAssets) {
-			return <AssetsList assets={remainingAssets} />;
+	// TODO: assets={tableAssets}
+	function getAssetsTable() {
+		if (tableAssets) {
+			return (
+				<AssetsTable
+					assets={assets}
+					cursors={{
+						next: null,
+						previous: null,
+					}}
+					handleCursorFetch={(cursor: string | null) => console.log(cursor)}
+					recordsPerPage={PAGINATOR}
+					showPageNumbers={false}
+					tableType={'list'}
+					showNoResults={true}
+				/>
+			);
+		} else {
+			return null;
 		}
 	}
 
 	return (
-		<ReduxAssetsUpdate>
-			{getFeaturedAssets()}
-			{getRemainingAssets()}
+		<ReduxAssetsUpdate reduxCursor={REDUX_TABLES.contractAssets} cursorObject={CursorEnum.idGQL}>
+			{getAssets()}
 		</ReduxAssetsUpdate>
 	);
 }

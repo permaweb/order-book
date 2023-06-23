@@ -2,12 +2,14 @@ import React from 'react';
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
-import { AssetType, OrderBook, OrderBookType } from 'permaweb-orderbook';
+import { AssetType, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
 
+import { Loader } from 'components/atoms/Loader';
+import { AssetsTable } from 'global/AssetsTable';
+import { language } from 'helpers/language';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { WalletBlock } from 'wallet/WalletBlock';
 
-import { AccountDetail } from './AccountDetail';
 import { AccountHeader } from './AccountHeader';
 
 // TODO: orderbook provider
@@ -15,9 +17,9 @@ export default function Account() {
 	const arProvider = useArweaveProvider();
 
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
-	const [showWalletBlock, setShowWalletBlock] = React.useState<boolean>(false);
 
 	const [loading, setLoading] = React.useState<boolean>(false);
+	const [showWalletBlock, setShowWalletBlock] = React.useState<boolean>(false);
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
@@ -58,7 +60,7 @@ export default function Account() {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
-				walletAddress: arProvider.walletAddress
+				walletAddress: arProvider.walletAddress,
 			})
 		);
 	}, []);
@@ -81,10 +83,34 @@ export default function Account() {
 		})();
 	}, [arProvider.walletAddress, orderBook]);
 
+	function getAssetsTable() {
+		if (assets) {
+			return (
+				<AssetsTable
+					assets={assets}
+					cursors={{
+						next: null,
+						previous: null,
+					}}
+					handleCursorFetch={(cursor: string | null) => console.log(cursor)}
+					header={language.myAssets}
+					recordsPerPage={PAGINATOR}
+					showPageNumbers={false}
+					tableType={'grid'}
+					showNoResults={true}
+				/>
+			);
+		} else {
+			if (loading) {
+				return <Loader />;
+			} else return null;
+		}
+	}
+
 	return arProvider.walletAddress ? (
 		<>
 			<AccountHeader />
-			<AccountDetail assets={assets} />
+			{getAssetsTable()}
 		</>
 	) : (
 		showWalletBlock && <WalletBlock />

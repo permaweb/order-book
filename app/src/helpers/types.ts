@@ -31,3 +31,17 @@ export type ReduxActionType = {
 	type: string;
 	payload: any;
 };
+
+export type CursorType = {
+	next: string | null;
+	previous: string | null;
+};
+
+export type AssetTableType = 'grid' | 'list';
+
+export type ValidationType = {
+	status: boolean;
+	message: string | null;
+};
+
+export type FormFieldType = 'number' | 'password';

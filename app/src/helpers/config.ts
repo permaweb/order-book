@@ -3,12 +3,15 @@ import { CURRENCY_DICT } from 'permaweb-orderbook';
 import arLogoSVG from 'assets/ar-logo.svg';
 import arconnectWalletPNG from 'assets/arconnect-wallet-logo.png';
 import arrowDownSVG from 'assets/arrow-down.svg';
+import arrowNextSVG from 'assets/arrow-next.svg';
+import arrowPreviousSVG from 'assets/arrow-previous.svg';
 import arrowUpSVG from 'assets/arrow-up.svg';
 import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
 import copySVG from 'assets/copy.svg';
 import detailsSVG from 'assets/details.svg';
+import infoSVG from 'assets/info.svg';
 import logoSVG from 'assets/logo.svg';
 import menuSVG from 'assets/menu.svg';
 import ordersSVG from 'assets/orders.svg';
@@ -24,12 +27,15 @@ import userSVG from 'assets/user.svg';
 export const ASSETS = {
 	arLogo: arLogoSVG,
 	arrowDown: arrowDownSVG,
+	arrowNext: arrowNextSVG,
+	arrowPrevious: arrowPreviousSVG,
 	arrowUp: arrowUpSVG,
 	buy: buySVG,
 	checkmark: checkmarkSVG,
 	close: closeSVG,
 	copy: copySVG,
 	details: detailsSVG,
+	info: infoSVG,
 	logo: logoSVG,
 	menu: menuSVG,
 	orders: ordersSVG,
@@ -50,12 +56,12 @@ export const DOM = {
 	loader: 'loader',
 	modal: 'modal',
 	notification: 'notification',
-	renderer: 'renderer'
+	renderer: 'renderer',
 };
 
 export const CURRENCY_ICONS = {
-	[CURRENCY_DICT.U]: ASSETS.u
-}
+	[CURRENCY_DICT.U]: ASSETS.u,
+};
 
 export const AR_WALLETS = [{ name: 'arconnect', logo: ASSETS.wallets.arconnect }];
 
@@ -70,5 +76,5 @@ export const STORAGE = {
 };
 
 export const REDIRECTS = {
-	arProfile: `https://arprofile.arweave.dev/`
-}
+	arProfile: `https://arprofile.arweave.dev/`,
+};
