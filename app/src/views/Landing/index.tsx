@@ -45,7 +45,7 @@ export default function Landing() {
 		if (assets) {
 			return (
 				<>
-					{/* {getFeaturedAssets()} */}
+					{getFeaturedAssets()}
 					{getAssetsTable()}
 				</>
 			);
