@@ -73,7 +73,7 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 function containsSubstring(string: string, substrings: string[]): boolean {
 	for (let i = 0; i < substrings.length; i++) {
 	  const substring: string = substrings[i];
-	  if (string.includes(substring)) {
+	  if (string && string.includes(substring)) {
 		return true;
 	  }
 	}
@@ -94,9 +94,11 @@ export async function getAssetIdsByContract(args: { arClient: any }): Promise<st
 export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
-		let balances = ((await result.json()) as UserBalancesType).balances.filter((a: any) => {
-			return containsSubstring(a.token_name, ['Single owner', 'Multiple owner']); 
-		});
+		// let balances = ((await result.json()) as UserBalancesType).balances.filter((a: any) => {
+		// 	return containsSubstring(a.token_name, ['Single owner', 'Multiple owner']); 
+		// });
+		let balances = ((await result.json()) as UserBalancesType).balances;
+		
 		let assetIds = balances.map((balance: BalanceType) => {
 			return balance.contract_tx_id
 		});
@@ -131,7 +133,7 @@ export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetTy
 
 }
 
-export async function getAssetById(args: { id: string, arClient: any }): Promise<AssetDetailType> {
+export async function getAssetById(args: { id: string, arClient: any, orderBookContract: string }): Promise<AssetDetailType> {
 	const asset = (await getAssetsByIds({
 		ids: [args.id],
 		owner: null,
@@ -144,8 +146,15 @@ export async function getAssetById(args: { id: string, arClient: any }): Promise
 
 	if (asset) {
 		const state = (await args.arClient.read(args.id));
-	
-		return ({ ...asset, state: state });
+		let orders = [];
+		let orderBookState = await args.arClient.read(args.orderBookContract);
+		let pair = orderBookState.pairs.find((p: any) => {
+			return p.pair[0] === args.id;
+		});
+		if(pair) {
+			orders = pair.orders;
+		}
+		return ({ ...asset, state: state, orders: orders });
 	}
 	else {
 		return null;

@@ -1,4 +1,8 @@
 import React from 'react';
+import Arweave from 'arweave';
+import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
+
+import { AssetType, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
@@ -12,6 +16,7 @@ import { IProps } from './types';
 
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
+	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
 	const [showModal, setShowModal] = React.useState<boolean>(false);
 
@@ -19,6 +24,50 @@ export default function AssetSell(props: IProps) {
 	const [quantity, setQuantity] = React.useState<number>(0);
 
 	const [loading, setLoading] = React.useState<boolean>(false);
+
+	React.useEffect(() => {
+		if(arProvider.walletAddress){
+			const GET_ENDPOINT = 'arweave-search.goldsky.com';
+			const POST_ENDPOINT = 'arweave.net';
+	
+			const PORT = 443;
+			const PROTOCOL = 'https';
+			const TIMEOUT = 40000;
+			const LOGGING = false;
+	
+			let arweaveGet = Arweave.init({
+				host: GET_ENDPOINT,
+				port: PORT,
+				protocol: PROTOCOL,
+				timeout: TIMEOUT,
+				logging: LOGGING,
+			});
+	
+			let arweavePost = Arweave.init({
+				host: POST_ENDPOINT,
+				port: PORT,
+				protocol: PROTOCOL,
+				timeout: TIMEOUT,
+				logging: LOGGING,
+			});
+	
+			let warp = WarpFactory.forMainnet({
+				...defaultCacheOptions,
+				inMemory: true,
+			});
+	
+			setOrderBook(
+				OrderBook.init({
+					currency: 'U',
+					wallet: 'use_wallet',
+					arweaveGet: arweaveGet,
+					arweavePost: arweavePost,
+					warp: warp,
+					walletAddress: arProvider.walletAddress,
+				})
+			);
+		}
+	}, [arProvider.walletAddress]);
 
 	// TODO: validation
 	function getInvalidUnitPrice() {
@@ -36,10 +85,16 @@ export default function AssetSell(props: IProps) {
 		};
 	}
 
-	function handleSell(e: any) {
+	async function handleSell(e: any) {
 		e.preventDefault();
 		console.log(`Quantity: ${quantity}`);
 		console.log(`Unit Price: ${unitPrice}`);
+
+		await orderBook?.sell({
+			assetId: props.asset.data.id,
+			qty: quantity,
+			price: unitPrice
+		});
 	}
 
 	function getFields() {
@@ -77,7 +132,7 @@ export default function AssetSell(props: IProps) {
 				<Modal header={language.sellAsset} handleClose={() => setShowModal(false)}>
 					<S.ModalWrapper>
 						<S.Title>{props.asset.data.title}</S.Title>
-						<S.Form onSubmit={(e) => handleSell(e)}>
+						<S.Form onSubmit={async (e) => await handleSell(e)}>
 							<S.FormWrapper>{getFields()}</S.FormWrapper>
 							<S.SubmitWrapper>
 								<Button

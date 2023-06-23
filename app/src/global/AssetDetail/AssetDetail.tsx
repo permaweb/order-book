@@ -108,7 +108,6 @@ export default function AssetDetail(props: IProps) {
 			});
 
 			setLoading(false);
-			console.log(orderTx);
 		}
 	}
 
@@ -132,7 +131,7 @@ export default function AssetDetail(props: IProps) {
 									key={index}
 									type={'alt1'}
 									label={`${language.buyNow} (Price: ${order.price} Qty: ${order.quantity})`}
-									handlePress={() => buyAsset(order.price)}
+									handlePress={() => buyAsset(order.price * order.quantity)}
 									height={50}
 									width={275}
 								/>
