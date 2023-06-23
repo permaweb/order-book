@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from 'components/atoms/Button';
 import { language } from 'helpers/language';
+import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { CloseHandler } from 'wrappers/CloseHandler';
@@ -9,6 +11,8 @@ import { CloseHandler } from 'wrappers/CloseHandler';
 import * as S from './styles';
 
 export default function WalletConnect(props: { callback?: () => void }) {
+	const navigate = useNavigate();
+
 	const arProvider = useArweaveProvider();
 
 	const [showWallet, setShowWallet] = React.useState<boolean>(false);
@@ -39,6 +43,14 @@ export default function WalletConnect(props: { callback?: () => void }) {
 		}
 	}, [arProvider.walletAddress]);
 
+	function handleViewAccount() {
+		navigate(urls.account);
+		setShowDropdown(false);
+		if (props.callback) {
+			props.callback();
+		}
+	}
+
 	function handleDisconnect() {
 		arProvider.handleDisconnect();
 		setShowDropdown(false);
@@ -63,9 +75,10 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	return (
 		<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>
 			<S.Wrapper>
-				<Button type={'alt1'} label={getWalletLabel()} handlePress={handlePress} width={160} useMaxWidth />
+				<Button type={'primary'} label={getWalletLabel()} handlePress={handlePress} width={160} useMaxWidth />
 				{showDropdown && (
 					<S.WalletDropdown>
+						<li onClick={handleViewAccount}>{language.account}</li>
 						<li onClick={copyAddress}>{copied ? language.copied : language.copyAddress}</li>
 						<li onClick={handleDisconnect}>{language.disconnect}</li>
 					</S.WalletDropdown>

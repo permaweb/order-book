@@ -2,28 +2,28 @@ import { DefaultTheme } from 'styled-components';
 
 const DEFAULT = {
 	neutral1: '#FFFFFF',
-	neutral2: '#F2F3F4',
-	neutral3: '#F0F0F0',
+	neutral2: '#F8F7F7',
+	neutral3: '#FCFAFA',
 	neutral4: '#3A3A3A',
 	neutral5: '#D0D7DE',
-	neutral6: '#D9D9D9',
-	neutral7: '#777777',
-	neutral8: '#717171',
-	neutral9: '#F6F8FA',
-	neutral10: '#BABABA',
-	neutral11: '#000000',
+	neutral6: '#FFDECF',
+	neutral7: '#757582',
+	neutral8: '#757582',
+	neutral9: '#FCFAFA',
+	neutral10: '#757582',
+	neutral11: '#757582',
 	neutral12: '#FAFAFA',
 	neutral13: '#F7F7F7',
 	neutral14: '#FFFFFF',
-	neutral15: '#536471',
-	neutral16: '#F0F9FE',
-	primary: '#000000',
-	primary2: '#000000',
-	primary3: '#000000',
-	primary4: '#000000',
-	primary5: '#000000',
-	alt1: '#666666',
-	alt2: '#666666',
+	neutral15: '#757582',
+	neutral16: '#FFF9F6',
+	primary: '#444C62',
+	primary2: '#3B4154',
+	primary3: '#333848',
+	primary4: '#2A2E3C',
+	primary5: '#212530',
+	alt1: '#FF7A41',
+	alt2: '#FF621F',
 	overlay1: 'rgba(255, 255, 255, 0.75)',
 	negative: '#D24646',
 	negativeHover: '#F26969',
@@ -32,17 +32,18 @@ const DEFAULT = {
 	positiveHover: '#37FB72',
 	neutral: '#FFB600',
 	transparent: 'rgba(255, 255, 255, 0)',
-	semiTransparent: 'rgba(255, 255, 255, 0.5)',
+	semiTransparent1: 'rgba(255, 255, 255, 0.65)',
+	semiTransparent2: 'rgba(255, 255, 255, 0.1)',
+	semiTransparent3: 'rgba(255, 255, 255, 0.3)',
 	backdropShadow1: '#c4c4c4b0',
 	backdropShadow2: '#dadadaba',
 };
-
 export const defaultTheme: DefaultTheme = {
 	scheme: 'light',
 	colors: {
 		accordion: {
 			background: DEFAULT.neutral1,
-			hover: DEFAULT.neutral9,
+			hover: DEFAULT.neutral12,
 			color: DEFAULT.neutral4,
 		},
 		border: {
@@ -53,10 +54,10 @@ export const defaultTheme: DefaultTheme = {
 		},
 		button: {
 			primary: {
-				background: DEFAULT.neutral1,
+				background: DEFAULT.primary,
 				border: DEFAULT.primary,
-				hover: DEFAULT.neutral9,
-				label: DEFAULT.primary,
+				hover: DEFAULT.primary2,
+				label: DEFAULT.neutral1,
 				active: {
 					background: DEFAULT.primary,
 					hover: DEFAULT.primary2,
@@ -69,13 +70,13 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt1: {
-				background: DEFAULT.primary,
+				background: DEFAULT.alt1,
 				border: DEFAULT.transparent,
-				hover: DEFAULT.primary3,
+				hover: DEFAULT.alt2,
 				label: DEFAULT.neutral1,
 				active: {
-					background: DEFAULT.neutral1,
-					hover: DEFAULT.neutral9,
+					background: DEFAULT.alt2,
+					hover: DEFAULT.alt1,
 					label: DEFAULT.primary,
 				},
 				disabled: {
@@ -121,14 +122,16 @@ export const defaultTheme: DefaultTheme = {
 		},
 		container: {
 			primary: {
-				background: DEFAULT.neutral1,
+				background1: DEFAULT.neutral1,
+				background2: DEFAULT.neutral6,
+				background3: DEFAULT.primary,
 				hover: DEFAULT.neutral9,
 			},
 			alt1: {
-				background: DEFAULT.primary,
+				background: DEFAULT.neutral2,
 			},
 			alt2: {
-				background: DEFAULT.neutral7,
+				background: DEFAULT.neutral3,
 			},
 			alt3: {
 				background: DEFAULT.neutral9,
@@ -230,7 +233,8 @@ export const defaultTheme: DefaultTheme = {
 				background: DEFAULT.neutral1,
 			},
 			header: {
-				background: DEFAULT.neutral1,
+				background: DEFAULT.primary,
+				backgroundNav: DEFAULT.semiTransparent2,
 				logoFill: DEFAULT.neutral11,
 			},
 		},
@@ -269,7 +273,7 @@ export const defaultTheme: DefaultTheme = {
 			placeholder: {
 				background: DEFAULT.neutral9,
 				backgroundStart: DEFAULT.transparent,
-				backgroundSlide: DEFAULT.semiTransparent,
+				backgroundSlide: DEFAULT.semiTransparent1,
 				backgroundEnd: DEFAULT.transparent,
 			},
 			row: {
@@ -295,12 +299,12 @@ export const defaultTheme: DefaultTheme = {
 	},
 	typography: {
 		family: {
-			primary: `'DM Sans', sans-serif`,
-			alt1: `'Space Grotesk', sans-serif;`,
+			primary: `'Inter', sans-serif`,
+			alt1: `'Orbitron', sans-serif;`,
 		},
 		size: {
-			h1: '48px',
-			h2: '24px',
+			h1: 'clamp(38px, 4.5vw, 62px)',
+			h2: 'clamp(26px,3.15vw,38px)',
 			lg: '18px',
 			base: '16px',
 			small: '15px',
@@ -310,7 +314,7 @@ export const defaultTheme: DefaultTheme = {
 		weight: {
 			regular: '400',
 			medium: '500',
-			bold: '700',
+			bold: '600',
 		},
 	},
 };

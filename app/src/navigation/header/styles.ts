@@ -6,19 +6,31 @@ import { STYLING } from 'helpers/styling';
 export const Wrapper = styled.header`
 	height: ${STYLING.dimensions.navHeight};
 	width: 100%;
-	position: fixed;
+	position: relative;
 	top: 0;
 	z-index: 5;
 	background: ${(props) => props.theme.colors.navigation.header.background};
-	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+`;
+
+export const NavWrapper = styled.div`
+	height: calc(100% - 45px);
+	width: 100%;
+	max-width: ${STYLING.cutoffs.max};
+	padding: 0 20px;
+	display: flex;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin: auto;
 `;
 
 export const NavContainer = styled.div`
 	height: 100%;
-	max-width: ${STYLING.cutoffs.max};
-	display: flex;
+	width: 100%;
 	position: relative;
-	margin: 0 auto;
+	background: ${(props) => props.theme.colors.navigation.header.backgroundNav};
+	border-radius: ${STYLING.dimensions.borderRadius};
 `;
 
 export const NavPaths = styled.div`
@@ -77,7 +89,6 @@ export const LogoContainer = styled.div`
 		}
 	}
 	@media (max-width: ${STYLING.cutoffs.initial}) {
-		position: relative;
 		left: auto;
 		width: auto;
 	}
@@ -92,10 +103,7 @@ export const LogoContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
-	padding: 5px 0;
-	svg {
-		fill: ${(props) => props.theme.colors.navigation.header.logoFill};
-	}
+	padding: 7.5px 0 0 0;
 `;
 
 export const NC = styled.div`
@@ -160,7 +168,7 @@ export const OpenContainer = styled.div`
 	z-index: 4;
 	padding: 0 20px;
 	margin: ${STYLING.dimensions.navHeight} 0 0 0;
-	background: ${(props) => props.theme.colors.container.primary.background};
+	background: ${(props) => props.theme.colors.navigation.header.background};
 	animation: ${open} ${fadeIn1};
 `;
 

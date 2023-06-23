@@ -8,7 +8,6 @@ export const Wrapper = styled.footer`
 	position: relative;
 	z-index: 2;
 	background: ${(props) => props.theme.colors.navigation.footer.background};
-	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
 `;
 
 export const Container = styled.div`

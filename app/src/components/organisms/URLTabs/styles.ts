@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
 
 export const ListHeader = styled.div`
 	width: 100%;
-	background: ${(props) => props.theme.colors.container.primary.background};
+	background: ${(props) => props.theme.colors.container.primary.background1};
 	padding: 20px;
 	border-top-left-radius: ${STYLING.dimensions.borderRadius};
 	border-top-right-radius: ${STYLING.dimensions.borderRadius};

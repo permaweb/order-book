@@ -56,7 +56,7 @@ export const Input = styled.input<{
 	color: ${(props) => (props.disabled ? props.theme.colors.form.disabled.label : props.theme.colors.font.primary.alt1)};
 	font-size: ${(props) => (props.sm ? props.theme.typography.size.small : '24px')};
 	font-weight: ${(props) => props.theme.typography.weight.medium};
-	font-family: ${(props) => props.theme.typography.family.alt1};
+	font-family: ${(props) => props.theme.typography.family.primary};
 	margin: 0;
 	border-bottom-left-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	border-bottom-right-radius: ${STYLING.dimensions.borderRadiusWrapper};

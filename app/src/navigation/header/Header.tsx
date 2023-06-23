@@ -71,7 +71,6 @@ export default function Header() {
 							</S.Menu>
 						</S.MenuContainer>
 					</S.NCMobile>
-					{open && <S.OpenContainer>{navList()}</S.OpenContainer>}
 				</>
 			);
 		}
@@ -79,16 +78,19 @@ export default function Header() {
 
 	return (
 		<S.Wrapper>
-			<S.NavContainer>
-				<S.LogoContainer>
-					<Link to={urls.base} onClick={() => setOpen(false)}>
-						<S.LogoContent>
-							<ReactSVG src={ASSETS.logo} />
-						</S.LogoContent>
-					</Link>
-				</S.LogoContainer>
-				{getNav()}
-			</S.NavContainer>
+			<S.NavWrapper>
+				<S.NavContainer>
+					<S.LogoContainer>
+						<Link to={urls.base} onClick={() => setOpen(false)}>
+							<S.LogoContent>
+								<ReactSVG src={ASSETS.logo} />
+							</S.LogoContent>
+						</Link>
+					</S.LogoContainer>
+					{getNav()}
+				</S.NavContainer>
+			</S.NavWrapper>
+			{!desktop && open && <S.OpenContainer>{navList()}</S.OpenContainer>}
 		</S.Wrapper>
 	);
 }
