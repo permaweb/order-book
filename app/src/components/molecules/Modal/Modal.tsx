@@ -35,39 +35,28 @@ export default function Modal(props: IProps) {
 	}, [escFunction]);
 
 	function getBody() {
-		if (props.noContainer) {
-			return (
-				<>
-					<S.BodyAlt>{props.children}</S.BodyAlt>
-					<S.CloseTextContainerAlt>
-						<S.CloseButtonContainer onClick={() => props.handleClose()}>{language.close}</S.CloseButtonContainer>
-					</S.CloseTextContainerAlt>
-				</>
-			);
-		} else {
-			return (
-				<>
-					<S.Container noHeader={!props.header} useMax={props.useMax}>
-						{props.header && (
-							<S.Header>
-								<S.LT>
-									<S.Title>{props.header}</S.Title>
-								</S.LT>
-								<S.Close>
-									<IconButton type={'primary'} sm warning src={ASSETS.close} handlePress={() => props.handleClose()} />
-								</S.Close>
-							</S.Header>
-						)}
-						<S.Body>{props.children}</S.Body>
-					</S.Container>
-					{!props.header && (
-						<S.CloseTextContainer useMax={props.useMax}>
-							<S.CloseButtonContainer onClick={() => props.handleClose()}>{language.close}</S.CloseButtonContainer>
-						</S.CloseTextContainer>
+		return (
+			<>
+				<S.Container noHeader={!props.header} useMax={props.useMax}>
+					{props.header && (
+						<S.Header>
+							<S.LT>
+								<S.Title>{props.header}</S.Title>
+							</S.LT>
+							<S.Close>
+								<IconButton type={'primary'} sm warning src={ASSETS.close} handlePress={() => props.handleClose()} />
+							</S.Close>
+						</S.Header>
 					)}
-				</>
-			);
-		}
+					<S.Body>{props.children}</S.Body>
+				</S.Container>
+				{!props.header && (
+					<S.CloseTextContainer useMax={props.useMax}>
+						<S.CloseButtonContainer onClick={() => props.handleClose()}>{language.close}</S.CloseButtonContainer>
+					</S.CloseTextContainer>
+				)}
+			</>
+		);
 	}
 
 	return (

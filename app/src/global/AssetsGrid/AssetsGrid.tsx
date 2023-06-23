@@ -17,7 +17,6 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: add title
 // TODO: add orders list
 function AssetTile(props: { asset: AssetType; index: number }) {
 	const navigate = useNavigate();

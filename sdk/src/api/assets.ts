@@ -1,31 +1,65 @@
 import { getGqlDataByIds } from '../gql';
 import {
-	ArweaveClientType,
+	AssetArgsClientType,
 	AssetsResponseType,
 	AssetType,
 	BalanceType,
 	getBalancesEndpoint,
 	getTagValue,
 	ORDERBOOK_CONTRACT,
+	AssetDetailType,
 	OrderBookPairOrderType,
 	OrderBookPairType,
+	PAGINATOR,
 	STORAGE,
 	TAGS,
 	UserBalancesType
 } from '../helpers';
 
-export async function getAssetsByContract(args: { arClient: ArweaveClientType }): Promise<AssetType[]> {
+export async function getAssetsByContract(args: AssetArgsClientType): Promise<AssetType[]> {
 	try {
-		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
-		// const assets = pairs.filter((pair: OrderBookPairType) => pair.orders.length > 0);
+		// let cursor: string | null = null;
+		// if (args.cursor && args.cursor !== CURSORS.p1 && args.cursor !== CURSORS.end && !checkGqlCursor(args.cursor)) {
+		// 	cursor = args.cursor;
+		// }
+
+		// if (args.reduxCursor && args.cursorObject && args.cursorObject === CursorEnum.idGQL) {
+		// 	let i: number;
+		// 	if (args.cursor && args.cursor !== CURSORS.p1 && args.cursor !== CURSORS.end && !checkGqlCursor(args.cursor)) {
+		// 		i = Number(args.cursor.slice(-1));
+		// 		cursor = args.cursor;
+		// 	} else {
+		// 		i = 0;
+		// 		cursor = `${SEARCH.idGqlcursorPrefix}-${i}`;
+		// 	}
+		// }
+
+		// console.log(cursor)
+
+		// use args.cursor contractAssets-idGql-${i} to choose ids or send id as cursor to get next from pair list
+
+		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
+
+		console.log(`Paginator: ${PAGINATOR}`);
+		console.log(`Cursor: ${args.cursor}`);
+		console.log(`Redux Cursor: ${args.reduxCursor}`);
+
+		for (let i = 0; i < assets.length; i++) {
+			console.log(assets[i].pair[0] === '0BcEIhGv5YOvK-wVl3AgyUGDifAEtcZRQfWrayEwLxU');
+		}
+
+		const ids = assets.map((asset: OrderBookPairType) => {
+			return asset.pair[0]
+		});
 
 		const gqlData: AssetsResponseType = await getGqlDataByIds({
-			ids: assets.map((asset: OrderBookPairType) => asset.pair[0]),
-			owner: null,
-			uploader: null,
+			ids: ids,
+			owner: args.owner,
+			uploader: args.uploader,
 			cursor: null,
 			reduxCursor: null,
-			arClient: args.arClient
+			arClient: args.arClient,
+			walletAddress: args.walletAddress
 		});
 
 		return getValidatedAssets(gqlData, assets);
@@ -35,19 +69,31 @@ export async function getAssetsByContract(args: { arClient: ArweaveClientType })
 	return [];
 }
 
-export async function getAssetsByUser(args: { walletAddress: string, arClient: ArweaveClientType }): Promise<AssetType[]> {
+export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
+	try {
+		return (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
+	}
+	catch (e: any) {
+		return [];
+	}
+}
+
+// TODO: paginate by page
+export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
 		const assetIds = ((await result.json()) as UserBalancesType).balances.map((balance: BalanceType) => {
 			return balance.contract_tx_id
 		});
+
 		const gqlData: AssetsResponseType = await getGqlDataByIds({
 			ids: assetIds,
-			owner: null,
-			uploader: null,
-			cursor: null,
-			reduxCursor: null,
-			arClient: args.arClient
+			owner: args.owner,
+			uploader: args.uploader,
+			cursor: args.cursor,
+			reduxCursor: args.reduxCursor,
+			arClient: args.arClient,
+			walletAddress: args.walletAddress
 		});
 
 		return getValidatedAssets(gqlData);
@@ -55,18 +101,40 @@ export async function getAssetsByUser(args: { walletAddress: string, arClient: A
 	return [];
 }
 
-export async function getAssetsByIds(args: { assetIds: string[], arClient: ArweaveClientType }): Promise<AssetType[]> {
+export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetType[]> {
 	const gqlData: AssetsResponseType = await getGqlDataByIds({
-		ids: args.assetIds,
-		owner: null,
-		uploader: null,
-		cursor: null,
-		reduxCursor: null,
-		arClient: args.arClient
+		ids: args.ids,
+		owner: args.owner,
+		uploader: args.uploader,
+		cursor: args.cursor,
+		reduxCursor: args.reduxCursor,
+		arClient: args.arClient,
+		walletAddress: args.walletAddress
 	});
 
 	return getValidatedAssets(gqlData);
 
+}
+
+export async function getAssetById(args: { id: string, arClient: any }): Promise<AssetDetailType> {
+	const asset = (await getAssetsByIds({
+		ids: [args.id],
+		owner: null,
+		uploader: null,
+		cursor: null,
+		reduxCursor: null,
+		walletAddress: null,
+		arClient: args.arClient
+	}))[0];
+
+	if (asset) {
+		const state = (await args.arClient.read(args.id));
+	
+		return ({ ...asset, state: state });
+	}
+	else {
+		return null;
+	}
 }
 
 // TODO: validate topic

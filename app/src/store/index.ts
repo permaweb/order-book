@@ -4,17 +4,19 @@ import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 
 import { assetsReducer } from './assets/reducers';
+import { cursorsReducer } from './cursors/reducers';
 
 declare const window: any;
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	blacklist: ['cursorsReducer'],
+	blacklist: [],
 };
 
 const rootReducer = combineReducers({
 	assetsReducer,
+	cursorsReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

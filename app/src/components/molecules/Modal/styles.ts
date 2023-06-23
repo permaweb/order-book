@@ -7,13 +7,11 @@ export const Wrapper = styled.div<{ top: number }>`
 	min-height: 100vh;
 	height: 100%;
 	width: 100%;
-	position: absolute;
 	position: fixed;
 	z-index: 11;
-	top: ${(props) => `${props.top.toString()}px`};
 	top: 0;
 	left: 0;
-	background: ${(props) => props.theme.colors.overlay.alt1};
+	background: ${(props) => props.theme.colors.overlay.primary};
 	backdrop-filter: blur(3px);
 	animation: ${open} ${fadeIn1};
 `;
@@ -26,7 +24,7 @@ export const Container = styled.div<{
 	width: ${(props) => (props.useMax ? STYLING.cutoffs.max : '600px')};
 	max-width: 87.5vw;
 	background: ${(props) =>
-		props.noHeader ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
+		props.noHeader ? props.theme.colors.transparent : props.theme.colors.container.alt1.background};
 	border: 1px solid ${(props) => (props.noHeader ? props.theme.colors.transparent : props.theme.colors.border.primary)};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	margin: 50px auto;

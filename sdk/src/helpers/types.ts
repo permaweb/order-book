@@ -11,6 +11,10 @@ export type AssetType = {
 	orders?: OrderBookPairOrderType[];
 };
 
+export type AssetDetailType = AssetType & {
+	state: any;
+};
+
 export type SellArgs = {
 	assetId: string;
 	price: number;
@@ -44,16 +48,27 @@ export type ApiClientInitArgs = {
 	arClient: ArweaveClientType;
 }
 
-export type GetAssetsByUserArgs = {
-	walletAddress: string;
-}
+export type AssetArgsType = {
+	ids: string[] | null;
+	owner: string | null;
+	uploader: string | null;
+	cursor: string | null;
+	reduxCursor: string | null;
+	walletAddress: string | null;
+};
+
+export type AssetArgsClientType = AssetArgsType & {
+	arClient: any;
+};
 
 export type ApiClientType = {
 	arClient: ArweaveClientType;
 	init: (args: ApiClientInitArgs) => ApiClientType;
-	getAssetsByContract: () => Promise<AssetType[]>;
-	getAssetsByUser: (args: GetAssetsByUserArgs) => Promise<AssetType[]>;
-	getAssetsByIds: (args: { assetIds: string[] }) => Promise<AssetType[]>;
+	getAssetsByContract: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetIdsByContract: () => Promise<string[]>;
+	getAssetsByUser: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetsByIds: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 }
 
@@ -73,7 +88,7 @@ export type ValidateSellArgs = {
 	sellArgs: SellArgs;
 	assetState: any;
 	orderBookState: any;
-	wallet:any;
+	wallet: any;
 	walletAddress: string | null;
 };
 
@@ -153,10 +168,10 @@ export type OrderBookPairOrderType = {
 
 export enum CursorEnum {
 	GQL = 'gql',
-	Search = 'search',
+	idGQL = 'idGql'
 }
 
-export type CursorObjectKeyType = CursorEnum.GQL | CursorEnum.Search | null;
+export type CursorObjectKeyType = CursorEnum.GQL | CursorEnum.idGQL | null;
 
 export type GQLResponseType = {
 	cursor: string | null;
@@ -171,15 +186,6 @@ export type GQLResponseType = {
 };
 
 export type TagFilterType = { name: string; values: string[] };
-
-export type AssetArgsType = {
-	ids: string[] | null;
-	owner: string | null;
-	uploader: string | null;
-	cursor: string | null;
-	reduxCursor: string | null;
-	arClient: ArweaveClientType;
-};
 
 export type AssetsResponseType = {
 	nextCursor: string | null;
