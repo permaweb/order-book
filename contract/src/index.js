@@ -1,6 +1,6 @@
 import { addPair } from "./write/add-pair.js";
 import { CreateOrder } from "./write/create-order.js";
-import { CancelOrder } from "@verto/flex";
+import { CancelOrder } from "./write/cancel-order.js";
 
 export async function handle(state, action) {
   switch (action?.input?.function) {
