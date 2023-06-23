@@ -33,13 +33,6 @@ export async function validateSell(args: ValidateSellArgs) {
 }
 
 export async function validateBuy(args: ValidateBuyArgs) {
-    // if it is a single unit token, verify that 
-    // the spend is the full price 
-    // otherwise if it is a multi unit token 
-    // verify the spend is within bounds 
-    // dont allow the same buy twice
-    // if its multi unit it should always start with the lowest unit price and go up from there
-
     if(!args.walletAddress || !args.wallet) {
         throw new Error(`Please initialize OrderBook with a wallet and wallet address to buy`);
     }
@@ -50,9 +43,23 @@ export async function validateBuy(args: ValidateBuyArgs) {
         throw new Error(`Please provide an integer quantity greater than 0 to buy`);
     }
 
+    let pair = args.orderBookState.pairs.find((obj: any) => {
+        return (obj.pair[0] === args.buyArgs.assetId) && (obj.pair[1] === args.buyArgs.assetId);
+    });
+
     if(isSingleQtyAsset(args.assetState)) {
-        
+        let order = pair.orders[0];
+        if(!order) {
+            throw new Error(`No sell order present`);
+        }
+        let price = order.price;
+        if(args.buyArgs.spend < price) {
+            throw new Error(`Can only spend the full price for a single unit asset`);
+        }
     }
+
+    // make sure they have enough U to execute the buy
+    // make sure they input a price if there is none 
 }
 
 export async function validateAsset(args: ValidateAssetArgs) {

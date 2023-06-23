@@ -35,10 +35,23 @@ export async function getAssetsByContract(args: { arClient: ArweaveClientType })
 	return [];
 }
 
+function containsSubstring(string: string, substrings: string[]): boolean {
+	for (let i = 0; i < substrings.length; i++) {
+	  const substring: string = substrings[i];
+	  if (string.includes(substring)) {
+		return true;
+	  }
+	}
+	return false;
+  }
+
 export async function getAssetsByUser(args: { walletAddress: string, arClient: ArweaveClientType }): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
-		const assetIds = ((await result.json()) as UserBalancesType).balances.map((balance: BalanceType) => {
+		let balances = ((await result.json()) as UserBalancesType).balances.filter((a: any) => {
+			return containsSubstring(a.token_name, ['Single owner', 'Multiple owner']); 
+		});
+		let assetIds = balances.map((balance: BalanceType) => {
 			return balance.contract_tx_id
 		});
 		const gqlData: AssetsResponseType = await getGqlDataByIds({

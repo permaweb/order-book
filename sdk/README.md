@@ -31,13 +31,26 @@ let orderbook = OrderBook.init({
 });
 ```
 
+Limit Sell Market Buy
+Limit Buy Market Sell
+
+
 ## Sell an asset
 
 ```js
+// Limit sell
 let orderTx = await orderbook.sell({
 	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
 	// price in sub $U
 	price: 1000000,
+	// quantity of asset
+	qty: 1,
+});
+
+// Sell an asset at the market price
+// If a buy order exists it will fill automatically
+let orderTx = await orderbook.sell({
+	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
 	// quantity of asset
 	qty: 1,
 });
@@ -48,6 +61,7 @@ console.log(orderTx);
 ## Buy an asset
 
 ```js
+
 let orderTx = await orderbook.buy({
 	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
 	// amount of sub $U to spend

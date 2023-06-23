@@ -21,6 +21,7 @@ export type SellArgs = {
 export type BuyArgs = {
 	assetId: string;
 	spend: number;
+	
 };
 
 export type EnvType = {
@@ -29,6 +30,7 @@ export type EnvType = {
 	currencyContract: string;
 	arClient: ArweaveClientType;
 	wallet: any;
+	walletAddress: string;
 };
 
 export type InitArgs = {
@@ -83,6 +85,7 @@ export type ValidateBuyArgs = {
 	orderBookState: any;
 	wallet: any;
 	walletAddress: string | null;
+	currencyContract: string;
 };
 
 export type TransactionFlowArgs = {
