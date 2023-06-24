@@ -4,9 +4,9 @@ import * as assert from "uvu/assert";
 test("buy order", async () => {
   globalThis.ContractAssert = function (expr, msg) {
     if (!expr) {
-      throw new Error(msg)
+      throw new Error(msg);
     }
-  }
+  };
 
   globalThis.ContractError = function (msg) {
     return new Error(msg);
@@ -29,10 +29,9 @@ test("buy order", async () => {
 
   const { handle } = await import("../src/index.js");
   const state = {
-    balances: {
-    },
-    name: 'BazAR',
-    ticker: 'BazAR',
+    balances: {},
+    name: "BazAR",
+    ticker: "BazAR",
     pairs: [
       {
         pair: [

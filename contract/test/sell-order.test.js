@@ -3,9 +3,9 @@ import * as assert from "uvu/assert";
 
 globalThis.ContractAssert = function (expr, msg) {
   if (!expr) {
-    throw new Error(msg)
+    throw new Error(msg);
   }
-}
+};
 
 test("sell order", async () => {
   const state = {
@@ -19,10 +19,9 @@ test("sell order", async () => {
         pricedata: {},
       },
     ],
-    balances: {
-    },
-    name: 'BazAR',
-    ticker: 'BazAR',
+    balances: {},
+    name: "BazAR",
+    ticker: "BazAR",
   };
 
   const action = {

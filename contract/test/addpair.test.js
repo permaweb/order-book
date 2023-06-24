@@ -7,8 +7,8 @@ test("addPair", async () => {
   const state = {
     pairs: [],
     balances: {},
-    name: 'BazAR',
-    ticker: 'BazAR'
+    name: "BazAR",
+    ticker: "BazAR",
   };
   const action = {
     caller: createKey("A"),

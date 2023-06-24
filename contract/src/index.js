@@ -1,12 +1,12 @@
 import { addPair } from "./write/add-pair.js";
 import { CreateOrder } from "./write/create-order.js";
 import { CancelOrder } from "./write/cancel-order.js";
-import { balance } from "./read/balance.js"
-import { transfer } from "./write/transfer.js"
-import { validate } from './read/validate.js'
+import { balance } from "./read/balance.js";
+import { transfer } from "./write/transfer.js";
+import { validate } from "./read/validate.js";
 
 export async function handle(state, action) {
-  validate(state)
+  validate(state);
   switch (action?.input?.function) {
     case "addPair":
       return addPair(state, action).extract();
@@ -15,14 +15,14 @@ export async function handle(state, action) {
     case "cancelOrder":
       return CancelOrder(state, action);
     case "balance":
-      return balance(state, action)
+      return balance(state, action);
     case "transfer":
-      return transfer(state, action).fold(handleError, result => result)
+      return transfer(state, action).fold(handleError, (result) => result);
     default:
       throw new ContractError("No Function Found");
   }
 }
 
 function handleError(msg) {
-  throw new ContractError(msg)
+  throw new ContractError(msg);
 }
