@@ -6,6 +6,9 @@ import { handle } from "../src/index.js";
 test("addPair", async () => {
   const state = {
     pairs: [],
+    balances: {},
+    name: 'BazAR',
+    ticker: 'BazAR'
   };
   const action = {
     caller: createKey("A"),

@@ -13,7 +13,9 @@ async function main() {
     src,
     initState: JSON.stringify({
       pairs: [],
-      name: "orderbook"
+      name: "orderbook",
+      ticker: 'BAZAR',
+      balances: {}
     }),
     //initState,
     evaluationManifest: {
