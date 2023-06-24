@@ -31,6 +31,7 @@ const state = {
       priceData: {},
     },
   ],
+  claimable: [],
 };
 
 test("cancelOrder", async () => {

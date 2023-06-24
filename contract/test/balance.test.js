@@ -17,6 +17,7 @@ const state = {
   name: "BazAR",
   ticker: "BazAR",
   pairs: [],
+  claimable: [],
 };
 
 test("Get BazAR Token Balance from caller", async () => {

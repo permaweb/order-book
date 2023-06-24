@@ -9,6 +9,7 @@ test("addPair", async () => {
     balances: {},
     name: "BazAR",
     ticker: "BazAR",
+    claimable: [],
   };
   const action = {
     caller: createKey("A"),
