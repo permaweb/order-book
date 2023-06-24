@@ -1,12 +1,12 @@
 export type AssetType = {
 	data: {
-		id: string
-		title: string
-		description: string
-		topic: string
-		type: string
-		implementation: string
-		renderWith: string | null
+		id: string;
+		title: string;
+		description: string;
+		topic: string;
+		type: string;
+		implementation: string;
+		renderWith: string | null;
 	};
 	orders?: OrderBookPairOrderType[];
 };
@@ -41,18 +41,18 @@ export type InitArgs = {
 
 export type ApiClientInitArgs = {
 	arClient: ArweaveClientType;
-}
+};
 
 export type GetAssetsByUserArgs = {
 	walletAddress: string;
-}
+};
 
 export type ApiClientType = {
 	arClient: ArweaveClientType;
 	init: (args: ApiClientInitArgs) => ApiClientType;
 	getAssetsByContract: () => Promise<AssetType[]>;
 	getAssetsByUser: (args: GetAssetsByUserArgs) => Promise<AssetType[]>;
-}
+};
 
 export type WriteContractArgs = {
 	contract: string;
@@ -77,7 +77,7 @@ export type ArweaveClientInitArgs = {
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
-}
+};
 
 export type ArweaveClientType = {
 	init: (args: ArweaveClientInitArgs) => ArweaveClientType;
@@ -130,7 +130,7 @@ export type OrderBookPairOrderType = {
 	token: string;
 	transfer: string;
 	currency?: string;
-}
+};
 
 export enum CursorEnum {
 	GQL = 'gql',

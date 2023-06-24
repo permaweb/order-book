@@ -17,9 +17,7 @@ import { IProps } from './types';
 function AssetTile(props: { asset: AssetType }) {
 	return (
 		<S.PICWrapper>
-			<S.HCWrapper>
-
-			</S.HCWrapper>
+			<S.HCWrapper></S.HCWrapper>
 			<S.PCWrapper>
 				<AssetData asset={props.asset} />
 			</S.PCWrapper>

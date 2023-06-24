@@ -1,9 +1,17 @@
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
-import { ArweaveClientType, EnvType, InitArgs, OrderBookType, SellArgs, ValidateArgs, ApiClientType } from '../helpers/types';
+import {
+	ApiClientType,
+	ArweaveClientType,
+	EnvType,
+	InitArgs,
+	OrderBookType,
+	SellArgs,
+	ValidateArgs,
+} from '../helpers/types';
 import { pairExists } from '../helpers/utils';
 
-import { ArweaveClient } from './arweave';
 import { ApiClient } from './api';
+import { ArweaveClient } from './arweave';
 
 const client: OrderBookType = {
 	env: null,
@@ -17,7 +25,7 @@ const client: OrderBookType = {
 			arClient: ArweaveClient.init({
 				arweaveGet: args.arweaveGet,
 				arweavePost: args.arweavePost,
-				warp: args.warp
+				warp: args.warp,
 			}),
 			wallet: args.wallet,
 		};
@@ -128,7 +136,7 @@ const client: OrderBookType = {
 		if (!args.assetState.claimable) {
 			throw new Error(`No claimable array found in the asset state`);
 		}
-	}
+	},
 };
 
 export { client as OrderBook };

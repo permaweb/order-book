@@ -1,10 +1,4 @@
-
-
-import { 
-	ArweaveClientInitArgs, 
-	ArweaveClientType, 
-	WriteContractArgs 
-} from '../../helpers';
+import { ArweaveClientInitArgs, ArweaveClientType, WriteContractArgs } from '../../helpers';
 
 const options = {
 	allowBigInt: true,
