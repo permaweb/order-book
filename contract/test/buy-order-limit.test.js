@@ -1,7 +1,7 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
-test("buy order", async () => {
+test("limit buy order", async () => {
   globalThis.ContractAssert = function (exp, msg) {
     return exp ? null : new Error(msg);
   };
@@ -33,17 +33,7 @@ test("buy order", async () => {
           "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
           "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
         ],
-        orders: [
-          {
-            id: "xkKyDgsr360TVgy07XwbWOuWXUD2WdXil_Npk8wx8Qg",
-            transfer: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
-            creator: "jnbRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
-            token: "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-            price: 100,
-            quantity: 100,
-            originalQuantity: 100,
-          },
-        ],
+        orders: [],
         priceData: {},
       },
     ],
@@ -57,8 +47,9 @@ test("buy order", async () => {
         "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
         "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
       ],
-      qty: 10000,
+      qty: 1000,
       transaction: "MsflN4glR9noV-DN00ygwKJZmCQS1S1ejbVRmQ5N_Nc",
+      price: 1000 / 100, // Total U sub units / Total PST units
     },
   };
   const response = await handle(state, action);
