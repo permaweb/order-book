@@ -1,5 +1,16 @@
 # OrderBook Contract
 
+## Developers
+
+``` sh
+yarn
+yarn test
+yarn build
+yarn deploy
+```
+
+## Summary
+
 The orderbook contract is a standalone contract that is built to trade PST + FCP 2 atomic tokens.
 
 A PST is a SmartWeave Contract that has a `balances` object and `transfer` and `balance` functions. It allows both wallets and contracts to hold token balances. Also a `name` and `ticker` property for composability.
