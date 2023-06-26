@@ -26,7 +26,7 @@ export type SellArgs = {
 export type BuyArgs = {
 	assetId: string;
 	spend: number;
-	
+
 };
 
 export type EnvType = {
@@ -72,6 +72,7 @@ export type ApiClientType = {
 	getAssetsByContract: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetIdsByContract: () => Promise<string[]>;
 	getAssetsByUser: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetIdsByUser: (args: { walletAddress: string }) => Promise<string[]>;
 	getAssetsByIds: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
@@ -174,7 +175,7 @@ export type OrderBookPairOrderType = {
 
 export enum CursorEnum {
 	GQL = 'gql',
-	idGQL = 'idGql'
+	idGQL = 'idGQL'
 }
 
 export type CursorObjectKeyType = CursorEnum.GQL | CursorEnum.idGQL | null;

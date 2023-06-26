@@ -81,11 +81,8 @@ export default function AssetsList(props: IProps) {
 					</>
 				);
 			} else {
-				return (
-					<S.NoAssetsContainer>
-						<p>{language.noAssets}</p>
-					</S.NoAssetsContainer>
-				);
+				return null;
+				
 			}
 		} else {
 			// TODO: get count

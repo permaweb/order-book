@@ -18,35 +18,11 @@ import {
 
 export async function getAssetsByContract(args: AssetArgsClientType): Promise<AssetType[]> {
 	try {
-		// let cursor: string | null = null;
-		// if (args.cursor && args.cursor !== CURSORS.p1 && args.cursor !== CURSORS.end && !checkGqlCursor(args.cursor)) {
-		// 	cursor = args.cursor;
-		// }
-
-		// if (args.reduxCursor && args.cursorObject && args.cursorObject === CursorEnum.idGQL) {
-		// 	let i: number;
-		// 	if (args.cursor && args.cursor !== CURSORS.p1 && args.cursor !== CURSORS.end && !checkGqlCursor(args.cursor)) {
-		// 		i = Number(args.cursor.slice(-1));
-		// 		cursor = args.cursor;
-		// 	} else {
-		// 		i = 0;
-		// 		cursor = `${SEARCH.idGqlcursorPrefix}-${i}`;
-		// 	}
-		// }
-
-		// console.log(cursor)
-
-		// use args.cursor contractAssets-idGql-${i} to choose ids or send id as cursor to get next from pair list
-
 		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
 
 		console.log(`Paginator: ${PAGINATOR}`);
 		console.log(`Cursor: ${args.cursor}`);
 		console.log(`Redux Cursor: ${args.reduxCursor}`);
-
-		for (let i = 0; i < assets.length; i++) {
-			console.log(assets[i].pair[0] === '0BcEIhGv5YOvK-wVl3AgyUGDifAEtcZRQfWrayEwLxU');
-		}
 
 		const ids = assets.map((asset: OrderBookPairType) => {
 			return asset.pair[0]
@@ -71,22 +47,14 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
 	try {
-		return (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
+		return (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs.map((asset: OrderBookPairType) => {
+			return asset.pair[0]
+		})
 	}
 	catch (e: any) {
 		return [];
 	}
 }
-
-function containsSubstring(string: string, substrings: string[]): boolean {
-	for (let i = 0; i < substrings.length; i++) {
-	  const substring: string = substrings[i];
-	  if (string && string.includes(substring)) {
-		return true;
-	  }
-	}
-	return false;
-  }
 
 // TODO: paginate by page
 export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetType[]> {
@@ -96,7 +64,7 @@ export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetT
 		// 	return containsSubstring(a.token_name, ['Single owner', 'Multiple owner']); 
 		// });
 		let balances = ((await result.json()) as UserBalancesType).balances;
-		
+
 		let assetIds = balances.map((balance: BalanceType) => {
 			return balance.contract_tx_id
 		});
@@ -114,6 +82,30 @@ export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetT
 		return getValidatedAssets(gqlData);
 	}
 	return [];
+}
+
+export async function getAssetIdsByUser(args: { walletAddress: string, arClient: any }): Promise<string[]> {
+	try {
+		const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
+		if (result.status === 200) {
+			// let balances = ((await result.json()) as UserBalancesType).balances.filter((a: any) => {
+			// 	return containsSubstring(a.token_name, ['Single owner', 'Multiple owner']); 
+			// });
+			let balances = ((await result.json()) as UserBalancesType).balances;
+
+			// TODO: get balances of ANS assets
+			let assetIds = balances.map((balance: BalanceType) => {
+				return balance.contract_tx_id
+			});
+			return assetIds;
+		}
+		else {
+			return [];
+		}
+	}
+	catch (e: any) {
+		return [];
+	}
 }
 
 export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetType[]> {
@@ -149,7 +141,7 @@ export async function getAssetById(args: { id: string, arClient: any, orderBookC
 		let pair = orderBookState.pairs.find((p: any) => {
 			return p.pair[0] === args.id;
 		});
-		if(pair) {
+		if (pair) {
 			orders = pair.orders;
 		}
 		return ({ ...asset, state: state, orders: orders });
@@ -195,4 +187,14 @@ function getValidatedAssets(gqlData: AssetsResponseType, assets?: OrderBookPairT
 		}
 	}
 	return validatedAssets;
+}
+
+function containsSubstring(string: string, substrings: string[]): boolean {
+	for (let i = 0; i < substrings.length; i++) {
+		const substring: string = substrings[i];
+		if (string && string.includes(substring)) {
+			return true;
+		}
+	}
+	return false;
 }

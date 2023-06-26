@@ -1,11 +1,11 @@
 import { AssetType } from 'permaweb-orderbook';
 
-import { AssetTableType, CursorType } from 'helpers/types';
+import { ApiFetchType, AssetTableType } from 'helpers/types';
 
 export interface IProps {
 	assets: AssetType[] | null;
-	cursors: CursorType;
-	handleCursorFetch: (cursor: string | null) => void;
+	reduxCursor: string; 
+	apiFetch: ApiFetchType;
 	header?: string;
 	recordsPerPage: number;
 	showPageNumbers: boolean;
