@@ -77,7 +77,24 @@ export default function Account() {
 		(async function () {
 			if (arProvider.walletAddress && orderBook) {
 				setLoading(true);
-				setAssets(await orderBook.api.getAssetsByUser({ walletAddress: arProvider.walletAddress }));
+				setAssets(await orderBook.api.getAssetsByUser({ 
+					walletAddress: arProvider.walletAddress,
+					ids: null,
+					owner: null,
+					cursor: null,
+					reduxCursor: null,
+					uploader: null,
+				}));
+				let s = await orderBook.api.search({
+					term: "Single owner Multiple supply Bazar", 
+					walletAddress: arProvider.walletAddress,
+					ids: null,
+					owner: null,
+					cursor: null,
+					reduxCursor: null,
+					uploader: null
+				});
+				console.log(s)
 				setLoading(false);
 			}
 		})();
