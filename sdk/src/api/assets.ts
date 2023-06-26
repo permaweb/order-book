@@ -1,3 +1,4 @@
+import { ArweaveClient } from '../clients';
 import { getAssetsByIds } from '../gql';
 import {
 	ArweaveClientType,
@@ -11,14 +12,12 @@ import {
 	OrderBookPairType,
 	STORAGE,
 	TAGS,
-	UserBalancesType
+	UserBalancesType,
 } from '../helpers';
-
-import { ArweaveClient } from '../clients';
 
 export async function getAssetsByContract(args: { arClient: ArweaveClientType }): Promise<AssetType[]> {
 	try {
-		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
+		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
 		const assets = pairs.filter((pair: OrderBookPairType) => pair.orders.length > 0);
 
 		const gqlData: AssetsResponseType = await getAssetsByIds({
@@ -27,7 +26,7 @@ export async function getAssetsByContract(args: { arClient: ArweaveClientType })
 			uploader: null,
 			cursor: null,
 			reduxCursor: null,
-			arClient: args.arClient
+			arClient: args.arClient,
 		});
 
 		return getValidatedAssets(gqlData, assets);
@@ -37,11 +36,14 @@ export async function getAssetsByContract(args: { arClient: ArweaveClientType })
 	return [];
 }
 
-export async function getAssetsByUser(args: { walletAddress: string, arClient: ArweaveClientType }): Promise<AssetType[]> {
+export async function getAssetsByUser(args: {
+	walletAddress: string;
+	arClient: ArweaveClientType;
+}): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
 		const assetIds = ((await result.json()) as UserBalancesType).balances.map((balance: BalanceType) => {
-			return balance.contract_tx_id
+			return balance.contract_tx_id;
 		});
 		const gqlData: AssetsResponseType = await getAssetsByIds({
 			ids: assetIds,
@@ -49,7 +51,7 @@ export async function getAssetsByUser(args: { walletAddress: string, arClient: A
 			uploader: null,
 			cursor: null,
 			reduxCursor: null,
-			arClient: args.arClient
+			arClient: args.arClient,
 		});
 
 		return getValidatedAssets(gqlData);
@@ -78,14 +80,14 @@ function getValidatedAssets(gqlData: AssetsResponseType, assets?: OrderBookPairT
 					topic: topic,
 					type: type,
 					implementation: implementation,
-					renderWith: renderWith ? renderWith : null
-				}
-			}
+					renderWith: renderWith ? renderWith : null,
+				},
+			};
 			if (assets) {
 				const assetIndex = assets.findIndex((asset: OrderBookPairType) => asset.pair[0] === gqlData.assets[i].node.id);
 				if (assetIndex !== -1) {
 					asset.orders = assets[assetIndex].orders.map((order: OrderBookPairOrderType) => {
-						return { ...order, currency: assets[assetIndex].pair[1] }
+						return { ...order, currency: assets[assetIndex].pair[1] };
 					});
 				}
 			}

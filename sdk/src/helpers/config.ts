@@ -31,7 +31,7 @@ export const TAGS = {
 			implements: 'Implements',
 		},
 		uploaderTxId: 'Uploader-Tx-Id',
-		renderWith: 'Render-With'
+		renderWith: 'Render-With',
 	},
 	values: {},
 };

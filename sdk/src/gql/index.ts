@@ -67,7 +67,7 @@ export async function getGQLData(args: {
         `,
 	};
 
-    // TODO: handle cursors
+	// TODO: handle cursors
 	const response = args.useArweavePost
 		? await arClient.arweavePost.api.post('/graphql', query)
 		: await arClient.arweaveGet.api.post('/graphql', query);

@@ -1,4 +1,6 @@
 {
   "name": "orderbook",
-  "pairs": []
+  "pairs": [],
+  "ticker": "BAZAR",
+  "balances": {}
 }

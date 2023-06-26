@@ -1,11 +1,16 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
-globalThis.ContractAssert = function (exp, msg) {
-  exp ? null : new Error(msg);
+globalThis.ContractAssert = function (expr, msg) {
+  if (!expr) {
+    throw new Error(msg);
+  }
 };
 
 const state = {
+  balances: {},
+  name: "BazAR",
+  ticker: "BazAR",
   pairs: [
     {
       pair: [

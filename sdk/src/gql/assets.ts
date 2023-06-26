@@ -17,7 +17,7 @@ export async function getAssetsByIds(args: AssetArgsType): Promise<AssetsRespons
 		cursor: cursor,
 		reduxCursor: args.reduxCursor,
 		cursorObject: CursorEnum.Search,
-		arClient: args.arClient
+		arClient: args.arClient,
 	});
 
 	return getAssetsResponseObject(artifacts);
