@@ -13,7 +13,8 @@ import {
 	PAGINATOR,
 	STORAGE,
 	TAGS,
-	UserBalancesType
+	UserBalancesType,
+	ArweaveClientType
 } from '../helpers';
 
 export async function getAssetsByContract(args: AssetArgsClientType): Promise<AssetType[]> {

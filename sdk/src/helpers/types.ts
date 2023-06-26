@@ -65,6 +65,14 @@ export type AssetArgsClientType = AssetArgsType & {
 	arClient: any;
 };
 
+export type SearchReturnType = {
+	// assets: AssetType[]
+};
+
+export type SearchArgs = AssetArgsType & {
+	term: string,
+};
+
 export type ApiClientType = {
 	arClient: ArweaveClientType;
 	orderBookContract: string;
@@ -76,6 +84,7 @@ export type ApiClientType = {
 	getAssetsByIds: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
+	search:(args: {}) => Promise<SearchReturnType>;
 }
 
 export type WriteContractArgs = {

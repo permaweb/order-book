@@ -4,10 +4,21 @@ import {
 	AssetType,
 	AssetDetailType,
 	AssetArgsType,
-	ProfileType
+	ProfileType,
+	SearchReturnType,
+	SearchArgs
 } from "../../helpers";
 
-import { getAssetsByContract, getAssetIdsByContract, getAssetById, getAssetsByIds, getAssetsByUser, getAssetIdsByUser, getProfile } from "../../api";
+import { 
+	getAssetsByContract, 
+	getAssetIdsByContract, 
+	getAssetById, 
+	getAssetsByIds, 
+	getAssetsByUser,
+	getAssetIdsByUser,
+	getProfile,
+	search
+} from "../../api";
 
 const apiClient: ApiClientType = {
 	arClient: null,
@@ -48,6 +59,10 @@ const apiClient: ApiClientType = {
 			walletAddress: args.walletAddress,
 			arClient: this.arClient
 		})
+	},
+
+	search: async function(args: SearchArgs): Promise<SearchReturnType> {
+		return await search({...args, arClient: this.arClient});
 	}
 }
 
