@@ -42,6 +42,7 @@ test("limit buy order", async () => {
         priceData: {},
       },
     ],
+    claimable: [],
   };
 
   const action = {

@@ -52,6 +52,7 @@ test("buy order", async () => {
         priceData: {},
       },
     ],
+    claimable: [],
   };
 
   const action = {
