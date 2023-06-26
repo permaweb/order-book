@@ -117,10 +117,14 @@ export const AssetCDetail = styled.div`
 	}
 `;
 
-export const ACHeader = styled.div`
+export const ACHeader = styled(AssetCDetail)`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	padding: 21.5px 20px 20px 20px;
+	h2 {
+		line-height: 1.5;
+	}
 `;
 
 export const AssetCAction = styled.div`

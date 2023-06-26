@@ -14,7 +14,6 @@ import * as S from './styles';
 import { IProps } from './types';
 
 // TODO: get stamp count
-// TODO: get renderer thumbnail
 function AssetRow(props: { asset: AssetType; index: number }) {
 	return (
 		<S.PICWrapper>
@@ -102,9 +101,5 @@ export default function AssetsList(props: IProps) {
 		}
 	}
 
-	return (
-		<div className={'view-wrapper max-cutoff'}>
-			<S.Wrapper>{getData()}</S.Wrapper>
-		</div>
-	);
+	return <S.Wrapper>{getData()}</S.Wrapper>;
 }

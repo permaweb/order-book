@@ -25,7 +25,7 @@ const DEFAULT = {
 	alt1: '#FF7A41',
 	alt2: '#FF621F',
 	alt3: '#FFDECF',
-	overlay1: 'rgba(255, 255, 255, 0.75)',
+	overlay1: 'rgba(20, 20, 20, 0.75)',
 	negative: '#D24646',
 	negativeHover: '#F26969',
 	negativeShadow: '#F27979',
@@ -130,7 +130,7 @@ export const defaultTheme: DefaultTheme = {
 				hover: DEFAULT.neutral2,
 			},
 			alt1: {
-				background: DEFAULT.neutral2,
+				background: DEFAULT.neutral3,
 			},
 			alt2: {
 				background: DEFAULT.neutral3,
@@ -176,14 +176,14 @@ export const defaultTheme: DefaultTheme = {
 		},
 		form: {
 			background: DEFAULT.neutral1,
-			border: DEFAULT.neutral6,
+			border: DEFAULT.neutral10,
 			invalid: {
 				outline: DEFAULT.negative,
 				shadow: DEFAULT.negativeShadow,
 			},
 			valid: {
-				outline: DEFAULT.primary3,
-				shadow: DEFAULT.primary4,
+				outline: DEFAULT.neutral5,
+				shadow: DEFAULT.neutral3,
 			},
 			disabled: {
 				background: DEFAULT.neutral2,

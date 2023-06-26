@@ -38,8 +38,8 @@ export const HSection1 = styled.div`
 	padding: 0 20px;
 	p {
 		font-size: ${(props) => props.theme.typography.size.base};
-        font-weight: ${(props) => props.theme.typography.weight.bold};
-        color: ${(props) => props.theme.colors.font.primary.alt8};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt8};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
@@ -87,17 +87,17 @@ export const PCWrapper = styled.div`
 	flex-wrap: wrap;
 	padding: 20px;
 	position: relative;
-	transition: background .1s;
+	transition: background 0.1s;
 	p {
 		max-width: 125px;
-        font-size: ${(props) => props.theme.typography.size.base};
+		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 2px);
-        font-weight: ${(props) => props.theme.typography.weight.bold};
-        color: ${(props) => props.theme.colors.font.primary.alt1};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-    }
+	}
 	&:hover {
 		cursor: pointer;
 		text-decoration: none !important;

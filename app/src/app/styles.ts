@@ -149,9 +149,9 @@ export const GlobalStyle = createGlobalStyle`
     padding: 10px 15px;
   }
 
-  input[type=number]::-webkit-inner-spin-button {
-    opacity: 0;
-  }
+  // input[type=number]::-webkit-inner-spin-button {
+  //   opacity: 0;
+  // }
 
   textarea {
     resize: none;
@@ -195,7 +195,8 @@ export const GlobalStyle = createGlobalStyle`
     left: 0;
     right: 0;
     height: 500px;
-    background: ${(props) => `linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background2Gradient}, ${props.theme.colors.container.primary.background1Gradient})`};
+    background: ${(props) =>
+			`linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background2Gradient}, ${props.theme.colors.container.primary.background1Gradient})`};
     z-index: -1;
   }
   

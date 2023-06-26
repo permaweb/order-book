@@ -20,7 +20,7 @@ export const STYLING = {
 		formHeightMin: '37.5px',
 		formHeightSm: '42.5px',
 		formHeightMax: '55px',
-		formWidthMin: '300px',
+		formWidthMin: '350px',
 		formWidthMax: '500px',
 		messagingContent: '650px',
 		wrapWidth: '675px',

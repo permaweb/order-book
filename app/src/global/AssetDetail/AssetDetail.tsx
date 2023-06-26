@@ -3,18 +3,19 @@ import { useSelector } from 'react-redux';
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
-import { AssetType, OrderBook, OrderBookPairOrderType, OrderBookType } from 'permaweb-orderbook';
+import { AssetDetailType, OrderBook, OrderBookPairOrderType, OrderBookType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { Loader } from 'components/atoms/Loader';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'global/AssetData';
-import { StampWidget } from 'global/StampWidget';
+import { AssetSell } from 'global/AssetSell';
+// import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
-import { RootState } from 'state/store';
+import { RootState } from 'store';
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -28,7 +29,7 @@ import { IProps } from './types';
 export default function AssetDetail(props: IProps) {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
-	const [asset, setAsset] = React.useState<AssetType | null>(null);
+	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 	const arProvider = useArweaveProvider();
@@ -76,18 +77,22 @@ export default function AssetDetail(props: IProps) {
 			);
 		}
 	}, [arProvider.walletAddress]);
-	
+
 	React.useEffect(() => {
 		if (orderBook) {
 			(async function () {
 				setLoading(true);
 
-				const assets = assetsReducer.data ? assetsReducer.data : await orderBook.api.getAssetsByContract();
-				for (let i = 0; i < assets.length; i++) {
-					if (assets[i].data.id === props.assetId) {
-						setAsset(assets[i]);
-					}
-				}
+				// TODO: get orders on individual asset
+				// const assets = assetsReducer.data;
+				// for (let i = 0; i < assets.length; i++) {
+				// 	if (assets[i].data.id === props.assetId) {
+				// 		setAsset(assets[i]);
+				// 	}
+				// }
+
+				const asset = await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType;
+				setAsset(asset);
 				setLoading(false);
 			})();
 		}
@@ -109,8 +114,17 @@ export default function AssetDetail(props: IProps) {
 
 	function getAction() {
 		if (asset) {
+			let sellAction;
+			let buyAction;
+			if (arProvider.walletAddress && asset) { // && !orders with seller
+				if(Object.keys(asset.state.balances).map((balance: any) => {
+					return balance;
+				}).includes(arProvider.walletAddress)) {
+					sellAction = <AssetSell asset={asset} />;
+				}
+			}
 			if (asset.orders) {
-				return (
+				buyAction = (
 					<>
 						{asset.orders.map((order: OrderBookPairOrderType, index: number) => {
 							return (
@@ -126,9 +140,13 @@ export default function AssetDetail(props: IProps) {
 						})}
 					</>
 				);
-			} else {
-				return null;
 			}
+			return (
+				<>
+					{buyAction}
+					{sellAction}
+				</>
+			);
 		} else {
 			return null;
 		}
@@ -191,13 +209,11 @@ export default function AssetDetail(props: IProps) {
 						</S.AssetInfoWrapper>
 					</S.C1Wrapper>
 					<S.C2>
-						<div className={'border-wrapper-alt'}>
-							<S.AssetCDetail>
-								<S.ACHeader>
-									<h2>{asset.data.title}</h2>
-									<StampWidget assetId={asset.data.id} />
-								</S.ACHeader>
-							</S.AssetCDetail>
+						<div className={'border-wrapper'}>
+							<S.ACHeader>
+								<h2>{asset.data.title}</h2>
+								{/* <StampWidget assetId={asset.data.id} /> */}
+							</S.ACHeader>
 						</div>
 						{getAction()}
 						<S.DrawerWrapper>

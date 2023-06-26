@@ -1,3 +1,3 @@
 export interface IProps {
-    assetId: string;
+	assetId: string;
 }
