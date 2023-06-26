@@ -78,7 +78,7 @@ function containsSubstring(string: string, substrings: string[]): boolean {
 	  }
 	}
 	return false;
-  }
+}
 
 
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
