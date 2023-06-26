@@ -1,7 +1,7 @@
 export const ORDERBOOK_CONTRACT = 'hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8';
 
 export const CURRENCY_DICT = {
-	U: 'rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk',
+	U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw',
 };
 
 export const PAGINATOR = 100;

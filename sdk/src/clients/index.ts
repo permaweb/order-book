@@ -47,7 +47,6 @@ const client: OrderBookType = {
 		let arClient: ArweaveClientType = this.env.arClient;
 
 		let assetState = await arClient.read(args.assetId);
-		let currencyState = await arClient.read(env.currencyContract);
 		let orderBookState = await arClient.read(env.orderBookContract);
 
 		await validateAsset({ 
@@ -113,7 +112,6 @@ const client: OrderBookType = {
 		let arClient: ArweaveClientType = this.env.arClient;
 
 		let assetState = await arClient.read(args.assetId);
-		let currencyState = await arClient.read(env.currencyContract);
 		let orderBookState = await arClient.read(env.orderBookContract);
 
 		await validateBuy({
