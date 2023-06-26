@@ -5,23 +5,28 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 
 LoggerFactory.INST.logLevel('fatal');
 
-import { AssetType, CursorEnum, OrderBook, OrderBookType } from 'permaweb-orderbook';
+import { CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
 
-import { REDUX_TABLES } from 'helpers/redux';
+import { ApiFetchType } from 'helpers/types';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import * as cursorActions from 'store/cursors/actions';
 
 export default function ReduxAssetsUpdate(props: {
 	reduxCursor: string;
+	apiFetch: ApiFetchType;
 	cursorObject: CursorEnum;
+	currentTableCursor: string | null;
 	children: React.ReactNode;
 }) {
+	const arProvider = useArweaveProvider();
+
 	const dispatch = useDispatch();
-	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
+	// const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 
-	const [sessionUpdated, setSessionUpdated] = React.useState<boolean>(false);
+	// const [sessionUpdated, setSessionUpdated] = React.useState<boolean>(false);
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
 	// TODO: orderbook provider
@@ -70,46 +75,52 @@ export default function ReduxAssetsUpdate(props: {
 	React.useEffect(() => {
 		if (orderBook) {
 			(async function () {
-				if (!sessionUpdated) {
-					let assets: AssetType[] = await orderBook.api.getAssetsByContract({
-						ids: null,
-						owner: null,
-						uploader: null,
-						cursor: null,
-						reduxCursor: REDUX_TABLES.contractAssets,
-						walletAddress: null,
-					});
-
-					if (assets && assets.length) {
-						dispatch(assetActions.setAssets({ data: assets }));
+				if (props.reduxCursor && props.cursorObject && cursorsReducer[props.cursorObject]) {
+					const currentReducer = cursorsReducer[props.cursorObject];
+					if (currentReducer[props.reduxCursor]) {
+						const updatedReducer = currentReducer[props.reduxCursor];
+						let contractIds: string[] = [];
+						switch (props.apiFetch) {
+							case 'contract':
+								contractIds = await OrderBook.api.getAssetIdsByContract();
+							case 'user':
+								if (arProvider.walletAddress) {
+									contractIds = await OrderBook.api.getAssetIdsByUser({ walletAddress: arProvider.walletAddress });
+								}
+						}
+						for (let i = 0; i < contractIds.length; i += PAGINATOR) {
+							updatedReducer.push({
+								index: `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`,
+								ids: [...contractIds].slice(i, i + PAGINATOR),
+							});
+						}
+						dispatch(cursorActions.setCursors({ [props.cursorObject]: { [props.reduxCursor]: updatedReducer } }));
 					}
-					setSessionUpdated(true);
 				}
 			})();
 		}
-	}, [orderBook, sessionUpdated, assetsReducer.data, dispatch]);
+	}, [orderBook, arProvider.walletAddress]);
 
 	React.useEffect(() => {
-		if (orderBook) {
-			(async function () {
-				console.log(await OrderBook.api.getAssetIdsByContract());
-			})()
-		}
-	}, [orderBook])
-
-	// if (props.reduxCursor && props.cursorObject && cursorsReducer[props.cursorObject]) {
-	// 	const currentReducer = cursorsReducer[props.cursorObject];
-	// 	if (currentReducer[props.reduxCursor]) {
-	// 		const updatedReducer = currentReducer[props.reduxCursor];
-	// 		updatedReducer.push({
-	// 			index: `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`,
-	// 			ids: assets.map((asset: AssetType) => {
-	// 				return asset.data.id;
-	// 			}),
-	// 		});
-	// 		dispatch(cursorActions.setCursors({ [props.cursorObject]: { [props.reduxCursor]: updatedReducer } }));
-	// 	}
-	// }
+		(async function () {
+			const reducer = cursorsReducer[props.cursorObject][props.reduxCursor];
+			if (reducer && reducer.length && orderBook && props.currentTableCursor) {
+				for (let i = 0; i < reducer.length; i++) {
+					if (props.currentTableCursor === reducer[i].index) {
+						const assets = await orderBook.api.getAssetsByIds({
+							ids: reducer[i].ids,
+							owner: null,
+							uploader: null,
+							cursor: null,
+							reduxCursor: props.reduxCursor,
+							walletAddress: null,
+						});
+						dispatch(assetActions.setAssets({ data: assets }));
+					}
+				}
+			}
+		})();
+	}, [cursorsReducer, props.currentTableCursor, orderBook]);
 
 	return <>{props.children}</>;
 }

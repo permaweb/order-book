@@ -14,7 +14,8 @@ import {
 	getAssetIdsByContract, 
 	getAssetById, 
 	getAssetsByIds, 
-	getAssetsByUser, 
+	getAssetsByUser,
+	getAssetIdsByUser,
 	getProfile,
 	search
 } from "../../api";
@@ -39,6 +40,10 @@ const apiClient: ApiClientType = {
 
 	getAssetsByUser: async function (args: AssetArgsType): Promise<AssetType[]> {
 		return await getAssetsByUser({ ...args, arClient: this.arClient });
+	},
+
+	getAssetIdsByUser: async function (args: { walletAddress: string }): Promise<string[]> {
+		return await getAssetIdsByUser({ ...args, arClient: this.arClient });
 	},
 
 	getAssetsByIds: async function (args: AssetArgsType): Promise<AssetType[]> {

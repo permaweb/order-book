@@ -142,11 +142,7 @@ export default function AssetsGrid(props: IProps) {
 					return <AssetTile key={asset.data.id} asset={asset} index={index + 1} />;
 				});
 			} else {
-				return (
-					<S.NoAssetsContainer>
-						<p>{language.noAssets}</p>
-					</S.NoAssetsContainer>
-				);
+				return null;
 			}
 		} else {
 			const keys = Array.from({ length: FEATURE_COUNT }, (_, i) => i + 1);

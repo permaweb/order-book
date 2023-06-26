@@ -148,10 +148,3 @@ export const Frame = styled.iframe`
 	padding: 20px;
 	scrollbar-width: none;
 `;
-
-export const NoAssetsContainer = styled.div`
-	height: fit-content;
-	p {
-		color: ${(props) => props.theme.colors.warning};
-	}
-`;

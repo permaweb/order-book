@@ -144,10 +144,3 @@ export const SCValue = styled.div`
 		margin: 20px 0 0 0;
 	}
 `;
-
-export const NoAssetsContainer = styled.div`
-	height: fit-content;
-	p {
-		color: ${(props) => props.theme.colors.warning};
-	}
-`;
