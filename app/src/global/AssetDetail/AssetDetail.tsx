@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AssetDetailType, OrderBook, OrderBookPairOrderType } from 'permaweb-orderbook';
+import { AssetDetailType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
@@ -32,17 +32,19 @@ export default function AssetDetail(props: IProps) {
 	const [loading, setLoading] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
-		if (orProvider.orderBook) {
-			(async function () {
+		(async function () {
+			if (orProvider.orderBook) {
 				setLoading(true);
-				setAsset(await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType);
+				setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
 				setLoading(false);
-			})();
-		}
+			}
+		})();
 	}, [orProvider.orderBook]);
 
 	async function updateAsset() {
-		setAsset(await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType);
+		if (orProvider.orderBook) {
+			setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
+		}
 	}
 
 	async function buyAsset(spend: number) {
