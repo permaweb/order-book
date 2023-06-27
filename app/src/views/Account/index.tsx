@@ -101,7 +101,6 @@ export default function Account() {
 					reduxCursor: null,
 					uploader: null
 				});
-				console.log(s)
 				setLoading(false);
 			}
 		})();

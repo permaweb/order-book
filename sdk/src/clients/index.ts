@@ -12,7 +12,7 @@ import { pairExists } from '../helpers/utils';
 
 import { ArweaveClient } from './arweave';
 import { ApiClient } from './api';
-import { validateAsset, validateSell, validateBuy } from '../helpers';
+import { validateAsset, validateSell, validateBuy, getSyncEndpoint } from '../helpers';
 
 const client: OrderBookType = {
 	env: null,
@@ -104,6 +104,8 @@ const client: OrderBookType = {
 			input: orderInput,
 		});
 
+		await fetch(getSyncEndpoint(args.assetId));
+
 		return orderTx;
 	},
 
@@ -147,6 +149,8 @@ const client: OrderBookType = {
 			wallet: env.wallet,
 			input: orderInput,
 		});
+
+		await fetch(getSyncEndpoint(args.assetId));
 
 		return orderTx;
 	}
