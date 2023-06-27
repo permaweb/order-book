@@ -8,5 +8,5 @@ export const Wrapper = styled.div`
 export const TabWrapper = styled.div<{ label: string }>``;
 
 export const TabContent = styled.div`
-	margin: 20px 0 0 0;
+	margin: 40px 0 0 0;
 `;
