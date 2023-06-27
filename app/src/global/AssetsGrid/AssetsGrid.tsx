@@ -18,7 +18,7 @@ import * as S from './styles';
 import { IProps } from './types';
 
 // TODO: add orders list
-function AssetTile(props: { asset: AssetType; index: number }) {
+function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
 
 	const orders = [
@@ -94,7 +94,7 @@ function AssetTile(props: { asset: AssetType; index: number }) {
 				<StampWidget assetId={props.asset.data.id} />
 			</S.HCWrapper>
 			<S.PCWrapper>
-				<AssetData asset={props.asset} frameMinHeight={350} />
+				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} />
 			</S.PCWrapper>
 			<S.ICWrapper>
 				<S.ICFlex>
@@ -139,7 +139,7 @@ export default function AssetsGrid(props: IProps) {
 		if (assets) {
 			if (assets.length > 0) {
 				return assets.map((asset: AssetType, index: number) => {
-					return <AssetTile key={asset.data.id} asset={asset} index={index + 1} />;
+					return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;
 				});
 			} else {
 				return null;

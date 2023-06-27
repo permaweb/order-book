@@ -102,7 +102,7 @@ export default function AssetsTable(props: IProps) {
 			} else if (currentRecords.length > 0) {
 				switch (props.tableType) {
 					case 'grid':
-						return <AssetsGrid assets={currentRecords} />;
+						return <AssetsGrid assets={currentRecords} autoLoad={false} />;
 					case 'list':
 						return <AssetsList assets={currentRecords} />;
 					default:

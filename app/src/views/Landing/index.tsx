@@ -89,7 +89,7 @@ export default function Landing() {
 		<>
 			<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<AssetsGrid assets={featuredAssets} />
+					<AssetsGrid assets={featuredAssets} autoLoad={true} />
 				</div>
 			</div>
 			<AssetsTable
