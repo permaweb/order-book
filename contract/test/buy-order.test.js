@@ -1,6 +1,8 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
+const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+
 test("buy order", async () => {
   globalThis.ContractAssert = function (expr, msg) {
     if (!expr) {
@@ -23,7 +25,13 @@ test("buy order", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
-      write: (id, input) => Promise.resolve({ type: "ok" }),
+      write: (id, input) => {
+
+        if (id === U && input.function === 'transfer') {
+          assert.equal(input.qty, 9950)
+        }
+        return Promise.resolve({ type: "ok" })
+      },
     },
   };
 
@@ -36,7 +44,7 @@ test("buy order", async () => {
       {
         pair: [
           "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+          U,
         ],
         orders: [
           {
@@ -60,7 +68,7 @@ test("buy order", async () => {
     input: {
       function: "createOrder",
       pair: [
-        "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+        U,
         "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
       ],
       qty: 10000,
@@ -69,7 +77,7 @@ test("buy order", async () => {
   };
   const response = await handle(state, action);
 
-  //console.log(JSON.stringify(response, null, 2));
+  console.log(JSON.stringify(response, null, 2));
   //assert.equal(response.state.pairs[0].priceData.vwap, 100)
   assert.equal(response.result.status, "success");
   assert.ok(true);

@@ -1,6 +1,8 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
+const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+
 globalThis.ContractAssert = function (expr, msg) {
   if (!expr) {
     throw new Error(msg);
@@ -13,7 +15,7 @@ test("sell order", async () => {
       {
         pair: [
           "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+          U,
         ],
         orders: [],
         pricedata: {},
@@ -30,7 +32,7 @@ test("sell order", async () => {
       function: "createOrder",
       pair: [
         "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-        "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+        U,
       ],
       qty: 100,
       price: 100,
@@ -54,7 +56,13 @@ test("sell order", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
-      write: (id, input) => Promise.resolve({ type: "ok" }),
+      write: (id, input) => {
+        console.log(input)
+        if (id === U) {
+          assert.equal(input.qty, 995)
+        }
+        return Promise.resolve({ type: "ok" })
+      },
     },
   };
   const { handle } = await import("../src/index.js");

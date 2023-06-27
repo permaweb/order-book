@@ -1,6 +1,8 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
+const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+
 test("limit buy order", async () => {
   globalThis.ContractAssert = function (expr, msg) {
     if (!expr) {
@@ -23,7 +25,12 @@ test("limit buy order", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
-      write: (id, input) => Promise.resolve({ type: "ok" }),
+      write: (id, input) => {
+        if (id === U && input.function === 'transfer') {
+          assert.equal(input.qty, 995)
+        }
+        return Promise.resolve({ type: "ok" })
+      },
     },
   };
 
@@ -36,7 +43,7 @@ test("limit buy order", async () => {
       {
         pair: [
           "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+          U,
         ],
         orders: [],
         priceData: {},
@@ -50,7 +57,7 @@ test("limit buy order", async () => {
     input: {
       function: "createOrder",
       pair: [
-        "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+        U,
         "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
       ],
       qty: 1000,
