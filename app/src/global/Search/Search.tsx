@@ -7,18 +7,21 @@ import { language } from 'helpers/language';
 
 import * as S from './styles';
 import { IProps } from './types';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 // TODO: mobile search
 export default function Search(props: IProps) {
 	const [value, setValue] = React.useState<string>('');
+	const orProvider = useOrderBookProvider();
 
 	function handleChange(value: string) {
 		setValue(value);
 	}
 
-	function handleSearch(e: any) {
+	async function handleSearch(e: any) {
 		if ((e.type === 'keydown' && e.key === 'Enter') || e.type === 'click') {
 			console.log(`Search: ${value}`);
+			
 		}
 	}
 
@@ -37,7 +40,7 @@ export default function Search(props: IProps) {
 					placeholder={language.search}
 					value={value}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e.target.value)}
-					onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleSearch(e)}
+					onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => await handleSearch(e)}
 					disabled={false}
 				/>
 				<S.ClearWrapper>
