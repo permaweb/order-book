@@ -10,20 +10,14 @@ import {
 	AssetDetailType,
 	OrderBookPairOrderType,
 	OrderBookPairType,
-	PAGINATOR,
 	STORAGE,
 	TAGS,
 	UserBalancesType,
-	ArweaveClientType
 } from '../helpers';
 
 export async function getAssetsByContract(args: AssetArgsClientType): Promise<AssetType[]> {
 	try {
 		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
-
-		console.log(`Paginator: ${PAGINATOR}`);
-		console.log(`Cursor: ${args.cursor}`);
-		console.log(`Redux Cursor: ${args.reduxCursor}`);
 
 		const ids = assets.map((asset: OrderBookPairType) => {
 			return asset.pair[0]
@@ -165,7 +159,7 @@ function getValidatedAssets(gqlData: AssetsResponseType, assets?: OrderBookPairT
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
 
 		// TODO: all validation checks
-		if (title !== STORAGE.none) {
+		// if (title !== STORAGE.none) {
 			let asset: AssetType = {
 				data: {
 					id: gqlData.assets[i].node.id,
@@ -186,7 +180,7 @@ function getValidatedAssets(gqlData: AssetsResponseType, assets?: OrderBookPairT
 				}
 			}
 			validatedAssets.push(asset);
-		}
+		// }
 	}
 	return validatedAssets;
 }
