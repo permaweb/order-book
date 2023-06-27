@@ -2,7 +2,7 @@ import React from 'react';
 import Arweave from 'arweave';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
-import { AssetType, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
+import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
