@@ -8,9 +8,9 @@ export const STYLING = {
 		mobileLandscape: '600px',
 	},
 	dimensions: {
-		borderRadius: '10px',
+		borderRadius: '7.5px',
 		borderRadiusField: '5px',
-		borderRadiusWrapper: '10px',
+		borderRadiusWrapper: '7.5px',
 		buttonHeight: '35px',
 		buttonWidth: '150px',
 		listWidth: '600px',

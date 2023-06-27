@@ -3,7 +3,7 @@ import Arweave from 'arweave';
 import styled from 'styled-components';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
-import { ApiClientType, OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
+import { OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
 import { AR_WALLETS, WALLET_PERMISSIONS } from 'helpers/config';
@@ -94,11 +94,11 @@ function WalletList(props: { handleConnect: () => void }) {
 export function ArweaveProvider(props: ArweaveProviderProps) {
 	const wallets = AR_WALLETS;
 
+	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 	const [walletModalVisible, setWalletModalVisible] = React.useState<boolean>(false);
 	const [walletAddress, setWalletAddress] = React.useState<string | null>(null);
 	const [availableBalance, setAvailableBalance] = React.useState<number | null>(null);
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
-	const [apiClient, setApiClient] = React.useState<ApiClientType | null>(null);
 
 	async function handleConnect() {
 		// @ts-ignore
@@ -145,8 +145,6 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 			window.removeEventListener('arweaveWalletLoaded', handleWallet);
 		};
 	});
-
-	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
 	React.useEffect(() => {
 		const GET_ENDPOINT = 'arweave-search.goldsky.com';

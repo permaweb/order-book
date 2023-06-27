@@ -82,7 +82,6 @@ export default function AssetsList(props: IProps) {
 				);
 			} else {
 				return null;
-				
 			}
 		} else {
 			// TODO: get count

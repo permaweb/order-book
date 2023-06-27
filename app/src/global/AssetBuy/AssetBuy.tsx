@@ -14,7 +14,7 @@ import { useArweaveProvider } from 'providers/ArweaveProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
-export default function AssetSell(props: IProps) {
+export default function AssetBuy(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 

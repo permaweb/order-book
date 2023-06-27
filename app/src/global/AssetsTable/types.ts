@@ -4,7 +4,7 @@ import { ApiFetchType, AssetTableType } from 'helpers/types';
 
 export interface IProps {
 	assets: AssetType[] | null;
-	reduxCursor: string; 
+	reduxCursor: string;
 	apiFetch: ApiFetchType;
 	header?: string;
 	recordsPerPage: number;

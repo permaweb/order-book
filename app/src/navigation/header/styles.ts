@@ -29,6 +29,8 @@ export const NavContainer = styled.div`
 	height: 100%;
 	width: 100%;
 	position: relative;
+	display: flex;
+	align-items: center;
 	background: ${(props) => props.theme.colors.navigation.header.backgroundNav};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
@@ -178,4 +180,10 @@ export const MenuContainer = styled.div`
 	width: 50px;
 	z-index: 5;
 	position: relative;
+`;
+
+export const SearchWrapper = styled.div`
+	width: 650px;
+	max-width: 100%;
+	margin: 0 auto;
 `;

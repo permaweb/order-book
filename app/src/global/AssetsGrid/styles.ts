@@ -17,9 +17,6 @@ export const Wrapper = styled.div`
 export const PICWrapper = styled.div`
 	margin: 15px;
 	width: calc(33.3% - 30px);
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadius};
-	overflow: hidden;
 	animation: ${open} ${fadeIn2};
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		width: 100%;
@@ -31,6 +28,11 @@ export const HCWrapper = styled.div`
 	height: 60px;
 	width: 100%;
 	background: ${(props) => props.theme.colors.container.primary.background};
+	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-top-left-radius: ${STYLING.dimensions.borderRadius};
+	border-top-right-radius: ${STYLING.dimensions.borderRadius};
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -62,13 +64,20 @@ export const PCWrapper = styled.div`
 	width: 100%;
 	position: relative;
 	background: ${(props) => props.theme.colors.container.primary.background};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
 `;
 
 export const ICWrapper = styled.div`
 	min-height: 50px;
 	width: 100%;
-	padding: 5px 10px;
+	padding: 5px 15px;
 	background: ${(props) => props.theme.colors.container.primary.background};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
+	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
 	position: relative;
 `;
 
@@ -92,10 +101,10 @@ export const AssetData = styled.div`
 	margin: 5px 0;
 	display: flex;
 	align-items: center;
-	padding: 0 10px;
-	background: ${(props) => props.theme.colors.container.primary.background};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadiusField};
+	// padding: 0 10px;
+	// background: ${(props) => props.theme.colors.container.primary.background};
+	// border: 1px solid ${(props) => props.theme.colors.border.primary};
+	// border-radius: ${STYLING.dimensions.borderRadius};
 	span {
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.regular};
@@ -106,7 +115,7 @@ export const AssetData = styled.div`
 		line-height: calc(${(props) => props.theme.typography.size.base} + 2px);
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
-		max-width: 200px;
+		max-width: 305px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -135,16 +144,4 @@ export const AssetDataAlt = styled(AssetData)`
 		width: 1px;
 		border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
-`;
-
-export const AssetPrice = styled.div`
-	height: 100%;
-	width: 50px;
-`;
-
-export const Frame = styled.iframe`
-	height: 100%;
-	width: 100%;
-	padding: 20px;
-	scrollbar-width: none;
 `;

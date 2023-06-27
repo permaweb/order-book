@@ -21,76 +21,16 @@ import { IProps } from './types';
 function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
 
-	const orders = [
-		{
-			id: 'ELes3ZaBgPS5v0pREaolBIBpL0B55B2gTAKIDkjA6mU',
-			transfer: 'tEByke-Kkjp5CKJ_d5uDMNj_CxtVCFz8fPwl6KpILgY',
-			creator: 'YWECbIrjlJpc7ZhwTQCGjPAQyP4CgE_3YIDd8I0wgJ0',
-			token: 'F8tPKDNS-c6mXD1a0FqPXlbiQ2Yl4MhN1ltIdkMI3O8',
-			price: 10000,
-			quantity: 99.99,
-			originalQuantity: 100,
-			currency: 'rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk',
-		},
-		{
-			id: 'ELes3ZaBgPS5v0pREaolBIBpL0B55B2gTAKIDkjA6mU',
-			transfer: 'tEByke-Kkjp5CKJ_d5uDMNj_CxtVCFz8fPwl6KpILgY',
-			creator: 'YWECbIrjlJpc7ZhwTQCGjPAQyP4CgE_3YIDd8I0wgJ0',
-			token: 'F8tPKDNS-c6mXD1a0FqPXlbiQ2Yl4MhN1ltIdkMI3O8',
-			price: 10000,
-			quantity: 99.99,
-			originalQuantity: 100,
-			currency: 'rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk',
-		},
-		{
-			id: 'ELes3ZaBgPS5v0pREaolBIBpL0B55B2gTAKIDkjA6mU',
-			transfer: 'tEByke-Kkjp5CKJ_d5uDMNj_CxtVCFz8fPwl6KpILgY',
-			creator: 'YWECbIrjlJpc7ZhwTQCGjPAQyP4CgE_3YIDd8I0wgJ0',
-			token: 'F8tPKDNS-c6mXD1a0FqPXlbiQ2Yl4MhN1ltIdkMI3O8',
-			price: 10000,
-			quantity: 99.99,
-			originalQuantity: 100,
-			currency: 'rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk',
-		},
-		{
-			id: 'ELes3ZaBgPS5v0pREaolBIBpL0B55B2gTAKIDkjA6mU',
-			transfer: 'tEByke-Kkjp5CKJ_d5uDMNj_CxtVCFz8fPwl6KpILgY',
-			creator: 'YWECbIrjlJpc7ZhwTQCGjPAQyP4CgE_3YIDd8I0wgJ0',
-			token: 'F8tPKDNS-c6mXD1a0FqPXlbiQ2Yl4MhN1ltIdkMI3O8',
-			price: 10000,
-			quantity: 99.99,
-			originalQuantity: 100,
-			currency: 'rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk',
-		},
-		{
-			id: 'ELes3ZaBgPS5v0pREaolBIBpL0B55B2gTAKIDkjA6mU',
-			transfer: 'tEByke-Kkjp5CKJ_d5uDMNj_CxtVCFz8fPwl6KpILgY',
-			creator: 'YWECbIrjlJpc7ZhwTQCGjPAQyP4CgE_3YIDd8I0wgJ0',
-			token: 'F8tPKDNS-c6mXD1a0FqPXlbiQ2Yl4MhN1ltIdkMI3O8',
-			price: 10000,
-			quantity: 99.99,
-			originalQuantity: 100,
-			currency: 'rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk',
-		},
-	];
-
-	const TEST_ASSET = {
-		data: props.asset.data,
-		orders: orders,
-	};
-
-
 	// TODO: get ownership chart
 	// TODO: get renderer icon if renderer
+
 	return (
 		<S.PICWrapper>
 			<S.HCWrapper>
 				<ReactSVG src={TEMP_FRACTION_SVG} />
-
 				<S.RendererSVG>
 					<ReactSVG src={ASSETS.renderer} />
 				</S.RendererSVG>
-
 				<StampWidget assetId={props.asset.data.id} />
 			</S.HCWrapper>
 			<S.PCWrapper>
@@ -117,7 +57,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 					<S.AssetDataAlt>
 						<span>{language.listing}</span>
 						<div className={'a-divider'} />
-						<AssetOrders asset={TEST_ASSET} />
+						{props.asset.orders.length > 0 ? <AssetOrders asset={props.asset} /> : <p>{language.none}</p>}
 					</S.AssetDataAlt>
 				)}
 			</S.ICWrapper>

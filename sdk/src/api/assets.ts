@@ -115,7 +115,9 @@ export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetTy
 		walletAddress: args.walletAddress
 	});
 
-	return getValidatedAssets(gqlData);
+	const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
+
+	return getValidatedAssets(gqlData, pairs);
 
 }
 
@@ -148,7 +150,7 @@ export async function getAssetById(args: { id: string, arClient: any, orderBookC
 }
 
 // TODO: validate topic
-function getValidatedAssets(gqlData: AssetsResponseType, assets?: OrderBookPairType[]): AssetType[] {
+function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairType[]): AssetType[] {
 	let validatedAssets: AssetType[] = [];
 	for (let i = 0; i < gqlData.assets.length; i++) {
 		const title = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.title);
@@ -171,11 +173,12 @@ function getValidatedAssets(gqlData: AssetsResponseType, assets?: OrderBookPairT
 					renderWith: renderWith ? renderWith : null
 				}
 			}
-			if (assets) {
-				const assetIndex = assets.findIndex((asset: OrderBookPairType) => asset.pair[0] === gqlData.assets[i].node.id);
+
+			if (pairs) {
+				const assetIndex = pairs.findIndex((asset: OrderBookPairType) => asset.pair[0] === gqlData.assets[i].node.id);
 				if (assetIndex !== -1) {
-					asset.orders = assets[assetIndex].orders.map((order: OrderBookPairOrderType) => {
-						return { ...order, currency: assets[assetIndex].pair[1] }
+					asset.orders = pairs[assetIndex].orders.map((order: OrderBookPairOrderType) => {
+						return { ...order, currency: pairs[assetIndex].pair[1] }
 					});
 				}
 			}

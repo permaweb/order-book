@@ -5,7 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 
 LoggerFactory.INST.logLevel('fatal');
 
-import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR, STORAGE } from 'permaweb-orderbook';
+import { CursorEnum, OrderBook, OrderBookType, PAGINATOR, STORAGE } from 'permaweb-orderbook';
 
 import { ApiFetchType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';

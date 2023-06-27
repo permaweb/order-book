@@ -71,10 +71,10 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt1: {
-				background: DEFAULT.primary,
-				border: DEFAULT.primary,
-				hover: DEFAULT.primary2,
-				label: DEFAULT.neutral1,
+				background: DEFAULT.neutral1,
+				border: DEFAULT.neutral5,
+				hover: DEFAULT.neutral2,
+				label: DEFAULT.primary,
 				active: {
 					background: DEFAULT.primary,
 					hover: DEFAULT.primary2,

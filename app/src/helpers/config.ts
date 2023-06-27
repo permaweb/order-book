@@ -19,10 +19,13 @@ import overviewSVG from 'assets/overview.svg';
 import ownersSVG from 'assets/owners.svg';
 import provenanceSVG from 'assets/provenance.svg';
 import rendererSVG from 'assets/renderer.svg';
+import searchSVG from 'assets/search.svg';
 import sellSVG from 'assets/sell.svg';
 import stampsSVG from 'assets/stamps.svg';
 import uSVG from 'assets/u.svg';
 import userSVG from 'assets/user.svg';
+
+import { language } from './language';
 
 export const ASSETS = {
 	arLogo: arLogoSVG,
@@ -43,6 +46,7 @@ export const ASSETS = {
 	owners: ownersSVG,
 	provenance: provenanceSVG,
 	renderer: rendererSVG,
+	search: searchSVG,
 	sell: sellSVG,
 	stamps: stampsSVG,
 	u: uSVG,
@@ -78,3 +82,17 @@ export const STORAGE = {
 export const REDIRECTS = {
 	arProfile: `https://arprofile.arweave.dev/`,
 };
+
+export const TAB_OPTIONS = {
+	buy: language.buy,
+	sell: language.sell,
+};
+
+export const ACTION_TABS = [
+	{
+		label: TAB_OPTIONS.buy,
+	},
+	{
+		label: TAB_OPTIONS.sell,
+	},
+];

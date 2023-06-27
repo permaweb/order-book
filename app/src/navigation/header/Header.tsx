@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
 import { IconButton } from 'components/atoms/IconButton';
+import { Search } from 'global/Search';
 import { ASSETS } from 'helpers/config';
 import * as urls from 'helpers/urls';
 import { checkDesktop, checkWindowResize, hideDocumentBody, showDocumentBody } from 'helpers/window';
@@ -87,6 +88,9 @@ export default function Header() {
 							</S.LogoContent>
 						</Link>
 					</S.LogoContainer>
+					<S.SearchWrapper>
+						<Search />
+					</S.SearchWrapper>
 					{getNav()}
 				</S.NavContainer>
 			</S.NavWrapper>
@@ -94,5 +98,3 @@ export default function Header() {
 		</S.Wrapper>
 	);
 }
-
-// https://github.com/permaweb/RebAR#readme

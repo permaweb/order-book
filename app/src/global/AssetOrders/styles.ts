@@ -5,6 +5,7 @@ import { STYLING } from 'helpers/styling';
 export const Wrapper = styled.div`
 	height: 100%;
 	width: 100%;
+	position: relative;
 `;
 
 export const DropdownAction = styled.button`
@@ -26,6 +27,26 @@ export const DropdownAction = styled.button`
 		cursor: pointer;
 		background: ${(props) => props.theme.colors.container.primary.hover};
 	}
+	&:disabled {
+		cursor: default;
+		background: ${(props) => props.theme.colors.container.primary.background};
+	}
+`;
+
+export const Dropdown = styled.div`
+	width: 100%;
+	margin: 7.5px 0 0 0;
+	background: ${(props) => props.theme.colors.container.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadiusField};
+	position: absolute;
+	z-index: 1;
+`;
+
+export const DropdownSubAction = styled(DropdownAction)`
+	border: none;
+	border-radius: none;
+	padding: 7.5px 10px;
 `;
 
 export const Currency = styled.div`

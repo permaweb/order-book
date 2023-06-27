@@ -1,9 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import Arweave from 'arweave';
-import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
-import { AssetDetailType, OrderBook, OrderBookPairOrderType, OrderBookType } from 'permaweb-orderbook';
+import { AssetDetailType, OrderBook, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
@@ -15,8 +12,9 @@ import { AssetSell } from 'global/AssetSell';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
-import { RootState } from 'store';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
+import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -27,82 +25,28 @@ import { IProps } from './types';
 // TODO: order book provider
 // TODO: for single unit assets on buy -> send: order.price
 export default function AssetDetail(props: IProps) {
-	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
+	const arProvider = useArweaveProvider();
+	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
-	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
-	const arProvider = useArweaveProvider();
 
 	React.useEffect(() => {
-		if (arProvider.walletAddress) {
-			const GET_ENDPOINT = 'arweave-search.goldsky.com';
-			const POST_ENDPOINT = 'arweave.net';
-
-			const PORT = 443;
-			const PROTOCOL = 'https';
-			const TIMEOUT = 40000;
-			const LOGGING = false;
-
-			let arweaveGet = Arweave.init({
-				host: GET_ENDPOINT,
-				port: PORT,
-				protocol: PROTOCOL,
-				timeout: TIMEOUT,
-				logging: LOGGING,
-			});
-
-			let arweavePost = Arweave.init({
-				host: POST_ENDPOINT,
-				port: PORT,
-				protocol: PROTOCOL,
-				timeout: TIMEOUT,
-				logging: LOGGING,
-			});
-
-			let warp = WarpFactory.forMainnet({
-				...defaultCacheOptions,
-				inMemory: true,
-			});
-
-			setOrderBook(
-				OrderBook.init({
-					currency: 'U',
-					wallet: 'use_wallet',
-					arweaveGet: arweaveGet,
-					arweavePost: arweavePost,
-					warp: warp,
-					walletAddress: arProvider.walletAddress,
-				})
-			);
-		}
-	}, [arProvider.walletAddress]);
-
-	React.useEffect(() => {
-		if (orderBook) {
+		if (orProvider.orderBook) {
 			(async function () {
 				setLoading(true);
-
-				// TODO: get orders on individual asset
-				// const assets = assetsReducer.data;
-				// for (let i = 0; i < assets.length; i++) {
-				// 	if (assets[i].data.id === props.assetId) {
-				// 		setAsset(assets[i]);
-				// 	}
-				// }
-
-				const asset = await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType;
+				const asset = (await OrderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType;
 				setAsset(asset);
 				setLoading(false);
 			})();
 		}
-	}, [orderBook]);
+	}, [orProvider.orderBook]);
 
 	async function buyAsset(spend: number) {
-		if (asset && orderBook) {
+		if (asset && orProvider.orderBook) {
 			setLoading(true);
 
-			let orderTx = await orderBook.buy({
+			let orderTx = await orProvider.orderBook.buy({
 				assetId: asset.data.id,
 				spend: spend,
 			});
@@ -111,45 +55,50 @@ export default function AssetDetail(props: IProps) {
 		}
 	}
 
-	function getAction() {
-		if (asset) {
-			let sellAction;
-			let buyAction;
-			if (arProvider.walletAddress && asset) { // && !orders with seller
-				if(Object.keys(asset.state.balances).map((balance: any) => {
-					return balance;
-				}).includes(arProvider.walletAddress)) {
-					sellAction = <AssetSell asset={asset} />;
-				}
-			}
-			if (asset.orders) {
-				buyAction = (
-					<>
-						{asset.orders.map((order: OrderBookPairOrderType, index: number) => {
-							return (
-								<Button
-									key={index}
-									type={'alt1'}
-									label={`${language.buyNow} (Price: ${order.price} Qty: ${order.quantity})`}
-									handlePress={() => buyAsset(order.price * order.quantity)}
-									height={50}
-									width={275}
-								/>
-							);
-						})}
-					</>
-				);
-			}
-			return (
-				<>
-					{buyAction}
-					{sellAction}
-				</>
-			);
-		} else {
-			return null;
-		}
-	}
+	// function getAction() {
+	// 	if (asset) {
+	// 		let sellAction;
+	// 		let buyAction;
+	// 		if (arProvider.walletAddress && asset) {
+	// 			// && !orders with seller
+	// 			if (
+	// 				Object.keys(asset.state.balances)
+	// 					.map((balance: any) => {
+	// 						return balance;
+	// 					})
+	// 					.includes(arProvider.walletAddress)
+	// 			) {
+	// 				sellAction = <AssetSell asset={asset} />;
+	// 			}
+	// 		}
+	// 		if (asset.orders) {
+	// 			buyAction = (
+	// 				<>
+	// 					{asset.orders.map((order: OrderBookPairOrderType, index: number) => {
+	// 						return (
+	// 							<Button
+	// 								key={index}
+	// 								type={'alt1'}
+	// 								label={`${language.buyNow} (Price: ${order.price} Qty: ${order.quantity})`}
+	// 								handlePress={() => buyAsset(order.price * order.quantity)}
+	// 								height={50}
+	// 								width={275}
+	// 							/>
+	// 						);
+	// 					})}
+	// 				</>
+	// 			);
+	// 		}
+	// 		return (
+	// 			<>
+	// 				{buyAction}
+	// 				{sellAction}
+	// 			</>
+	// 		);
+	// 	} else {
+	// 		return null;
+	// 	}
+	// }
 
 	// TODO: get block height / owners / date created
 	function getData() {
@@ -214,8 +163,10 @@ export default function AssetDetail(props: IProps) {
 								{/* <StampWidget assetId={asset.data.id} /> */}
 							</S.ACHeader>
 						</div>
-						{getAction()}
-						<S.DrawerWrapper>
+						<S.AssetCAction className={'border-wrapper-alt'}>
+							<AssetDetailAction asset={asset} />
+						</S.AssetCAction>
+						{/* <S.DrawerWrapper>
 							<Drawer
 								title={language.activeSaleOrders}
 								icon={ASSETS.orders}
@@ -274,7 +225,7 @@ export default function AssetDetail(props: IProps) {
 									</S.DrawerContent>
 								}
 							/>
-						</S.DrawerWrapper>
+						</S.DrawerWrapper> */}
 					</S.C2>
 				</>
 			);
