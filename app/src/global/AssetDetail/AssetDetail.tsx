@@ -35,18 +35,21 @@ export default function AssetDetail(props: IProps) {
 		if (orProvider.orderBook) {
 			(async function () {
 				setLoading(true);
-				const asset = (await OrderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType;
-				setAsset(asset);
+				setAsset(await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType);
 				setLoading(false);
 			})();
 		}
 	}, [orProvider.orderBook]);
 
+	async function updateAsset() {
+		setAsset(await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType);
+	}
+
 	async function buyAsset(spend: number) {
 		if (asset && orProvider.orderBook) {
 			setLoading(true);
 
-			let orderTx = await orProvider.orderBook.buy({
+			await orProvider.orderBook.buy({
 				assetId: asset.data.id,
 				spend: spend,
 			});
