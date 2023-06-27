@@ -82,27 +82,21 @@ export default function AssetDetail(props: IProps) {
 		if (orderBook) {
 			(async function () {
 				setLoading(true);
-
-				// TODO: get orders on individual asset
-				// const assets = assetsReducer.data;
-				// for (let i = 0; i < assets.length; i++) {
-				// 	if (assets[i].data.id === props.assetId) {
-				// 		setAsset(assets[i]);
-				// 	}
-				// }
-
-				const asset = await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType;
-				setAsset(asset);
+				setAsset(await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType);
 				setLoading(false);
 			})();
 		}
 	}, [orderBook]);
 
+	async function updateAsset() {
+		setAsset(await OrderBook.api.getAssetById({ id: props.assetId }) as AssetDetailType);
+	}
+
 	async function buyAsset(spend: number) {
 		if (asset && orderBook) {
 			setLoading(true);
 
-			let orderTx = await orderBook.buy({
+			await orderBook.buy({
 				assetId: asset.data.id,
 				spend: spend,
 			});
@@ -119,7 +113,9 @@ export default function AssetDetail(props: IProps) {
 				if(Object.keys(asset.state.balances).map((balance: any) => {
 					return balance;
 				}).includes(arProvider.walletAddress)) {
-					sellAction = <AssetSell asset={asset} />;
+					if((asset.state.balances[arProvider.walletAddress] !== 0)) {
+						sellAction = <AssetSell asset={asset} updateAsset={() => updateAsset()}/>;	
+					}
 				}
 			}
 			if (asset.orders) {

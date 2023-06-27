@@ -86,31 +86,60 @@ export default function AssetSell(props: IProps) {
 	}
 
 	async function handleSell(e: any) {
-		e.preventDefault();
-		console.log(`Quantity: ${quantity}`);
-		console.log(`Unit Price: ${unitPrice}`);
+		if(arProvider.walletAddress) {
+			e.preventDefault();
 
-		await orderBook?.sell({
-			assetId: props.asset.data.id,
-			qty: quantity,
-			price: unitPrice
-		});
+			let qty = quantity;
+
+			if(props.asset.state.balances[arProvider.walletAddress] === 1) {
+				qty = 1;
+			}
+
+			if(qty === 0 || unitPrice === 0) {
+				throw new Error("no 0 input");
+			}
+			if(qty > props.asset.state.balances[arProvider.walletAddress]) {
+				throw new Error("above max quantity");
+			}
+
+			setLoading(true);
+
+			try {
+				await orderBook?.sell({
+					assetId: props.asset.data.id,
+					qty: qty,
+					price: unitPrice
+				});	
+			} catch(e: any) {
+				throw new Error(e);
+			}
+
+			setLoading(false);
+
+			setShowModal(false);
+
+			await props.updateAsset();
+
+			// TODO: show notification
+		}
 	}
 
 	function getFields() {
 		if (props.asset && arProvider.walletAddress) {
 			return (
 				<>
-					<S.FormContainer>
-						<FormField
-							type={'number'}
-							label={`${language.quantity} (Max: ${props.asset.state.balances[arProvider.walletAddress]})`}
-							value={quantity}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(parseFloat(e.target.value))}
-							disabled={loading || !arProvider.walletAddress}
-							invalid={getInvalidQuantity()}
-						/>
-					</S.FormContainer>
+					{props.asset.state.balances[arProvider.walletAddress] > 1 && 
+						<S.FormContainer>
+							<FormField
+								type={'number'}
+								label={`${language.quantity} (Max: ${props.asset.state.balances[arProvider.walletAddress]})`}
+								value={quantity}
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(parseFloat(e.target.value))}
+								disabled={loading || !arProvider.walletAddress}
+								invalid={getInvalidQuantity()}
+							/>
+						</S.FormContainer>
+					}
 					<S.FormContainer>
 						<FormField
 							type={'number'}
@@ -139,7 +168,7 @@ export default function AssetSell(props: IProps) {
 									label={language.submit}
 									type={'alt1'}
 									handlePress={(e) => handleSell(e)}
-									disabled={false}
+									disabled={loading || !arProvider.walletAddress}
 									loading={loading}
 									formSubmit
 									height={45}
