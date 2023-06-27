@@ -7,7 +7,7 @@ globalThis.ContractAssert = function (expr, msg) {
   }
 };
 
-test("sell order", async () => {
+test("create order with no limits but vwap set", async () => {
   const state = {
     pairs: [
       {
@@ -16,7 +16,17 @@ test("sell order", async () => {
           "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
         ],
         orders: [],
-        pricedata: {},
+        pricedata: {
+          block: 1207800,
+          dominantToken: "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
+          matchLogs: [{
+            id: "PbZeNcn8dNu_TzCC4rmYAsE-z5XUtqCMgPW8EsJuEbk",
+            price: 1000,
+            qty: 1
+          }
+          ],
+          vwap: 1000
+        },
       },
     ],
     balances: {},
@@ -33,7 +43,6 @@ test("sell order", async () => {
         "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
       ],
       qty: 100,
-      price: 100,
       transaction: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
     },
   };
@@ -60,10 +69,9 @@ test("sell order", async () => {
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-  console.log(JSON.stringify(response.state, null, 2))
-  assert.equal(response.state.pairs[0].orders[0].price, 100);
-  assert.equal(response.state.pairs[0].orders[0].quantity, 100);
-  assert.equal(response.result.status, "success");
+
+  assert.equal(response.result.message, "The first order for a pair can only be a \"limit\" order");
+  assert.equal(response.result.status, "failure");
   assert.ok(true);
 });
 
