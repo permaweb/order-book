@@ -83,10 +83,12 @@ export default function ReduxAssetsUpdate(props: {
 						switch (props.apiFetch) {
 							case 'contract':
 								contractIds = await OrderBook.api.getAssetIdsByContract();
+								break;
 							case 'user':
 								if (arProvider.walletAddress) {
 									contractIds = await OrderBook.api.getAssetIdsByUser({ walletAddress: arProvider.walletAddress });
 								}
+								break;
 						}
 						for (let i = 0; i < contractIds.length; i += PAGINATOR) {
 							updatedReducer.push({
@@ -118,6 +120,8 @@ export default function ReduxAssetsUpdate(props: {
 						dispatch(assetActions.setAssets({ data: assets }));
 					}
 				}
+			} else {
+				dispatch(assetActions.setAssets({data: []}));
 			}
 		})();
 	}, [cursorsReducer, props.currentTableCursor, orderBook]);

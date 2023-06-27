@@ -73,6 +73,7 @@ export const DCHeader = styled.p`
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.bold};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
+	line-height: 1.5;
 `;
 
 export const DCLine = styled.div`

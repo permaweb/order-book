@@ -48,9 +48,10 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
 	try {
-		return (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs.map((asset: OrderBookPairType) => {
+		let r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs.map((asset: OrderBookPairType) => {
 			return asset.pair[0]
-		})
+		}).reverse();
+		return r;
 	}
 	catch (e: any) {
 		return [];
