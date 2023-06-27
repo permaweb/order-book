@@ -5,7 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 
 LoggerFactory.INST.logLevel('fatal');
 
-import { CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
+import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR, STORAGE } from 'permaweb-orderbook';
 
 import { ApiFetchType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -109,7 +109,7 @@ export default function ReduxAssetsUpdate(props: {
 			if (reducer && reducer.length && orderBook && props.currentTableCursor) {
 				for (let i = 0; i < reducer.length; i++) {
 					if (props.currentTableCursor === reducer[i].index) {
-						const assets = await orderBook.api.getAssetsByIds({
+						const fetchedAssets = await orderBook.api.getAssetsByIds({
 							ids: reducer[i].ids,
 							owner: null,
 							uploader: null,
@@ -117,11 +117,14 @@ export default function ReduxAssetsUpdate(props: {
 							reduxCursor: props.reduxCursor,
 							walletAddress: null,
 						});
-						dispatch(assetActions.setAssets({ data: assets }));
+						// const finalAssets = fetchedAssets.filter((asset: AssetType) => {
+						// 	return (asset.data.title !== STORAGE.none)
+						// });
+						dispatch(assetActions.setAssets({ data: fetchedAssets }));
 					}
 				}
 			} else {
-				dispatch(assetActions.setAssets({data: []}));
+				dispatch(assetActions.setAssets({ data: [] }));
 			}
 		})();
 	}, [cursorsReducer, props.currentTableCursor, orderBook]);

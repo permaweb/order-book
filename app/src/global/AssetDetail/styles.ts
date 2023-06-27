@@ -85,6 +85,7 @@ export const DCLine = styled.div`
 
 export const DCLineHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
+	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.medium};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
@@ -92,6 +93,7 @@ export const DCLineHeader = styled.p`
 
 export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
+	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.regular};
 	color: ${(props) => props.theme.colors.font.primary.alt1};

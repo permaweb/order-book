@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
-// import { Loader } from 'components/atoms/Loader';
 import { AssetsGrid } from 'global/AssetsGrid';
 import { AssetsTable } from 'global/AssetsTable';
 import { FEATURE_COUNT } from 'helpers/config';
@@ -16,8 +15,6 @@ export default function Landing() {
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 	const [featuredAssets, setFeaturedAssets] = React.useState<AssetType[] | null>(null);
 	const [tableAssets, setTableAssets] = React.useState<AssetType[] | null>(null);
-
-	// const [loading, setLoading] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		if (assetsReducer.data) {
@@ -37,53 +34,6 @@ export default function Landing() {
 			}
 		}
 	}, [assets]);
-
-	// function getFeaturedAssets() {
-	// 	if (featuredAssets) {
-	// 		return (
-	// 			<div className={'background-wrapper'}>
-	// 				<div className={'view-wrapper max-cutoff'}>
-	// 					<AssetsGrid assets={featuredAssets} />
-	// 				</div>
-	// 			</div>
-	// 		);
-	// 	} else {
-	// 		return null;
-	// 	}
-	// }
-
-	// function getAssetsTable() {
-	// 	if (tableAssets) {
-	// 		return (
-	// 			<AssetsTable
-	// 				assets={tableAssets}
-	// 				apiFetch={'contract'}
-	// 				reduxCursor={REDUX_TABLES.contractAssets}
-	// 				recordsPerPage={PAGINATOR}
-	// 				showPageNumbers={false}
-	// 				tableType={'list'}
-	// 				showNoResults={true}
-	// 			/>
-	// 		);
-	// 	} else {
-	// 		return null;
-	// 	}
-	// }
-
-	// function getAssets() {
-	// 	if (assets) {
-	// 		return (
-	// 			<>
-	// 				{getFeaturedAssets()}
-	// 				{getAssetsTable()}
-	// 			</>
-	// 		);
-	// 	} else {
-	// 		if (loading) {
-	// 			return <Loader />;
-	// 		} else return null;
-	// 	}
-	// }
 
 	return (
 		<>
