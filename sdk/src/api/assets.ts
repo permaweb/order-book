@@ -152,7 +152,7 @@ export async function getAssetById(args: { id: string, arClient: any, orderBookC
 }
 
 // TODO: validate topic
-function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairType[]): AssetType[] {
+export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairType[]): AssetType[] {
 	let validatedAssets: AssetType[] = [];
 	for (let i = 0; i < gqlData.assets.length; i++) {
 		const title = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.title);
@@ -163,7 +163,7 @@ function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairTy
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
 
 		// TODO: all validation checks
-		// if (title !== STORAGE.none) {
+		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
 				data: {
 					id: gqlData.assets[i].node.id,
@@ -187,7 +187,7 @@ function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairTy
 				}
 			}
 			validatedAssets.push(asset);
-		// }
+		}
 	}
 	return validatedAssets;
 }

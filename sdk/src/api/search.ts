@@ -1,31 +1,53 @@
-import { getGQLData } from '../gql';
-import { ArweaveClientType, SearchArgs, SearchReturnType } from '../helpers';
+import { getAssetsResponseObject, getGQLData } from '../gql';
+import { AGQLResponseType, ArweaveClientType, AssetType, SearchArgs, SearchReturnType } from '../helpers';
+import { getValidatedAssets } from '../api';
 
-export async function search (args: SearchArgs & {arClient: ArweaveClientType}) : Promise<SearchReturnType>{
-	let tags = [{
-        name: 'Title',
-        values: [`${args.term}`], 
-        match: `FUZZY_OR`
-    }];
+function removeDuplicates(assets: AssetType[]): AssetType[] {
+    const uniqueAssets: AssetType[] = [];
+  
+    const ids: Set<string> = new Set();
+    for (const asset of assets) {
+      if (!ids.has(asset.data.id)) {
+        ids.add(asset.data.id);
+        uniqueAssets.push(asset);
+      }
+    }
+  
+    return uniqueAssets;
+}
+
+export async function search (args: SearchArgs & {arClient: ArweaveClientType}) : Promise<SearchReturnType | null>{
+    let tagsToSearch = ['Title', 'Description', 'Type'];
+    let allValidatedAssets = [];
 
     try {
-        let result = await getGQLData({
-            ids: null,
-            tagFilters: tags,
-            uploader: args.uploader,
-            cursor: args.cursor,
-            reduxCursor: args.reduxCursor,
-            cursorObject:null,
-            arClient: args.arClient,
-        });
-
-        let res = result.data.map((r: any) => {return r.node.id});
-
-        return res;
+        for(let i = 0; i < tagsToSearch.length; i++) {
+            let tags = [{
+                name: tagsToSearch[i],
+                values: [`${args.term}`], 
+                match: `FUZZY_OR`
+            }];
+    
+            let result: AGQLResponseType = await getGQLData({
+                ids: null,
+                tagFilters: tags,
+                uploader: args.uploader,
+                cursor: args.cursor,
+                reduxCursor: args.reduxCursor,
+                cursorObject:null,
+                arClient: args.arClient,
+            });
+    
+            let ar = getAssetsResponseObject(result);
+            let validatedAssets = getValidatedAssets(ar);
+    
+            allValidatedAssets = allValidatedAssets.concat(validatedAssets);
+        }
     } catch (e: any) {
         console.log(e);
     }
-	
 
-    return {};
+    return {
+        assets: removeDuplicates(allValidatedAssets)
+    };
 }

@@ -68,7 +68,7 @@ export type AssetArgsClientType = AssetArgsType & {
 };
 
 export type SearchReturnType = {
-	// assets: AssetType[]
+	assets: AssetType[];
 };
 
 export type SearchArgs = AssetArgsType & {
