@@ -98,7 +98,9 @@ export const IconPrimary = styled.div<{
 export const Alt1 = styled(Primary)`
 	background: ${(props) =>
 		props.active ? props.theme.colors.button.alt1.active.background : props.theme.colors.button.alt1.background};
-	border: 1.5px solid ${(props) => props.active ? props.theme.colors.button.alt1.active.background : props.theme.colors.button.alt1.border};
+	border: 1.5px solid
+		${(props) =>
+			props.active ? props.theme.colors.button.alt1.active.background : props.theme.colors.button.alt1.border};
 	&:hover {
 		border: 1.5px solid ${(props) => (props.active ? 'transparent' : props.theme.colors.button.alt1.border)};
 		background: ${(props) =>

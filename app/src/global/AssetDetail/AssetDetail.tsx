@@ -78,20 +78,20 @@ export default function AssetDetail(props: IProps) {
 	// 		}
 	// 		if (asset.orders) {
 	// 			buyAction = (
-	// 				<>
-	// 					{asset.orders.map((order: OrderBookPairOrderType, index: number) => {
-	// 						return (
-	// 							<Button
-	// 								key={index}
-	// 								type={'alt1'}
-	// 								label={`${language.buyNow} (Price: ${order.price} Qty: ${order.quantity})`}
-	// 								handlePress={() => buyAsset(order.price * order.quantity)}
-	// 								height={50}
-	// 								width={275}
-	// 							/>
-	// 						);
-	// 					})}
-	// 				</>
+	// <>
+	// 	{asset.orders.map((order: OrderBookPairOrderType, index: number) => {
+	// 		return (
+	// 			<Button
+	// 				key={index}
+	// 				type={'alt1'}
+	// 				label={`${language.buyNow} (Price: ${order.price} Qty: ${order.quantity})`}
+	// 				handlePress={() => buyAsset(order.price * order.quantity)}
+	// 				height={50}
+	// 				width={275}
+	// 			/>
+	// 		);
+	// 	})}
+	// </>
 	// 			);
 	// 		}
 	// 		return (
@@ -171,7 +171,7 @@ export default function AssetDetail(props: IProps) {
 						<S.AssetCAction className={'border-wrapper-alt'}>
 							<AssetDetailAction asset={asset} />
 						</S.AssetCAction>
-						{/* <S.DrawerWrapper>
+						<S.DrawerWrapper>
 							<Drawer
 								title={language.activeSaleOrders}
 								icon={ASSETS.orders}
@@ -230,7 +230,7 @@ export default function AssetDetail(props: IProps) {
 									</S.DrawerContent>
 								}
 							/>
-						</S.DrawerWrapper> */}
+						</S.DrawerWrapper>
 					</S.C2>
 				</>
 			);

@@ -29,8 +29,8 @@ const DEFAULT = {
 	negative: '#D24646',
 	negativeHover: '#F26969',
 	negativeShadow: '#F27979',
-	positive: '#48D67C',
-	positiveHover: '#37FB72',
+	positive: '#26B426',
+	positiveHover: '#209720',
 	neutral: '#FFB600',
 	transparent: 'rgba(255, 255, 255, 0)',
 	semiTransparent1: 'rgba(255, 255, 255, 0.65)',
@@ -87,13 +87,13 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt2: {
-				background: DEFAULT.neutral1,
-				border: DEFAULT.neutral5,
-				hover: DEFAULT.neutral2,
-				label: DEFAULT.primary,
+				background: DEFAULT.alt1,
+				border: DEFAULT.alt1,
+				hover: DEFAULT.alt2,
+				label: DEFAULT.neutral1,
 				active: {
-					background: DEFAULT.primary3,
-					hover: DEFAULT.primary2,
+					background: DEFAULT.alt1,
+					hover: DEFAULT.alt2,
 					label: DEFAULT.neutral1,
 				},
 				disabled: {
@@ -149,6 +149,9 @@ export const defaultTheme: DefaultTheme = {
 			},
 			alt7: {
 				background: DEFAULT.primary5,
+			},
+			alt8: {
+				background: DEFAULT.positive,
 			},
 		},
 		font: {

@@ -140,7 +140,9 @@ export async function getAssetById(args: { id: string, arClient: any, orderBookC
 			return p.pair[0] === args.id;
 		});
 		if (pair) {
-			orders = pair.orders;
+			orders = pair.orders.map((order: OrderBookPairOrderType) => {
+				return { ...order, currency: pair.pair[1] }
+			})
 		}
 		return ({ ...asset, state: state, orders: orders });
 	}

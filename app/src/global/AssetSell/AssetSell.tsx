@@ -86,20 +86,20 @@ export default function AssetSell(props: IProps) {
 	}
 
 	async function handleSell(e: any) {
-		if(arProvider.walletAddress) {
+		if (arProvider.walletAddress) {
 			e.preventDefault();
 
 			let qty = quantity;
 
-			if(props.asset.state.balances[arProvider.walletAddress] === 1) {
+			if (props.asset.state.balances[arProvider.walletAddress] === 1) {
 				qty = 1;
 			}
 
-			if(qty === 0 || unitPrice === 0) {
-				throw new Error("no 0 input");
+			if (qty === 0 || unitPrice === 0) {
+				throw new Error('no 0 input');
 			}
-			if(qty > props.asset.state.balances[arProvider.walletAddress]) {
-				throw new Error("above max quantity");
+			if (qty > props.asset.state.balances[arProvider.walletAddress]) {
+				throw new Error('above max quantity');
 			}
 
 			setLoading(true);
@@ -108,9 +108,9 @@ export default function AssetSell(props: IProps) {
 				await orderBook?.sell({
 					assetId: props.asset.data.id,
 					qty: qty,
-					price: unitPrice
-				});	
-			} catch(e: any) {
+					price: unitPrice,
+				});
+			} catch (e: any) {
 				throw new Error(e);
 			}
 
@@ -128,7 +128,7 @@ export default function AssetSell(props: IProps) {
 		if (props.asset && arProvider.walletAddress) {
 			return (
 				<>
-					{props.asset.state.balances[arProvider.walletAddress] > 1 && 
+					{props.asset.state.balances[arProvider.walletAddress] > 1 && (
 						<S.FormContainer>
 							<FormField
 								type={'number'}
@@ -139,7 +139,7 @@ export default function AssetSell(props: IProps) {
 								invalid={getInvalidQuantity()}
 							/>
 						</S.FormContainer>
-					}
+					)}
 					<S.FormContainer>
 						<FormField
 							type={'number'}
