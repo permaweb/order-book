@@ -58,8 +58,7 @@ export const FormContainer = styled.div`
 	max-width: ${STYLING.dimensions.formWidthMin};
 `;
 
-export const SpendWrapper = styled.div`
-`;
+export const SpendWrapper = styled.div``;
 
 export const SpendInfoWrapper = styled.div`
 	margin: 20px 0 0 0;

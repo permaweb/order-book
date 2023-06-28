@@ -52,17 +52,16 @@ export default function AssetBuy(props: IProps) {
 	};
 
 	function calcTotalPrice() {
-		let sortedOrders = props.asset.orders.sort((
-			a: OrderBookPairOrderType, 
-			b: OrderBookPairOrderType
-		) => a.price - b.price);
+		let sortedOrders = props.asset.orders.sort(
+			(a: OrderBookPairOrderType, b: OrderBookPairOrderType) => a.price - b.price
+		);
 
 		let totalQty = 0;
 		let totalPrice = 0;
-		for(let i = 0; i < sortedOrders.length; i++) {
+		for (let i = 0; i < sortedOrders.length; i++) {
 			let order = sortedOrders[i];
 			let qty = order.quantity;
-			let price = order.price; 
+			let price = order.price;
 			if (qty >= assetQuantity - totalQty) {
 				let remainingQty = assetQuantity - totalQty;
 				totalQty += remainingQty;
@@ -76,11 +75,10 @@ export default function AssetBuy(props: IProps) {
 		return totalPrice;
 	}
 
-	
 	async function buyAsset() {
 		if (props.asset && orProvider.orderBook) {
 			setLoading(true);
-			
+
 			await orProvider.orderBook.buy({
 				assetId: props.asset.data.id,
 				spend: calcTotalPrice(),
@@ -103,7 +101,7 @@ export default function AssetBuy(props: IProps) {
 
 		return (
 			<S.Price>
-				<p>{calcTotalPrice()/1000000}</p>
+				<p>{calcTotalPrice() / 1000000}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : ''} />
 				)}

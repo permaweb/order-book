@@ -53,12 +53,12 @@ export type OwnerType = {
 	handle: string | null;
 	balance: number;
 	ownerPercentage: number;
-}
+};
 
 export type OwnerListingType = {
-	address: string,
-	handle: string | null,
-	sellQuantity: number,
-	sellPercentage: number,
-	sellUnitPrice: number,
-}
+	address: string;
+	handle: string | null;
+	sellQuantity: number;
+	sellPercentage: number;
+	sellUnitPrice: number;
+};

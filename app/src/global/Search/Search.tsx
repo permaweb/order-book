@@ -4,10 +4,10 @@ import { ReactSVG } from 'react-svg';
 import { IconButton } from 'components/atoms/IconButton';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from './styles';
 import { IProps } from './types';
-import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 // TODO: mobile search
 export default function Search(props: IProps) {
@@ -22,7 +22,7 @@ export default function Search(props: IProps) {
 	async function handleSearch(e: any) {
 		if ((e.type === 'keydown' && e.key === 'Enter') || e.type === 'click') {
 			console.log(`Search: ${value}`);
-			if(orProvider.orderBook) {
+			if (orProvider.orderBook) {
 				let searchResults = await orProvider.orderBook.api.search({
 					ids: null,
 					owner: null,
@@ -30,7 +30,7 @@ export default function Search(props: IProps) {
 					cursor: null,
 					reduxCursor: null,
 					walletAddress: null,
-					term: value
+					term: value,
 				});
 
 				// setResults(searchResults);
@@ -43,8 +43,7 @@ export default function Search(props: IProps) {
 	}
 
 	function getResults() {
-		if(results && results.length > 0) {
-			
+		if (results && results.length > 0) {
 		} else {
 			return null;
 		}
@@ -75,9 +74,7 @@ export default function Search(props: IProps) {
 					/>
 				</S.ClearWrapper> */}
 			</S.SearchWrapper>
-			<S.SearchResultsWrapper>
-				{getResults()}
-			</S.SearchResultsWrapper>
+			<S.SearchResultsWrapper>{getResults()}</S.SearchResultsWrapper>
 		</S.Wrapper>
 	);
 }

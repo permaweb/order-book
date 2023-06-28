@@ -80,7 +80,6 @@ export const SearchButtonWrapper = styled.div`
 
 export const SearchResultsWrapper = styled.div`
 	width: 100%;
-	
 `;
 
 export const SearchResult = styled.div`

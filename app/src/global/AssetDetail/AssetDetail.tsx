@@ -167,7 +167,7 @@ export default function AssetDetail(props: IProps) {
 
 														<S.DCLineFlex>
 															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
-															<S.DCLineDetail>{`${(owner.sellUnitPrice / 1e6)} U`}</S.DCLineDetail>
+															<S.DCLineDetail>{`${owner.sellUnitPrice / 1e6} U`}</S.DCLineDetail>
 														</S.DCLineFlex>
 													</S.DCLine>
 												);
@@ -227,7 +227,11 @@ export default function AssetDetail(props: IProps) {
 	);
 }
 
-async function getOwners(addressObject: any, orProvider: any, asset: AssetDetailType | null): Promise<OwnerType[] | OwnerListingType[]> {
+async function getOwners(
+	addressObject: any,
+	orProvider: any,
+	asset: AssetDetailType | null
+): Promise<OwnerType[] | OwnerListingType[]> {
 	if (asset && asset.state) {
 		const balances = Object.keys(asset.state.balances).map((balance: any) => {
 			return asset.state.balances[balance];
@@ -236,7 +240,7 @@ async function getOwners(addressObject: any, orProvider: any, asset: AssetDetail
 
 		if (Array.isArray(addressObject)) {
 			const addresses: OwnerListingType[] = [];
-	
+
 			for (let i = 0; i < addressObject.length; i++) {
 				if (addressObject[i].creator) {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
@@ -249,14 +253,14 @@ async function getOwners(addressObject: any, orProvider: any, asset: AssetDetail
 					});
 				}
 			}
-	
+
 			return addresses;
 		} else {
 			const addresses: OwnerType[] = await Promise.all(
 				Object.keys(addressObject).map(async (address: string) => {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
 					const ownerPercentage = addressObject[address] / totalBalance;
-					console.log(ownerPercentage)
+					console.log(ownerPercentage);
 					return {
 						address: address,
 						handle: profile ? profile.handle : null,
@@ -265,7 +269,7 @@ async function getOwners(addressObject: any, orProvider: any, asset: AssetDetail
 					};
 				})
 			);
-	
+
 			return addresses;
 		}
 	}

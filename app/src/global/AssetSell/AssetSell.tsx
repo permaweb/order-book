@@ -1,4 +1,7 @@
 import React from 'react';
+import { ReactSVG } from 'react-svg';
+
+import { OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
@@ -11,8 +14,6 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from './styles';
 import { IProps } from './types';
-import { OrderBookPairOrderType } from 'permaweb-orderbook';
-import { ReactSVG } from 'react-svg';
 
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
@@ -36,7 +37,7 @@ export default function AssetSell(props: IProps) {
 				return props.asset.state.balances[balance];
 			});
 			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
-			if(arProvider.walletAddress) {
+			if (arProvider.walletAddress) {
 				let salesBalance = props.asset.state.balances[arProvider.walletAddress];
 				setTotalSalesBalance(salesBalance ? salesBalance : 0);
 			}
@@ -62,7 +63,7 @@ export default function AssetSell(props: IProps) {
 
 	// TODO: validation
 	function getInvalidQuantity() {
-		if(arProvider.walletAddress) {
+		if (arProvider.walletAddress) {
 			let qty = quantity;
 
 			if (props.asset.state.balances[arProvider.walletAddress] === 1) {
@@ -94,7 +95,7 @@ export default function AssetSell(props: IProps) {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
 			return order.currency;
 		});
-		let price = (quantity * unitPrice)/1000000;
+		let price = (quantity * unitPrice) / 1000000;
 
 		return (
 			<S.Price>
@@ -222,7 +223,7 @@ export default function AssetSell(props: IProps) {
 							label={language.confirmListing.toUpperCase()}
 							handlePress={(e: any) => {
 								e.preventDefault();
-								setShowConfirmation(true)
+								setShowConfirmation(true);
 							}}
 							height={60}
 							fullWidth
