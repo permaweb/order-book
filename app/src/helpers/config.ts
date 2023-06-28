@@ -24,6 +24,7 @@ import sellSVG from 'assets/sell.svg';
 import stampsSVG from 'assets/stamps.svg';
 import uSVG from 'assets/u.svg';
 import userSVG from 'assets/user.svg';
+import walletSVG from 'assets/wallet.svg';
 
 import { language } from './language';
 
@@ -51,6 +52,7 @@ export const ASSETS = {
 	stamps: stampsSVG,
 	u: uSVG,
 	user: userSVG,
+	wallet: walletSVG,
 	wallets: {
 		arconnect: arconnectWalletPNG,
 	},

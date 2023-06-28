@@ -16,7 +16,7 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: disabled if wallet not connected or U balance too low
+// TODO: disable certain buy amount if connected wallet is owner
 export default function AssetBuy(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
@@ -51,6 +51,12 @@ export default function AssetBuy(props: IProps) {
 	function getActionDisabled() {
 		if (!arProvider.walletAddress) {
 			return true;
+		}
+		else {
+			if (arProvider && arProvider.currencyBalances) {
+				const totalPrice = calcTotalPrice();
+				return ((arProvider.currencyBalances['U'] < totalPrice) || (totalPrice <= 0));
+			}
 		}
 		return false;
 	}
@@ -150,7 +156,7 @@ export default function AssetBuy(props: IProps) {
 					/>
 					<S.MaxQty>
 						<Button
-							type={'alt1'}
+							type={'alt2'}
 							label={language.max}
 							handlePress={() => setAssetQuantity(totalSalesBalance)}
 							disabled={false}
@@ -168,10 +174,16 @@ export default function AssetBuy(props: IProps) {
 						</S.SpendInfoContainer>
 					</S.SpendInfoWrapper>
 					<S.PriceInfoWrapper>
+
 						<S.SpendInfoContainer>
 							<span>{language.totalPrice}</span>
 							{getPrice()}
 						</S.SpendInfoContainer>
+						{arProvider.currencyBalances && (arProvider.currencyBalances['U'] < calcTotalPrice()) && (
+							<S.CurrencyBalanceWarning>
+								<p>{language.currencyBalanceWarning}</p>
+							</S.CurrencyBalanceWarning>
+						)}
 					</S.PriceInfoWrapper>
 				</S.SpendWrapper>
 				<S.BuyAction>

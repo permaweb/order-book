@@ -1,6 +1,7 @@
 export const language = {
 	account: `Account`,
 	activeSaleOrders: `Active Sale Orders`,
+	arTokens: `AR`,
 	atomicAsset: `Atomic Asset`,
 	appName: `BazAR`,
 	arProfileCreate: `To create your AR Profile, click here:`,
@@ -16,6 +17,7 @@ export const language = {
 	copied: `Copied`,
 	copyAddress: `Copy Address`,
 	createProfile: `Create Profile`,
+	currencyBalanceWarning: `Not enough balance to purchase this asset`,
 	currentAssetOwners: `Current Asset Owners`,
 	currentlyBeingSoldBy: `Currently being sold by`,
 	currentlyOwnedBy: `Currently owned by`,
@@ -60,6 +62,7 @@ export const language = {
 	totalSalesPercentage: `Total Percentage For Sale`,
 	totalAvailableSalesPercentage: `Total Percentage Available For Sale`,
 	transactionId: `Transaction ID`,
+	uTokens: `U`,
 	unitPrice: `Unit Price`,
 	walletNotConnected: `Connect a wallet to continue`,
 	walletTransactionInfo: `Your wallet must be connected to make transactions`,

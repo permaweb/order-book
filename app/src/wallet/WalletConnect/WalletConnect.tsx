@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from 'components/atoms/Button';
+import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
@@ -75,7 +76,32 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	return (
 		<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>
 			<S.Wrapper>
-				<Button type={'alt1'} label={getWalletLabel()} handlePress={handlePress} width={160} useMaxWidth />
+				<S.FlexAction>
+					{arProvider.walletAddress && (
+						<>
+						{arProvider.currencyBalances && (
+								<S.BalanceWrapper>
+									<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)} ${language.uTokens}`}</p>
+								</S.BalanceWrapper>
+							)}
+							{arProvider.availableBalance && (
+								<S.BalanceWrapper>
+									<p>{`${arProvider.availableBalance?.toFixed(2)} ${language.arTokens}`}</p>
+								</S.BalanceWrapper>
+							)}
+						</>
+					)}
+					<Button
+						type={'alt1'}
+						label={getWalletLabel()}
+						handlePress={handlePress}
+						height={45}
+						// width={180}
+						noMinWidth
+						icon={ASSETS.wallet}
+						// useMaxWidth
+					/>
+				</S.FlexAction>
 				{showDropdown && (
 					<S.WalletDropdown>
 						<li onClick={handleViewAccount}>{language.account}</li>
