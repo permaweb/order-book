@@ -7,6 +7,8 @@ export type AssetType = {
 		type: string
 		implementation: string
 		renderWith: string | null
+		dateCreated: number
+		blockHeight: number
 	};
 	orders?: OrderBookPairOrderType[];
 };
@@ -198,6 +200,10 @@ export type GQLResponseType = {
 			size: string;
 			type: string;
 		};
+		block: {
+			height: number,
+			timestamp: number
+		}
 	};
 };
 

@@ -31,6 +31,20 @@ export const Image = styled.img`
 	height: 100%;
 	width: 100%;
 	object-fit: contain;
+	background: ${(props) => props.theme.colors.container.alt9.background};
+`;
+
+export const Audio = styled.audio`
+	height: 100%;
+	width: 100%;
+	background: ${(props) => props.theme.colors.container.alt9.background};
+	padding: 20px;
+`;
+
+export const Video = styled.video`
+	height: 100%;
+	width: 100%;
+	background: ${(props) => props.theme.colors.container.alt9.background};
 `;
 
 export const Preview = styled.div`
@@ -42,5 +56,20 @@ export const Preview = styled.div`
 	svg {
 		height: 57.5px;
 		width: 57.5px;
+	}
+`;
+
+export const UnsupportedWrapper = styled.div`
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;

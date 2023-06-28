@@ -19,7 +19,7 @@ export type MintStatusType = 'pending' | 'confirmed';
 export type RefType = { current: HTMLElement };
 
 export type RenderType = 'renderer' | 'raw';
-export type ContentType = 'renderer' | 'image/png';
+export type ContentType = 'renderer' | any;
 
 export type AssetRenderType = {
 	url: string;
@@ -62,3 +62,5 @@ export type OwnerListingType = {
 	sellPercentage: number;
 	sellUnitPrice: number;
 };
+
+export type DateType = 'iso' | 'epoch';

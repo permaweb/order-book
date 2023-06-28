@@ -92,8 +92,7 @@ export default function AssetBuy(props: IProps) {
 			});
 		}
 	}
-
-	// TODO: get price
+	
 	function getPrice() {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
 			return order.currency;

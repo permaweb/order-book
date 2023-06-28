@@ -5,6 +5,7 @@ import * as OrderBook from 'permaweb-orderbook';
 
 import { ASSETS } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
+import { language } from 'helpers/language';
 import { AssetRenderType, ContentType } from 'helpers/types';
 
 import * as S from './styles';
@@ -16,7 +17,14 @@ export default function AssetData(props: IProps) {
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 	const [loadRenderer, setLoadRenderer] = React.useState<boolean>(false);
 
-	// TODO: add all raw types
+	const [loadError, setLoadError] = React.useState<boolean>(false);
+
+	const handleError = () => {
+		setLoadError(true);
+	};
+	
+	// TODO: audio icon
+	// TODO: unsupported icon
 	React.useEffect(() => {
 		(async function () {
 			const renderWith =
@@ -48,6 +56,14 @@ export default function AssetData(props: IProps) {
 			}
 		})();
 	}, [props.asset]);
+
+	function getUnsupportedWrapper() {
+		return (
+			<S.UnsupportedWrapper>
+				<p>{language.contentTypeNotSupported}</p>
+			</S.UnsupportedWrapper>
+		);
+	}
 
 	function getData() {
 		if (assetRender) {
@@ -81,14 +97,30 @@ export default function AssetData(props: IProps) {
 						);
 					}
 				case 'raw':
-					switch (assetRender.contentType) {
-						case 'image/png':
-							return <S.Image src={assetRender.url} />;
-						default:
-							return null;
+					if (loadError) {
+						return getUnsupportedWrapper();
+					}
+					if (assetRender.contentType.includes('image')) {
+						return <S.Image src={assetRender.url} onError={handleError} />;
+					}
+					if (assetRender.contentType.includes('audio')) {
+						return (
+							<S.Audio controls onError={handleError}>
+								<source src={assetRender.url} type={assetRender.contentType} />
+							</S.Audio>
+						);
+					}
+					if (assetRender.contentType.includes('video')) {
+						return (
+							<S.Video controls onError={handleError}>
+								<source src={assetRender.url} type={assetRender.contentType} />
+							</S.Video>
+						);
+					} else {
+						return getUnsupportedWrapper();
 					}
 				default:
-					return null;
+					return getUnsupportedWrapper();
 			}
 		}
 	}

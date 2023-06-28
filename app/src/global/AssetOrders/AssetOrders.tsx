@@ -3,15 +3,12 @@ import { ReactSVG } from 'react-svg';
 
 import { OrderBookPairOrderType } from 'permaweb-orderbook';
 
-import TEMP_FRACTION_SVG from 'assets/temp-fraction.svg';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { CloseHandler } from 'wrappers/CloseHandler';
 
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: get percentage
-// TODO: set current order
 export default function AssetOrders(props: IProps) {
 	const [currentOrder, setCurrentOrder] = React.useState<OrderBookPairOrderType | null>(null);
 	const [remainingOrders, setRemainingOrders] = React.useState<OrderBookPairOrderType[] | null>(null);
@@ -57,10 +54,6 @@ export default function AssetOrders(props: IProps) {
 					)}
 				</S.Currency>
 				<S.C2>
-					<S.Percentage>
-						<p>75%</p>
-						<ReactSVG src={TEMP_FRACTION_SVG} />
-					</S.Percentage>
 					{remainingOrders && remainingOrders.length > 0 && <ReactSVG src={ASSETS.arrowDown} />}
 				</S.C2>
 			</S.DropdownAction>
@@ -76,12 +69,6 @@ export default function AssetOrders(props: IProps) {
 											<ReactSVG src={CURRENCY_ICONS[order.currency] ? CURRENCY_ICONS[order.currency] : ''} />
 										)}
 									</S.Currency>
-									<S.C2>
-										<S.Percentage>
-											<p>75%</p>
-											<ReactSVG src={TEMP_FRACTION_SVG} />
-										</S.Percentage>
-									</S.C2>
 								</S.DropdownSubAction>
 							);
 						})}

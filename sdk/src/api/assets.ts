@@ -172,7 +172,9 @@ function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairTy
 					topic: topic,
 					type: type,
 					implementation: implementation,
-					renderWith: renderWith ? renderWith : null
+					renderWith: renderWith ? renderWith : null,
+					dateCreated: gqlData.assets[i].node.block.timestamp,
+					blockHeight: gqlData.assets[i].node.block.height
 				}
 			}
 

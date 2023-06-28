@@ -8,7 +8,6 @@ export function getBalancesEndpoint(walletAddress: string) {
 	return `https://contracts.warp.cc/balances?walletAddress=${walletAddress}&limit=${PAGINATOR}`;
 }
 
-// TODO: support all renderers
 export function getRendererEndpoint(renderWith: string, tx: string) {
 	return `https://${renderWith}.arweave.dev/?tx=${tx}`;
 }
