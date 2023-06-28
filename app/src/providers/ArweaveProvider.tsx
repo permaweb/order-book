@@ -7,7 +7,7 @@ import { OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
 import { AR_WALLETS, WALLET_PERMISSIONS } from 'helpers/config';
-import { getArweaveBalanceEndpoint } from 'helpers/endpoints';
+import { getArweaveBalanceEndpoint, getCurrencyBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { STYLING } from 'helpers/styling';
 
@@ -49,10 +49,15 @@ interface ArweaveContextState {
 	walletModalVisible: boolean;
 	setWalletModalVisible: (open: boolean) => void;
 	arProfile: any;
+	currencyBalances: CurrencyBalancesType | null
 }
 
 interface ArweaveProviderProps {
 	children: React.ReactNode;
+}
+
+interface CurrencyBalancesType {
+	'U': number;
 }
 
 const DEFAULT_CONTEXT = {
@@ -70,6 +75,7 @@ const DEFAULT_CONTEXT = {
 		console.error(`Make sure to render ArweaveProvider as an ancestor of the component that uses ARContext.Provider`);
 	},
 	arProfile: null,
+	currencyBalances: null
 };
 
 const ARContext = React.createContext<ArweaveContextState>(DEFAULT_CONTEXT);
@@ -99,7 +105,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	const [walletAddress, setWalletAddress] = React.useState<string | null>(null);
 	const [availableBalance, setAvailableBalance] = React.useState<number | null>(null);
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
-	const [currencyBalance, setCurrencyBalance] = React.useState<number | null>(null);
+	const [currencyBalances, setCurrencyBalances] = React.useState<CurrencyBalancesType | null>(null);
 
 	async function handleConnect() {
 		// @ts-ignore
@@ -197,7 +203,12 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					setArProfile(profile);
 				}
 
-				
+				const rawBalance = await fetch(getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract));
+				const jsonBalance = await rawBalance.json();
+				const numBalance = jsonBalance.result && jsonBalance.result[0] ? jsonBalance.result[0] : 0;
+				setCurrencyBalances({
+					'U': numBalance
+				});
 			}
 		})();
 	}, [walletAddress, orderBook]);
@@ -219,6 +230,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					walletModalVisible,
 					setWalletModalVisible,
 					arProfile,
+					currencyBalances
 				}}
 			>
 				{props.children}
