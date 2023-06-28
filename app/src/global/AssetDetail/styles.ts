@@ -121,12 +121,35 @@ export const AssetCDetail = styled.div`
 `;
 
 export const ACHeader = styled(AssetCDetail)`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 21.5px 20px 20px 20px;
+	padding: 20px;
 	h2 {
 		line-height: 1.5;
+		margin: 0 0 20px 0;
+	}
+`;
+
+export const OwnerLine = styled.div`
+	margin: 10px 0 0 0;
+	display: flex;
+	align-items: center;
+	span {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+	}
+	button {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		color: ${(props) => props.theme.colors.button.primary.background};
+		text-decoration: underline;
+		margin: 0 0 0 5px;
+		&:hover {
+			color: ${(props) => props.theme.colors.button.primary.hover};
+		}
 	}
 `;
 

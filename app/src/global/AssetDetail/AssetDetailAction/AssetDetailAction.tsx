@@ -14,9 +14,9 @@ export default function AssetDetailAction(props: IProps) {
 	function getTab() {
 		switch (currentTab) {
 			case TAB_OPTIONS.buy:
-				return <AssetBuy asset={props.asset} />;
+				return <AssetBuy asset={props.asset} updateAsset={props.updateAsset} />;
 			case TAB_OPTIONS.sell:
-				return <AssetSell asset={props.asset} />;
+				return <AssetSell asset={props.asset} updateAsset={props.updateAsset} />;
 			default:
 				return null;
 		}
