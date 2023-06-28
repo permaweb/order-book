@@ -12,6 +12,7 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 // TODO: mobile search
 export default function Search(props: IProps) {
 	const [value, setValue] = React.useState<string>('');
+	const [results, setResults] = React.useState<any[]>([]);
 	const orProvider = useOrderBookProvider();
 
 	function handleChange(value: string) {
@@ -21,12 +22,32 @@ export default function Search(props: IProps) {
 	async function handleSearch(e: any) {
 		if ((e.type === 'keydown' && e.key === 'Enter') || e.type === 'click') {
 			console.log(`Search: ${value}`);
-			
+			if(orProvider.orderBook) {
+				let searchResults = await orProvider.orderBook.api.search({
+					ids: null,
+					owner: null,
+					uploader: null,
+					cursor: null,
+					reduxCursor: null,
+					walletAddress: null,
+					term: value
+				});
+
+				// setResults(searchResults);
+			}
 		}
 	}
 
 	function handleClear() {
 		setValue('');
+	}
+
+	function getResults() {
+		if(results && results.length > 0) {
+			
+		} else {
+			return null;
+		}
 	}
 
 	return (
@@ -43,7 +64,7 @@ export default function Search(props: IProps) {
 					onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => await handleSearch(e)}
 					disabled={false}
 				/>
-				<S.ClearWrapper>
+				{/* <S.ClearWrapper>
 					<IconButton
 						src={ASSETS.close}
 						type={'primary'}
@@ -52,8 +73,11 @@ export default function Search(props: IProps) {
 						warning
 						sm
 					/>
-				</S.ClearWrapper>
+				</S.ClearWrapper> */}
 			</S.SearchWrapper>
+			<S.SearchResultsWrapper>
+				{getResults()}
+			</S.SearchResultsWrapper>
 		</S.Wrapper>
 	);
 }
