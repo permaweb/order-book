@@ -1,3 +1,5 @@
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
+
 export const CreateOrder = async (state, action) => {
   const caller = action.caller;
   const input = action.input;
@@ -53,6 +55,11 @@ export const CreateOrder = async (state, action) => {
     } else {
       balances[SmartWeave.contract.id] = qty;
     }
+  } else if (
+    usedPair[1] === SmartWeave.contract.id &&
+    tokenTx === "INTERNAL_TRANSFER"
+  ) {
+    // do nothing
   } else {
     if (tokenTx === undefined || tokenTx === null) {
       throw new ContractError(
@@ -178,6 +185,7 @@ export const CreateOrder = async (state, action) => {
       // if no matches, set the latest price data to empty
       state.pairs[pairIndex].priceData = undefined;
     }
+
 
     // Update foreignCalls accordingly for tokens to be sent
     for (let i = 0; i < foreignCalls.length; i++) {
@@ -335,8 +343,10 @@ export default function matchOrder(input, orderbook) {
           input: {
             function: "transfer",
             target: currentOrder.creator,
-            //qty: Math.round(remainingQuantity * 0.98),
-            qty: remainingQuantity,
+            qty:
+              input.pair.from === U
+                ? Math.round(remainingQuantity * 0.995)
+                : remainingQuantity,
           },
         });
 
@@ -346,8 +356,8 @@ export default function matchOrder(input, orderbook) {
         //   contract: input.pair.from,
         //   input: {
         //     function: "transfer",
-        //     target: feeWallet,
-        //     qty: Math.round(remainingQuantity * 0.02),
+        //     target: SmartWeave.contract.id,
+        //     qty: Math.round(remainingQuantity * 0.005),
         //   },
         // });
       }
@@ -380,8 +390,10 @@ export default function matchOrder(input, orderbook) {
         input: {
           function: "transfer",
           target: currentOrder.creator,
-          //qty: Math.round(sendAmount * 0.98),
-          qty: sendAmount,
+          qty:
+            input.pair.from === U
+              ? Math.round(remainingQuantity * 0.995)
+              : remainingQuantity,
         },
       });
 
@@ -462,8 +474,8 @@ export default function matchOrder(input, orderbook) {
     input: {
       function: "transfer",
       target: input.creator,
-      //qty: Math.round(receiveAmount * 0.98),
-      qty: receiveAmount,
+      qty:
+        input.pair.to === U ? Math.round(receiveAmount * 0.995) : receiveAmount,
     },
   });
 

@@ -1,6 +1,8 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
+
 globalThis.ContractAssert = function (expr, msg) {
   if (!expr) {
     throw new Error(msg);
@@ -11,10 +13,7 @@ test("sell order", async () => {
   const state = {
     pairs: [
       {
-        pair: [
-          "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
-        ],
+        pair: ["cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8", U],
         orders: [],
         pricedata: {},
       },
@@ -28,10 +27,7 @@ test("sell order", async () => {
     caller: "jnbRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
     input: {
       function: "createOrder",
-      pair: [
-        "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-        "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
-      ],
+      pair: ["cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8", U],
       qty: 100,
       price: 100,
       transaction: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
@@ -54,7 +50,24 @@ test("sell order", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
-      write: (id, input) => Promise.resolve({ type: "ok" }),
+      readContractState(id) {
+        if (id === U) {
+          return Promise.resolve({
+            balances: {
+              "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8": 0,
+            },
+          });
+        }
+        //console.log('readState', id)
+        return Promise.resolve({});
+      },
+      write: (id, input) => {
+        console.log(input);
+        if (id === U) {
+          assert.equal(input.qty, 995);
+        }
+        return Promise.resolve({ type: "ok" });
+      },
     },
   };
   const { handle } = await import("../src/index.js");

@@ -1,6 +1,8 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
+
 test("limit buy order", async () => {
   globalThis.ContractAssert = function (expr, msg) {
     if (!expr) {
@@ -23,7 +25,23 @@ test("limit buy order", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
-      write: (id, input) => Promise.resolve({ type: "ok" }),
+      readContractState(id) {
+        if (id === U) {
+          return Promise.resolve({
+            balances: {
+              "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8": 0,
+            },
+          });
+        }
+        //console.log('readState', id)
+        return Promise.resolve({});
+      },
+      write: (id, input) => {
+        if (id === U && input.function === "transfer") {
+          assert.equal(input.qty, 995);
+        }
+        return Promise.resolve({ type: "ok" });
+      },
     },
   };
 
@@ -34,10 +52,7 @@ test("limit buy order", async () => {
     ticker: "BazAR",
     pairs: [
       {
-        pair: [
-          "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
-        ],
+        pair: ["cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8", U],
         orders: [],
         priceData: {},
       },
@@ -49,10 +64,7 @@ test("limit buy order", async () => {
     caller: "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4",
     input: {
       function: "createOrder",
-      pair: [
-        "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
-        "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-      ],
+      pair: [U, "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8"],
       qty: 1000,
       transaction: "MsflN4glR9noV-DN00ygwKJZmCQS1S1ejbVRmQ5N_Nc",
       price: 1000 / 100, // Total U sub units / Total PST units
