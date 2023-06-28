@@ -2,9 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
-import { AssetType } from 'permaweb-orderbook';
+import { AssetType, STORAGE } from 'permaweb-orderbook';
 
-import TEMP_FRACTION_SVG from 'assets/temp-fraction.svg';
 import { IconButton } from 'components/atoms/IconButton';
 import { Loader } from 'components/atoms/Loader';
 import { AssetData } from 'global/AssetData';
@@ -17,20 +16,17 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: add orders list
 function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
-
-	// TODO: get ownership chart
-	// TODO: get renderer icon if renderer
-
 	return (
 		<S.PICWrapper>
 			<S.HCWrapper>
-				<ReactSVG src={TEMP_FRACTION_SVG} />
-				<S.RendererSVG>
-					<ReactSVG src={ASSETS.renderer} />
-				</S.RendererSVG>
+				{/* <ReactSVG src={TEMP_FRACTION_SVG} /> */}
+				{props.asset.data.renderWith && props.asset.data.renderWith !== STORAGE.none && (
+					<S.RendererSVG>
+						<ReactSVG src={ASSETS.renderer} />
+					</S.RendererSVG>
+				)}
 				<StampWidget assetId={props.asset.data.id} />
 			</S.HCWrapper>
 			<S.PCWrapper>

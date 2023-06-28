@@ -25,7 +25,7 @@ const DEFAULT = {
 	alt1: '#FF7A41',
 	alt2: '#FF621F',
 	alt3: '#FFDECF',
-	overlay1: 'rgba(20, 20, 20, 0.75)',
+	overlay1: '#1C1F27C4',
 	negative: '#D24646',
 	negativeHover: '#F26969',
 	negativeShadow: '#F27979',
@@ -152,6 +152,9 @@ export const defaultTheme: DefaultTheme = {
 			},
 			alt8: {
 				background: DEFAULT.positive,
+			},
+			alt9: {
+				background: DEFAULT.neutral11,
 			},
 		},
 		font: {

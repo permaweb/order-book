@@ -11,7 +11,6 @@ import { WalletBlock } from 'wallet/WalletBlock';
 
 import { AccountHeader } from './AccountHeader';
 
-// TODO: orderbook provider
 export default function Account() {
 	const arProvider = useArweaveProvider();
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);

@@ -13,7 +13,6 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: get stamp count
 function AssetRow(props: { asset: AssetType; index: number }) {
 	return (
 		<S.PICWrapper>
@@ -84,7 +83,6 @@ export default function AssetsList(props: IProps) {
 				return null;
 			}
 		} else {
-			// TODO: get count
 			const keys = Array.from({ length: 3 }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>

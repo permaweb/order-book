@@ -15,6 +15,7 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: if wallet in balances, get amount available for sale
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
@@ -43,15 +44,6 @@ export default function AssetSell(props: IProps) {
 			}
 		}
 	}, [props.asset]);
-
-	// React.useEffect(() => {
-	// 	if (props.asset && props.asset.orders) {
-	// 		const saleBalances = props.asset.orders.map((order: OrderBookPairOrderType) => {
-	// 			return order.quantity;
-	// 		});
-	// 		setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
-	// 	}
-	// }, [props.asset]);
 
 	// TODO: validation
 	function getInvalidUnitPrice() {
@@ -89,8 +81,7 @@ export default function AssetSell(props: IProps) {
 			message: null,
 		};
 	}
-
-	// TODO: get price
+	
 	function getPrice() {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
 			return order.currency;
@@ -178,8 +169,7 @@ export default function AssetSell(props: IProps) {
 			);
 		}
 	}
-
-	// TODO: if wallet in balances, get amount available for sale
+	
 	return (
 		<>
 			<S.Wrapper>

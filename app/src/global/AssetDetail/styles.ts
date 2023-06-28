@@ -52,12 +52,12 @@ export const DrawerWrapper = styled.div`
 	margin: 20px 0 0 0;
 `;
 
-export const DrawerContent = styled.div`
+export const DrawerContent = styled.div<{transparent?: boolean}>`
 	width: 100%;
-	padding: 20px;
-	background: ${(props) => props.theme.colors.container.alt2.background};
-	border-bottom-left-radius: ${STYLING.dimensions.borderRadiusField};
-	border-bottom-right-radius: ${STYLING.dimensions.borderRadiusField};
+	padding: ${(props) => props.transparent ? `0` : `20px`};
+	background: ${(props) => props.transparent ? props.theme.colors.transparent : props.theme.colors.container.alt2.background};
+	border-bottom-left-radius: ${(props) => props.transparent ? `0` : STYLING.dimensions.borderRadiusField};
+	border-bottom-right-radius: ${(props) => props.transparent ? `0` : STYLING.dimensions.borderRadiusField};
 	> * {
 		&:not(:last-child) {
 			margin: 0 0 20px 0;
@@ -97,7 +97,7 @@ export const DCHeader = styled.p`
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.bold};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
-	line-height: 1.5;
+	line-height: 1.65;
 `;
 
 export const DCLine = styled.div`
@@ -132,7 +132,7 @@ export const DCSalePercentage = styled(DCLineDetail)`
 	margin: 0 0 0 0.5px;
 `;
 
-export const DCLineFlex = styled(DCLineDetail)`
+export const DCLineFlex = styled.div`
 	display: flex;
 	justify-content: space-between;
 	width: 190px;
