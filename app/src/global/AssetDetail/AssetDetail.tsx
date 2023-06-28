@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { AssetDetailType } from 'permaweb-orderbook';
+import { AssetDetailType, OrderBookPairOrderType } from 'permaweb-orderbook';
 
-import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { Loader } from 'components/atoms/Loader';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'global/AssetData';
-import { AssetSell } from 'global/AssetSell';
 // import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
@@ -24,12 +22,21 @@ import { IProps } from './types';
 // TODO: cache orders -> get order from cache by id
 // TODO: order book provider
 // TODO: for single unit assets on buy -> send: order.price
+
+async function getOwners(addresses: string[]) {
+	// console.log(typeof addresses)
+	return [];
+}
+
 export default function AssetDetail(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
+
+	const [currentOwners, setCurrentOwners] = React.useState<any>(null);
+	const [currentSaleOwners, setCurrentSaleOwners] = React.useState<any>(null);
 
 	React.useEffect(() => {
 		(async function () {
@@ -43,67 +50,27 @@ export default function AssetDetail(props: IProps) {
 
 	async function updateAsset() {
 		if (orProvider.orderBook) {
-			setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
-		}
-	}
-
-	async function buyAsset(spend: number) {
-		if (asset && orProvider.orderBook) {
+			setAsset(null);
 			setLoading(true);
-
-			await orProvider.orderBook.buy({
-				assetId: asset.data.id,
-				spend: spend,
-			});
-
+			setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
 			setLoading(false);
 		}
 	}
 
-	// function getAction() {
-	// 	if (asset) {
-	// 		let sellAction;
-	// 		let buyAction;
-	// 		if (arProvider.walletAddress && asset) {
-	// 			// && !orders with seller
-	// 			if (
-	// 				Object.keys(asset.state.balances)
-	// 					.map((balance: any) => {
-	// 						return balance;
-	// 					})
-	// 					.includes(arProvider.walletAddress)
-	// 			) {
-	// 				sellAction = <AssetSell asset={asset} />;
-	// 			}
-	// 		}
-	// 		if (asset.orders) {
-	// 			buyAction = (
-	// <>
-	// 	{asset.orders.map((order: OrderBookPairOrderType, index: number) => {
-	// 		return (
-	// 			<Button
-	// 				key={index}
-	// 				type={'alt1'}
-	// 				label={`${language.buyNow} (Price: ${order.price} Qty: ${order.quantity})`}
-	// 				handlePress={() => buyAsset(order.price * order.quantity)}
-	// 				height={50}
-	// 				width={275}
-	// 			/>
-	// 		);
-	// 	})}
-	// </>
-	// 			);
-	// 		}
-	// 		return (
-	// 			<>
-	// 				{buyAction}
-	// 				{sellAction}
-	// 			</>
-	// 		);
-	// 	} else {
-	// 		return null;
-	// 	}
-	// }
+	React.useEffect(() => {
+		(async function () {
+			if (asset && asset.state) {
+				if (asset.state) {
+					setCurrentOwners(await getOwners(asset.state.balances));
+				}
+				if (asset.orders) {
+					setCurrentSaleOwners(await getOwners(asset.orders.map((order: OrderBookPairOrderType) => {
+						return order.creator
+					})));
+				}
+			}
+		})();
+	}, [asset]);
 
 	// TODO: get block height / owners / date created
 	function getData() {
@@ -166,10 +133,18 @@ export default function AssetDetail(props: IProps) {
 							<S.ACHeader>
 								<h2>{asset.data.title}</h2>
 								{/* <StampWidget assetId={asset.data.id} /> */}
+								<S.OwnerLine>
+									<span>Currently owned by</span>
+									<button>5 owners</button>
+								</S.OwnerLine>
+								<S.OwnerLine>
+									<span>Currently being sold by</span>
+									<button>2 owners</button>
+								</S.OwnerLine>
 							</S.ACHeader>
 						</div>
 						<S.AssetCAction className={'border-wrapper-alt'}>
-							<AssetDetailAction asset={asset} />
+							<AssetDetailAction asset={asset} updateAsset={updateAsset} />
 						</S.AssetCAction>
 						<S.DrawerWrapper>
 							<Drawer

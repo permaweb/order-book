@@ -44,10 +44,14 @@ export const SpendWrapper = styled.div`
 `;
 
 export const SpendInfoWrapper = styled.div`
-	margin: 40px 0 0 0;
+	margin: 20px 0 0 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+`;
+
+export const PriceInfoWrapper = styled(SpendInfoWrapper)`
+	margin: 40px 0 0 0;
 `;
 
 export const SpendInfoContainer = styled.div`
@@ -55,7 +59,7 @@ export const SpendInfoContainer = styled.div`
 	flex-direction: column;
 	span {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
-		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
@@ -95,5 +99,20 @@ export const BuyAction = styled.div`
 			height: 25px;
 			width: 30px;
 		}
+	}
+`;
+
+export const MaxQty = styled.div`
+	width: fit-content;
+	margin: 20px 0 0 auto;
+`;
+
+export const ModalTitle = styled.div`
+	p {
+		font-size: ${(props) => props.theme.typography.size.lg};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 20px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt8};
 	}
 `;

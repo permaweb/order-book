@@ -179,13 +179,13 @@ export const defaultTheme: DefaultTheme = {
 		},
 		form: {
 			background: DEFAULT.neutral1,
-			border: DEFAULT.neutral10,
+			border: DEFAULT.neutral5,
 			invalid: {
 				outline: DEFAULT.negative,
 				shadow: DEFAULT.negativeShadow,
 			},
 			valid: {
-				outline: DEFAULT.neutral5,
+				outline: DEFAULT.neutral10,
 				shadow: DEFAULT.neutral3,
 			},
 			disabled: {

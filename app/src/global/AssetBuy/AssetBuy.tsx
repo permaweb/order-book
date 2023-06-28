@@ -5,16 +5,19 @@ import { OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Slider } from 'components/atoms/Slider';
+import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
+import { ResponseType } from 'helpers/types';
+// import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: disabled if wallet not connected or U balance too low
 export default function AssetBuy(props: IProps) {
-	const arProvider = useArweaveProvider();
+	// const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
@@ -23,6 +26,8 @@ export default function AssetBuy(props: IProps) {
 	const [assetQuantity, setAssetQuantity] = React.useState<number>(0);
 
 	const [loading, setLoading] = React.useState<boolean>(false);
+	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
+	const [buyResponse, setBuyResponse] = React.useState<ResponseType | null>(null);
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.state) {
@@ -46,21 +51,28 @@ export default function AssetBuy(props: IProps) {
 		setAssetQuantity(Number(event.target.value));
 	};
 
+	// await orProvider.orderBook.buy({
+	// 	assetId: props.asset.data.id,
+	// 	spend: assetQuantity,
+	// });
 	async function buyAsset() {
 		if (props.asset && orProvider.orderBook) {
 			setLoading(true);
-			await orProvider.orderBook.buy({
-				assetId: props.asset.data.id,
-				spend: assetQuantity,
-			});
+			console.log('Buy Asset');
+			await new Promise((resolve) => setTimeout(resolve, 1500));
 			setLoading(false);
+			setShowConfirmation(false);
+			setBuyResponse({
+				status: true,
+				message: `${language.purchaseSuccess}!`,
+			});
 		}
 	}
 
 	// TODO: get price
 	function getPrice() {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
-			return order.currency
+			return order.currency;
 		});
 		return (
 			<S.Price>
@@ -72,56 +84,134 @@ export default function AssetBuy(props: IProps) {
 		);
 	}
 
+	function handleModalClose(updateAsset: boolean) {
+		if (updateAsset) {
+			props.updateAsset();
+		}
+		setShowConfirmation(false);
+		setBuyResponse(null);
+	}
+
 	return (
-		<S.Wrapper>
-			<S.DCLine>
-				<S.DCLineHeader>{`${language.totalBalance}:`}</S.DCLineHeader>
-				<S.DCLineDetail>{totalBalance}</S.DCLineDetail>
-			</S.DCLine>
-			<S.DCWrapper>
+		<>
+			<S.Wrapper>
 				<S.DCLine>
-					<S.DCLineHeader>{`${language.totalSalesBalance}:`}</S.DCLineHeader>
-					<S.DCLineDetail>{totalSalesBalance}</S.DCLineDetail>
+					<S.DCLineHeader>{`${language.totalAssetBalance}:`}</S.DCLineHeader>
+					<S.DCLineDetail>{totalBalance}</S.DCLineDetail>
 				</S.DCLine>
-				<S.DCLine>
-					<S.DCLineHeader>{`${language.totalSalesPercentage}:`}</S.DCLineHeader>
-					<S.DCLineDetail>{`${(totalSalesBalance / totalBalance) * 100}%`}</S.DCLineDetail>
-				</S.DCLine>
-			</S.DCWrapper>
-			<S.SpendWrapper>
-				<Slider
-					value={assetQuantity}
-					maxValue={totalSalesBalance}
-					handleChange={handleSpendAmountChange}
-					label={language.assetPercentageInfo}
-				/>
-				<S.SpendInfoWrapper>
-					<S.SpendInfoContainer>
-						<span>{language.totalBuyPercentage}</span>
-						<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
-					</S.SpendInfoContainer>
-					<S.SpendInfoContainer>
-						<span>{language.totalPrice}</span>
-						{getPrice()}
-					</S.SpendInfoContainer>
-				</S.SpendInfoWrapper>
-				<S.SpendInfoWrapper>
-					<S.SpendInfoContainer>
-						<span>{language.totalBuyQuantity}</span>
-						<p>{assetQuantity}</p>
-					</S.SpendInfoContainer>
-				</S.SpendInfoWrapper>
-			</S.SpendWrapper>
-			<S.BuyAction>
-				<Button
-					type={'alt2'}
-					label={language.buyNow.toUpperCase()}
-					handlePress={buyAsset}
-					height={60}
-					fullWidth
-					icon={ASSETS.buy}
-				/>
-			</S.BuyAction>
-		</S.Wrapper>
+				<S.DCWrapper>
+					<S.DCLine>
+						<S.DCLineHeader>{`${language.totalSalesBalance}:`}</S.DCLineHeader>
+						<S.DCLineDetail>{totalSalesBalance}</S.DCLineDetail>
+					</S.DCLine>
+					<S.DCLine>
+						<S.DCLineHeader>{`${language.totalSalesPercentage}:`}</S.DCLineHeader>
+						<S.DCLineDetail>{`${(totalSalesBalance / totalBalance) * 100}%`}</S.DCLineDetail>
+					</S.DCLine>
+				</S.DCWrapper>
+				<S.SpendWrapper>
+					<Slider
+						value={assetQuantity}
+						maxValue={totalSalesBalance}
+						handleChange={handleSpendAmountChange}
+						label={language.assetPercentageInfo}
+					/>
+					<S.MaxQty>
+						<Button
+							type={'alt1'}
+							label={language.max}
+							handlePress={() => setAssetQuantity(totalSalesBalance)}
+							disabled={false}
+							noMinWidth
+						/>
+					</S.MaxQty>
+					<S.SpendInfoWrapper>
+						<S.SpendInfoContainer>
+							<span>{language.totalBuyQuantity}</span>
+							<p>{assetQuantity}</p>
+						</S.SpendInfoContainer>
+						<S.SpendInfoContainer>
+							<span>{language.totalBuyPercentage}</span>
+							<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
+						</S.SpendInfoContainer>
+					</S.SpendInfoWrapper>
+					<S.PriceInfoWrapper>
+						<S.SpendInfoContainer>
+							<span>{language.totalPrice}</span>
+							{getPrice()}
+						</S.SpendInfoContainer>
+					</S.PriceInfoWrapper>
+				</S.SpendWrapper>
+				<S.BuyAction>
+					<Button
+						type={'alt2'}
+						label={language.confirmPurchase.toUpperCase()}
+						handlePress={() => setShowConfirmation(true)}
+						height={60}
+						fullWidth
+						disabled={false}
+					/>
+				</S.BuyAction>
+			</S.Wrapper>
+			{(showConfirmation || buyResponse) && (
+				<Modal
+					header={language.confirmPurchase}
+					handleClose={() => handleModalClose(buyResponse && buyResponse.status ? true : false)}
+				>
+					<S.ModalTitle>
+						<p>{buyResponse ? buyResponse.message : props.asset.data.title}</p>
+					</S.ModalTitle>
+					{showConfirmation && (
+						<>
+							<S.SpendWrapper>
+								<S.SpendInfoWrapper>
+									<S.SpendInfoContainer>
+										<span>{language.totalBuyPercentage}</span>
+										<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
+									</S.SpendInfoContainer>
+									<S.SpendInfoContainer>
+										<span>{language.totalPrice}</span>
+										{getPrice()}
+									</S.SpendInfoContainer>
+								</S.SpendInfoWrapper>
+								<S.SpendInfoWrapper>
+									<S.SpendInfoContainer>
+										<span>{language.totalBuyQuantity}</span>
+										<p>{assetQuantity}</p>
+									</S.SpendInfoContainer>
+								</S.SpendInfoWrapper>
+							</S.SpendWrapper>
+							<S.BuyAction>
+								<Button
+									type={'alt2'}
+									label={language.buyNow.toUpperCase()}
+									handlePress={buyAsset}
+									height={60}
+									fullWidth
+									icon={ASSETS.buy}
+									disabled={loading}
+									loading={loading}
+								/>
+							</S.BuyAction>
+						</>
+					)}
+					{buyResponse && (
+						<>
+							<S.BuyAction>
+								<Button
+									type={'alt2'}
+									label={language.close.toUpperCase()}
+									handlePress={() => handleModalClose(buyResponse.status ? true : false)}
+									height={60}
+									fullWidth
+									disabled={loading}
+									loading={loading}
+								/>
+							</S.BuyAction>
+						</>
+					)}
+				</Modal>
+			)}
+		</>
 	);
 }

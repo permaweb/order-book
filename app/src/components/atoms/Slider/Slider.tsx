@@ -12,7 +12,7 @@ export default function Slider(props: IProps) {
 						<p>{props.label}</p>
 					</S.Label>
 					<S.Value>
-						<p>{`(${props.value})`}</p>
+						<p>{`(${props.value} / ${props.maxValue})`}</p>
 					</S.Value>
 				</S.LabelWrapper>
 			)}
