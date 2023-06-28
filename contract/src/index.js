@@ -6,13 +6,13 @@ import { transfer } from "./write/transfer.js";
 import { validate } from "./read/validate.js";
 import { allow } from "./write/allow.js";
 import { claim } from "./write/claim.js";
-import { buyback } from './cron/buyback.js'
+import { buyback } from "./cron/buyback.js";
 
 export async function handle(state, action) {
   validate(state);
   // do buyback
-  if (action.input.function === 'createOrder') {
-    state = await buyback(state)
+  if (action.input.function === "createOrder") {
+    state = await buyback(state);
   }
   switch (action?.input?.function) {
     case "addPair":

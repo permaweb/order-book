@@ -1,7 +1,7 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
-const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
 
 globalThis.ContractAssert = function (expr, msg) {
   if (!expr) {
@@ -13,10 +13,7 @@ test("sell order", async () => {
   const state = {
     pairs: [
       {
-        pair: [
-          "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          U,
-        ],
+        pair: ["cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8", U],
         orders: [],
         pricedata: {},
       },
@@ -30,10 +27,7 @@ test("sell order", async () => {
     caller: "jnbRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
     input: {
       function: "createOrder",
-      pair: [
-        "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-        U,
-      ],
+      pair: ["cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8", U],
       qty: 100,
       price: 100,
       transaction: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
@@ -57,11 +51,11 @@ test("sell order", async () => {
     },
     contracts: {
       write: (id, input) => {
-        console.log(input)
+        console.log(input);
         if (id === U) {
-          assert.equal(input.qty, 995)
+          assert.equal(input.qty, 995);
         }
-        return Promise.resolve({ type: "ok" })
+        return Promise.resolve({ type: "ok" });
       },
     },
   };

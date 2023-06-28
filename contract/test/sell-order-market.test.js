@@ -1,7 +1,7 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
-const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
 
 globalThis.ContractAssert = function (expr, msg) {
   if (!expr) {
@@ -67,9 +67,9 @@ test("market sell order", async () => {
     contracts: {
       write: (id, input) => {
         if (id === U) {
-          assert.equal(input.qty, 995)
+          assert.equal(input.qty, 995);
         }
-        return Promise.resolve({ type: "ok" })
+        return Promise.resolve({ type: "ok" });
       },
     },
     block: {

@@ -1,4 +1,4 @@
-const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
 
 export const CreateOrder = async (state, action) => {
   const caller = action.caller;
@@ -55,6 +55,8 @@ export const CreateOrder = async (state, action) => {
     } else {
       balances[SmartWeave.contract.id] = qty;
     }
+  } else if (usedPair[1] === SmartWeave.contract.id && tokenTx === "INTERNAL_TRANSFER") {
+    // do nothing
   } else {
     if (tokenTx === undefined || tokenTx === null) {
       throw new ContractError(
@@ -337,9 +339,10 @@ export default function matchOrder(input, orderbook) {
           input: {
             function: "transfer",
             target: currentOrder.creator,
-            qty: input.pair.from === U
-              ? Math.round(remainingQuantity * 0.995)
-              : remainingQuantity,
+            qty:
+              input.pair.from === U
+                ? Math.round(remainingQuantity * 0.995)
+                : remainingQuantity,
           },
         });
 
@@ -383,9 +386,10 @@ export default function matchOrder(input, orderbook) {
         input: {
           function: "transfer",
           target: currentOrder.creator,
-          qty: input.pair.from === U
-            ? Math.round(remainingQuantity * 0.995)
-            : remainingQuantity,
+          qty:
+            input.pair.from === U
+              ? Math.round(remainingQuantity * 0.995)
+              : remainingQuantity,
         },
       });
 
@@ -445,6 +449,7 @@ export default function matchOrder(input, orderbook) {
         originalQuantity: input.quantity,
       });
     } else {
+
       // if the input order is not completely filled,
       // and it is a market order, we return the funds
       foreignCalls.push({
@@ -466,9 +471,8 @@ export default function matchOrder(input, orderbook) {
     input: {
       function: "transfer",
       target: input.creator,
-      qty: input.pair.to === U
-        ? Math.round(receiveAmount * 0.995)
-        : receiveAmount,
+      qty:
+        input.pair.to === U ? Math.round(receiveAmount * 0.995) : receiveAmount,
     },
   });
 

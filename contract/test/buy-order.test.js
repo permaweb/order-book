@@ -1,7 +1,7 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
-const U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
 
 test("buy order", async () => {
   globalThis.ContractAssert = function (expr, msg) {
@@ -26,11 +26,10 @@ test("buy order", async () => {
     },
     contracts: {
       write: (id, input) => {
-
-        if (id === U && input.function === 'transfer') {
-          assert.equal(input.qty, 9950)
+        if (id === U && input.function === "transfer") {
+          assert.equal(input.qty, 9950);
         }
-        return Promise.resolve({ type: "ok" })
+        return Promise.resolve({ type: "ok" });
       },
     },
   };
@@ -42,10 +41,7 @@ test("buy order", async () => {
     ticker: "BazAR",
     pairs: [
       {
-        pair: [
-          "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          U,
-        ],
+        pair: ["cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8", U],
         orders: [
           {
             id: "xkKyDgsr360TVgy07XwbWOuWXUD2WdXil_Npk8wx8Qg",
@@ -67,10 +63,7 @@ test("buy order", async () => {
     caller: "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4",
     input: {
       function: "createOrder",
-      pair: [
-        U,
-        "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-      ],
+      pair: [U, "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8"],
       qty: 10000,
       transaction: "MsflN4glR9noV-DN00ygwKJZmCQS1S1ejbVRmQ5N_Nc",
     },
