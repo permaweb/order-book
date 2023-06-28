@@ -1,6 +1,8 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
+const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
+
 globalThis.ContractAssert = function (expr, msg) {
   if (!expr) {
     throw new Error(msg);
@@ -17,14 +19,14 @@ test("market sell order", async () => {
       {
         pair: [
           "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+          "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
         ],
         orders: [
           {
             id: "S004FI6ADFWNedH-NwUc08dnlxqTDruJLenpfORbj0g",
             transfer: "MsflN4glR9noV-DN00ygwKJZmCQS1S1ejbVRmQ5N_Nc",
             creator: "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4",
-            token: "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+            token: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
             price: 0.01,
             quantity: 1000,
             originalQuantity: 1000,
@@ -41,7 +43,7 @@ test("market sell order", async () => {
       function: "createOrder",
       pair: [
         "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-        "rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk",
+        "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
       ],
       qty: 100,
       transaction: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
@@ -64,7 +66,23 @@ test("market sell order", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
-      write: (id, input) => Promise.resolve({ type: "ok" }),
+      readContractState(id) {
+        if (id === U) {
+          return Promise.resolve({
+            balances: {
+              "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8": 0,
+            },
+          });
+        }
+        //console.log('readState', id)
+        return Promise.resolve({});
+      },
+      write: (id, input) => {
+        if (id === U) {
+          assert.equal(input.qty, 995);
+        }
+        return Promise.resolve({ type: "ok" });
+      },
     },
     block: {
       height: 10000000,
@@ -73,10 +91,6 @@ test("market sell order", async () => {
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-  //console.log(JSON.stringify(response.state, null, 2))
-  //console.log(JSON.stringify(response.result, null, 2))
-  // assert.equal(response.state.pairs[0].orders[0].price, 100);
-  // assert.equal(response.state.pairs[0].orders[0].quantity, 100);
   assert.equal(response.result.status, "success");
   assert.ok(true);
 });
