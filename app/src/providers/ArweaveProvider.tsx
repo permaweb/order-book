@@ -99,6 +99,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	const [walletAddress, setWalletAddress] = React.useState<string | null>(null);
 	const [availableBalance, setAvailableBalance] = React.useState<number | null>(null);
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
+	const [currencyBalance, setCurrencyBalance] = React.useState<number | null>(null);
 
 	async function handleConnect() {
 		// @ts-ignore
@@ -195,6 +196,8 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				if (profile) {
 					setArProfile(profile);
 				}
+
+				
 			}
 		})();
 	}, [walletAddress, orderBook]);

@@ -8,11 +8,14 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from './styles';
 import { IProps } from './types';
+import { AssetType } from 'permaweb-orderbook';
 
 // TODO: mobile search
 export default function Search(props: IProps) {
 	const [value, setValue] = React.useState<string>('');
-	const [results, setResults] = React.useState<any[]>([]);
+	const [results, setResults] = React.useState<AssetType[]>([]);
+	const [currentPage, setCurrentPage] = React.useState(1);
+  	const resultsPerPage = 10;
 	const orProvider = useOrderBookProvider();
 
 	function handleChange(value: string) {
@@ -33,7 +36,9 @@ export default function Search(props: IProps) {
 					term: value,
 				});
 
-				// setResults(searchResults);
+				console.log(searchResults);
+
+				setResults(searchResults.assets);
 			}
 		}
 	}
@@ -42,13 +47,42 @@ export default function Search(props: IProps) {
 		setValue('');
 	}
 
-	function getResults() {
-		if (results && results.length > 0) {
-		} else {
-			return null;
-		}
+	function handleNextPage() {
+		setCurrentPage(currentPage + 1);
+	  }
+	
+	function handlePreviousPage() {
+		setCurrentPage(currentPage - 1);
 	}
 
+	function getResults() {
+		if (results && results.length > 0) {
+		  const startIndex = (currentPage - 1) * resultsPerPage;
+		  const endIndex = startIndex + resultsPerPage;
+		  const currentResults = results.slice(startIndex, endIndex);
+	
+		  return (
+			<S.SearchResultsWrapper>
+			  {currentResults.map((result: AssetType, index: number) => (
+				<S.SearchResult key={index}>
+				  {result.data.id}
+				</S.SearchResult>
+			  ))}
+			  <div>
+				{currentPage > 1 && (
+				  <button onClick={handlePreviousPage}>Previous</button>
+				)}
+				{results.length > endIndex && (
+				  <button onClick={handleNextPage}>Next</button>
+				)}
+			  </div>
+			</S.SearchResultsWrapper>
+		  );
+		} else {
+		  return null;
+		}
+	}
+	
 	return (
 		<S.Wrapper>
 			<S.SearchWrapper>
@@ -74,7 +108,7 @@ export default function Search(props: IProps) {
 					/>
 				</S.ClearWrapper> */}
 			</S.SearchWrapper>
-			<S.SearchResultsWrapper>{getResults()}</S.SearchResultsWrapper>
+			{getResults()}
 		</S.Wrapper>
 	);
 }

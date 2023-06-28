@@ -18,7 +18,7 @@ export async function getGqlDataByIds(args: AssetArgsClientType): Promise<Assets
 	return getAssetsResponseObject(artifacts);
 }
 
-function getAssetsResponseObject(gqlResponse: AGQLResponseType): AssetsResponseType {
+export function getAssetsResponseObject(gqlResponse: AGQLResponseType): AssetsResponseType {
 	const assets = gqlResponse.data.filter((element: GQLResponseType) => {
 		return getTagValue(element.node.tags, TAGS.keys.uploaderTxId) === STORAGE.none;
 	});
