@@ -5,6 +5,7 @@ import { handle } from "../src/index.js";
 
 test("addPair", async () => {
   const state = {
+    streaks: {},
     pairs: [],
     balances: {},
     name: "BazAR",

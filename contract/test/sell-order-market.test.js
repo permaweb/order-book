@@ -11,6 +11,7 @@ globalThis.ContractAssert = function (expr, msg) {
 
 test("market sell order", async () => {
   const state = {
+    streaks: {},
     balances: {},
     name: "BazAR",
     ticker: "BazAR",

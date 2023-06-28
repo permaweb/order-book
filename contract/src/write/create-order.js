@@ -1,3 +1,5 @@
+import { calculateStreak } from "../lib/streak-calc.js";
+
 const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
 
 export const CreateOrder = async (state, action) => {
@@ -202,6 +204,24 @@ export const CreateOrder = async (state, action) => {
           balances[foreignCalls[i].input.target] = foreignCalls[i].input.qty;
         }
       } else {
+        // STREAK TRACKER
+        if (foreignCalls[i].contract !== U) {
+          // buy action
+          const buyer = foreignCalls[i].input.target;
+
+          if (!state.streaks[buyer]) {
+            state.streaks[buyer] = { days: 0, lastHeight: 0 };
+          }
+
+          const streakUpdate = calculateStreak(
+            state.streaks[buyer].lastHeight,
+            SmartWeave.block.height,
+            state.streaks[buyer].days
+          );
+          state.streaks[buyer] = streakUpdate;
+        }
+        // END STREAK TRACKER
+
         // console.log({
         //   contract: foreignCalls[i].contract,
         //   input: foreignCalls[i].input

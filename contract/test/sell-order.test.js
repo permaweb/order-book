@@ -11,6 +11,7 @@ globalThis.ContractAssert = function (expr, msg) {
 
 test("sell order", async () => {
   const state = {
+    streaks: {},
     pairs: [
       {
         pair: ["cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8", U],
@@ -73,7 +74,7 @@ test("sell order", async () => {
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-  console.log(JSON.stringify(response.state, null, 2))
+  console.log(JSON.stringify(response.state, null, 2));
   assert.equal(response.state.pairs[0].orders[0].price, 100);
   assert.equal(response.state.pairs[0].orders[0].quantity, 100);
   assert.equal(response.result.status, "success");
