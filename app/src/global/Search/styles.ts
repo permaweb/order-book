@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.div`
+	position: relative;
 	height: 100%;
 	width: 100%;
-	display: flex;
+	margin-top: 40px;
 `;
 
 export const SearchWrapper = styled.div`
@@ -13,8 +14,7 @@ export const SearchWrapper = styled.div`
 	width: ${STYLING.dimensions.formWidthMax};
 	width: 100%;
 	max-width: 88.25vw;
-	display: flex;
-	position: relative;
+	overflow: visible;
 `;
 
 export const SearchIcon = styled.div<{ disabled: boolean | undefined }>`
@@ -71,10 +71,19 @@ export const ClearWrapper = styled.div`
 
 export const SearchButtonWrapper = styled.div`
 	margin: 0 0 0 20px;
-	display: flex;
 	align-items: center;
 
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		display: none;
 	}
+`;
+
+export const SearchResultsWrapper = styled.div`
+	width: 100%;
+	
+`;
+
+export const SearchResult = styled.div`
+	width: 100%;
+	background-color: white;
 `;

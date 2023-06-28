@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
 import { Modal } from 'components/molecules/Modal';
-import { ASSETS } from 'helpers/config';
+import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -11,6 +11,8 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from './styles';
 import { IProps } from './types';
+import { OrderBookPairOrderType } from 'permaweb-orderbook';
+import { ReactSVG } from 'react-svg';
 
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
@@ -34,6 +36,10 @@ export default function AssetSell(props: IProps) {
 				return props.asset.state.balances[balance];
 			});
 			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
+			if(arProvider.walletAddress) {
+				let salesBalance = props.asset.state.balances[arProvider.walletAddress];
+				setTotalSalesBalance(salesBalance ? salesBalance : 0);
+			}
 		}
 	}, [props.asset]);
 
@@ -56,6 +62,27 @@ export default function AssetSell(props: IProps) {
 
 	// TODO: validation
 	function getInvalidQuantity() {
+		if(arProvider.walletAddress) {
+			let qty = quantity;
+
+			if (props.asset.state.balances[arProvider.walletAddress] === 1) {
+				qty = 1;
+			}
+
+			if (qty === 0) {
+				return {
+					status: true,
+					message: 'Cannot be 0',
+				};
+			}
+			if (qty > props.asset.state.balances[arProvider.walletAddress]) {
+				return {
+					status: true,
+					message: 'Above max quantity',
+				};
+			}
+		}
+
 		return {
 			status: false,
 			message: null,
@@ -64,25 +91,36 @@ export default function AssetSell(props: IProps) {
 
 	// TODO: get price
 	function getPrice() {
-		// const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
-		// 	return order.currency;
-		// });
+		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
+			return order.currency;
+		});
+		let price = (quantity * unitPrice)/1000000;
+
 		return (
 			<S.Price>
-				<p>{1.25}</p>
-				{/* {currencies.every((currency: string) => currency === currencies[0]) && (
+				<p>{price}</p>
+				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : ''} />
-				)} */}
+				)}
 			</S.Price>
 		);
 	}
 
 	async function sellAsset(e: any) {
 		e.preventDefault();
-		if (props.asset && orProvider.orderBook) {
+		if (props.asset && orProvider.orderBook && arProvider.walletAddress) {
 			setLoading(true);
-			console.log('List Asset For Sale');
-			await new Promise((resolve) => setTimeout(resolve, 1500));
+
+			try {
+				await orProvider.orderBook?.sell({
+					assetId: props.asset.data.id,
+					qty: quantity,
+					price: unitPrice,
+				});
+			} catch (e: any) {
+				throw new Error(e);
+			}
+
 			setLoading(false);
 			setShowConfirmation(false);
 			setSellResponse({
@@ -90,42 +128,6 @@ export default function AssetSell(props: IProps) {
 				message: `${language.listingSuccess}!`,
 			});
 		}
-		// if (arProvider.walletAddress) {
-		// 	e.preventDefault();
-
-		// 	let qty = quantity;
-
-		// 	if (props.asset.state.balances[arProvider.walletAddress] === 1) {
-		// 		qty = 1;
-		// 	}
-
-		// 	if (qty === 0 || unitPrice === 0) {
-		// 		throw new Error('no 0 input');
-		// 	}
-		// 	if (qty > props.asset.state.balances[arProvider.walletAddress]) {
-		// 		throw new Error('above max quantity');
-		// 	}
-
-		// 	setLoading(true);
-
-		// 	try {
-		// 		await orProvider.orderBook?.sell({
-		// 			assetId: props.asset.data.id,
-		// 			qty: qty,
-		// 			price: unitPrice,
-		// 		});
-		// 	} catch (e: any) {
-		// 		throw new Error(e);
-		// 	}
-
-		// 	setLoading(false);
-
-		// 	// setShowModal(false);
-
-		// 	// await props.updateAsset();
-
-		// 	// TODO: show notification
-		// }
 	}
 
 	function handleModalClose(updateAsset: boolean) {
@@ -134,6 +136,15 @@ export default function AssetSell(props: IProps) {
 		}
 		setShowConfirmation(false);
 		setSellResponse(null);
+	}
+
+	function handleQuantityInput(e: React.ChangeEvent<HTMLInputElement>) {
+		setAssetQuantity(parseFloat(e.target.value));
+		setQuantity(parseFloat(e.target.value));
+	}
+
+	function handlePriceInput(e: React.ChangeEvent<HTMLInputElement>) {
+		setUnitPrice(parseFloat(e.target.value));
 	}
 
 	function getFields() {
@@ -145,7 +156,7 @@ export default function AssetSell(props: IProps) {
 							type={'number'}
 							label={`${language.quantity} (Max: ${props.asset.state.balances[arProvider.walletAddress]})`}
 							value={quantity}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(parseFloat(e.target.value))}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
 							disabled={loading || !arProvider.walletAddress}
 							invalid={getInvalidQuantity()}
 							tooltip={'Test'}
@@ -156,7 +167,7 @@ export default function AssetSell(props: IProps) {
 							type={'number'}
 							label={language.unitPrice}
 							value={unitPrice}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUnitPrice(parseFloat(e.target.value))}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
 							disabled={loading || !arProvider.walletAddress}
 							invalid={getInvalidUnitPrice()}
 							tooltip={'Test'}
@@ -190,11 +201,11 @@ export default function AssetSell(props: IProps) {
 					<S.SpendWrapper>
 						<S.SpendInfoWrapper>
 							<S.SpendInfoContainer>
-								<span>{language.totalBuyQuantity}</span>
+								<span>{language.totalListingQuantity}</span>
 								<p>{assetQuantity}</p>
 							</S.SpendInfoContainer>
 							<S.SpendInfoContainer>
-								<span>{language.totalBuyPercentage}</span>
+								<span>{language.totalListingPercentage}</span>
 								<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
 							</S.SpendInfoContainer>
 						</S.SpendInfoWrapper>
