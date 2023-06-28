@@ -47,3 +47,18 @@ export type ValidationType = {
 };
 
 export type FormFieldType = 'number' | 'password';
+
+export type OwnerType = {
+	address: string;
+	handle: string | null;
+	balance: number;
+	ownerPercentage: number;
+}
+
+export type OwnerListingType = {
+	address: string,
+	handle: string | null,
+	sellQuantity: number,
+	sellPercentage: number,
+	sellUnitPrice: number,
+}

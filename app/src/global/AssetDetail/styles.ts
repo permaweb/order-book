@@ -68,6 +68,30 @@ export const DrawerContent = styled.div`
 	}
 `;
 
+export const DrawerHeader = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+	padding: 0 0 7.5px 0;
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+	}
+`;
+
+export const DrawerHeaderFlex = styled.div`
+	display: flex;
+	justify-content: space-between;
+	width: 190px;
+	max-width: 57.5%;
+	align-items: center;
+`;
+
 export const DCHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.base};
 	font-family: ${(props) => props.theme.typography.family.primary};
@@ -81,6 +105,7 @@ export const DCLine = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	position: relative;
 `;
 
 export const DCLineHeader = styled.p`
@@ -95,8 +120,23 @@ export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.bold};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
+`;
+
+export const DCLineDetailMedium = styled(DCLineDetail)`
+	font-weight: ${(props) => props.theme.typography.weight.medium};
+`;
+
+export const DCSalePercentage = styled(DCLineDetail)`
+	margin: 0 0 0 0.5px;
+`;
+
+export const DCLineFlex = styled(DCLineDetail)`
+	display: flex;
+	justify-content: space-between;
+	width: 190px;
+	max-width: 57.5%;
 `;
 
 export const C2 = styled.div`
