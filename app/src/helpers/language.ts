@@ -62,4 +62,5 @@ export const language = {
 	transactionId: `Transaction ID`,
 	unitPrice: `Unit Price`,
 	walletNotConnected: `Connect a wallet to continue`,
+	walletTransactionInfo: `Your wallet must be connected to make transactions`,
 };

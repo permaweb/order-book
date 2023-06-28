@@ -9,15 +9,16 @@ import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
-// import { useArweaveProvider } from 'providers/ArweaveProvider';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { WalletConnect } from 'wallet/WalletConnect';
 
 import * as S from './styles';
 import { IProps } from './types';
 
 // TODO: disabled if wallet not connected or U balance too low
 export default function AssetBuy(props: IProps) {
-	// const arProvider = useArweaveProvider();
+	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
@@ -46,6 +47,13 @@ export default function AssetBuy(props: IProps) {
 			setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
 		}
 	}, [props.asset]);
+
+	function getActionDisabled() {
+		if (!arProvider.walletAddress) {
+			return true;
+		}
+		return false;
+	}
 
 	const handleSpendAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setAssetQuantity(Number(event.target.value));
@@ -100,7 +108,7 @@ export default function AssetBuy(props: IProps) {
 
 		return (
 			<S.Price>
-				<p>{calcTotalPrice() / 1000000}</p>
+				<p>{calcTotalPrice() / 1e6}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : ''} />
 				)}
@@ -173,9 +181,17 @@ export default function AssetBuy(props: IProps) {
 						handlePress={() => setShowConfirmation(true)}
 						height={60}
 						fullWidth
-						disabled={false}
+						disabled={getActionDisabled()}
 					/>
 				</S.BuyAction>
+				{!arProvider.walletAddress && (
+					<S.WalletConnectionWrapper>
+						<span>
+							{language.walletTransactionInfo}
+						</span>
+						<WalletConnect />
+					</S.WalletConnectionWrapper>
+				)}
 			</S.Wrapper>
 			{(showConfirmation || buyResponse) && (
 				<Modal
@@ -213,7 +229,7 @@ export default function AssetBuy(props: IProps) {
 									height={60}
 									fullWidth
 									icon={ASSETS.buy}
-									disabled={loading}
+									disabled={loading || getActionDisabled()}
 									loading={loading}
 								/>
 							</S.BuyAction>

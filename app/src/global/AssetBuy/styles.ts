@@ -110,9 +110,24 @@ export const MaxQty = styled.div`
 export const ModalTitle = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.lg};
-		line-height: calc(${(props) => props.theme.typography.size.small} + 20px);
+		line-height: calc(${(props) => props.theme.typography.size.lg} + 6px);
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
+	}
+`;
+
+export const WalletConnectionWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 15px;
+	margin: 20px 0 0 0;
+	span {
+		font-size: ${(props) => props.theme.typography.size.xSmall};
+		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;

@@ -7,7 +7,8 @@ export const Container = styled.div`
 
 export const List = styled.div`
 	display: flex;
-	border-bottom: 1px solid ${(props) => props.theme.colors.border};
+	flex-wrap: wrap;
+	gap: 15px;
 `;
 
 export const Content = styled.div`
@@ -15,6 +16,4 @@ export const Content = styled.div`
 	position: relative;
 `;
 
-export const Tab = styled.div`
-	margin: 0 15px 0 0;
-`;
+export const Tab = styled.div``;

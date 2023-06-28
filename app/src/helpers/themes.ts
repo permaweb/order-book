@@ -98,7 +98,7 @@ export const defaultTheme: DefaultTheme = {
 				},
 				disabled: {
 					background: DEFAULT.neutral13,
-					border: DEFAULT.neutral3,
+					border: DEFAULT.neutral5,
 					label: DEFAULT.neutral7,
 				},
 			},

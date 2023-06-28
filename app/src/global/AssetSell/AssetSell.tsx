@@ -11,6 +11,7 @@ import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { WalletConnect } from 'wallet/WalletConnect';
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -44,6 +45,13 @@ export default function AssetSell(props: IProps) {
 			}
 		}
 	}, [props.asset]);
+
+	function getActionDisabled() {
+		if (!arProvider.walletAddress) {
+			return true;
+		}
+		return false;
+	}
 
 	// TODO: validation
 	function getInvalidUnitPrice() {
@@ -86,7 +94,7 @@ export default function AssetSell(props: IProps) {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
 			return order.currency;
 		});
-		let price = (quantity * unitPrice) / 1000000;
+		let price = (quantity * unitPrice) / 1e6;
 
 		return (
 			<S.Price>
@@ -217,11 +225,19 @@ export default function AssetSell(props: IProps) {
 							}}
 							height={60}
 							fullWidth
-							disabled={false}
+							disabled={getActionDisabled()}
 							formSubmit
 						/>
 					</S.SellAction>
 				</S.Form>
+				{!arProvider.walletAddress && (
+					<S.WalletConnectionWrapper>
+						<span>
+							{language.walletTransactionInfo}
+						</span>
+						<WalletConnect />
+					</S.WalletConnectionWrapper>
+				)}
 			</S.Wrapper>
 			{(showConfirmation || sellResponse) && (
 				<Modal
@@ -259,7 +275,7 @@ export default function AssetSell(props: IProps) {
 									height={60}
 									fullWidth
 									icon={ASSETS.sell}
-									disabled={loading}
+									disabled={loading || getActionDisabled()}
 									loading={loading}
 								/>
 							</S.SellAction>
