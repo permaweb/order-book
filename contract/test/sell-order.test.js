@@ -50,6 +50,17 @@ test("sell order", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
+      readContractState(id) {
+        if (id === U) {
+          return Promise.resolve({
+            balances: {
+              "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8": 0,
+            },
+          });
+        }
+        //console.log('readState', id)
+        return Promise.resolve({});
+      },
       write: (id, input) => {
         console.log(input);
         if (id === U) {

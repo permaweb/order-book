@@ -39,7 +39,7 @@ export async function buyback(state) {
     input: {
       pair: [U, SmartWeave.contract.id],
       qty: purchaseU,
-      transaction: "INTERNAL_TRANSFER"
+      transaction: "INTERNAL_TRANSFER",
     },
   });
   // burn zAR
@@ -50,3 +50,5 @@ export async function buyback(state) {
     return state;
   }
 }
+
+// match orders

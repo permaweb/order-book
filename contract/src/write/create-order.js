@@ -55,7 +55,10 @@ export const CreateOrder = async (state, action) => {
     } else {
       balances[SmartWeave.contract.id] = qty;
     }
-  } else if (usedPair[1] === SmartWeave.contract.id && tokenTx === "INTERNAL_TRANSFER") {
+  } else if (
+    usedPair[1] === SmartWeave.contract.id &&
+    tokenTx === "INTERNAL_TRANSFER"
+  ) {
     // do nothing
   } else {
     if (tokenTx === undefined || tokenTx === null) {
@@ -182,6 +185,7 @@ export const CreateOrder = async (state, action) => {
       // if no matches, set the latest price data to empty
       state.pairs[pairIndex].priceData = undefined;
     }
+
 
     // Update foreignCalls accordingly for tokens to be sent
     for (let i = 0; i < foreignCalls.length; i++) {
@@ -449,7 +453,6 @@ export default function matchOrder(input, orderbook) {
         originalQuantity: input.quantity,
       });
     } else {
-
       // if the input order is not completely filled,
       // and it is a market order, we return the funds
       foreignCalls.push({

@@ -8,27 +8,30 @@ const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
 
 globalThis.ContractAssert = function (expr, msg) {
   if (expr) {
-    return null
+    return null;
   } else {
-    throw new Error(msg)
+    throw new Error(msg);
   }
-}
+};
 
 globalThis.ContractError = function (msg) {
-  return new Error(msg)
-}
+  return new Error(msg);
+};
 
 globalThis.SmartWeave = {
+  block: {
+    height: 100000
+  },
   transaction: {
-    id: 'W44dNBTBJAeNyb4Bo1IG1TI96VGLNah6m8sy9HUKu5Y'
+    id: "W44dNBTBJAeNyb4Bo1IG1TI96VGLNah6m8sy9HUKu5Y",
   },
   contract: {
     id: "AHrcXuowqLwX-EzPhks-Hla3BY7gPMc9XpYDi2sHSCI",
   },
   contracts: {
     write(id, input) {
-      console.log(id, input)
-      return Promise.resolve({ type: 'ok' })
+      //console.log(id, input);
+      return Promise.resolve({ type: "ok" });
     },
     readContractState(id) {
       if (id === U) {
@@ -49,10 +52,7 @@ test("buyback ", async () => {
     balances: {},
     pairs: [
       {
-        pair: [
-          globalThis.SmartWeave.contract.id,
-          U
-        ],
+        pair: [globalThis.SmartWeave.contract.id, U],
         orders: [
           {
             id: "xkKyDgsr360TVgy07XwbWOuWXUD2WdXil_Npk8wx8Qg",
@@ -62,11 +62,9 @@ test("buyback ", async () => {
             price: 100,
             quantity: 100,
             originalQuantity: 100,
-          }
+          },
         ],
-        priceData: {
-
-        }
+        priceData: {},
       },
     ],
     claimable: [],
@@ -75,8 +73,9 @@ test("buyback ", async () => {
   };
 
   const { buyback } = await import("../src/cron/buyback.js");
-  const result = await buyback(state);
-  console.log(result)
+  const response = await buyback(state);
+  //console.log(JSON.stringify(response, null, 2));
+  assert.equal(response.pairs[0].priceData.vwap, 100)
   assert.ok(true);
 });
 
