@@ -29,6 +29,7 @@ test("buy order", async () => {
 
   const { handle } = await import("../src/index.js");
   const state = {
+    streaks: {},
     balances: {},
     name: "BazAR",
     ticker: "BazAR",

@@ -11,6 +11,7 @@ test("check claim function", async () => {
   const { handle } = await import("../src/index.js");
   const result = await handle(
     {
+      streaks: {},
       name: "Token",
       ticker: "Token",
       balances: {},

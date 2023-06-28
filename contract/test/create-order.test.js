@@ -9,6 +9,7 @@ globalThis.ContractAssert = function (expr, msg) {
 
 test("create order with no limits but vwap set", async () => {
   const state = {
+    streaks: {},
     pairs: [
       {
         pair: [
@@ -19,13 +20,14 @@ test("create order with no limits but vwap set", async () => {
         pricedata: {
           block: 1207800,
           dominantToken: "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
-          matchLogs: [{
-            id: "PbZeNcn8dNu_TzCC4rmYAsE-z5XUtqCMgPW8EsJuEbk",
-            price: 1000,
-            qty: 1
-          }
+          matchLogs: [
+            {
+              id: "PbZeNcn8dNu_TzCC4rmYAsE-z5XUtqCMgPW8EsJuEbk",
+              price: 1000,
+              qty: 1,
+            },
           ],
-          vwap: 1000
+          vwap: 1000,
         },
       },
     ],
@@ -69,8 +71,10 @@ test("create order with no limits but vwap set", async () => {
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-
-  assert.equal(response.result.message, "The first order for a pair can only be a \"limit\" order");
+  assert.equal(
+    response.result.message,
+    'The first order for a pair can only be a "limit" order'
+  );
   assert.equal(response.result.status, "failure");
   assert.ok(true);
 });

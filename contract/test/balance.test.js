@@ -14,6 +14,7 @@ const state = {
     [TOM]: 100,
     [JUSTIN]: 10000000,
   },
+  streaks: {},
   name: "BazAR",
   ticker: "BazAR",
   pairs: [],

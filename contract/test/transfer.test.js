@@ -11,12 +11,14 @@ test("transfer", async () => {
   const { handle } = await import("../src/index.js");
   const result = await handle(
     {
+      streaks: {},
       balances: {
         bacjdyljxfrovwffuszkbacwispcaegwgtfrxwuidwe: 200,
       },
       name: "BazAR",
       ticker: "BazAR",
       pairs: [],
+      claimable: [],
     },
     {
       caller: "bacjdyljxfrovwffuszkbacwispcaegwgtfrxwuidwe",

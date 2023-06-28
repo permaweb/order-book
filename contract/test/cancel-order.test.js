@@ -8,6 +8,7 @@ globalThis.ContractAssert = function (expr, msg) {
 };
 
 const state = {
+  streaks: {},
   balances: {},
   name: "BazAR",
   ticker: "BazAR",
