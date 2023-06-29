@@ -9,9 +9,9 @@ globalThis.ContractAssert = function (expr, msg) {
 
 globalThis.SmartWeave = {
   block: {
-    height: 1209000
-  }
-}
+    height: 1209000,
+  },
+};
 
 test("transfer", async () => {
   const { handle } = await import("../src/index.js");

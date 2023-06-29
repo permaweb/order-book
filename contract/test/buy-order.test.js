@@ -70,7 +70,7 @@ test("buy order", async () => {
     ],
     claimable: [],
     recentRewards: {},
-    lastReward: 0
+    lastReward: 0,
   };
 
   const action = {

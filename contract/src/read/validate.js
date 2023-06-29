@@ -5,6 +5,6 @@ export function validate(state) {
   ContractAssert(state.pairs, "Pairs Array is required!");
   ContractAssert(state.claimable, "Claimable Array is required!");
   ContractAssert(state.streaks, "Streaks Object is required!");
-  ContractAssert(state.lastReward > -1, 'Last Reward prop is required');
-  ContractAssert(state.recentRewards, 'Recent Rewards prop is required')
+  ContractAssert(state.lastReward > -1, "Last Reward prop is required");
+  ContractAssert(state.recentRewards, "Recent Rewards prop is required");
 }

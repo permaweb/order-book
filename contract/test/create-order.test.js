@@ -7,7 +7,6 @@ globalThis.ContractAssert = function (expr, msg) {
   }
 };
 
-
 test("create order with no limits but vwap set", async () => {
   const state = {
     recentRewards: {},
@@ -72,8 +71,8 @@ test("create order with no limits but vwap set", async () => {
       write: (id, input) => Promise.resolve({ type: "ok" }),
     },
     block: {
-      height: 1209000
-    }
+      height: 1209000,
+    },
   };
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);

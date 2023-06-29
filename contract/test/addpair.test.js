@@ -4,14 +4,14 @@ import * as assert from "uvu/assert";
 test("addPair", async () => {
   globalThis.ContractAssert = (expr, msg) => {
     if (!expr) {
-      throw new Error(msg)
+      throw new Error(msg);
     }
-  }
+  };
   globalThis.SmartWeave = {
     block: {
-      height: 100
-    }
-  }
+      height: 100,
+    },
+  };
   const state = {
     streaks: {},
     pairs: [],
@@ -20,7 +20,7 @@ test("addPair", async () => {
     ticker: "BazAR",
     claimable: [],
     recentRewards: {},
-    lastReward: 0
+    lastReward: 0,
   };
   const action = {
     caller: createKey("A"),
@@ -30,7 +30,7 @@ test("addPair", async () => {
     },
   };
 
-  const { handle } = await import('../src/index.js')
+  const { handle } = await import("../src/index.js");
   const result = await handle(state, action);
 
   assert.equal(result.state.pairs[0], {

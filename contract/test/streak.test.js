@@ -74,7 +74,6 @@ test("calculate new streak", async () => {
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-  console.log(response.state);
   assert.equal(
     response.state.streaks["9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4"].days,
     1
@@ -247,7 +246,6 @@ test("streak calc on buy after 5 day streak but greater than 1440 heights", asyn
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-  console.log(response.state);
   assert.equal(
     response.state.streaks["9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4"].days,
     1
@@ -334,7 +332,6 @@ test("streak calc on 30 days and between 720 and 1440", async () => {
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-  console.log(response.state);
   assert.equal(
     response.state.streaks["9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4"].days,
     1

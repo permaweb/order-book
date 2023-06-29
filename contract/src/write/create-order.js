@@ -188,7 +188,6 @@ export const CreateOrder = async (state, action) => {
       state.pairs[pairIndex].priceData = undefined;
     }
 
-
     // Update foreignCalls accordingly for tokens to be sent
     for (let i = 0; i < foreignCalls.length; i++) {
       // Skip making zero balance transfers
