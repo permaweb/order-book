@@ -116,7 +116,7 @@ export default function StampWidget(props: IProps) {
 							handlePress={() => setShowStampAction(!showStampAction)}
 							disabled={disabled || balance <= 0 || showStampAction}
 							tooltip={language.superStamp}
-						/>*/}
+						/> */}
 
 						<IconButton
 							type={'alt3'}
