@@ -56,7 +56,7 @@ export const PriceInfoWrapper = styled(SpendInfoWrapper)`
 	gap: 15px;
 `;
 
-export const CurrencyBalanceWarning = styled.div`
+export const Warning = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);

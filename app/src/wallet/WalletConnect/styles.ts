@@ -66,7 +66,7 @@ export const WalletDropdown = styled.ul`
 		align-items: center;
 		cursor: pointer;
 		color: ${(props) => props.theme.colors.button.alt1.label};
-		font-size: ${(props) => props.theme.typography.size.small};
+		font-size: ${(props) => props.theme.typography.size.xxSmall};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		border: 1px solid ${(props) => props.theme.colors.transparent};
 		padding: 0 15px;

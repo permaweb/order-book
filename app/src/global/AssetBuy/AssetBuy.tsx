@@ -16,7 +16,6 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: disable certain buy amount if connected wallet is owner
 export default function AssetBuy(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
@@ -49,14 +48,10 @@ export default function AssetBuy(props: IProps) {
 	}, [props.asset]);
 
 	function getActionDisabled() {
-		if (!arProvider.walletAddress) {
-			return true;
-		}
-		else {
-			if (arProvider && arProvider.currencyBalances) {
-				const totalPrice = calcTotalPrice();
-				return ((arProvider.currencyBalances['U'] < totalPrice) || (totalPrice <= 0));
-			}
+		if (!arProvider.walletAddress) return true;
+		if (arProvider && arProvider.currencyBalances) {
+			const totalPrice = calcTotalPrice();
+			return arProvider.currencyBalances['U'] < totalPrice || totalPrice <= 0;
 		}
 		return false;
 	}
@@ -106,7 +101,7 @@ export default function AssetBuy(props: IProps) {
 			});
 		}
 	}
-	
+
 	function getPrice() {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
 			return order.currency;
@@ -174,15 +169,14 @@ export default function AssetBuy(props: IProps) {
 						</S.SpendInfoContainer>
 					</S.SpendInfoWrapper>
 					<S.PriceInfoWrapper>
-
 						<S.SpendInfoContainer>
 							<span>{language.totalPrice}</span>
 							{getPrice()}
 						</S.SpendInfoContainer>
-						{arProvider.currencyBalances && (arProvider.currencyBalances['U'] < calcTotalPrice()) && (
-							<S.CurrencyBalanceWarning>
+						{arProvider.currencyBalances && arProvider.currencyBalances['U'] < calcTotalPrice() && (
+							<S.Warning>
 								<p>{language.currencyBalanceWarning}</p>
-							</S.CurrencyBalanceWarning>
+							</S.Warning>
 						)}
 					</S.PriceInfoWrapper>
 				</S.SpendWrapper>
@@ -198,9 +192,7 @@ export default function AssetBuy(props: IProps) {
 				</S.BuyAction>
 				{!arProvider.walletAddress && (
 					<S.WalletConnectionWrapper>
-						<span>
-							{language.walletTransactionInfo}
-						</span>
+						<span>{language.walletTransactionInfo}</span>
 						<WalletConnect />
 					</S.WalletConnectionWrapper>
 				)}
