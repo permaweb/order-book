@@ -10,6 +10,7 @@ export const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	padding: 0 10px;
+	cursor: pointer;
 	p {
 		font-size: ${(props) => props.theme.typography.size.base} !important;
 		font-weight: ${(props) => props.theme.typography.weight.bold} !important;
@@ -26,4 +27,12 @@ export const Wrapper = styled.div`
 		height: 30px !important;
 		width: 25px !important;
 	}
+`;
+
+export const ButtonWrapper = styled.div `
+
+`;
+
+export const NotifWrapper = styled.div `
+
 `;

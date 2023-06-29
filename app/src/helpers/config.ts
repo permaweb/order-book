@@ -10,6 +10,9 @@ import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
 import copySVG from 'assets/copy.svg';
+import defaultStampSVG from 'assets/stamp-default.svg';
+import superStampSVG from 'assets/stamp-super.svg';
+import vouchedStampSVG from 'assets/stamp-vouched.svg';
 import detailsSVG from 'assets/details.svg';
 import infoSVG from 'assets/info.svg';
 import logoSVG from 'assets/logo.svg';
@@ -50,6 +53,11 @@ export const ASSETS = {
 	search: searchSVG,
 	sell: sellSVG,
 	stamps: stampsSVG,
+	stamp: {
+		default: defaultStampSVG,
+		super: superStampSVG,
+		vouched: vouchedStampSVG,
+	},
 	u: uSVG,
 	user: userSVG,
 	wallet: walletSVG,
