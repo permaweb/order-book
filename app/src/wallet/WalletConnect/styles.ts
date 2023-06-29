@@ -57,7 +57,7 @@ export const WalletDropdown = styled.ul`
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 
 	@media (max-width: ${STYLING.cutoffs.initial}) {
-		top: 81.5px
+		top: 81.5px;
 	}
 	li {
 		text-align: center;

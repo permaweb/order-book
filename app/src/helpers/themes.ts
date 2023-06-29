@@ -25,7 +25,7 @@ const DEFAULT = {
 	alt1: '#FF7A41',
 	alt2: '#FF621F',
 	alt3: '#FFDECF',
-	overlay1: '#1C1F27C4',
+	overlay1: '#2D2D2DC4',
 	negative: '#D24646',
 	negativeHover: '#F26969',
 	negativeShadow: '#F27979',
@@ -33,7 +33,7 @@ const DEFAULT = {
 	positiveHover: '#209720',
 	neutral: '#FFB600',
 	transparent: 'rgba(255, 255, 255, 0)',
-	semiTransparent1: 'rgba(255, 255, 255, 0.65)',
+	semiTransparent1: 'rgba(255, 255, 255, 0.45)',
 	semiTransparent2: 'rgba(255, 255, 255, 0.1)',
 	semiTransparent3: 'rgba(255, 255, 255, 0.3)',
 	backdropShadow1: '#c4c4c4b0',
@@ -156,6 +156,9 @@ export const defaultTheme: DefaultTheme = {
 			alt9: {
 				background: DEFAULT.neutral11,
 			},
+			alt10: {
+				background: DEFAULT.neutral12,
+			},
 		},
 		font: {
 			primary: {
@@ -242,7 +245,7 @@ export const defaultTheme: DefaultTheme = {
 			},
 			header: {
 				background: DEFAULT.neutral10,
-				backgroundNav: DEFAULT.neutral1,
+				backgroundNav: DEFAULT.semiTransparent1,
 				logoFill: DEFAULT.neutral11,
 			},
 		},

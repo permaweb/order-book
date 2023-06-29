@@ -79,7 +79,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 				<S.FlexAction>
 					{arProvider.walletAddress && (
 						<>
-						{arProvider.currencyBalances && (
+							{arProvider.currencyBalances && (
 								<S.BalanceWrapper>
 									<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)} ${language.uTokens}`}</p>
 								</S.BalanceWrapper>
@@ -96,10 +96,8 @@ export default function WalletConnect(props: { callback?: () => void }) {
 						label={getWalletLabel()}
 						handlePress={handlePress}
 						height={45}
-						// width={180}
 						noMinWidth
 						icon={ASSETS.wallet}
-						// useMaxWidth
 					/>
 				</S.FlexAction>
 				{showDropdown && (

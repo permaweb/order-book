@@ -22,7 +22,7 @@ export default function AssetData(props: IProps) {
 	const handleError = () => {
 		setLoadError(true);
 	};
-	
+
 	// TODO: audio icon
 	// TODO: unsupported icon
 	React.useEffect(() => {

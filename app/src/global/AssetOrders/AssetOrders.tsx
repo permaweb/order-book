@@ -53,9 +53,7 @@ export default function AssetOrders(props: IProps) {
 						<ReactSVG src={CURRENCY_ICONS[currentOrder.currency] ? CURRENCY_ICONS[currentOrder.currency] : ''} />
 					)}
 				</S.Currency>
-				<S.C2>
-					{remainingOrders && remainingOrders.length > 0 && <ReactSVG src={ASSETS.arrowDown} />}
-				</S.C2>
+				<S.C2>{remainingOrders && remainingOrders.length > 0 && <ReactSVG src={ASSETS.arrowDown} />}</S.C2>
 			</S.DropdownAction>
 			{showDropdown && remainingOrders && remainingOrders.length > 0 && (
 				<CloseHandler active={showDropdown} callback={() => setShowDropdown(false)} disabled={false}>
