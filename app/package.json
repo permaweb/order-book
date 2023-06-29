@@ -30,6 +30,7 @@
 		"react-svg": "^15.1.11",
 		"redux-persist": "^6.0.0",
 		"redux-thunk": "^2.4.2",
+		"@permaweb/stampjs": "0.2.6",
 		"styled-components": "^5.3.6",
 		"warp-contracts": "1.4.6"
 	},

@@ -88,9 +88,9 @@ export default function Header() {
 							</S.LogoContent>
 						</Link>
 					</S.LogoContainer>
-					{/* <S.SearchWrapper>
+					<S.SearchWrapper>
 						<Search />
-					</S.SearchWrapper> */}
+					</S.SearchWrapper>
 					{getNav()}
 				</S.NavContainer>
 			</S.NavWrapper>

@@ -17,7 +17,7 @@ function removeDuplicates(assets: AssetType[]): AssetType[] {
 }
 
 export async function search (args: SearchArgs & {arClient: ArweaveClientType}) : Promise<SearchReturnType | null>{
-    let tagsToSearch = ['Title', 'Description', 'Type'];
+    let tagsToSearch = ['Title', 'Description'];
     let allValidatedAssets = [];
 
     try {
