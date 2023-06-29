@@ -27,6 +27,7 @@ function validate({ state, action }) {
   if (action.input.target.length !== 43) {
     return Left("Target is not valid!");
   }
+
   if (action.input.target === SmartWeave.transaction.id) {
     return Left("Cant setup claim to transfer a balance to itself");
   }

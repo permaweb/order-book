@@ -1,6 +1,12 @@
 {
-  "name": "orderbook",
+  "name": "marketplace",
   "pairs": [],
-  "ticker": "BAZAR",
-  "balances": {}
+  "ticker": "zAR",
+  "balances": {},
+  "claimable": [],
+  "lastReward": 0,
+  "streaks": {},
+  "divisbility": 6,
+  "recentRewards": {},
+  "lastReward": 0
 }

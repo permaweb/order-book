@@ -11,6 +11,8 @@ globalThis.ContractAssert = function (expr, msg) {
 
 test("sell order", async () => {
   const state = {
+    recentRewards: {},
+    lastReward: 0,
     streaks: {},
     pairs: [
       {
@@ -44,6 +46,9 @@ test("sell order", async () => {
   };
 
   globalThis.SmartWeave = {
+    block: {
+      height: 1209775,
+    },
     transaction: {
       id: "oeYUgBDGBql5-ik4DJ5cDvacwmYe03jx6A5pQK7DEBw",
     },
@@ -63,7 +68,7 @@ test("sell order", async () => {
         return Promise.resolve({});
       },
       write: (id, input) => {
-        console.log(input);
+        //console.log(input);
         if (id === U) {
           assert.equal(input.qty, 995);
         }
@@ -74,7 +79,7 @@ test("sell order", async () => {
   const { handle } = await import("../src/index.js");
   const response = await handle(state, action);
 
-  console.log(JSON.stringify(response.state, null, 2));
+  //console.log(JSON.stringify(response.state, null, 2));
   assert.equal(response.state.pairs[0].orders[0].price, 100);
   assert.equal(response.state.pairs[0].orders[0].quantity, 100);
   assert.equal(response.result.status, "success");
