@@ -11,7 +11,54 @@ import React from 'react';
 import { IconButton } from 'components/atoms/IconButton';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { FormField } from 'components/atoms/FormField';
+import { Button } from 'components/atoms/Button';
 
+
+function StampAction(props: { balance: number; handleSubmit: (amount: number) => void; handleClose: () => void }) {
+	const [amount, setAmount] = React.useState<string>('0');
+
+	const invalid = Number(amount) > props.balance;
+
+	return (
+		<S.SAContainer>
+			<S.SAInfoContainer>
+				<S.SABalanceContainer>
+					<ReactSVG src={ASSETS.stamp.super} />
+					<p>{props.balance}</p>
+				</S.SABalanceContainer>
+				<S.SACloseContainer>
+					<IconButton type={'primary'} sm warning src={ASSETS.close} handlePress={props.handleClose} />
+				</S.SACloseContainer>
+			</S.SAInfoContainer>
+			<S.SAFormContainer onSubmit={() => props.handleSubmit(Number(amount))}>
+				<S.SAInput>
+					<FormField
+						type={'number'}
+						value={amount}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(e.target.value)}
+						disabled={false}
+						invalid={{
+							status: invalid,
+							message: invalid ? language.amountExceedsBalance : null,
+						}}
+						sm
+					/>
+				</S.SAInput>
+				<S.SASubmit>
+					<Button
+						type={'alt1'}
+						label={'Submit'}
+						handlePress={() => props.handleSubmit(Number(amount))}
+						disabled={invalid || Number(amount) <= 0 || Number(amount) % 1 !== 0}
+						formSubmit
+						noMinWidth
+					/>
+				</S.SASubmit>
+			</S.SAFormContainer>
+		</S.SAContainer>
+	);
+}
 
 export default function StampWidget(props: IProps) {
 	const [showModal, setShowModal] = React.useState<boolean>(false);
@@ -20,6 +67,8 @@ export default function StampWidget(props: IProps) {
 	const [updateCount, setUpdateCount] = React.useState<boolean>(false);
 	const [stamps, setStamps] = React.useState<any>(null);
 	const [stampNotification, setStampNotification] = React.useState<any>(null);
+	const [showStampAction, setShowStampAction] = React.useState<boolean>(false);
+	const [balance, setBalance] = React.useState<number>(0);
 
 	const orProvider = useOrderBookProvider();
 
@@ -43,6 +92,7 @@ export default function StampWidget(props: IProps) {
 					if (hasStamped) {
 						setDisabled(true);
 					}
+					setBalance(await stamps.balance());
 				} catch {}
 			}
 		})();
@@ -88,6 +138,11 @@ export default function StampWidget(props: IProps) {
 		[stamps, updateCount, props]
 	);
 
+	function handleStampAction(amount: number) {
+		handleStamp(amount);
+		setShowStampAction(false);
+	}
+
 	return (
 		<>
 			<S.Wrapper onClick={handleModalOpen}>
@@ -100,6 +155,13 @@ export default function StampWidget(props: IProps) {
 					header={language.stampCount}
 					handleClose={() => handleModalClose()}
 				>
+					{showStampAction && (
+							<StampAction
+								balance={balance}
+								handleClose={() => setShowStampAction(false)}
+								handleSubmit={(amount: number) => handleStampAction(amount)}
+							/>
+					)}
 					<S.ButtonWrapper>
 						<IconButton
 							type={'alt1'}
@@ -110,13 +172,13 @@ export default function StampWidget(props: IProps) {
 							tooltip={language.stampCount}
 						/>
 
-						{/* <IconButton
+						<IconButton
 							type={'alt1'}
 							src={ASSETS.stamp.super}
 							handlePress={() => setShowStampAction(!showStampAction)}
-							disabled={disabled || balance <= 0 || showStampAction}
+							disabled={disabled || showStampAction}
 							tooltip={language.superStamp}
-						/> */}
+						/>
 
 						<IconButton
 							type={'alt3'}
