@@ -61,8 +61,9 @@ export const Logo = styled.div`
 
 export const Title = styled.p`
 	color: ${(props) => props.theme.colors.font.primary.alt8};
+	font-size: ${(props) => props.theme.typography.size.xSmall};
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.bold};
 `;
 
 export const Close = styled.div`

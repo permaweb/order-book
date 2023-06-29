@@ -8,7 +8,7 @@ import { FormField } from 'components/atoms/FormField';
 import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
-import { ResponseType } from 'helpers/types';
+import { ResponseType, ValidationType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
@@ -16,7 +16,6 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: if wallet in balances, get amount available for sale
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
@@ -24,10 +23,19 @@ export default function AssetSell(props: IProps) {
 	const [unitPrice, setUnitPrice] = React.useState<number>(0);
 	const [quantity, setQuantity] = React.useState<number>(0);
 
+	const [initialLoad, setInitialLoad] = React.useState<boolean>(true);
+	const [invalidQuantity, setInvalidQuantity] = React.useState<ValidationType>({
+		status: false,
+		message: null,
+	});
+	const [invalidUnitPrice, setInvalidUnitPrice] = React.useState<ValidationType>({
+		status: false,
+		message: null,
+	});
+
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
-
-	const [assetQuantity, setAssetQuantity] = React.useState<number>(0);
+	const [connectedDisabledSale, setConnectedDisabledSale] = React.useState<boolean>(false);
 
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
@@ -35,8 +43,8 @@ export default function AssetSell(props: IProps) {
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.state) {
-			const balances = Object.keys(props.asset.state.balances).map((balance: any) => {
-				return props.asset.state.balances[balance];
+			const balances = Object.keys(props.asset.state.balances).map((address: string) => {
+				return props.asset.state.balances[address];
 			});
 			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
 			if (arProvider.walletAddress) {
@@ -46,55 +54,104 @@ export default function AssetSell(props: IProps) {
 		}
 	}, [props.asset]);
 
-	function getActionDisabled() {
-		if (!arProvider.walletAddress) {
-			return true;
+	React.useEffect(() => {
+		if (arProvider && arProvider.walletAddress && props.asset && props.asset.state) {
+			const addresses = Object.keys(props.asset.state.balances).map((address: string) => {
+				return address;
+			});
+			setConnectedDisabledSale(!addresses.includes(arProvider.walletAddress));
 		}
+	}, [props.asset, arProvider.walletAddress]);
+
+	React.useEffect(() => {
+		if (!initialLoad) {
+			if (!arProvider.walletAddress || connectedDisabledSale) {
+				setInvalidQuantity({
+					status: false,
+					message: null,
+				});
+			}
+			else {
+				if (quantity <= 0) {
+					setInvalidQuantity({
+						status: true,
+						message: language.quantityAboveZero,
+					});
+				}
+				else if (quantity > props.asset.state.balances[arProvider.walletAddress]) {
+					setInvalidQuantity({
+						status: true,
+						message: language.quantityExceedsBalance,
+					});
+				}
+				else if (!Number.isInteger(quantity)) {
+					setInvalidQuantity({
+						status: true,
+						message: language.quantityMustBeInteger,
+					});
+				}
+				else {
+					setInvalidQuantity({
+						status: false,
+						message: null,
+					});
+				}
+			}
+
+		}
+	}, [quantity]);
+
+	React.useEffect(() => {
+		if (!initialLoad) {
+			if (!arProvider.walletAddress || connectedDisabledSale) {
+				setInvalidUnitPrice({
+					status: false,
+					message: null,
+				});
+			}
+			else {
+				if (unitPrice <= 0) {
+					setInvalidUnitPrice({
+						status: true,
+						message: language.unitPriceAboveZero,
+					});
+				}
+				else {
+					setInvalidUnitPrice({
+						status: false,
+						message: null,
+					});
+				}
+			}
+
+		}
+	}, [unitPrice])
+
+	React.useEffect(() => {
+		if (initialLoad) {
+			setInitialLoad(false);
+		}
+	}, []);
+
+	function getActionDisabled() {
+		if (!arProvider.walletAddress) return true;
+		if (connectedDisabledSale) return true;
+		if (invalidQuantity.status || quantity <= 0 || isNaN(quantity)) return true;
+		if (invalidUnitPrice.status || unitPrice <= 0 || isNaN(unitPrice)) return true;
 		return false;
 	}
 
-	// TODO: validation
-	function getInvalidUnitPrice() {
-		return {
-			status: false,
-			message: null,
-		};
-	}
-
-	// TODO: validation
-	function getInvalidQuantity() {
-		if (arProvider.walletAddress) {
-			let qty = quantity;
-
-			if (props.asset.state.balances[arProvider.walletAddress] === 1) {
-				qty = 1;
-			}
-
-			if (qty === 0) {
-				return {
-					status: true,
-					message: 'Cannot be 0',
-				};
-			}
-			if (qty > props.asset.state.balances[arProvider.walletAddress]) {
-				return {
-					status: true,
-					message: 'Above max quantity',
-				};
-			}
-		}
-
-		return {
-			status: false,
-			message: null,
-		};
-	}
-	
 	function getPrice() {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
 			return order.currency;
 		});
-		let price = (quantity * unitPrice) / 1e6;
+
+		let price: number;
+		if (isNaN(unitPrice) || isNaN(quantity) || quantity < 0 || unitPrice < 0) {
+			price = 0;
+		} else {
+			price = (quantity * unitPrice) / 1e6;
+		}
 
 		return (
 			<S.Price>
@@ -139,45 +196,59 @@ export default function AssetSell(props: IProps) {
 	}
 
 	function handleQuantityInput(e: React.ChangeEvent<HTMLInputElement>) {
-		setAssetQuantity(parseFloat(e.target.value));
-		setQuantity(parseFloat(e.target.value));
+		if (e.target.value === '') {
+			setQuantity(NaN);
+		} else {
+			if (!isNaN(Number(e.target.value))) setQuantity(parseFloat(e.target.value));
+		}
 	}
 
 	function handlePriceInput(e: React.ChangeEvent<HTMLInputElement>) {
-		setUnitPrice(parseFloat(e.target.value));
+		if (e.target.value === '') {
+			setUnitPrice(NaN);
+		} else {
+			if (!isNaN(Number(e.target.value))) setUnitPrice(parseFloat(e.target.value));
+		}
+	}
+
+	function getMaxQuantityLabel() {
+		let quantityLabel: string = language.quantity;
+		if (!connectedDisabledSale && arProvider.walletAddress)
+			quantityLabel += ` (Max: ${props.asset.state.balances[arProvider.walletAddress]})`;
+		return quantityLabel;
 	}
 
 	function getFields() {
-		if (props.asset && arProvider.walletAddress) {
+		if (props.asset) {
 			return (
 				<>
 					<S.FormContainer>
 						<FormField
 							type={'number'}
-							label={`${language.quantity} (Max: ${props.asset.state.balances[arProvider.walletAddress]})`}
+							label={getMaxQuantityLabel()}
 							value={quantity}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
-							disabled={loading || !arProvider.walletAddress}
-							invalid={getInvalidQuantity()}
-							tooltip={'Test'}
+							disabled={loading || !arProvider.walletAddress || connectedDisabledSale}
+							invalid={invalidQuantity}
+							tooltip={language.saleQuantityTooltip}
 						/>
 					</S.FormContainer>
 					<S.FormContainer>
 						<FormField
 							type={'number'}
 							label={language.unitPrice}
-							value={unitPrice}
+							value={isNaN(unitPrice) ? '' : unitPrice}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
-							disabled={loading || !arProvider.walletAddress}
-							invalid={getInvalidUnitPrice()}
-							tooltip={'Test'}
+							disabled={loading || !arProvider.walletAddress || connectedDisabledSale}
+							invalid={invalidUnitPrice}
+							tooltip={language.saleUnitPriceTooltip}
 						/>
 					</S.FormContainer>
 				</>
 			);
 		}
 	}
-	
+
 	return (
 		<>
 			<S.Wrapper>
@@ -195,17 +266,22 @@ export default function AssetSell(props: IProps) {
 						<S.DCLineDetail>{`${(totalSalesBalance / totalBalance) * 100}%`}</S.DCLineDetail>
 					</S.DCLine>
 				</S.DCWrapper>
+				{connectedDisabledSale && (
+					<S.Warning>
+						<p>{language.connectedDisabledSale}</p>
+					</S.Warning>
+				)}
 				<S.Form onSubmit={async (e) => await sellAsset(e)}>
 					<S.FormWrapper>{getFields()}</S.FormWrapper>
 					<S.SpendWrapper>
 						<S.SpendInfoWrapper>
 							<S.SpendInfoContainer>
 								<span>{language.totalListingQuantity}</span>
-								<p>{assetQuantity}</p>
+								<p>{isNaN(quantity) || quantity < 0 ? 0 : quantity}</p>
 							</S.SpendInfoContainer>
 							<S.SpendInfoContainer>
 								<span>{language.totalListingPercentage}</span>
-								<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
+								<p>{isNaN(quantity) || quantity < 0 ? `0.00%` : `${((quantity / totalBalance) * 100).toFixed(2)}%`}</p>
 							</S.SpendInfoContainer>
 						</S.SpendInfoWrapper>
 						<S.PriceInfoWrapper>
@@ -232,9 +308,7 @@ export default function AssetSell(props: IProps) {
 				</S.Form>
 				{!arProvider.walletAddress && (
 					<S.WalletConnectionWrapper>
-						<span>
-							{language.walletTransactionInfo}
-						</span>
+						<span>{language.walletTransactionInfo}</span>
 						<WalletConnect />
 					</S.WalletConnectionWrapper>
 				)}
@@ -253,7 +327,7 @@ export default function AssetSell(props: IProps) {
 								<S.SpendInfoWrapper>
 									<S.SpendInfoContainer>
 										<span>{language.totalListingPercentage}</span>
-										<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
+										<p>{`${((quantity / totalBalance) * 100).toFixed(2)}%`}</p>
 									</S.SpendInfoContainer>
 									<S.SpendInfoContainer>
 										<span>{language.totalPrice}</span>
@@ -263,7 +337,7 @@ export default function AssetSell(props: IProps) {
 								<S.SpendInfoWrapper>
 									<S.SpendInfoContainer>
 										<span>{language.totalListingQuantity}</span>
-										<p>{assetQuantity}</p>
+										<p>{quantity}</p>
 									</S.SpendInfoContainer>
 								</S.SpendInfoWrapper>
 							</S.SpendWrapper>

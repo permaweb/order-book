@@ -95,7 +95,7 @@ export const EndText = styled.span<{ sm: boolean | undefined }>`
 `;
 
 export const ErrorContainer = styled.div`
-	margin: 7.5px 0 0 0;
+	margin: 8.5px 0 0 0;
 	height: 25px;
 	overflow-x: hidden;
 	text-overflow: ellipsis;

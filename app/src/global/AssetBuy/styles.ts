@@ -52,6 +52,18 @@ export const SpendInfoWrapper = styled.div`
 
 export const PriceInfoWrapper = styled(SpendInfoWrapper)`
 	margin: 40px 0 0 0;
+	flex-wrap: wrap;
+	gap: 15px;
+`;
+
+export const Warning = styled.div`
+	p {
+		font-size: ${(props) => props.theme.typography.size.xSmall};
+		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.warning};	
+	}
 `;
 
 export const SpendInfoContainer = styled.div`
