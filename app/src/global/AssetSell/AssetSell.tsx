@@ -70,34 +70,29 @@ export default function AssetSell(props: IProps) {
 					status: false,
 					message: null,
 				});
-			}
-			else {
+			} else {
 				if (quantity <= 0) {
 					setInvalidQuantity({
 						status: true,
 						message: language.quantityAboveZero,
 					});
-				}
-				else if (quantity > props.asset.state.balances[arProvider.walletAddress]) {
+				} else if (quantity > props.asset.state.balances[arProvider.walletAddress]) {
 					setInvalidQuantity({
 						status: true,
 						message: language.quantityExceedsBalance,
 					});
-				}
-				else if (!Number.isInteger(quantity)) {
+				} else if (!Number.isInteger(quantity)) {
 					setInvalidQuantity({
 						status: true,
 						message: language.quantityMustBeInteger,
 					});
-				}
-				else {
+				} else {
 					setInvalidQuantity({
 						status: false,
 						message: null,
 					});
 				}
 			}
-
 		}
 	}, [quantity]);
 
@@ -108,24 +103,21 @@ export default function AssetSell(props: IProps) {
 					status: false,
 					message: null,
 				});
-			}
-			else {
+			} else {
 				if (unitPrice <= 0) {
 					setInvalidUnitPrice({
 						status: true,
 						message: language.unitPriceAboveZero,
 					});
-				}
-				else {
+				} else {
 					setInvalidUnitPrice({
 						status: false,
 						message: null,
 					});
 				}
 			}
-
 		}
-	}, [unitPrice])
+	}, [unitPrice]);
 
 	React.useEffect(() => {
 		if (initialLoad) {

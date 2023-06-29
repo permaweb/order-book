@@ -52,12 +52,13 @@ export const DrawerWrapper = styled.div`
 	margin: 20px 0 0 0;
 `;
 
-export const DrawerContent = styled.div<{transparent?: boolean}>`
+export const DrawerContent = styled.div<{ transparent?: boolean }>`
 	width: 100%;
-	padding: ${(props) => props.transparent ? `0` : `20px`};
-	background: ${(props) => props.transparent ? props.theme.colors.transparent : props.theme.colors.container.alt2.background};
-	border-bottom-left-radius: ${(props) => props.transparent ? `0` : STYLING.dimensions.borderRadiusField};
-	border-bottom-right-radius: ${(props) => props.transparent ? `0` : STYLING.dimensions.borderRadiusField};
+	padding: ${(props) => (props.transparent ? `0` : `20px`)};
+	background: ${(props) =>
+		props.transparent ? props.theme.colors.transparent : props.theme.colors.container.alt2.background};
+	border-bottom-left-radius: ${(props) => (props.transparent ? `0` : STYLING.dimensions.borderRadiusField)};
+	border-bottom-right-radius: ${(props) => (props.transparent ? `0` : STYLING.dimensions.borderRadiusField)};
 	> * {
 		&:not(:last-child) {
 			margin: 0 0 20px 0;
@@ -81,6 +82,7 @@ export const DrawerHeader = styled.div`
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
+		word-wrap: break-word;
 	}
 `;
 
@@ -98,6 +100,7 @@ export const DCHeader = styled.p`
 	font-weight: ${(props) => props.theme.typography.weight.bold};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	line-height: 1.65;
+	word-wrap: break-word;
 `;
 
 export const DCLine = styled.div`
@@ -114,6 +117,7 @@ export const DCLineHeader = styled.p`
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.medium};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
+	word-wrap: break-word;
 `;
 
 export const DCLineDetail = styled.p`
@@ -122,6 +126,7 @@ export const DCLineDetail = styled.p`
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.bold};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
+	word-wrap: break-word;
 `;
 
 export const DCLineDetailMedium = styled(DCLineDetail)`

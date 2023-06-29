@@ -34,6 +34,10 @@ export default function AssetDetail(props: IProps) {
 	const [showCurrentSalesModal, setShowCurrentSalesModal] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
+		setAsset(null);
+	}, [props.assetId])
+
+	React.useEffect(() => {
 		(async function () {
 			if (orProvider.orderBook) {
 				setLoading(true);
@@ -41,7 +45,7 @@ export default function AssetDetail(props: IProps) {
 				setLoading(false);
 			}
 		})();
-	}, [orProvider.orderBook]);
+	}, [orProvider.orderBook, props.assetId]);
 
 	async function updateAsset() {
 		if (orProvider.orderBook) {
@@ -62,7 +66,7 @@ export default function AssetDetail(props: IProps) {
 			}
 		})();
 	}, [asset]);
-	
+
 	function getData() {
 		if (asset) {
 			return (

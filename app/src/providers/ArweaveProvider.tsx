@@ -49,7 +49,7 @@ interface ArweaveContextState {
 	walletModalVisible: boolean;
 	setWalletModalVisible: (open: boolean) => void;
 	arProfile: any;
-	currencyBalances: CurrencyBalancesType | null
+	currencyBalances: CurrencyBalancesType | null;
 }
 
 interface ArweaveProviderProps {
@@ -57,7 +57,7 @@ interface ArweaveProviderProps {
 }
 
 interface CurrencyBalancesType {
-	'U': number;
+	U: number;
 }
 
 const DEFAULT_CONTEXT = {
@@ -75,7 +75,7 @@ const DEFAULT_CONTEXT = {
 		console.error(`Make sure to render ArweaveProvider as an ancestor of the component that uses ARContext.Provider`);
 	},
 	arProfile: null,
-	currencyBalances: null
+	currencyBalances: null,
 };
 
 const ARContext = React.createContext<ArweaveContextState>(DEFAULT_CONTEXT);
@@ -207,7 +207,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				const jsonBalance = await rawBalance.json();
 				const numBalance = jsonBalance.result && jsonBalance.result[0] ? jsonBalance.result[0] : 0;
 				setCurrencyBalances({
-					'U': numBalance
+					U: numBalance,
 				});
 			}
 		})();
@@ -230,7 +230,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					walletModalVisible,
 					setWalletModalVisible,
 					arProfile,
-					currencyBalances
+					currencyBalances,
 				}}
 			>
 				{props.children}

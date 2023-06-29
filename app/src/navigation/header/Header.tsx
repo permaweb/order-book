@@ -64,7 +64,7 @@ export default function Header() {
 						<S.MenuContainer>
 							<S.Menu>
 								<IconButton
-									type={'primary'}
+									type={'alt1'}
 									warning={open}
 									src={open ? ASSETS.close : ASSETS.menu}
 									handlePress={handleNavStatus}

@@ -50,7 +50,7 @@ export const language = {
 	quantityMustBeInteger: `Quantity must be an integer`,
 	saleQuantityTooltip: `This value represents the total quantity of the asset you currently own that you would like to list for sale`,
 	saleUnitPriceTooltip: `This value represents the cost for 1 unit of the asset`,
-	search: `Search`,
+	searchAssets: `Search Assets`,
 	sell: `Sell`,
 	seller: `Seller`,
 	sellAsset: `Sell Asset`,

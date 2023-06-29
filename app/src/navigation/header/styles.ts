@@ -33,6 +33,7 @@ export const NavContainer = styled.div`
 	align-items: center;
 	background: ${(props) => props.theme.colors.navigation.header.backgroundNav};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	box-shadow: 0 0 2.5px ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
 `;
 
@@ -107,6 +108,9 @@ export const LogoContent = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	padding: 7.5px 0 0 0;
+	svg {
+		width: 145px;
+	}
 `;
 
 export const NC = styled.div`
@@ -183,7 +187,21 @@ export const MenuContainer = styled.div`
 `;
 
 export const SearchWrapper = styled.div`
-	width: 650px;
-	max-width: 100%;
-	margin: 0 auto;
+	width: 600px;
+	max-width: 50%;
+	position: absolute;	
+	width: 600px;
+    max-width: 35%;
+    position: absolute;
+    left: 205px;
+
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		height: 100%;
+		width: fit-content;
+		left: auto;
+		right: 50px;
+		display: flex;
+		align-items: center;
+		padding: 5px 0 0 0;
+	}
 `;

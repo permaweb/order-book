@@ -22,12 +22,12 @@ export const Container = styled.div<{
 }>`
 	max-height: calc(100vh - 100px);
 	width: ${(props) => (props.useMax ? STYLING.cutoffs.max : '600px')};
-	max-width: 87.5vw;
+	max-width: 100%;
 	background: ${(props) =>
 		props.noHeader ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => (props.noHeader ? props.theme.colors.transparent : props.theme.colors.border.primary)};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
-	margin: 50px auto;
+	margin: 60px auto;
 	overflow-y: auto;
 	scrollbar-width: none;
 	::-webkit-scrollbar {
@@ -82,7 +82,7 @@ export const BodyAlt = styled(Body)<{ zoom: boolean }>`
 
 export const CloseTextContainer = styled.div<{ useMax: boolean | undefined }>`
 	width: ${(props) => (props.useMax ? STYLING.cutoffs.max : '600px')};
-	max-width: 87.5vw;
+	max-width: 100%;
 	display: flex;
 	justify-content: end;
 	align-items: center;
@@ -100,7 +100,10 @@ export const CloseTextContainerAlt = styled.div`
 `;
 
 export const CloseButtonContainer = styled.button`
-	color: ${(props) => props.theme.colors.warning};
+	background: ${(props) => props.theme.colors.warning};
+	color: ${(props) => props.theme.colors.font.primary.base};
+	padding: 5px 10px;
+	border-radius: ${STYLING.dimensions.borderRadiusField};
 	font-size: ${(props) => props.theme.typography.size.xxSmall};
 	font-weight: ${(props) => props.theme.typography.weight.medium};
 	&:hover {
