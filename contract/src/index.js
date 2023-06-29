@@ -7,9 +7,11 @@ import { validate } from "./read/validate.js";
 import { allow } from "./write/allow.js";
 import { claim } from "./write/claim.js";
 import { buyback } from "./cron/buyback.js";
+import { reward } from "./cron/reward.js"
 
 export async function handle(state, action) {
   validate(state);
+  state = reward(state);
   // do buyback
   if (action.input.function === "createOrder") {
     state = await buyback(state);

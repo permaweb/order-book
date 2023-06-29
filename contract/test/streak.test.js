@@ -23,11 +23,14 @@ test("calculate new streak", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
+      readContractState: () => Promise.resolve({ balances: {} }),
       write: (id, input) => Promise.resolve({ type: "ok" }),
     },
   };
 
   const state = {
+    recentRewards: {},
+    lastReward: 0,
     streaks: {},
     balances: {},
     name: "BazAR",
@@ -102,11 +105,14 @@ test("calc streak when buy happens between 720 and 1440 heights", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
+      readContractState: () => Promise.resolve({ balances: {} }),
       write: (id, input) => Promise.resolve({ type: "ok" }),
     },
   };
 
   const state = {
+    recentRewards: {},
+    lastReward: 0,
     streaks: {
       "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4": {
         days: 1,
@@ -185,11 +191,14 @@ test("streak calc on buy after 5 day streak but greater than 1440 heights", asyn
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
+      readContractState: () => Promise.resolve({ balances: {} }),
       write: (id, input) => Promise.resolve({ type: "ok" }),
     },
   };
 
   const state = {
+    recentRewards: {},
+    lastReward: 0,
     streaks: {
       "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4": {
         days: 5,
@@ -269,11 +278,14 @@ test("streak calc on 30 days and between 720 and 1440", async () => {
       id: "hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8",
     },
     contracts: {
+      readContractState: () => Promise.resolve({ balances: {} }),
       write: (id, input) => Promise.resolve({ type: "ok" }),
     },
   };
 
   const state = {
+    recentRewards: {},
+    lastReward: 0,
     streaks: {
       "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4": {
         days: 30,

@@ -12,6 +12,9 @@ globalThis.ContractAssert = function (expr, msg) {
 };
 
 globalThis.SmartWeave = {
+  block: {
+    height: 100
+  },
   transaction: {
     id: "utqalrlppwmohjsbnzsptudhwacrtvxkvuhaopboioo",
   },
@@ -27,6 +30,8 @@ test("allow should create a claimable record", async () => {
       balances: { qgdmaozpkycnvisvjfcbglxfvovejncdrvjgctzbhvs: 200 },
       claimable: [],
       pairs: [],
+      recentRewards: {},
+      lastReward: 0
     },
     {
       caller: "qgdmaozpkycnvisvjfcbglxfvovejncdrvjgctzbhvs",

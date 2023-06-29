@@ -11,6 +11,8 @@ globalThis.ContractAssert = function (expr, msg) {
 
 test("sell order", async () => {
   const state = {
+    recentRewards: {},
+    lastReward: 0,
     streaks: {},
     pairs: [
       {
@@ -44,6 +46,9 @@ test("sell order", async () => {
   };
 
   globalThis.SmartWeave = {
+    block: {
+      height: 1209775
+    },
     transaction: {
       id: "oeYUgBDGBql5-ik4DJ5cDvacwmYe03jx6A5pQK7DEBw",
     },

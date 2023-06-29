@@ -1,12 +1,29 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
+globalThis.ContractError = function (msg) {
+  return new Error(msg)
+}
 globalThis.ContractAssert = function (expr, msg) {
   if (!expr) {
     throw new Error(msg);
   }
 };
 
+globalThis.SmartWeave = {
+  block: {
+    height: 1000
+  },
+  contract: {
+    id: 'hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8'
+  },
+  transaction: {
+    id: 'hRvK8wnYM5SWebYN66n_QmX9S9hXGlxujW8fUaH-kaY'
+  },
+  contracts: {
+    write: (id, input) => Promise.resolve({ type: 'success' })
+  }
+}
 const state = {
   streaks: {},
   balances: {},
@@ -33,6 +50,8 @@ const state = {
     },
   ],
   claimable: [],
+  recentRewards: {},
+  lastReward: 0
 };
 
 test("cancelOrder", async () => {

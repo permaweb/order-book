@@ -7,6 +7,12 @@ globalThis.ContractAssert = function (expr, msg) {
   }
 };
 
+globalThis.SmartWeave = {
+  block: {
+    height: 100
+  }
+}
+
 const TOM = "vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI";
 const JUSTIN = "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4";
 const state = {
@@ -19,6 +25,8 @@ const state = {
   ticker: "BazAR",
   pairs: [],
   claimable: [],
+  recentRewards: {},
+  lastReward: 0
 };
 
 test("Get BazAR Token Balance from caller", async () => {

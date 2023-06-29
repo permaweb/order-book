@@ -7,10 +7,18 @@ globalThis.ContractAssert = function (expr, msg) {
   }
 };
 
+globalThis.SmartWeave = {
+  block: {
+    height: 1209000
+  }
+}
+
 test("check claim function", async () => {
   const { handle } = await import("../src/index.js");
   const result = await handle(
     {
+      recentRewards: {},
+      lastReward: 0,
       streaks: {},
       name: "Token",
       ticker: "Token",

@@ -70,6 +70,8 @@ test("buyback ", async () => {
     claimable: [],
     name: "BazAR",
     ticker: "zAR",
+    recentRewards: {},
+    lastReward: 0
   };
 
   const { buyback } = await import("../src/cron/buyback.js");
