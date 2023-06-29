@@ -12,26 +12,22 @@ import { RootState } from 'store';
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
-	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
+	const [assets, setAssets] = React.useState<{data: AssetType[], featuredData: AssetType[]} | null>(null);
 	const [featuredAssets, setFeaturedAssets] = React.useState<AssetType[] | null>(null);
 	const [tableAssets, setTableAssets] = React.useState<AssetType[] | null>(null);
 
 	React.useEffect(() => {
-		if (assetsReducer.data) {
-			setAssets(assetsReducer.data);
+		if (assetsReducer) {
+			setAssets(assetsReducer);
 		}
 	}, [assetsReducer.data]);
+
 
 	// TODO: get featured
 	React.useEffect(() => {
 		if (assets) {
-			if (assets.length >= FEATURE_COUNT) {
-				setFeaturedAssets(assets.slice(0, FEATURE_COUNT));
-				setTableAssets(assets.slice(FEATURE_COUNT));
-			} else {
-				setFeaturedAssets(assets);
-				setTableAssets([]);
-			}
+			setFeaturedAssets(assets.featuredData);
+			setTableAssets(assets.data);
 		}
 	}, [assets]);
 

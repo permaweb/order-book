@@ -48,6 +48,7 @@ export default function AssetsList(props: IProps) {
 	}, [props.assets]);
 
 	function getData() {
+		console.log(assets)
 		if (assets) {
 			if (assets.length > 0) {
 				return (

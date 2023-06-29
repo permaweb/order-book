@@ -127,9 +127,11 @@ export default function StampWidget(props: IProps) {
 							tooltip={language.stampsVouched}
 						/> 
 					</S.ButtonWrapper>
-					<S.NotifWrapper>
-						{stampNotification}
-					</S.NotifWrapper>
+					{stampNotification && 
+						<S.NotifWrapper>
+							{stampNotification.message}
+						</S.NotifWrapper>
+					}
 				</Modal>
 			)}
 		</>
