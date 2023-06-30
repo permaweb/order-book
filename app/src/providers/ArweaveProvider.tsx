@@ -203,12 +203,18 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					setArProfile(profile);
 				}
 
-				const rawBalance = await fetch(getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract));
-				const jsonBalance = await rawBalance.json();
-				const numBalance = jsonBalance.result && jsonBalance.result[0] ? jsonBalance.result[0] : 0;
-				setCurrencyBalances({
-					U: numBalance,
-				});
+				try{
+					const rawBalance = await fetch(getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract));
+					const jsonBalance = await rawBalance.json();
+					const numBalance = jsonBalance.result && jsonBalance.result[0] ? jsonBalance.result[0] : 0;
+					setCurrencyBalances({
+						U: numBalance,
+					});
+				} catch(e: any) {
+					setCurrencyBalances({
+						U: 0,
+					});
+				}
 			}
 		})();
 	}, [walletAddress, orderBook]);

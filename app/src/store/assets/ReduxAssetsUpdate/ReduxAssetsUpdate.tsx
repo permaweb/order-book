@@ -135,7 +135,7 @@ export default function ReduxAssetsUpdate(props: {
 	React.useEffect(() => {
 		(async function () {
 			const reducer = cursorsReducer[props.cursorObject][props.reduxCursor];
-			if (reducer && reducer.length && orderBook && props.currentTableCursor) {
+			if (reducer && reducer.length && orderBook && props.currentTableCursor && stamps) {
 				for (let i = 0; i < reducer.length; i++) {
 					if (props.currentTableCursor === reducer[i].index) {
 						const fetchedAssets = await orderBook.api.getAssetsByIds({
@@ -183,7 +183,7 @@ export default function ReduxAssetsUpdate(props: {
 				dispatch(assetActions.setAssets({ data: [] }));
 			}
 		})();
-	}, [cursorsReducer, props.currentTableCursor, orderBook]);
+	}, [cursorsReducer, props.currentTableCursor, orderBook, stamps]);
 
 	return <>{props.children}</>;
 }
