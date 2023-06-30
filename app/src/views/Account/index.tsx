@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
@@ -7,11 +7,15 @@ import { AssetsTable } from 'global/AssetsTable';
 import { REDUX_TABLES } from 'helpers/redux';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { RootState } from 'store';
+import * as assetActions from 'store/assets/actions';
+import * as cursorActions from 'store/cursors/actions';
 import { WalletBlock } from 'wallet/WalletBlock';
 
 import { AccountHeader } from './AccountHeader';
 
 export default function Account() {
+	const dispatch = useDispatch();
+
 	const arProvider = useArweaveProvider();
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
@@ -26,6 +30,18 @@ export default function Account() {
 			}
 		}, 200);
 	}, [arProvider.walletAddress]);
+
+	React.useEffect(() => {
+		dispatch(assetActions.setAssets({ data: null, featuredData: null }));
+		dispatch(
+			cursorActions.setCursors({
+				idGQL: {
+					[REDUX_TABLES.contractAssets]: [],
+					[REDUX_TABLES.userAssets]: [],
+				},
+			})
+		);
+	}, []);
 
 	React.useEffect(() => {
 		if (assetsReducer.data) {
