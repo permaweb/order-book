@@ -131,11 +131,19 @@ export default function ReduxAssetsUpdate(props: {
 								break;
 						}
 
-						for (let i = 0; i < contractIds.length; i += PAGINATOR) {
+						if (contractIds.length <= 0) {
 							updatedReducer.push({
-								index: `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`,
-								ids: [...contractIds].slice(i, i + PAGINATOR),
+								index: `${props.reduxCursor}-${props.cursorObject}-0`,
+								ids: [],
 							});
+						}
+						else {
+							for (let i = 0; i < contractIds.length; i += PAGINATOR) {
+								updatedReducer.push({
+									index: `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`,
+									ids: [...contractIds].slice(i, i + PAGINATOR),
+								});
+							}
 						}
 						dispatch(cursorActions.setCursors({ [props.cursorObject]: { [props.reduxCursor]: updatedReducer } }));
 					}
@@ -147,49 +155,54 @@ export default function ReduxAssetsUpdate(props: {
 	React.useEffect(() => {
 		(async function () {
 			const reducer = cursorsReducer[props.cursorObject][props.reduxCursor];
-			if (reducer && reducer.length && orderBook && props.currentTableCursor && stamps) {
-				for (let i = 0; i < reducer.length; i++) {
-					if (props.currentTableCursor === reducer[i].index) {
-						const fetchedAssets = await orderBook.api.getAssetsByIds({
-							ids: reducer[i].ids,
-							owner: null,
-							uploader: null,
-							cursor: null,
-							reduxCursor: props.reduxCursor,
-							walletAddress: null,
-						});
-
-						// await new Promise((r) => setTimeout(r, 2000));
-
-						switch (props.apiFetch) {
-							case 'contract':
-								// Rank by stamps
-								// let assetIds: string[] = fetchedAssets.map((a: AssetType) => a.data.id);
-								// const counts = await stamps.counts(assetIds);
-								// fetchedAssets.sort((a: AssetType, b: AssetType) => {
-								// 	const totalA = counts[a.data.id]?.total || 0;
-								// 	const totalB = counts[b.data.id]?.total || 0;
-
-								// 	if (totalB !== totalA) {
-								// 		return totalB - totalA;
-								// 	}
-
-								// 	// If 'total' is the same, sort by 'id' in descending order.
-								// 	return b.data.id.localeCompare(a.data.id);
-								// });
-								let finalFeaturedAssets: AssetType[] = fetchedAssets.slice(0, FEATURE_COUNT);
-								let finalTableAssets: AssetType[] = [];
-								if (fetchedAssets.length >= FEATURE_COUNT) {
-									finalTableAssets = fetchedAssets.slice(FEATURE_COUNT);
-								}
-								dispatch(assetActions.setAssets({ data: finalTableAssets, featuredData: finalFeaturedAssets }));
-								break;
-							case 'user':
-								dispatch(assetActions.setAssets({ data: fetchedAssets }));
-								break;
+			if ((reducer !== null) && (orderBook !== undefined) && (stamps !== null)) {
+				if (props.currentTableCursor) {
+					for (let i = 0; i < reducer.length; i++) {
+						if (props.currentTableCursor === reducer[i].index) {
+							const fetchedAssets = await orderBook.api.getAssetsByIds({
+								ids: reducer[i].ids,
+								owner: null,
+								uploader: null,
+								cursor: null,
+								reduxCursor: props.reduxCursor,
+								walletAddress: null,
+							});
+	
+							// await new Promise((r) => setTimeout(r, 2000));
+	
+							switch (props.apiFetch) {
+								case 'contract':
+									// Rank by stamps
+									// let assetIds: string[] = fetchedAssets.map((a: AssetType) => a.data.id);
+									// const counts = await stamps.counts(assetIds);
+									// fetchedAssets.sort((a: AssetType, b: AssetType) => {
+									// 	const totalA = counts[a.data.id]?.total || 0;
+									// 	const totalB = counts[b.data.id]?.total || 0;
+	
+									// 	if (totalB !== totalA) {
+									// 		return totalB - totalA;
+									// 	}
+	
+									// 	// If 'total' is the same, sort by 'id' in descending order.
+									// 	return b.data.id.localeCompare(a.data.id);
+									// });
+									let finalFeaturedAssets: AssetType[] = fetchedAssets.slice(0, FEATURE_COUNT);
+									let finalTableAssets: AssetType[] = [];
+									if (fetchedAssets.length >= FEATURE_COUNT) {
+										finalTableAssets = fetchedAssets.slice(FEATURE_COUNT);
+									}
+									dispatch(assetActions.setAssets({ data: finalTableAssets, featuredData: finalFeaturedAssets }));
+									break;
+								case 'user':
+									dispatch(assetActions.setAssets({ data: fetchedAssets }));
+									break;
+							}
 						}
 					}
 				}
+				// else {
+				// 	dispatch(assetActions.setAssets({ data: [], featuredData: [] }));
+				// }
 			}
 			// else {
 			// 	dispatch(assetActions.setAssets({ data: [] }));
