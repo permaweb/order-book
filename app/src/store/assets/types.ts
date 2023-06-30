@@ -1,6 +1,7 @@
 import { AssetType } from 'permaweb-orderbook';
 
 export type AssetsType = {
-	data: AssetType[] | null;
+	contractData?: AssetType[] | null;
 	featuredData?: AssetType[] | null;
+	accountData?: AssetType[] | null;
 };
