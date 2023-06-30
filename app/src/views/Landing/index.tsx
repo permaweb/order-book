@@ -12,7 +12,7 @@ import { RootState } from 'store';
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
-	const [assets, setAssets] = React.useState<{ data: AssetType[]; featuredData: AssetType[] } | null>(null);
+	const [assets, setAssets] = React.useState<{ contractData: AssetType[]; featuredData: AssetType[] } | null>(null);
 	const [featuredAssets, setFeaturedAssets] = React.useState<AssetType[] | null>(null);
 	const [tableAssets, setTableAssets] = React.useState<AssetType[] | null>(null);
 
@@ -20,13 +20,13 @@ export default function Landing() {
 		if (assetsReducer) {
 			setAssets(assetsReducer);
 		}
-	}, [assetsReducer.data]);
+	}, [assetsReducer.contractData]);
 
 	// TODO: get featured
 	React.useEffect(() => {
 		if (assets) {
 			setFeaturedAssets(assets.featuredData);
-			setTableAssets(assets.data);
+			setTableAssets(assets.contractData);
 		}
 	}, [assets]);
 

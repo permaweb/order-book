@@ -4,8 +4,9 @@ import { SET_ASSETS } from './constants';
 import { AssetsType } from './types';
 
 export const initStateAssets: AssetsType = {
-	data: null,
+	contractData: null,
 	featuredData: null,
+	accountData: null,
 };
 
 export function assetsReducer(state: AssetsType = initStateAssets, action: ReduxActionType) {
@@ -16,8 +17,9 @@ export function assetsReducer(state: AssetsType = initStateAssets, action: Redux
 			// 	featuredData: action.payload.featuredData ?? state.featuredData,
 			// });
 			return Object.assign({}, state, {
-				data: action.payload.data,
+				contractData: action.payload.contractData,
 				featuredData: action.payload.featuredData,
+				accountData: action.payload.accountData,
 			});
 		default:
 			return state;

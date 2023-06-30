@@ -32,7 +32,7 @@ export default function Account() {
 	}, [arProvider.walletAddress]);
 
 	React.useEffect(() => {
-		dispatch(assetActions.setAssets({ data: null, featuredData: null }));
+		dispatch(assetActions.setAssets({ accountData: null }));
 		dispatch(
 			cursorActions.setCursors({
 				idGQL: {
@@ -44,10 +44,10 @@ export default function Account() {
 	}, []);
 
 	React.useEffect(() => {
-		if (assetsReducer.data) {
-			setAssets(assetsReducer.data);
+		if (assetsReducer.accountData) {
+			setAssets(assetsReducer.accountData);
 		}
-	}, [arProvider.walletAddress, assetsReducer.data]);
+	}, [arProvider.walletAddress, assetsReducer.accountData]);
 
 	return arProvider.walletAddress ? (
 		<>
