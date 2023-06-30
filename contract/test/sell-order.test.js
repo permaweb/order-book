@@ -11,6 +11,7 @@ globalThis.ContractAssert = function (expr, msg) {
 
 test("sell order", async () => {
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     recentRewards: {},
     lastReward: 0,
     streaks: {},

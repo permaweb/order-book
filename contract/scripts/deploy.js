@@ -23,7 +23,8 @@ async function main() {
         ['logo', 'TX_ID'],
         ['tradeable', true],
         ['website', 'WIKI_SITE']
-      ]
+      ],
+      U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
     }),
     //initState,
     evaluationManifest: {

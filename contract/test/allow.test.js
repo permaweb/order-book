@@ -26,6 +26,7 @@ test("allow should create a claimable record", async () => {
   const { handle } = await import("../src/index.js");
   const result = await handle(
     {
+      U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
       streaks: {},
       name: "Token",
       ticker: "Token",

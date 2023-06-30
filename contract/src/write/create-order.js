@@ -1,8 +1,9 @@
 import { calculateStreak } from "../lib/streak-calc.js";
 
-const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
+let U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
 
 export const CreateOrder = async (state, action) => {
+  U = state.U;
   const caller = action.caller;
   const input = action.input;
 
