@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	margin: -15px;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		margin: 0;
 	}
@@ -18,7 +18,7 @@ export const PICWrapper = styled.div`
 	margin: 15px;
 	width: calc(33.3% - 30px);
 	animation: ${open} ${fadeIn2};
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		margin: 0 0 40px 0;
 	}
@@ -72,7 +72,7 @@ export const PCWrapper = styled.div`
 export const ICWrapper = styled.div`
 	min-height: 50px;
 	width: 100%;
-	padding: 5px 15px;
+	padding: 0 20px 5px 20px;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
@@ -101,7 +101,6 @@ export const ICFlex = styled.div`
 export const AssetData = styled.div`
 	height: 50px;
 	width: 100%;
-	max-width: 300px;
 	margin: 5px 0;
 	display: flex;
 	align-items: center;
@@ -111,8 +110,8 @@ export const AssetData = styled.div`
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
-		font-size: ${(props) => props.theme.typography.size.base};
-		line-height: calc(${(props) => props.theme.typography.size.base} + 2px);
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		max-width: 305px;
@@ -125,6 +124,15 @@ export const AssetData = styled.div`
 		height: 25px;
 		width: 1px;
 		border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	}
+`;
+
+export const DetailAction = styled.div`
+	border: 1px solid purple;
+	margin: 10px 0 0 0;
+	svg {
+		height: 20px;
+    	width: 19.5px;
 	}
 `;
 

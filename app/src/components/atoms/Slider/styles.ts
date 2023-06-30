@@ -7,7 +7,7 @@ export const Wrapper = styled.div``;
 export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max: any }>`
 	border: none !important;
 	padding: 0 !important;
-	background: transparent !important;
+	background: ${(props) => props.theme.colors.container.alt1.background} !important;
 	width: 100%;
 	appearance: none;
 	height: 15px;

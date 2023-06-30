@@ -16,13 +16,11 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: details button min width
 function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
 	return (
 		<S.PICWrapper>
 			<S.HCWrapper>
-				{/* <ReactSVG src={TEMP_FRACTION_SVG} /> */}
 				{props.asset.data.renderWith && props.asset.data.renderWith !== STORAGE.none && (
 					<S.RendererSVG>
 						<ReactSVG src={ASSETS.renderer} />
@@ -36,8 +34,8 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 			<S.ICWrapper>
 				<S.ICFlex>
 					<S.AssetData>
-						<span>{props.index}</span>
-						<div className={'a-divider'} />
+						{/* <span>{props.index}</span> */}
+						{/* <div className={'a-divider'} /> */}
 						<p>{props.asset.data.title}</p>
 					</S.AssetData>
 					<IconButton
@@ -50,13 +48,13 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						}}
 					/>
 				</S.ICFlex>
-				{props.asset.orders && (
+				{/* {props.asset.orders && (
 					<S.AssetDataAlt>
 						<span>{language.listing}</span>
 						<div className={'a-divider'} />
 						{props.asset.orders.length > 0 ? <AssetOrders asset={props.asset} /> : <p>{language.none}</p>}
 					</S.AssetDataAlt>
-				)}
+				)} */}
 			</S.ICWrapper>
 		</S.PICWrapper>
 	);
