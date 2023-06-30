@@ -122,7 +122,7 @@ export default function AssetDetail(props: IProps) {
 							<S.ACHeader>
 								<h2>{asset.data.title}</h2>
 								<S.StampWidget>
-									<StampWidget assetId={asset.data.id} />
+									<StampWidget assetId={asset.data.id} title={asset.data.title} />
 								</S.StampWidget>
 								{currentOwners && currentOwners.length > 0 && (
 									<S.OwnerLine>

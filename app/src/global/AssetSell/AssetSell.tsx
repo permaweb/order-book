@@ -16,6 +16,7 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: asset not tradeable (check claimable in state)
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
@@ -255,7 +256,7 @@ export default function AssetSell(props: IProps) {
 					</S.DCLine>
 					<S.DCLine>
 						<S.DCLineHeader>{`${language.totalAvailableSalesPercentage}:`}</S.DCLineHeader>
-						<S.DCLineDetail>{`${(totalSalesBalance / totalBalance) * 100}%`}</S.DCLineDetail>
+						<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
 					</S.DCLine>
 				</S.DCWrapper>
 				{connectedDisabledSale && (

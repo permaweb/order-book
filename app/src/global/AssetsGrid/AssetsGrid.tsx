@@ -26,7 +26,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						<ReactSVG src={ASSETS.renderer} />
 					</S.RendererSVG>
 				)}
-				<StampWidget assetId={props.asset.data.id} />
+				<StampWidget assetId={props.asset.data.id} title={props.asset.data.title} />
 			</S.HCWrapper>
 			<S.PCWrapper>
 				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} />
@@ -34,8 +34,6 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 			<S.ICWrapper>
 				<S.ICFlex>
 					<S.AssetData>
-						{/* <span>{props.index}</span> */}
-						{/* <div className={'a-divider'} /> */}
 						<p>{props.asset.data.title}</p>
 					</S.AssetData>
 					<IconButton

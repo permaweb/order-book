@@ -17,15 +17,13 @@
 		"moduleResolution": "Node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
 		"noEmit": true,
 		"jsx": "react-jsx"
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/helpers/vite-env.d.tsite-src/helpers/vite-env.d.tsrc/helpers/vite-env.d.ts",
-		"src/vite.config.tsg.ts"
-	],
+	"include": ["src/**/*.ts", "src/**/*.tsx"],
 	"exclude": ["node_modules", "dist"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -83,8 +83,8 @@ export const IconPrimary = styled.div<{
 }>`
 	svg {
 		height: 20px;
-		width: 15px;
-		margin: ${(props) => (props.leftAlign ? '0 12.5px 0 0' : '0 0 0 12.5px')};
+		width: 20px;
+		margin: ${(props) => (props.leftAlign ? '0 12.5px 0 0' : '0 7.5px 2.5px 0px')};
 		padding: 3.5px 0 0 0;
 		fill: ${(props) =>
 			props.disabled
@@ -198,7 +198,8 @@ export const Success = styled(Alt1)`
 `;
 
 export const Warning = styled(Alt2)`
-	span {
-		color: ${(props) => props.theme.colors.button.warning.color};
+	background: ${(props) => props.theme.colors.button.warning.color};
+	&:hover {
+		background: ${(props) => props.theme.colors.button.warning.hover};
 	}
 `;

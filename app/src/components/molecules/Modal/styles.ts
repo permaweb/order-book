@@ -22,7 +22,7 @@ export const Container = styled.div<{
 }>`
 	max-height: calc(100vh - 100px);
 	width: ${(props) => (props.useMax ? STYLING.cutoffs.max : '600px')};
-	max-width: 100%;
+	max-width: 88.75vw;
 	background: ${(props) =>
 		props.noHeader ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => (props.noHeader ? props.theme.colors.transparent : props.theme.colors.border.primary)};
@@ -48,22 +48,20 @@ export const Header = styled.div`
 `;
 
 export const LT = styled.div`
+	max-width: 75%;
 	display: flex;
 	align-items: center;
-`;
-
-export const Logo = styled.div`
-	margin: 0 20px 0 0;
-	svg {
-		width: 30px;
-	}
 `;
 
 export const Title = styled.p`
 	color: ${(props) => props.theme.colors.font.primary.alt8};
 	font-size: ${(props) => props.theme.typography.size.xSmall};
+	line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.bold};
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const Close = styled.div`

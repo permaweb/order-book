@@ -40,10 +40,10 @@ export const HCWrapper = styled.div`
 	> * {
 		margin: 0 20px 0 0;
 	}
-	svg {
-		height: 30px !important;
-		width: 25px !important;
-	}
+	// svg {
+	// 	height: 30px !important;
+	// 	width: 25px !important;
+	// }
 `;
 
 export const HCLoader = styled(HCWrapper)`
@@ -55,8 +55,8 @@ export const HCLoader = styled(HCWrapper)`
 
 export const RendererSVG = styled.div`
 	svg {
-		height: 40px !important;
-		width: 40px !important;
+		height: 30px !important;
+		width: 30px !important;
 	}
 `;
 

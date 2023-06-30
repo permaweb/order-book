@@ -139,7 +139,7 @@ export default function AssetBuy(props: IProps) {
 					</S.DCLine>
 					<S.DCLine>
 						<S.DCLineHeader>{`${language.totalSalesPercentage}:`}</S.DCLineHeader>
-						<S.DCLineDetail>{`${(totalSalesBalance / totalBalance) * 100}%`}</S.DCLineDetail>
+						<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
 					</S.DCLine>
 				</S.DCWrapper>
 				<S.SpendWrapper>

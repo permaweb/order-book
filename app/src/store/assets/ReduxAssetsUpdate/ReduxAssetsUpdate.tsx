@@ -16,6 +16,8 @@ import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import * as cursorActions from 'store/cursors/actions';
 
+// TODO: add stamps
+// TODO: fix pagination
 export default function ReduxAssetsUpdate(props: {
 	reduxCursor: string;
 	apiFetch: ApiFetchType;

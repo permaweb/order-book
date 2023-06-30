@@ -60,3 +60,9 @@ export function formatDate(dateArg: string | number | null, dateType: DateType) 
 		date.getMinutes()
 	)}:${formatTime(date.getSeconds())} ${getHourFormat(date.getHours())}`;
 }
+
+export function formatFloat(number: number, value: number) {
+	let string = number.toString();
+	string = string.slice(0, string.indexOf('.') + value + 1);
+	return Number(string);
+}

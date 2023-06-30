@@ -65,8 +65,8 @@ export const defaultTheme: DefaultTheme = {
 					label: DEFAULT.neutral1,
 				},
 				disabled: {
-					background: DEFAULT.neutral5,
-					border: DEFAULT.neutral3,
+					background: DEFAULT.neutral13,
+					border: DEFAULT.neutral5,
 					label: DEFAULT.neutral7,
 				},
 			},
@@ -81,8 +81,8 @@ export const defaultTheme: DefaultTheme = {
 					label: DEFAULT.neutral1,
 				},
 				disabled: {
-					background: DEFAULT.neutral5,
-					border: DEFAULT.neutral3,
+					background: DEFAULT.neutral13,
+					border: DEFAULT.neutral5,
 					label: DEFAULT.neutral7,
 				},
 			},
@@ -311,7 +311,7 @@ export const defaultTheme: DefaultTheme = {
 	typography: {
 		family: {
 			primary: `'Inter', sans-serif`,
-			alt1: `'Orbitron', sans-serif;`,
+			alt1: `'Orbitron', sans-serif`,
 		},
 		size: {
 			h1: 'clamp(38px, 4.5vw, 62px)',

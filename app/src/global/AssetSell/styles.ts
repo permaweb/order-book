@@ -56,6 +56,9 @@ export const FormWrapper = styled.div`
 export const FormContainer = styled.div`
 	width: 50%;
 	max-width: ${STYLING.dimensions.formWidthMin};
+	@media (max-width: ${STYLING.cutoffs.tablet}) {
+		width: 100%;
+	}
 `;
 
 export const SpendWrapper = styled.div``;

@@ -29,7 +29,7 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 						<AssetOrders asset={props.asset} />
 					</S.AOrders>
 					<S.SCValue>
-						<StampWidget assetId={props.asset.data.id} />
+						<StampWidget assetId={props.asset.data.id} title={props.asset.data.title} />
 					</S.SCValue>
 				</S.PCWrapper>
 			</Link>
