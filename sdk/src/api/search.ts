@@ -21,29 +21,7 @@ export async function search (args: SearchArgs & {arClient: ArweaveClientType}) 
     let allValidatedAssets = [];
 
     try {
-        for(let i = 0; i < tagsToSearch.length; i++) {
-            let tags = [{
-                name: tagsToSearch[i],
-                values: [`${args.term}`], 
-                match: `FUZZY_OR`
-            }];
-    
-            let result: AGQLResponseType = await getGQLData({
-                ids: null,
-                tagFilters: tags,
-                uploader: args.uploader,
-                cursor: args.cursor,
-                reduxCursor: args.reduxCursor,
-                cursorObject:null,
-                arClient: args.arClient,
-            });
-    
-            let ar = getAssetsResponseObject(result);
-            let validatedAssets = getValidatedAssets(ar);
-    
-            allValidatedAssets = allValidatedAssets.concat(validatedAssets);
-        }
-        
+
         // id search
         let result: AGQLResponseType = await getGQLData({
             ids: [args.term],
@@ -59,6 +37,32 @@ export async function search (args: SearchArgs & {arClient: ArweaveClientType}) 
         let validatedAssets = getValidatedAssets(ar);
 
         allValidatedAssets = allValidatedAssets.concat(validatedAssets);
+
+        // not found by id so go to fuzzy search
+        if(allValidatedAssets.length < 1) {
+            for(let i = 0; i < tagsToSearch.length; i++) {
+                let tags = [{
+                    name: tagsToSearch[i],
+                    values: [`${args.term}`], 
+                    match: `FUZZY_OR`
+                }];
+        
+                let result: AGQLResponseType = await getGQLData({
+                    ids: null,
+                    tagFilters: tags,
+                    uploader: args.uploader,
+                    cursor: args.cursor,
+                    reduxCursor: args.reduxCursor,
+                    cursorObject:null,
+                    arClient: args.arClient,
+                });
+        
+                let ar = getAssetsResponseObject(result);
+                let validatedAssets = getValidatedAssets(ar);
+        
+                allValidatedAssets = allValidatedAssets.concat(validatedAssets);
+            }
+        }
     } catch (e: any) {
         console.log(e);
     }
