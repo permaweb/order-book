@@ -87,17 +87,12 @@ export default function ReduxAssetsUpdate(props: {
 		}
 	}, [orderBook]);
 
-	// React.useEffect(() => {
-	// 	dispatch(assetActions.setAssets({ data: null, featuredData: null }));
-	// 	dispatch(
-	// 		cursorActions.setCursors({
-	// 			idGQL: {
-	// 				[REDUX_TABLES.contractAssets]: [],
-	// 				[REDUX_TABLES.userAssets]: [],
-	// 			},
-	// 		})
-	// 	);
-	// }, [props.currentTableCursor]);
+	React.useEffect(() => {
+		console.log(props.currentTableCursor)
+		dispatch(cursorActions.setCursors({ [CursorEnum.idGQL]: { [REDUX_TABLES.userAssets]: null } }));
+		dispatch(cursorActions.setCursors({ [CursorEnum.idGQL]: { [REDUX_TABLES.contractAssets]: null } }));
+		dispatch(assetActions.setAssets({ data: null, featuredData: null }));
+	}, [props.currentTableCursor]);
 
 	React.useEffect(() => {
 		if (orderBook && stamps) {
