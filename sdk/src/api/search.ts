@@ -43,6 +43,22 @@ export async function search (args: SearchArgs & {arClient: ArweaveClientType}) 
     
             allValidatedAssets = allValidatedAssets.concat(validatedAssets);
         }
+        
+        // id search
+        let result: AGQLResponseType = await getGQLData({
+            ids: [args.term],
+            tagFilters: null,
+            uploader: args.uploader,
+            cursor: args.cursor,
+            reduxCursor: args.reduxCursor,
+            cursorObject:null,
+            arClient: args.arClient,
+        });
+
+        let ar = getAssetsResponseObject(result);
+        let validatedAssets = getValidatedAssets(ar);
+
+        allValidatedAssets = allValidatedAssets.concat(validatedAssets);
     } catch (e: any) {
         console.log(e);
     }
