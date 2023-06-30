@@ -195,7 +195,7 @@ export default function ReduxAssetsUpdate(props: {
 			// 	dispatch(assetActions.setAssets({ data: [] }));
 			// }
 		})();
-	}, [cursorsReducer, props.currentTableCursor, orderBook]);
+	}, [cursorsReducer, props.currentTableCursor, orderBook, stamps]);
 
 	return <>{props.children}</>;
 }

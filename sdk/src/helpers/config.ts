@@ -1,5 +1,13 @@
-export const ORDERBOOK_CONTRACT = 'QzqLKlswebY0u6wpvG8bwe0_xuZfNig1EVLMIPbEVSc';
 
+export const ORDERBOOK_CONTRACT = 'QzqLKlswebY0u6wpvG8bwe0_xuZfNig1EVLMIPbEVSc';
+// export const ORDERBOOK_CONTRACT = 'R-z-3b6gelKYIG9dTi1mLoipKwxIrbF9zimkho-PuLw';
+
+// {
+// 	contractTxId: 'QzqLKlswebY0u6wpvG8bwe0_xuZfNig1EVLMIPbEVSc',
+// 	srcTxId: 'ycZOo0CE_mjpQZWoko3dqqJWcPuUjcmarPTiZpjz_qA'
+//   }
+
+// KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw
 export const CURRENCY_DICT = {
 	U: 'FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ',
 };
