@@ -31,8 +31,7 @@ export const Image = styled.img`
 	height: 100%;
 	width: 100%;
 	object-fit: contain;
-	background: ${(props) => props.theme.colors.container.alt9.background};
-`;
+`
 
 export const Audio = styled.audio`
 	height: 100%;

@@ -1,19 +1,18 @@
+import React from 'react';
 import { ReactSVG } from 'react-svg';
 import Stamps from '@permaweb/stampjs';
 
-import { ASSETS } from 'helpers/config';
-
-import { Modal } from 'components/molecules/Modal';
-import * as S from './styles';
-import { IProps } from './types';
-import { language } from 'helpers/language';
-import React from 'react';
+import { Button } from 'components/atoms/Button';
+import { FormField } from 'components/atoms/FormField';
 import { IconButton } from 'components/atoms/IconButton';
+import { Modal } from 'components/molecules/Modal';
+import { ASSETS } from 'helpers/config';
+import { language } from 'helpers/language';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
-import { FormField } from 'components/atoms/FormField';
-import { Button } from 'components/atoms/Button';
 
+import * as S from './styles';
+import { IProps } from './types';
 
 function StampAction(props: { balance: number; handleSubmit: (amount: number) => void; handleClose: () => void }) {
 	const [amount, setAmount] = React.useState<string>('0');
@@ -72,38 +71,39 @@ export default function StampWidget(props: IProps) {
 
 	const orProvider = useOrderBookProvider();
 
+	// TODO: add
 	React.useEffect(() => {
-		if(orProvider.orderBook) {
+		if (orProvider.orderBook) {
 			setStamps(
-				Stamps.init({ 
-					warp: orProvider.orderBook.env.arClient.warpDefault, 
-					arweave: orProvider.orderBook.env.arClient.arweavePost 
+				Stamps.init({
+					warp: orProvider.orderBook.env.arClient.warpDefault,
+					arweave: orProvider.orderBook.env.arClient.arweavePost,
 				})
 			);
 		}
 	}, [orProvider.orderBook]);
 
-	React.useEffect(() => {
-		(async function () {
-			if (props.assetId) {
-				try {
-					setCount(await stamps.count(props.assetId));
-					const hasStamped = await stamps.hasStamped(props.assetId);
-					if (hasStamped) {
-						setDisabled(true);
-					}
-					setBalance(await stamps.balance());
-				} catch {}
-			}
-		})();
-	}, [stamps, props.assetId, updateCount]);
+	// React.useEffect(() => {
+	// 	(async function () {
+	// 		if (props.assetId) {
+	// 			try {
+	// 				setCount(await stamps.count(props.assetId));
+	// 				const hasStamped = await stamps.hasStamped(props.assetId);
+	// 				if (hasStamped) {
+	// 					setDisabled(true);
+	// 				}
+	// 				setBalance(await stamps.balance());
+	// 			} catch {}
+	// 		}
+	// 	})();
+	// }, [stamps, props.assetId, updateCount]);
 
 	function handleModalOpen(event: any) {
 		event.preventDefault();
 		setShowModal(true);
 	}
 
-	function handleModalClose () {
+	function handleModalClose() {
 		setShowModal(false);
 	}
 
@@ -112,20 +112,16 @@ export default function StampWidget(props: IProps) {
 			if (props.assetId) {
 				setDisabled(true);
 
-				let stamp: any = await stamps.stamp(
-					props.assetId, 
-					amount ? amount : 0, 
-					[{ name: '', value: '' }]
-				);
+				let stamp: any = await stamps.stamp(props.assetId, amount ? amount : 0, [{ name: '', value: '' }]);
 				let stampSuccess = stamp && stamp.bundlrResponse && stamp.bundlrResponse.id;
-				if(!stampSuccess){
+				if (!stampSuccess) {
 					// response different in firefox it seemed
 					stampSuccess = stamp && stamp.id;
 				}
-				
+
 				setUpdateCount(!updateCount);
 
-				if(!stampSuccess) {
+				if (!stampSuccess) {
 					setDisabled(false);
 				}
 
@@ -151,16 +147,13 @@ export default function StampWidget(props: IProps) {
 				<ReactSVG src={ASSETS.stamps} />
 			</S.Wrapper>
 			{showModal && (
-				<Modal
-					header={language.stampCount}
-					handleClose={() => handleModalClose()}
-				>
+				<Modal header={language.stampCount} handleClose={() => handleModalClose()}>
 					{showStampAction && (
-							<StampAction
-								balance={balance}
-								handleClose={() => setShowStampAction(false)}
-								handleSubmit={(amount: number) => handleStampAction(amount)}
-							/>
+						<StampAction
+							balance={balance}
+							handleClose={() => setShowStampAction(false)}
+							handleSubmit={(amount: number) => handleStampAction(amount)}
+						/>
 					)}
 					<S.ButtonWrapper>
 						<IconButton
@@ -187,13 +180,9 @@ export default function StampWidget(props: IProps) {
 							disabled={true}
 							info={count ? count.vouched.toString() : '0'}
 							tooltip={language.stampsVouched}
-						/> 
+						/>
 					</S.ButtonWrapper>
-					{stampNotification && 
-						<S.NotifWrapper>
-							{stampNotification.message}
-						</S.NotifWrapper>
-					}
+					{stampNotification && <S.NotifWrapper>{stampNotification.message}</S.NotifWrapper>}
 				</Modal>
 			)}
 		</>

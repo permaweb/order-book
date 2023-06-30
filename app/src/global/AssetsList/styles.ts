@@ -106,10 +106,17 @@ export const PCWrapper = styled.div`
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		height: auto;
 		flex-wrap: wrap;
-	}
-	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		flex-direction: column;
 		align-items: flex-start;
+	}
+`;
+
+export const PCLoader = styled(PCWrapper)`
+	height: 125px;
+	padding: 0;
+	overflow: hidden;
+	&:hover {
+		cursor: default;
 	}
 `;
 
@@ -142,5 +149,17 @@ export const SCValue = styled.div`
 	margin: 0 0 0 auto;
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		margin: 20px 0 0 0;
+	}
+`;
+
+export const NoAssetsContainer = styled.div`
+	height: fit-content;
+	padding: 0 0 0 5px;
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.warning};
 	}
 `;

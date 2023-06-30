@@ -1,27 +1,24 @@
 import React from 'react';
 
-import { AssetDetailType, OrderBookPairOrderType, OrderBookType, STORAGE } from 'permaweb-orderbook';
+import { AssetDetailType, STORAGE } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { Loader } from 'components/atoms/Loader';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'global/AssetData';
-// import { StampWidget } from 'global/StampWidget';
+import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
 import { formatCount, formatDate } from 'helpers/utils';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: AssetSell tooltips
 export default function AssetDetail(props: IProps) {
-	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
@@ -35,7 +32,7 @@ export default function AssetDetail(props: IProps) {
 
 	React.useEffect(() => {
 		setAsset(null);
-	}, [props.assetId])
+	}, [props.assetId]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -124,7 +121,9 @@ export default function AssetDetail(props: IProps) {
 						<div className={'border-wrapper'}>
 							<S.ACHeader>
 								<h2>{asset.data.title}</h2>
-								{/* <StampWidget assetId={asset.data.id} /> */}
+								<S.StampWidget>
+									<StampWidget assetId={asset.data.id} />
+								</S.StampWidget>
 								{currentOwners && currentOwners.length > 0 && (
 									<S.OwnerLine>
 										<span>{language.currentlyOwnedBy}</span>

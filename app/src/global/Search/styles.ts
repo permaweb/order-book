@@ -36,13 +36,13 @@ export const SearchInput = styled.input<{ hasResults: boolean }>`
 	color: ${(props) => props.theme.colors.font.primary.alt8};
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-top: 1px solid ${(props) => props.theme.colors.form.border};
-	border-bottom: ${(props) => props.hasResults ? `none` : `1px solid ${props.theme.colors.form.border}`};
+	border-bottom: ${(props) => (props.hasResults ? `none` : `1px solid ${props.theme.colors.form.border}`)};
 	border-right: 1px solid ${(props) => props.theme.colors.form.border};
 	border-left: 1px solid ${(props) => props.theme.colors.form.border};
 	border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
-	border-bottom-left-radius: ${(props) => props.hasResults ? `0` : `18px`};
-	border-bottom-right-radius: ${(props) => props.hasResults ? `0` : `18px`};
+	border-top-right-radius: 18px;
+	border-bottom-left-radius: ${(props) => (props.hasResults ? `0` : `18px`)};
+	border-bottom-right-radius: ${(props) => (props.hasResults ? `0` : `18px`)};
 	padding: 10px 35px 10px 40px;
 	&:disabled {
 		background: ${(props) => props.theme.colors.form.disabled.background};
@@ -56,7 +56,7 @@ export const ClearWrapper = styled.div`
 	position: absolute;
 	right: 14.5px;
 	top: 50.5%;
-		transform: translate(0, -50%);
+	transform: translate(0, -50%);
 	button {
 		width: auto;
 	}
@@ -82,11 +82,11 @@ export const SearchResultsWrapper = styled.div`
 	position: absolute;
 	top: calc(${STYLING.dimensions.formHeightSm} + 0px);
 	background: ${(props) => props.theme.colors.container.primary.background};
-    border-bottom-left-radius: 18px;
-    border-bottom-right-radius: 18px;
-    border-right: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-bottom-left-radius: 18px;
+	border-bottom-right-radius: 18px;
+	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	overflow: hidden;
 	padding: 0 0 10px 0;
 	a {

@@ -189,11 +189,11 @@ export const MenuContainer = styled.div`
 export const SearchWrapper = styled.div`
 	width: 600px;
 	max-width: 50%;
-	position: absolute;	
+	position: absolute;
 	width: 600px;
-    max-width: 35%;
-    position: absolute;
-    left: 205px;
+	max-width: 35%;
+	position: absolute;
+	left: 205px;
 
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		height: 100%;

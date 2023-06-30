@@ -12,7 +12,7 @@ import { RootState } from 'store';
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
-	const [assets, setAssets] = React.useState<{data: AssetType[], featuredData: AssetType[]} | null>(null);
+	const [assets, setAssets] = React.useState<{ data: AssetType[]; featuredData: AssetType[] } | null>(null);
 	const [featuredAssets, setFeaturedAssets] = React.useState<AssetType[] | null>(null);
 	const [tableAssets, setTableAssets] = React.useState<AssetType[] | null>(null);
 
@@ -21,7 +21,6 @@ export default function Landing() {
 			setAssets(assetsReducer);
 		}
 	}, [assetsReducer.data]);
-
 
 	// TODO: get featured
 	React.useEffect(() => {
@@ -35,7 +34,7 @@ export default function Landing() {
 		<>
 			<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<AssetsGrid assets={featuredAssets} autoLoad={true} />
+					<AssetsGrid assets={featuredAssets} autoLoad={true} loaderCount={FEATURE_COUNT} />
 				</div>
 			</div>
 			<AssetsTable

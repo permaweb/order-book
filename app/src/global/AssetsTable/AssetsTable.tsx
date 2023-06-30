@@ -86,39 +86,55 @@ export default function AssetsTable(props: IProps) {
 	}
 
 	function getTable() {
-		if (!currentRecords) {
-			return <Loader />;
-		} else {
-			if (currentRecords.length <= 0) {
-				if (props.showNoResults) {
-					return (
-						<S.NoAssetsContainer>
-							<p>{language.noAssets}</p>
-						</S.NoAssetsContainer>
-					);
-				} else {
-					return null;
-				}
-			} else if (currentRecords.length > 0) {
-				switch (props.tableType) {
-					case 'grid':
-						return <AssetsGrid assets={currentRecords} autoLoad={false} />;
-					case 'list':
-						return <AssetsList assets={currentRecords} />;
-					default:
-						return null;
-				}
-			} else {
-				if (props.showNoResults) {
-					return (
-						<S.NoAssetsContainer>
-							<p>{language.noAssets}</p>
-						</S.NoAssetsContainer>
-					);
-				}
-			}
+		switch (props.tableType) {
+			case 'grid':
+				return <AssetsGrid assets={currentRecords} autoLoad={false} loaderCount={9} />;
+			case 'list':
+				return <AssetsList assets={currentRecords} />;
+			default:
+				return null;
 		}
 	}
+
+	// function getTable() {
+	// 	if (!currentRecords) {
+	// 		return <Loader />;
+	// 	} 
+	// 	else {
+	// 		if (currentRecords.length <= 0) {
+	// 			if (props.showNoResults) {
+	// 				return (
+	// 					<S.NoAssetsContainer>
+	// 						<p>{language.noAssets}</p>
+	// 					</S.NoAssetsContainer>
+	// 				);
+	// 			} else {
+	// 				return null;
+	// 			}
+	// 		} 
+			
+	// 		else if (currentRecords.length > 0) {
+	// 			switch (props.tableType) {
+	// 				case 'grid':
+	// 					return <AssetsGrid assets={currentRecords} autoLoad={false} />;
+	// 				case 'list':
+	// 					return <AssetsList assets={currentRecords} />;
+	// 				default:
+	// 					return null;
+	// 			}
+	// 		} 
+			
+	// 		else {
+	// 			if (props.showNoResults) {
+	// 				return (
+	// 					<S.NoAssetsContainer>
+	// 						<p>{language.noAssets}</p>
+	// 					</S.NoAssetsContainer>
+	// 				);
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	return (
 		<ReduxAssetsUpdate

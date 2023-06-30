@@ -16,6 +16,7 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: details button min width
 function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
 	return (
@@ -44,7 +45,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						src={ASSETS.details}
 						handlePress={() => navigate(`${urls.asset}${props.asset.data.id}`)}
 						dimensions={{
-							wrapper: 50,
+							wrapper: 42.5,
 							icon: 25,
 						}}
 					/>
@@ -64,7 +65,6 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 export default function AssetsGrid(props: IProps) {
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 
-	// TODO: filters
 	React.useEffect(() => {
 		if (props.assets) {
 			setAssets(props.assets);
@@ -78,10 +78,16 @@ export default function AssetsGrid(props: IProps) {
 					return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;
 				});
 			} else {
-				return null;
+				return (
+					<div className={'view-wrapper max-cutoff'}>
+						<S.NoAssetsContainer>
+							<p>{language.noAssets}</p>
+						</S.NoAssetsContainer>
+					</div>
+				);
 			}
 		} else {
-			const keys = Array.from({ length: FEATURE_COUNT }, (_, i) => i + 1);
+			const keys = Array.from({ length: props.loaderCount }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
 					<S.HCLoader key={`hc_${element}`}>

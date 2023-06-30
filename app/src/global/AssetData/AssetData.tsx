@@ -23,8 +23,10 @@ export default function AssetData(props: IProps) {
 		setLoadError(true);
 	};
 
+	// TODO: add
 	// TODO: audio icon
 	// TODO: unsupported icon
+	// TODO: generic token icon
 	React.useEffect(() => {
 		(async function () {
 			const renderWith =

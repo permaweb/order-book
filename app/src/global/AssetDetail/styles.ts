@@ -173,6 +173,10 @@ export const ACHeader = styled(AssetCDetail)`
 	}
 `;
 
+export const StampWidget = styled.div`
+	margin: 0 0 20px 0;
+`;
+
 export const OwnerLine = styled.div`
 	margin: 10px 0 0 0;
 	display: flex;

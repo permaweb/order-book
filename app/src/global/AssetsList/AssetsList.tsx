@@ -40,7 +40,6 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 export default function AssetsList(props: IProps) {
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 
-	// TODO: filters
 	React.useEffect(() => {
 		if (props.assets) {
 			setAssets(props.assets);
@@ -48,7 +47,6 @@ export default function AssetsList(props: IProps) {
 	}, [props.assets]);
 
 	function getData() {
-		console.log(assets)
 		if (assets) {
 			if (assets.length > 0) {
 				return (
@@ -81,18 +79,22 @@ export default function AssetsList(props: IProps) {
 					</>
 				);
 			} else {
-				return null;
+				return (
+					<S.NoAssetsContainer>
+						<p>{language.noAssets}</p>
+					</S.NoAssetsContainer>
+				);
 			}
 		} else {
-			const keys = Array.from({ length: 3 }, (_, i) => i + 1);
+			const keys = Array.from({ length: 6 }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
-					<S.PCWrapper key={`pc_${element}`}>
+					<S.PCLoader key={`pc_${element}`}>
 						<Loader placeholder />
-					</S.PCWrapper>
+					</S.PCLoader>
 				</S.PICWrapper>
 			));
-			return <>{elements}</>;
+			return <S.C1>{elements}</S.C1>;
 		}
 	}
 

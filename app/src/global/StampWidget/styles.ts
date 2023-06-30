@@ -29,14 +29,9 @@ export const Wrapper = styled.div`
 	}
 `;
 
-export const ButtonWrapper = styled.div `
+export const ButtonWrapper = styled.div``;
 
-`;
-
-export const NotifWrapper = styled.div `
-
-`;
-
+export const NotifWrapper = styled.div``;
 
 export const SAContainer = styled.div`
 	min-height: 100px;

@@ -82,7 +82,7 @@ export default function Paginator(props: IProps) {
 			return (
 				<Button
 					label={language.previous}
-					type={'alt1'}
+					type={'primary'}
 					handlePress={handlePreviousPage}
 					disabled={!props.cursors.previous}
 					noMinWidth
@@ -106,7 +106,7 @@ export default function Paginator(props: IProps) {
 			return (
 				<Button
 					label={language.next}
-					type={'alt1'}
+					type={'primary'}
 					handlePress={handleNextPage}
 					disabled={!props.cursors.next || props.cursors.next === CURSORS.end}
 					noMinWidth

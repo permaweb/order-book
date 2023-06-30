@@ -4,10 +4,10 @@ import { fadeIn2, open } from 'helpers/animations';
 import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.div`
-	width: calc(100% + 25px);
+	width: calc(100% + 30px);
 	display: flex;
 	flex-wrap: wrap;
-	margin: -12.5px;
+	margin: -15px;
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		width: 100%;
 		margin: 0;
@@ -47,6 +47,7 @@ export const HCWrapper = styled.div`
 `;
 
 export const HCLoader = styled(HCWrapper)`
+	overflow: hidden;
 	> * {
 		margin: 0;
 	}
@@ -84,6 +85,7 @@ export const ICWrapper = styled.div`
 export const ICLoader = styled(ICWrapper)`
 	height: 50px;
 	padding: 0;
+	overflow: hidden;
 `;
 
 export const ICFlex = styled.div`
@@ -91,6 +93,7 @@ export const ICFlex = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	button {
+		min-width: 42.5px;
 		margin: 0 0 0 10px;
 	}
 `;
@@ -98,13 +101,10 @@ export const ICFlex = styled.div`
 export const AssetData = styled.div`
 	height: 50px;
 	width: 100%;
+	max-width: 300px;
 	margin: 5px 0;
 	display: flex;
 	align-items: center;
-	// padding: 0 10px;
-	// background: ${(props) => props.theme.colors.container.primary.background};
-	// border: 1px solid ${(props) => props.theme.colors.border.primary};
-	// border-radius: ${STYLING.dimensions.borderRadius};
 	span {
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.regular};
@@ -129,6 +129,7 @@ export const AssetData = styled.div`
 `;
 
 export const AssetDataAlt = styled(AssetData)`
+	max-width: none;
 	padding: 0;
 	background: ${(props) => props.theme.colors.transparent};
 	border: 1px solid ${(props) => props.theme.colors.transparent};
@@ -143,5 +144,16 @@ export const AssetDataAlt = styled(AssetData)`
 		height: 25px;
 		width: 1px;
 		border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	}
+`;
+
+export const NoAssetsContainer = styled.div`
+	height: fit-content;
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.warning};
 	}
 `;

@@ -10,7 +10,7 @@ export default function Asset() {
 
 	React.useEffect(() => {
 		if (id) setIdParam(id);
-	}, [id])
+	}, [id]);
 
 	return idParam ? <AssetDetail assetId={idParam} /> : null;
 }

@@ -35,8 +35,7 @@ export default function Search(props: IProps) {
 			setTimeout(() => {
 				if (value) {
 					handleSearch('timer');
-				}
-				else {
+				} else {
 					handleClear();
 				}
 			}, 500)
@@ -85,7 +84,7 @@ export default function Search(props: IProps) {
 	function handleClear() {
 		setValue('');
 		setResults([]);
-		setSearchOpen(!searchOpen);
+		setSearchOpen(false);
 		setCurrentPage(1);
 	}
 
