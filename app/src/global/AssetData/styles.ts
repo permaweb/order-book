@@ -30,7 +30,7 @@ export const FrameLoader = styled.button`
 export const Image = styled.img`
 	height: 100%;
 	width: 100%;
-	object-fit: contain;
+	object-fit: cover;
 `
 
 export const AudioWrapper = styled.div`
