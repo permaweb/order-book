@@ -7,5 +7,5 @@ export function getTxEndpoint(txId: string) {
 }
 
 export function getSyncEndpoint(assetId: string) {
-	return `https://dre-1.warp.cc/sync?id=${assetId}&test=false`;
+	return `https://dre-5.warp.cc/sync?id=${assetId}&test=false`;
 }
