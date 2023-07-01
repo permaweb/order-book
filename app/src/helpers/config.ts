@@ -6,6 +6,7 @@ import arrowDownSVG from 'assets/arrow-down.svg';
 import arrowNextSVG from 'assets/arrow-next.svg';
 import arrowPreviousSVG from 'assets/arrow-previous.svg';
 import arrowUpSVG from 'assets/arrow-up.svg';
+import audioSVG from 'assets/audio.svg';
 import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
@@ -38,6 +39,7 @@ export const ASSETS = {
 	arrowNext: arrowNextSVG,
 	arrowPrevious: arrowPreviousSVG,
 	arrowUp: arrowUpSVG,
+	audio: audioSVG,
 	buy: buySVG,
 	checkmark: checkmarkSVG,
 	close: closeSVG,

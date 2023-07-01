@@ -23,38 +23,23 @@ export const HeaderWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin: 0 0 20px 0;
-	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
-		display: none;
-	}
 `;
 
 export const HSection1 = styled.div`
-	width: 49.5%;
-	background: ${(props) => props.theme.colors.container.primary.background};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadiusField};
+	width: 48.5%;
+	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	display: flex;
 	align-items: center;
 	padding: 0 20px;
 	p {
-		font-size: ${(props) => props.theme.typography.size.base};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
-		color: ${(props) => props.theme.colors.font.primary.alt8};
+		font-size: ${(props) => props.theme.typography.size.small};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		color: ${(props) => props.theme.colors.font.primary.alt6};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
-		display: none;
 	}
 `;
-
-export const AtomicAsset = styled.div`
-	min-width: 110px;
-	margin: 0 0 0 20px;
-`;
-
-export const Listing = styled.div``;
-
-export const StampCount = styled.div``;
 
 export const HSection2 = styled(HSection1)`
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
@@ -62,8 +47,40 @@ export const HSection2 = styled(HSection1)`
 	}
 `;
 
+export const Rank = styled.div`
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		display: none;
+	}
+`;
+
+export const AtomicAsset = styled.div`
+	min-width: 110px;
+	margin: 0 0 0 92.5px;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		margin: 0;
+	}
+`;
+
+export const SHeaderFlex = styled.div`
+	display: flex;
+	align-items: center;
+	margin: 0 0 0 auto;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		display: none;
+	}
+`;
+
+export const Listing = styled.div`
+	margin: 0 78.5px 0 0;
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+		display: none;
+	}
+`;
+
+export const StampCount = styled.div``;
+
 export const PICWrapper = styled.div`
-	width: 49.5%;
+	width: 48.5%;
 	margin: 0 0 20px 0;
 	a {
 		text-decoration: none !important;
@@ -84,14 +101,14 @@ export const PCWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	flex-wrap: wrap;
+	// flex-wrap: wrap;
 	padding: 20px;
 	position: relative;
 	transition: background 0.1s;
 	p {
-		max-width: 125px;
-		font-size: ${(props) => props.theme.typography.size.base};
-		line-height: calc(${(props) => props.theme.typography.size.base} + 2px);
+		max-width: 175px;
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		overflow: hidden;
@@ -123,15 +140,28 @@ export const PCLoader = styled(PCWrapper)`
 export const AFlex = styled.div`
 	display: flex;
 	align-items: center;
-	width: 280px;
-	max-width: 100%;
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		margin: 0 0 20px 0;
 	}
 `;
 
+export const ATitle = styled.div`
+	p {
+    	width: fit-content;
+	}
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		width: 165px;
+		p {
+			width: 100%;
+			max-width: none;
+		}
+	}
+`;
+
 export const AWrapper = styled.div`
+	min-height: 85px;
+	min-width: 85px;
 	height: 85px;
 	width: 85px;
 	background: ${(props) => props.theme.colors.container.primary.background};
@@ -140,17 +170,21 @@ export const AWrapper = styled.div`
 	margin: 0 15px;
 `;
 
-export const AOrders = styled.div`
-	height: 50px;
-	width: 235px;
-`;
-
-export const SCValue = styled.div`
-	margin: 0 0 0 auto;
+export const SFlex = styled.div`
+	display: flex;
+	align-items: center;
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
-		margin: 20px 0 0 0;
+		width: 100%;
+		justify-content: space-between;
 	}
 `;
+
+export const AOrders = styled.div`
+	min-width: 100px;
+	margin: 0 20px 0 0;
+`;
+
+export const SCValue = styled.div``;
 
 export const NoAssetsContainer = styled.div`
 	height: fit-content;

@@ -308,7 +308,7 @@ export default function AssetSell(props: IProps) {
 									setShowConfirmation(true);
 								}}
 								height={60}
-								width={450}
+								noMinWidth
 								disabled={getActionDisabled()}
 								formSubmit
 							/>

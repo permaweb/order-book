@@ -55,9 +55,6 @@ export async function getAssetIdsByContract(args: { arClient: any }): Promise<st
 export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
-		// let balances = ((await result.json()) as UserBalancesType).balances.filter((a: any) => {
-		// 	return containsSubstring(a.token_name, ['Single owner', 'Multiple owner']); 
-		// });
 		let balances = ((await result.json()) as UserBalancesType).balances;
 
 		let assetIds = balances.map((balance: BalanceType) => {
@@ -83,12 +80,8 @@ export async function getAssetIdsByUser(args: { walletAddress: string, arClient:
 	try {
 		const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 		if (result.status === 200) {
-			// let balances = ((await result.json()) as UserBalancesType).balances.filter((a: any) => {
-			// 	return containsSubstring(a.token_name, ['Single owner', 'Multiple owner']); 
-			// });
 			let balances = ((await result.json()) as UserBalancesType).balances;
 
-			// TODO: get balances of ANS assets
 			let assetIds = balances.map((balance: BalanceType) => {
 				return balance.contract_tx_id
 			});
@@ -150,7 +143,6 @@ export async function getAssetById(args: { id: string, arClient: any, orderBookC
 	}
 }
 
-// TODO: validate topic
 export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairType[]): AssetType[] {
 	let validatedAssets: AssetType[] = [];
 	for (let i = 0; i < gqlData.assets.length; i++) {
@@ -161,8 +153,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const implementation = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.implements);
 		const license = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.license);
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
-
-		// TODO: all validation checks
+		
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
 				data: {
@@ -191,14 +182,4 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		}
 	}
 	return validatedAssets;
-}
-
-function containsSubstring(string: string, substrings: string[]): boolean {
-	for (let i = 0; i < substrings.length; i++) {
-		const substring: string = substrings[i];
-		if (string && string.includes(substring)) {
-			return true;
-		}
-	}
-	return false;
 }
