@@ -8,6 +8,7 @@ const options = {
 	allowBigInt: true,
 	internalWrites: true,
 	remoteStateSyncEnabled: true,
+	// remoteStateSyncSource: 'https://dre-6.warp.cc/contract',
 	unsafeClient: 'skip',
 };
 

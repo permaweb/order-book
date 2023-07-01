@@ -32,6 +32,7 @@ export default function AssetBuy(props: IProps) {
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.state) {
+			console.log(props.asset.state)
 			const balances = Object.keys(props.asset.state.balances).map((balance: any) => {
 				return props.asset.state.balances[balance];
 			});
@@ -131,6 +132,9 @@ export default function AssetBuy(props: IProps) {
 		setShowConfirmation(false);
 		setBuyResponse(null);
 	}
+
+	console.log(`total sales balance ${totalSalesBalance}`)
+	console.log(`total balance ${totalBalance}`)
 
 	return (
 		<>
