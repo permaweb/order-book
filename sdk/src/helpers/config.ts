@@ -39,7 +39,7 @@ export const TAGS = {
 		},
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
-		renderWith: 'Render-With'
+		renderWith: 'Render-With',
 	},
 	values: {
 		profileVersions: {

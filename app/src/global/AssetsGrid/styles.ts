@@ -18,24 +18,35 @@ export const PICWrapper = styled.div`
 	margin: 15px;
 	width: calc(33.3% - 30px);
 	animation: ${open} ${fadeIn2};
+<<<<<<< HEAD
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+=======
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 		width: 100%;
 		margin: 0 0 40px 0;
 	}
 `;
 
 export const HCWrapper = styled.div`
+<<<<<<< HEAD
 	height: 60px;
 	width: 100%;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+=======
+	height: 40px;
+	width: 100%;
+	background: ${(props) => props.theme.colors.container.primary.background1};
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 	border-top-left-radius: ${STYLING.dimensions.borderRadius};
 	border-top-right-radius: ${STYLING.dimensions.borderRadius};
 	position: relative;
 	display: flex;
 	align-items: center;
+<<<<<<< HEAD
 `;
 
 export const Index = styled.div`
@@ -73,6 +84,13 @@ export const RendererSVG = styled.div`
 		height: 30px !important;
 		width: 30px !important;
 	}
+=======
+	justify-content: space-between;
+	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 `;
 
 export const PCWrapper = styled.div`
@@ -87,6 +105,7 @@ export const PCWrapper = styled.div`
 export const ICWrapper = styled.div`
 	min-height: 60px;
 	width: 100%;
+<<<<<<< HEAD
 	padding: 15px 20px 0 20px;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
@@ -105,6 +124,20 @@ export const ICLoader = styled(ICWrapper)`
 
 export const ICFlex = styled.div`
 	height: 100%;
+=======
+	padding: 10px;
+	background: ${(props) => props.theme.colors.container.primary.background1};
+	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
+	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
+	position: relative;
+	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+`;
+
+export const ICFlex = styled.div`
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -115,16 +148,31 @@ export const ICFlex = styled.div`
 `;
 
 export const AssetData = styled.div`
+<<<<<<< HEAD
 	width: 250px;
 	max-width: 85%;
 	display: flex;
 	align-items: center;
 	span {
+=======
+	height: 50px;
+	width: 100%;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+	background: ${(props) => props.theme.colors.container.primary.background1};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadiusField};
+	span {
+		margin: 0 10px 0 0;
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
+<<<<<<< HEAD
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
 		font-weight: ${(props) => props.theme.typography.weight.bold};
@@ -133,6 +181,11 @@ export const AssetData = styled.div`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+=======
+		font-size: ${(props) => props.theme.typography.size.lg};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 	}
 `;
 

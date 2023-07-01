@@ -13,7 +13,17 @@ async function main() {
     src,
     initState: JSON.stringify({
       pairs: [],
-      name: "orderbook"
+      name: "marketplace",
+      ticker: 'zAR',
+      balances: {},
+      claimable: [],
+      lastReward: 0,
+      streaks: {},
+      settings: [
+        ['logo', 'TX_ID'],
+        ['tradeable', true],
+        ['website', 'WIKI_SITE']
+      ]
     }),
     //initState,
     evaluationManifest: {

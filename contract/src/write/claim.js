@@ -1,36 +1,41 @@
-import { of, fromPromise, Resolved, Rejected } from "hyper-async";
-export function claim(state, action) {
-  const write = fromPromise(SmartWeave.contracts.write);
+import { of, Left, Right } from "../lib/either.js";
 
-  return of({ state, action })
-    .chain(validate)
-    .chain(({ state, action }) =>
-      write(action.input.target, {
-        function: "claim",
-        txID: action.input.transaction,
-        qty: action.input.qty,
-      }).map((r) => ({ state }))
-    );
+export const claim = (state, action) =>
+  of({ state, action }).chain(validate).map(update);
+
+function update({ state, action, idx }) {
+  if (!state.balances[action.caller]) {
+    state.balances[action.caller] = 0;
+  }
+
+  state.balances[action.caller] += action.input.qty;
+  state.claimable.splice(idx, 1);
+
+  return { state };
 }
 
 function validate({ state, action }) {
-  if (!action.input.transaction) {
-    return Rejected("transaction is required!");
+  if (!action.input.txID) {
+    return Left("txID is not found.");
   }
-  if (!action.input.target) {
-    return Rejected("target is required!");
-  }
-  if (!action.input.transaction.length === 43) {
-    return Rejected("invalid tx");
-  }
-  if (!action.input.target.length === 43) {
-    return Rejected("invalid target");
-  }
+
   if (!action.input.qty) {
-    return Rejected("qty is required!");
+    return Left("claim quantity is not specified.");
   }
-  if (!Number.isInteger(action.input.qty)) {
-    return Rejected("qty must be integer");
+
+  const idx = state.claimable.findIndex((c) => c.txID === action.input.txID);
+
+  if (idx < 0) {
+    return Left("claimable not found.");
   }
-  return Resolved({ state, action });
+
+  if (state.claimable[idx].qty !== action.input.qty) {
+    return Left("claimable qty is not equal to claim qty.");
+  }
+
+  if (state.claimable[idx].to !== action.caller) {
+    return Left("claim is not addressed to caller.");
+  }
+
+  return Right({ state, action, idx });
 }

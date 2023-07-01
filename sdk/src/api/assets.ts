@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { getGqlDataByIds } from '../gql';
+=======
+import { ArweaveClient } from '../clients';
+import { getAssetsByIds } from '../gql';
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 import {
 	AssetArgsClientType,
 	AssetsResponseType,
@@ -15,9 +20,16 @@ import {
 	UserBalancesType,
 } from '../helpers';
 
+<<<<<<< HEAD
 export async function getAssetsByContract(args: AssetArgsClientType): Promise<AssetType[]> {
 	try {
 		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
+=======
+export async function getAssetsByContract(args: { arClient: ArweaveClientType }): Promise<AssetType[]> {
+	try {
+		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
+		const assets = pairs.filter((pair: OrderBookPairType) => pair.orders.length > 0);
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 
 		const ids = assets.map((asset: OrderBookPairType) => {
 			return asset.pair[0]
@@ -30,7 +42,10 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 			cursor: null,
 			reduxCursor: null,
 			arClient: args.arClient,
+<<<<<<< HEAD
 			walletAddress: args.walletAddress
+=======
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 		});
 
 		return getValidatedAssets(gqlData, assets);
@@ -40,6 +55,7 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 	return [];
 }
 
+<<<<<<< HEAD
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
 	try {
 		let r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs.map((asset: OrderBookPairType) => {
@@ -59,16 +75,34 @@ export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetT
 
 		let assetIds = balances.map((balance: BalanceType) => {
 			return balance.contract_tx_id
+=======
+export async function getAssetsByUser(args: {
+	walletAddress: string;
+	arClient: ArweaveClientType;
+}): Promise<AssetType[]> {
+	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
+	if (result.status === 200) {
+		const assetIds = ((await result.json()) as UserBalancesType).balances.map((balance: BalanceType) => {
+			return balance.contract_tx_id;
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 		});
 
 		const gqlData: AssetsResponseType = await getGqlDataByIds({
 			ids: assetIds,
+<<<<<<< HEAD
 			owner: args.owner,
 			uploader: args.uploader,
 			cursor: args.cursor,
 			reduxCursor: args.reduxCursor,
 			arClient: args.arClient,
 			walletAddress: args.walletAddress
+=======
+			owner: null,
+			uploader: null,
+			cursor: null,
+			reduxCursor: null,
+			arClient: args.arClient,
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 		});
 
 		return getValidatedAssets(gqlData);
@@ -163,6 +197,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 					topic: topic,
 					type: type,
 					implementation: implementation,
+<<<<<<< HEAD
 					license: license,
 					renderWith: renderWith ? renderWith : null,
 					dateCreated: gqlData.assets[i].node.block.timestamp,
@@ -175,6 +210,16 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 				if (assetIndex !== -1) {
 					asset.orders = pairs[assetIndex].orders.map((order: OrderBookPairOrderType) => {
 						return { ...order, currency: pairs[assetIndex].pair[1] }
+=======
+					renderWith: renderWith ? renderWith : null,
+				},
+			};
+			if (assets) {
+				const assetIndex = assets.findIndex((asset: OrderBookPairType) => asset.pair[0] === gqlData.assets[i].node.id);
+				if (assetIndex !== -1) {
+					asset.orders = assets[assetIndex].orders.map((order: OrderBookPairOrderType) => {
+						return { ...order, currency: assets[assetIndex].pair[1] };
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 					});
 				}
 			}
