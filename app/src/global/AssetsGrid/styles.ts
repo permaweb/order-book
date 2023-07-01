@@ -115,31 +115,16 @@ export const ICFlex = styled.div`
 `;
 
 export const AssetData = styled.div`
-<<<<<<< HEAD
 	width: 250px;
 	max-width: 85%;
 	display: flex;
 	align-items: center;
 	span {
-=======
-	height: 50px;
-	width: 100%;
-	margin: 10px 0;
-	display: flex;
-	align-items: center;
-	padding: 0 10px;
-	background: ${(props) => props.theme.colors.container.primary.background1};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadiusField};
-	span {
-		margin: 0 10px 0 0;
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
-<<<<<<< HEAD
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
 		font-weight: ${(props) => props.theme.typography.weight.bold};
@@ -148,11 +133,6 @@ export const AssetData = styled.div`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-=======
-		font-size: ${(props) => props.theme.typography.size.lg};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
-		color: ${(props) => props.theme.colors.font.primary.alt1};
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 	}
 `;
 
