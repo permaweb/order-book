@@ -31,7 +31,7 @@ function StampAction(props: {
 	function handleSubmit(e: any) {
 		e.preventDefault();
 		setDisabled(true);
-		props.handleSubmit(Number(amount));
+		props.handleSubmit(Number(amount) * 1e12);
 	}
 
 	return (

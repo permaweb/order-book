@@ -32,7 +32,6 @@ export default function AssetBuy(props: IProps) {
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.state) {
-			console.log(props.asset.state)
 			const balances = Object.keys(props.asset.state.balances).map((balance: any) => {
 				return props.asset.state.balances[balance];
 			});
