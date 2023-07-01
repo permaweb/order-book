@@ -23,7 +23,9 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		transition: background 0.1s;
 		&:hover {
-			background: ${(props) =>
+			background: ${(props) => props.disabled ? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
+				props.theme.colors.container.primary.background
+			} ${(props.value / props.max) * 100}% )` :
 				`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
 					props.theme.colors.container.primary.hover
 				} ${(props.value / props.max) * 100}% )`};
@@ -34,7 +36,9 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 	&::-moz-range-track {
 		height: 12.5px;
 		border-radius: ${STYLING.dimensions.borderRadiusField};
-		background: ${(props) =>
+		background: ${(props) => props.disabled ? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
+			props.theme.colors.container.primary.background
+		} ${(props.value / props.max) * 100}% )` :
 			`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
 				props.theme.colors.container.primary.background
 			} ${(props.value / props.max) * 100}% )`};
@@ -52,7 +56,9 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 	&::-ms-track {
 		height: 12.5px;
 		border-radius: ${STYLING.dimensions.borderRadiusField};
-		background: ${(props) =>
+		background: ${(props) => props.disabled ? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
+			props.theme.colors.container.primary.background
+		} ${(props.value / props.max) * 100}% )` :
 			`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
 				props.theme.colors.container.primary.background
 			} ${(props.value / props.max) * 100}% )`};
