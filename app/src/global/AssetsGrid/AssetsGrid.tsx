@@ -20,7 +20,6 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 	const navigate = useNavigate();
 	return (
 		<S.PICWrapper>
-<<<<<<< HEAD
 			<S.HCWrapper>
 				<S.Index>
 					<p>{props.index}</p>
@@ -38,9 +37,6 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 					/>
 				</S.HCEnd>
 			</S.HCWrapper>
-=======
-			<S.HCWrapper></S.HCWrapper>
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 			<S.PCWrapper>
 				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} />
 			</S.PCWrapper>
