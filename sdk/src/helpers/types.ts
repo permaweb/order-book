@@ -1,5 +1,17 @@
 export type AssetType = {
 	data: {
+<<<<<<< HEAD
+		id: string
+		title: string
+		description: string
+		topic: string
+		type: string
+		implementation: string
+		license: string
+		renderWith: string | null
+		dateCreated: number
+		blockHeight: number
+=======
 		id: string;
 		title: string;
 		description: string;
@@ -7,8 +19,15 @@ export type AssetType = {
 		type: string;
 		implementation: string;
 		renderWith: string | null;
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 	};
 	orders?: OrderBookPairOrderType[];
+	stamps?: { total: number, vouched: number }
+};
+
+export type AssetDetailType = AssetType & {
+	state: any;
+	orders: any;
 };
 
 export type SellArgs = {
@@ -20,7 +39,8 @@ export type SellArgs = {
 
 export type BuyArgs = {
 	assetId: string;
-	qty: number;
+	spend: number;
+
 };
 
 export type EnvType = {
@@ -29,11 +49,13 @@ export type EnvType = {
 	currencyContract: string;
 	arClient: ArweaveClientType;
 	wallet: any;
+	walletAddress: string;
 };
 
 export type InitArgs = {
 	currency: 'U';
 	wallet: any;
+	walletAddress: string | null;
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
@@ -41,18 +63,50 @@ export type InitArgs = {
 
 export type ApiClientInitArgs = {
 	arClient: ArweaveClientType;
+<<<<<<< HEAD
+	orderBookContract: string;
+}
+
+export type AssetArgsType = {
+	ids: string[] | null;
+	owner: string | null;
+	uploader: string | null;
+	cursor: string | null;
+	reduxCursor: string | null;
+	walletAddress: string | null;
+};
+
+export type AssetArgsClientType = AssetArgsType & {
+	arClient: any;
+};
+
+export type SearchReturnType = {
+	assets: AssetType[];
+};
+
+export type SearchArgs = AssetArgsType & {
+	term: string,
+=======
 };
 
 export type GetAssetsByUserArgs = {
 	walletAddress: string;
+>>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 };
 
 export type ApiClientType = {
 	arClient: ArweaveClientType;
+	orderBookContract: string;
 	init: (args: ApiClientInitArgs) => ApiClientType;
-	getAssetsByContract: () => Promise<AssetType[]>;
-	getAssetsByUser: (args: GetAssetsByUserArgs) => Promise<AssetType[]>;
-};
+	getAssetsByContract: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetIdsByContract: () => Promise<string[]>;
+	getAssetsByUser: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetIdsByUser: (args: { walletAddress: string }) => Promise<string[]>;
+	getAssetsByIds: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetById: (args: { id: string }) => Promise<AssetType>;
+	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
+	search: (args: {}) => Promise<SearchReturnType>;
+}
 
 export type WriteContractArgs = {
 	contract: string;
@@ -60,9 +114,27 @@ export type WriteContractArgs = {
 	input: any;
 };
 
-export type ValidateArgs = {
+export type ValidateAssetArgs = {
 	asset: string;
 	assetState: any;
+	arClient: ArweaveClientType;
+};
+
+export type ValidateSellArgs = {
+	sellArgs: SellArgs;
+	assetState: any;
+	orderBookState: any;
+	wallet: any;
+	walletAddress: string | null;
+};
+
+export type ValidateBuyArgs = {
+	buyArgs: BuyArgs;
+	assetState: any;
+	orderBookState: any;
+	wallet: any;
+	walletAddress: string | null;
+	currencyContract: string;
 };
 
 export type TransactionFlowArgs = {
@@ -93,7 +165,6 @@ export type OrderBookType = {
 	init: (args: InitArgs) => OrderBookType;
 	sell: (args: SellArgs) => Promise<any>;
 	buy: (args: BuyArgs) => Promise<any>;
-	validateAsset: (args: ValidateArgs) => Promise<void>;
 	api: ApiClientType;
 };
 
@@ -134,10 +205,10 @@ export type OrderBookPairOrderType = {
 
 export enum CursorEnum {
 	GQL = 'gql',
-	Search = 'search',
+	idGQL = 'idGQL'
 }
 
-export type CursorObjectKeyType = CursorEnum.GQL | CursorEnum.Search | null;
+export type CursorObjectKeyType = CursorEnum.GQL | CursorEnum.idGQL | null;
 
 export type GQLResponseType = {
 	cursor: string | null;
@@ -148,19 +219,14 @@ export type GQLResponseType = {
 			size: string;
 			type: string;
 		};
+		block: {
+			height: number,
+			timestamp: number
+		}
 	};
 };
 
 export type TagFilterType = { name: string; values: string[] };
-
-export type AssetArgsType = {
-	ids: string[] | null;
-	owner: string | null;
-	uploader: string | null;
-	cursor: string | null;
-	reduxCursor: string | null;
-	arClient: ArweaveClientType;
-};
 
 export type AssetsResponseType = {
 	nextCursor: string | null;
@@ -169,3 +235,10 @@ export type AssetsResponseType = {
 };
 
 export type AGQLResponseType = { data: GQLResponseType[]; nextCursor: string | null };
+
+export type ProfileType = {
+	handle: string | null;
+	avatar: string | null;
+	twitter: string | null;
+	discord: string | null;
+};

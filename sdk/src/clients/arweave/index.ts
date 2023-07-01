@@ -1,9 +1,14 @@
-import { ArweaveClientInitArgs, ArweaveClientType, WriteContractArgs } from '../../helpers';
+import { 
+	ArweaveClientInitArgs, 
+	ArweaveClientType, 
+	WriteContractArgs 
+} from '../../helpers';
 
 const options = {
 	allowBigInt: true,
 	internalWrites: true,
 	remoteStateSyncEnabled: true,
+	remoteStateSyncSource: 'https://dre-5.warp.cc/contract',
 	unsafeClient: 'skip',
 };
 

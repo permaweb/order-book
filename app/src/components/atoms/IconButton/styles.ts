@@ -52,18 +52,19 @@ export const Alt1 = styled(Primary)<{
 	justify-content: center;
 	align-items: center;
 	padding: 2.5px 0 0 0;
-	background: ${(props) => props.theme.colors.button.alt1.background};
+	background: ${(props) => props.theme.colors.button.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.button.primary.border};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	position: relative;
 
 	&:hover {
-		background: ${(props) => props.theme.colors.button.alt1.hover};
+		background: ${(props) => props.theme.colors.button.primary.hover};
 	}
 
 	svg {
 		height: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
 		width: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
-		fill: ${(props) => props.theme.colors.button.alt1.label};
+		fill: ${(props) => props.theme.colors.button.primary.label};
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -76,10 +77,11 @@ export const Alt1 = styled(Primary)<{
 	}
 
 	&:disabled {
-		background: ${(props) => props.theme.colors.button.alt1.disabled.background};
-		color: ${(props) => props.theme.colors.button.alt1.disabled.label};
+		background: ${(props) => props.theme.colors.button.primary.disabled.background};
+		border: 1px solid ${(props) => props.theme.colors.button.primary.disabled.border};
+		color: ${(props) => props.theme.colors.button.primary.disabled.label};
 		svg {
-			fill: ${(props) => props.theme.colors.button.alt1.disabled.label};
+			fill: ${(props) => props.theme.colors.button.primary.disabled.label};
 		}
 	}
 `;

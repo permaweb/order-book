@@ -149,10 +149,6 @@ export const GlobalStyle = createGlobalStyle`
     padding: 10px 15px;
   }
 
-  input[type=number]::-webkit-inner-spin-button {
-    opacity: 0;
-  }
-
   textarea {
     resize: none;
     height: 170px;
@@ -172,14 +168,31 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .border-wrapper {
-    background: ${(props) => props.theme.colors.container.primary.background1};
+    background: ${(props) => props.theme.colors.container.primary.background};
     border-radius: ${STYLING.dimensions.borderRadius};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
   }
 
   .border-wrapper-alt {
-    background: ${(props) => props.theme.colors.container.alt3.background};
+    background: ${(props) => props.theme.colors.container.alt2.background};
     border-radius: ${STYLING.dimensions.borderRadius};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
   }
+
+  .background-wrapper {
+    position: relative;
+    overflow: visible;
+  }
+  
+  .background-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 500px;
+    background: ${(props) =>
+			`linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background2Gradient}, ${props.theme.colors.container.primary.background1Gradient})`};
+    z-index: -1;
+  }  
 `;

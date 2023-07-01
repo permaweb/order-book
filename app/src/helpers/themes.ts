@@ -2,16 +2,16 @@ import { DefaultTheme } from 'styled-components';
 
 const DEFAULT = {
 	neutral1: '#FFFFFF',
-	neutral2: '#F8F7F7',
-	neutral3: '#FCFAFA',
+	neutral2: '#F7F7F7',
+	neutral3: '#F6F8FA',
 	neutral4: '#3A3A3A',
 	neutral5: '#D0D7DE',
-	neutral6: '#FFDECF',
+	neutral6: '#FAFAFA',
 	neutral7: '#757582',
-	neutral8: '#757582',
-	neutral9: '#FCFAFA',
-	neutral10: '#757582',
-	neutral11: '#757582',
+	neutral8: '#BDBDBD',
+	neutral9: '#F9F9F9',
+	neutral10: '#EAEEF8',
+	neutral11: '#000000',
 	neutral12: '#FAFAFA',
 	neutral13: '#F7F7F7',
 	neutral14: '#FFFFFF',
@@ -24,15 +24,16 @@ const DEFAULT = {
 	primary5: '#212530',
 	alt1: '#FF7A41',
 	alt2: '#FF621F',
-	overlay1: 'rgba(255, 255, 255, 0.75)',
+	alt3: '#FFDECF',
+	overlay1: '#2D2D2DC4',
 	negative: '#D24646',
 	negativeHover: '#F26969',
 	negativeShadow: '#F27979',
-	positive: '#48D67C',
-	positiveHover: '#37FB72',
+	positive: '#26B426',
+	positiveHover: '#209720',
 	neutral: '#FFB600',
 	transparent: 'rgba(255, 255, 255, 0)',
-	semiTransparent1: 'rgba(255, 255, 255, 0.65)',
+	semiTransparent1: 'rgba(255, 255, 255, 0.45)',
 	semiTransparent2: 'rgba(255, 255, 255, 0.1)',
 	semiTransparent3: 'rgba(255, 255, 255, 0.3)',
 	backdropShadow1: '#c4c4c4b0',
@@ -64,40 +65,40 @@ export const defaultTheme: DefaultTheme = {
 					label: DEFAULT.neutral1,
 				},
 				disabled: {
-					background: DEFAULT.neutral5,
-					border: DEFAULT.neutral3,
+					background: DEFAULT.neutral13,
+					border: DEFAULT.neutral5,
 					label: DEFAULT.neutral7,
 				},
 			},
 			alt1: {
-				background: DEFAULT.alt1,
-				border: DEFAULT.transparent,
-				hover: DEFAULT.alt2,
-				label: DEFAULT.neutral1,
-				active: {
-					background: DEFAULT.alt2,
-					hover: DEFAULT.alt1,
-					label: DEFAULT.primary,
-				},
-				disabled: {
-					background: DEFAULT.neutral5,
-					border: DEFAULT.neutral3,
-					label: DEFAULT.neutral7,
-				},
-			},
-			alt2: {
 				background: DEFAULT.neutral1,
 				border: DEFAULT.neutral5,
 				hover: DEFAULT.neutral2,
 				label: DEFAULT.primary,
 				active: {
-					background: DEFAULT.primary3,
+					background: DEFAULT.primary,
 					hover: DEFAULT.primary2,
 					label: DEFAULT.neutral1,
 				},
 				disabled: {
 					background: DEFAULT.neutral13,
-					border: DEFAULT.neutral3,
+					border: DEFAULT.neutral5,
+					label: DEFAULT.neutral7,
+				},
+			},
+			alt2: {
+				background: DEFAULT.alt1,
+				border: DEFAULT.alt1,
+				hover: DEFAULT.alt2,
+				label: DEFAULT.neutral1,
+				active: {
+					background: DEFAULT.alt1,
+					hover: DEFAULT.alt2,
+					label: DEFAULT.neutral1,
+				},
+				disabled: {
+					background: DEFAULT.neutral13,
+					border: DEFAULT.neutral5,
 					label: DEFAULT.neutral7,
 				},
 			},
@@ -122,10 +123,11 @@ export const defaultTheme: DefaultTheme = {
 		},
 		container: {
 			primary: {
-				background1: DEFAULT.neutral1,
-				background2: DEFAULT.neutral6,
-				background3: DEFAULT.primary,
-				hover: DEFAULT.neutral9,
+				background: DEFAULT.neutral1,
+				background1Gradient: DEFAULT.neutral6,
+				background2Gradient: DEFAULT.alt3,
+				backgroundGradient: DEFAULT.neutral10,
+				hover: DEFAULT.neutral2,
 			},
 			alt1: {
 				background: DEFAULT.neutral2,
@@ -140,13 +142,22 @@ export const defaultTheme: DefaultTheme = {
 				background: DEFAULT.neutral4,
 			},
 			alt5: {
-				background: DEFAULT.neutral11,
+				background: DEFAULT.neutral8,
 			},
 			alt6: {
 				background: DEFAULT.neutral5,
 			},
 			alt7: {
 				background: DEFAULT.primary5,
+			},
+			alt8: {
+				background: DEFAULT.positive,
+			},
+			alt9: {
+				background: DEFAULT.neutral11,
+			},
+			alt10: {
+				background: DEFAULT.neutral12,
 			},
 		},
 		font: {
@@ -174,14 +185,14 @@ export const defaultTheme: DefaultTheme = {
 		},
 		form: {
 			background: DEFAULT.neutral1,
-			border: DEFAULT.neutral6,
+			border: DEFAULT.neutral5,
 			invalid: {
 				outline: DEFAULT.negative,
 				shadow: DEFAULT.negativeShadow,
 			},
 			valid: {
-				outline: DEFAULT.primary3,
-				shadow: DEFAULT.primary4,
+				outline: DEFAULT.neutral10,
+				shadow: DEFAULT.neutral3,
 			},
 			disabled: {
 				background: DEFAULT.neutral2,
@@ -230,11 +241,11 @@ export const defaultTheme: DefaultTheme = {
 		},
 		navigation: {
 			footer: {
-				background: DEFAULT.neutral1,
+				background: DEFAULT.neutral6,
 			},
 			header: {
-				background: DEFAULT.primary,
-				backgroundNav: DEFAULT.semiTransparent2,
+				background: DEFAULT.neutral10,
+				backgroundNav: DEFAULT.semiTransparent1,
 				logoFill: DEFAULT.neutral11,
 			},
 		},
@@ -293,19 +304,19 @@ export const defaultTheme: DefaultTheme = {
 		},
 		transparent: DEFAULT.transparent,
 		view: {
-			background: DEFAULT.neutral1,
+			background: DEFAULT.neutral6,
 		},
 		warning: DEFAULT.negative,
 	},
 	typography: {
 		family: {
 			primary: `'Inter', sans-serif`,
-			alt1: `'Orbitron', sans-serif;`,
+			alt1: `'Orbitron', sans-serif`,
 		},
 		size: {
 			h1: 'clamp(38px, 4.5vw, 62px)',
 			h2: 'clamp(26px,3.15vw,38px)',
-			lg: '18px',
+			lg: 'clamp(18px, 1.75vw, 26px)',
 			base: '16px',
 			small: '15px',
 			xSmall: '14px',
@@ -314,7 +325,7 @@ export const defaultTheme: DefaultTheme = {
 		weight: {
 			regular: '400',
 			medium: '500',
-			bold: '600',
+			bold: '700',
 		},
 	},
 };

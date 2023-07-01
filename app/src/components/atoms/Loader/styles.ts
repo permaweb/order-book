@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
 	height: 50px;
 	width: 50px;
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -140,5 +140,4 @@ export const Placeholder = styled.div`
 	background-size: 50px 500px;
 	background-position: 0 0;
 	animation: ${loadingSlide} 1.25s infinite;
-	border-radius: ${STYLING.dimensions.borderRadius};
 `;
