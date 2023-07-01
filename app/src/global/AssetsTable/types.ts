@@ -11,4 +11,5 @@ export interface IProps {
 	showPageNumbers: boolean;
 	tableType: AssetTableType;
 	showNoResults: boolean;
+	loading: boolean;
 }

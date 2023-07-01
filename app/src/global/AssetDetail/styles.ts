@@ -206,3 +206,16 @@ export const AssetCAction = styled.div`
 	width: 100%;
 	padding: 20px;
 `;
+
+export const Warning = styled.div`
+	p {
+		font-size: ${(props) => props.theme.typography.size.xSmall};
+		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.warning};
+	}
+	button {
+		margin: 20px 0 0 0;
+	}
+`;

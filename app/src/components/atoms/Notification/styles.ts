@@ -23,7 +23,7 @@ function getColor(m: NotificationType, theme: DefaultTheme) {
 
 export const Wrapper = styled.div`
 	height: 55px;
-	width: 350px;
+	min-width: 350px;
 	max-width: 90vw;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
@@ -48,8 +48,7 @@ export const Message = styled.span<NotificationProps>`
 export const Close = styled.div`
 	height: 100%;
 	width: 50px;
-	position: absolute;
-	right: 0;
+	margin: 0 0 0 auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;

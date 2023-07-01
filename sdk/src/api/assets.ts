@@ -52,7 +52,6 @@ export async function getAssetIdsByContract(args: { arClient: any }): Promise<st
 	}
 }
 
-// TODO: paginate by page
 export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
@@ -160,6 +159,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const topic = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.topic);
 		const type = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.type);
 		const implementation = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.implements);
+		const license = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.license);
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
 
 		// TODO: all validation checks
@@ -172,6 +172,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 					topic: topic,
 					type: type,
 					implementation: implementation,
+					license: license,
 					renderWith: renderWith ? renderWith : null,
 					dateCreated: gqlData.assets[i].node.block.timestamp,
 					blockHeight: gqlData.assets[i].node.block.height

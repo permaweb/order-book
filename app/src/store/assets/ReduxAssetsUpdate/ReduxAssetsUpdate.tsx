@@ -4,20 +4,17 @@ import Stamps from '@permaweb/stampjs';
 import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 
-LoggerFactory.INST.logLevel('fatal');
-
-import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR, STORAGE } from 'permaweb-orderbook';
+import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
 
 import { FEATURE_COUNT } from 'helpers/config';
-import { REDUX_TABLES } from 'helpers/redux';
 import { ApiFetchType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import * as cursorActions from 'store/cursors/actions';
 
-// TODO: add stamps
-// TODO: fix pagination
+LoggerFactory.INST.logLevel('fatal');
+
 export default function ReduxAssetsUpdate(props: {
 	reduxCursor: string;
 	apiFetch: ApiFetchType;
@@ -28,10 +25,8 @@ export default function ReduxAssetsUpdate(props: {
 	const arProvider = useArweaveProvider();
 
 	const dispatch = useDispatch();
-	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 
-	// const [sessionUpdated, setSessionUpdated] = React.useState<boolean>(false);
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
 	const [stamps, setStamps] = React.useState<any>(null);
@@ -89,18 +84,6 @@ export default function ReduxAssetsUpdate(props: {
 		}
 	}, [orderBook]);
 
-	// React.useEffect(() => {
-	// 	dispatch(assetActions.setAssets({ data: null, featuredData: null }));
-	// 	dispatch(
-	// 		cursorActions.setCursors({
-	// 			idGQL: {
-	// 				[REDUX_TABLES.contractAssets]: [],
-	// 				[REDUX_TABLES.userAssets]: [],
-	// 			},
-	// 		})
-	// 	);
-	// }, [props.currentTableCursor]);
-
 	React.useEffect(() => {
 		if (orderBook && stamps) {
 			(async function () {
@@ -109,22 +92,24 @@ export default function ReduxAssetsUpdate(props: {
 					if (currentReducer[props.reduxCursor]) {
 						const updatedReducer = currentReducer[props.reduxCursor];
 						let contractIds: string[] = [];
+
 						switch (props.apiFetch) {
 							case 'contract':
 								contractIds = await orderBook.api.getAssetIdsByContract();
-								// // Rank by stamps
-								// const counts = await stamps.counts(contractIds);
-								// contractIds.sort((a: string, b: string) => {
-								// 	const totalA = counts[a]?.total || 0;
-								// 	const totalB = counts[b]?.total || 0;
 
-								// 	if (totalB !== totalA) {
-								// 		return totalB - totalA;
-								// 	}
+								// Rank by stamps
+								const counts = await stamps.counts(contractIds);
+								contractIds.sort((a: string, b: string) => {
+									const totalA = counts[a]?.total || 0;
+									const totalB = counts[b]?.total || 0;
 
-								// 	// If 'total' is the same, sort by 'id' in descending order.
-								// 	return b.localeCompare(a);
-								// });
+									if (totalB !== totalA) {
+										return totalB - totalA;
+									}
+
+									// If 'total' is the same, sort by 'id' in descending order.
+									return b.localeCompare(a);
+								});
 								break;
 							case 'user':
 								if (arProvider.walletAddress) {
@@ -133,18 +118,25 @@ export default function ReduxAssetsUpdate(props: {
 								break;
 						}
 
+						let groupIndex = new Map(currentReducer[props.reduxCursor].map((group: any) => [group.index, group.ids]));
+
 						for (let i = 0; i < contractIds.length; i += PAGINATOR) {
-							updatedReducer.push({
-								index: `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`,
-								ids: [...contractIds].slice(i, i + PAGINATOR),
-							});
+							const cursorIds = [...contractIds].slice(i, i + PAGINATOR);
+							const newIndex = `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`;
+
+							if (![...groupIndex.values()].some((ids: any) => ids.every((id: any, index: any) => id === cursorIds[index]))) {
+								updatedReducer.push({
+									index: newIndex,
+									ids: cursorIds,
+								});
+							}
 						}
 						dispatch(cursorActions.setCursors({ [props.cursorObject]: { [props.reduxCursor]: updatedReducer } }));
 					}
 				}
 			})();
 		}
-	}, [orderBook, stamps, arProvider.walletAddress, props.currentTableCursor]);
+	}, [orderBook, stamps, arProvider.walletAddress]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -152,7 +144,7 @@ export default function ReduxAssetsUpdate(props: {
 			if (reducer && reducer.length && orderBook && props.currentTableCursor && stamps) {
 				for (let i = 0; i < reducer.length; i++) {
 					if (props.currentTableCursor === reducer[i].index) {
-						const fetchedAssets = await orderBook.api.getAssetsByIds({
+						let fetchedAssets = await orderBook.api.getAssetsByIds({
 							ids: reducer[i].ids,
 							owner: null,
 							uploader: null,
@@ -161,24 +153,29 @@ export default function ReduxAssetsUpdate(props: {
 							walletAddress: null,
 						});
 
-						// await new Promise((r) => setTimeout(r, 2000));
+						const assetIds: string[] = fetchedAssets.map((a: AssetType) => a.data.id);
+						const counts = await stamps.counts(assetIds);
+
+						// Add stamp counts to assets
+						fetchedAssets = fetchedAssets.map((asset: AssetType) => {
+							return { ...asset, stamps: counts[asset.data.id] };
+						});
+
+						// Rank by stamps
+						fetchedAssets.sort((a: AssetType, b: AssetType) => {
+							const totalA = counts[a.data.id]?.total || 0;
+							const totalB = counts[b.data.id]?.total || 0;
+
+							if (totalB !== totalA) {
+								return totalB - totalA;
+							}
+
+							// If 'total' is the same, sort by 'id' in descending order.
+							return b.data.id.localeCompare(a.data.id);
+						});
 
 						switch (props.apiFetch) {
 							case 'contract':
-								// Rank by stamps
-								// let assetIds: string[] = fetchedAssets.map((a: AssetType) => a.data.id);
-								// const counts = await stamps.counts(assetIds);
-								// fetchedAssets.sort((a: AssetType, b: AssetType) => {
-								// 	const totalA = counts[a.data.id]?.total || 0;
-								// 	const totalB = counts[b.data.id]?.total || 0;
-
-								// 	if (totalB !== totalA) {
-								// 		return totalB - totalA;
-								// 	}
-
-								// 	// If 'total' is the same, sort by 'id' in descending order.
-								// 	return b.data.id.localeCompare(a.data.id);
-								// });
 								let finalFeaturedAssets: AssetType[] = fetchedAssets.slice(0, FEATURE_COUNT);
 								let finalTableAssets: AssetType[] = [];
 								if (fetchedAssets.length >= FEATURE_COUNT) {
@@ -193,9 +190,6 @@ export default function ReduxAssetsUpdate(props: {
 					}
 				}
 			}
-			// else {
-			// 	dispatch(assetActions.setAssets({ data: [] }));
-			// }
 		})();
 	}, [cursorsReducer, props.currentTableCursor, orderBook, stamps]);
 

@@ -6,11 +6,13 @@ export type AssetType = {
 		topic: string
 		type: string
 		implementation: string
+		license: string
 		renderWith: string | null
 		dateCreated: number
 		blockHeight: number
 	};
 	orders?: OrderBookPairOrderType[];
+	stamps?: { total: number, vouched: number }
 };
 
 export type AssetDetailType = AssetType & {
@@ -86,7 +88,7 @@ export type ApiClientType = {
 	getAssetsByIds: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
-	search:(args: {}) => Promise<SearchReturnType>;
+	search: (args: {}) => Promise<SearchReturnType>;
 }
 
 export type WriteContractArgs = {

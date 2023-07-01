@@ -13,6 +13,7 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: orders
 function AssetRow(props: { asset: AssetType; index: number }) {
 	return (
 		<S.PICWrapper>
@@ -25,11 +26,15 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 						</S.AWrapper>
 						<p>{props.asset.data.title}</p>
 					</S.AFlex>
-					<S.AOrders>
+					{/* <S.AOrders>
 						<AssetOrders asset={props.asset} />
-					</S.AOrders>
+					</S.AOrders> */}
 					<S.SCValue>
-						<StampWidget assetId={props.asset.data.id} title={props.asset.data.title} />
+						<StampWidget
+							assetId={props.asset.data.id}
+							title={props.asset.data.title}
+							stamps={props.asset.stamps ? props.asset.stamps : null}
+						/>
 					</S.SCValue>
 				</S.PCWrapper>
 			</Link>

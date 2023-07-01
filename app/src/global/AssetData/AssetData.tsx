@@ -5,7 +5,6 @@ import * as OrderBook from 'permaweb-orderbook';
 
 import { ASSETS } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
-import { language } from 'helpers/language';
 import { AssetRenderType, ContentType } from 'helpers/types';
 
 import * as S from './styles';
@@ -22,10 +21,8 @@ export default function AssetData(props: IProps) {
 	const handleError = () => {
 		setLoadError(true);
 	};
-
-	// TODO: add
+	
 	// TODO: audio icon
-	// TODO: unsupported icon
 	// TODO: generic token icon
 	React.useEffect(() => {
 		(async function () {
@@ -62,7 +59,7 @@ export default function AssetData(props: IProps) {
 	function getUnsupportedWrapper() {
 		return (
 			<S.UnsupportedWrapper>
-				<p>{language.contentTypeNotSupported}</p>
+				<ReactSVG src={ASSETS.unsupported} />
 			</S.UnsupportedWrapper>
 		);
 	}

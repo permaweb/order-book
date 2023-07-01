@@ -1,8 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
+
+import { CURRENCY_DICT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
-import { ASSETS } from 'helpers/config';
+import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
@@ -81,12 +84,14 @@ export default function WalletConnect(props: { callback?: () => void }) {
 						<>
 							{arProvider.currencyBalances && (
 								<S.BalanceWrapper>
-									<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)} ${language.uTokens}`}</p>
+									<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
+									<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
 								</S.BalanceWrapper>
 							)}
 							{arProvider.availableBalance && (
 								<S.BalanceWrapper>
-									<p>{`${arProvider.availableBalance?.toFixed(2)} ${language.arTokens}`}</p>
+									<p>{`${arProvider.availableBalance?.toFixed(2)}`}</p>
+									<ReactSVG src={ASSETS.arLogo} />
 								</S.BalanceWrapper>
 							)}
 						</>

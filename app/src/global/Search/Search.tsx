@@ -15,11 +15,8 @@ import * as windowUtils from 'helpers/window';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from './styles';
-import { IProps } from './types';
 
-// TODO: mobile search
-// TODO: pagination
-export default function Search(props: IProps) {
+export default function Search() {
 	const orProvider = useOrderBookProvider();
 
 	const [value, setValue] = React.useState<string>('');
@@ -125,22 +122,24 @@ export default function Search(props: IProps) {
 							</S.SearchResult>
 						</Link>
 					))}
-					<S.SPaginator>
-						<Button
-							label={language.previous}
-							type={'primary'}
-							handlePress={handlePreviousPage}
-							disabled={startIndex === 0}
-							noMinWidth
-						/>
-						<Button
-							label={language.next}
-							type={'primary'}
-							handlePress={handleNextPage}
-							disabled={endIndex >= results.length}
-							noMinWidth
-						/>
-					</S.SPaginator>
+					{currentResults.length > 1 && (
+						<S.SPaginator>
+							<Button
+								label={language.previous}
+								type={'primary'}
+								handlePress={handlePreviousPage}
+								disabled={startIndex === 0}
+								noMinWidth
+							/>
+							<Button
+								label={language.next}
+								type={'primary'}
+								handlePress={handleNextPage}
+								disabled={endIndex >= results.length}
+								noMinWidth
+							/>
+						</S.SPaginator>
+					)}
 				</S.SearchResultsWrapper>
 			);
 		} else return null;

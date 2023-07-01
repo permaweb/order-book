@@ -26,6 +26,7 @@ import superStampSVG from 'assets/stamp-super.svg';
 import vouchedStampSVG from 'assets/stamp-vouched.svg';
 import stampsSVG from 'assets/stamps.svg';
 import uSVG from 'assets/u.svg';
+import unsupportedSVG from 'assets/unsupported.svg';
 import userSVG from 'assets/user.svg';
 import walletSVG from 'assets/wallet.svg';
 
@@ -59,6 +60,7 @@ export const ASSETS = {
 		vouched: vouchedStampSVG,
 	},
 	u: uSVG,
+	unsupported: unsupportedSVG,
 	user: userSVG,
 	wallet: walletSVG,
 	wallets: {

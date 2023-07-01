@@ -24,6 +24,7 @@ export default function AssetBuy(props: IProps) {
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
 
 	const [assetQuantity, setAssetQuantity] = React.useState<number>(0);
+	const [tradeable, setTradeable] = React.useState<boolean>(false);
 
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
@@ -44,6 +45,12 @@ export default function AssetBuy(props: IProps) {
 				return order.quantity;
 			});
 			setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
+		}
+	}, [props.asset]);
+
+	React.useEffect(() => {
+		if (props.asset && props.asset.state) {
+			setTradeable(props.asset.state.claimable ? true : false);
 		}
 	}, [props.asset]);
 
@@ -132,29 +139,36 @@ export default function AssetBuy(props: IProps) {
 					<S.DCLineHeader>{`${language.totalAssetBalance}:`}</S.DCLineHeader>
 					<S.DCLineDetail>{totalBalance}</S.DCLineDetail>
 				</S.DCLine>
-				<S.DCWrapper>
-					<S.DCLine>
-						<S.DCLineHeader>{`${language.totalSalesBalance}:`}</S.DCLineHeader>
-						<S.DCLineDetail>{totalSalesBalance}</S.DCLineDetail>
-					</S.DCLine>
-					<S.DCLine>
-						<S.DCLineHeader>{`${language.totalSalesPercentage}:`}</S.DCLineHeader>
-						<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
-					</S.DCLine>
-				</S.DCWrapper>
+				{tradeable ? (
+					<S.DCWrapper>
+						<S.DCLine>
+							<S.DCLineHeader>{`${language.totalSalesBalance}:`}</S.DCLineHeader>
+							<S.DCLineDetail>{totalSalesBalance}</S.DCLineDetail>
+						</S.DCLine>
+						<S.DCLine>
+							<S.DCLineHeader>{`${language.totalSalesPercentage}:`}</S.DCLineHeader>
+							<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
+						</S.DCLine>
+					</S.DCWrapper>
+				) : (
+					<S.TWarning>
+						<p>{language.assetNotTradeable}</p>
+					</S.TWarning>
+				)}
 				<S.SpendWrapper>
 					<Slider
 						value={assetQuantity}
 						maxValue={totalSalesBalance}
 						handleChange={handleSpendAmountChange}
 						label={language.assetPercentageInfo}
+						disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
 					/>
 					<S.MaxQty>
 						<Button
 							type={'alt2'}
 							label={language.max}
 							handlePress={() => setAssetQuantity(totalSalesBalance)}
-							disabled={false}
+							disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
 							noMinWidth
 						/>
 					</S.MaxQty>
@@ -181,14 +195,16 @@ export default function AssetBuy(props: IProps) {
 					</S.PriceInfoWrapper>
 				</S.SpendWrapper>
 				<S.BuyAction>
-					<Button
-						type={'alt2'}
-						label={language.confirmPurchase.toUpperCase()}
-						handlePress={() => setShowConfirmation(true)}
-						height={60}
-						fullWidth
-						disabled={getActionDisabled()}
-					/>
+					<S.BuyActionEnd>
+						<Button
+							type={'alt2'}
+							label={language.confirmPurchase.toUpperCase()}
+							handlePress={() => setShowConfirmation(true)}
+							height={60}
+							width={450}
+							disabled={getActionDisabled()}
+						/>
+					</S.BuyActionEnd>
 				</S.BuyAction>
 				{!arProvider.walletAddress && (
 					<S.WalletConnectionWrapper>

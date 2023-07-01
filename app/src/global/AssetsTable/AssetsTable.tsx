@@ -1,20 +1,20 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AssetType, CursorEnum } from 'permaweb-orderbook';
 
-import { Loader } from 'components/atoms/Loader';
 import { Paginator } from 'components/molecules/Paginator';
 import { AssetsGrid } from 'global/AssetsGrid';
 import { AssetsList } from 'global/AssetsList';
-import { language } from 'helpers/language';
 import { RootState } from 'store';
+import * as assetActions from 'store/assets/actions';
 import { ReduxAssetsUpdate } from 'store/assets/ReduxAssetsUpdate';
 
 import * as S from './styles';
 import { IProps } from './types';
 
 export default function AssetsTable(props: IProps) {
+	const dispatch = useDispatch();
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 
 	const scrollRef = React.useRef(null);
@@ -41,6 +41,17 @@ export default function AssetsTable(props: IProps) {
 			setCurrentTableCursor(cursorsReducer[CursorEnum.idGQL][props.reduxCursor][0].index);
 		}
 	}, [cursorsReducer[CursorEnum.idGQL]]);
+
+	function handlePageFetch() {
+		switch (props.apiFetch) {
+			case 'contract':
+				dispatch(assetActions.setAssets({ contractData: null }));
+				break;
+			case 'user':
+				dispatch(assetActions.setAssets({ accountData: null }));
+				break;
+		}
+	}
 
 	function getPaginatorAction(action: 'next' | 'prev') {
 		if (currentTableCursor && cursorsReducer[CursorEnum.idGQL][props.reduxCursor].length) {
@@ -73,7 +84,10 @@ export default function AssetsTable(props: IProps) {
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
 						showPageNumbers={props.showPageNumbers}
-						handleCursorFetch={(cursor: string | null) => setCurrentTableCursor(cursor)}
+						handleCursorFetch={(cursor: string | null) => {
+							handlePageFetch()
+							setCurrentTableCursor(cursor)
+						}}
 						cursors={{
 							next: getPaginatorAction('next'),
 							previous: getPaginatorAction('prev'),
@@ -88,53 +102,13 @@ export default function AssetsTable(props: IProps) {
 	function getTable() {
 		switch (props.tableType) {
 			case 'grid':
-				return <AssetsGrid assets={currentRecords} autoLoad={false} loaderCount={9} />;
+				return <AssetsGrid assets={currentRecords} autoLoad={false} loaderCount={9} loading={props.loading} />;
 			case 'list':
-				return <AssetsList assets={currentRecords} />;
+				return <AssetsList assets={currentRecords} loading={props.loading} />;
 			default:
 				return null;
 		}
 	}
-
-	// function getTable() {
-	// 	if (!currentRecords) {
-	// 		return <Loader />;
-	// 	} 
-	// 	else {
-	// 		if (currentRecords.length <= 0) {
-	// 			if (props.showNoResults) {
-	// 				return (
-	// 					<S.NoAssetsContainer>
-	// 						<p>{language.noAssets}</p>
-	// 					</S.NoAssetsContainer>
-	// 				);
-	// 			} else {
-	// 				return null;
-	// 			}
-	// 		} 
-			
-	// 		else if (currentRecords.length > 0) {
-	// 			switch (props.tableType) {
-	// 				case 'grid':
-	// 					return <AssetsGrid assets={currentRecords} autoLoad={false} />;
-	// 				case 'list':
-	// 					return <AssetsList assets={currentRecords} />;
-	// 				default:
-	// 					return null;
-	// 			}
-	// 		} 
-			
-	// 		else {
-	// 			if (props.showNoResults) {
-	// 				return (
-	// 					<S.NoAssetsContainer>
-	// 						<p>{language.noAssets}</p>
-	// 					</S.NoAssetsContainer>
-	// 				);
-	// 			}
-	// 		}
-	// 	}
-	// }
 
 	return (
 		<ReduxAssetsUpdate

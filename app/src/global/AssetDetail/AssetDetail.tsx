@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { AssetDetailType, STORAGE } from 'permaweb-orderbook';
 
+import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { Loader } from 'components/atoms/Loader';
 import { TxAddress } from 'components/atoms/TxAddress';
@@ -19,9 +21,12 @@ import * as S from './styles';
 import { IProps } from './types';
 
 export default function AssetDetail(props: IProps) {
+	const navigate = useNavigate();
+
 	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
+	const [errorFetchingAsset, setErrorFetchingAsset] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
 
 	const [currentOwners, setCurrentOwners] = React.useState<OwnerType[] | null>(null);
@@ -38,7 +43,12 @@ export default function AssetDetail(props: IProps) {
 		(async function () {
 			if (orProvider.orderBook) {
 				setLoading(true);
-				setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
+				try {
+					setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
+				} catch (e: any) {
+					console.error(e);
+					setErrorFetchingAsset(true);
+				}
 				setLoading(false);
 			}
 		})();
@@ -111,6 +121,12 @@ export default function AssetDetail(props: IProps) {
 													<S.DCLineDetailMedium>{asset.data.implementation}</S.DCLineDetailMedium>
 												</S.DCLine>
 											)}
+											{asset.data.license && asset.data.license !== STORAGE.none && (
+												<S.DCLine>
+													<S.DCLineHeader>{language.license}</S.DCLineHeader>
+													<TxAddress address={asset.data.license} wrap={false} />
+												</S.DCLine>
+											)}
 										</S.DrawerContent>
 									}
 								/>
@@ -122,7 +138,7 @@ export default function AssetDetail(props: IProps) {
 							<S.ACHeader>
 								<h2>{asset.data.title}</h2>
 								<S.StampWidget>
-									<StampWidget assetId={asset.data.id} title={asset.data.title} />
+									<StampWidget assetId={asset.data.id} title={asset.data.title} stamps={null} getCount />
 								</S.StampWidget>
 								{currentOwners && currentOwners.length > 0 && (
 									<S.OwnerLine>
@@ -273,6 +289,18 @@ export default function AssetDetail(props: IProps) {
 		} else {
 			if (loading) {
 				return <Loader />;
+			} else if (errorFetchingAsset) {
+				return (
+					<S.Warning>
+						<p>{language.errorFetchingAsset}</p>
+						<Button 
+							type={'alt1'}
+							label={language.goBack}
+							handlePress={() => navigate(-1)}
+							noMinWidth
+						/>
+					</S.Warning>
+				);
 			} else {
 				return null;
 			}
@@ -300,12 +328,12 @@ async function getOwners(
 		const totalBalance = balances.reduce((a: number, b: number) => a + b, 0);
 
 		if (Array.isArray(addressObject)) {
-			const addresses: OwnerListingType[] = [];
+			const owners: OwnerListingType[] = [];
 
 			for (let i = 0; i < addressObject.length; i++) {
 				if (addressObject[i].creator) {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
-					addresses.push({
+					owners.push({
 						address: addressObject[i].creator,
 						handle: profile ? profile.handle : null,
 						sellQuantity: addressObject[i].quantity,
@@ -315,9 +343,9 @@ async function getOwners(
 				}
 			}
 
-			return addresses;
+			return owners;
 		} else {
-			const addresses: OwnerType[] = await Promise.all(
+			let owners: OwnerType[] = await Promise.all(
 				Object.keys(addressObject).map(async (address: string) => {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
 					const ownerPercentage = addressObject[address] / totalBalance;
@@ -330,7 +358,9 @@ async function getOwners(
 				})
 			);
 
-			return addresses;
+			owners = owners.filter((owner: OwnerType) => owner.balance > 0);
+
+			return owners;
 		}
 	}
 	return [];

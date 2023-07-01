@@ -3,4 +3,5 @@ export interface IProps {
 	maxValue: number;
 	handleChange: (e: any) => void;
 	label?: string;
+	disabled: boolean;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactSVG } from 'react-svg';
 
-import { OrderBookPairOrderType } from 'permaweb-orderbook';
+import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
@@ -16,7 +16,6 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: asset not tradeable (check claimable in state)
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
@@ -37,6 +36,7 @@ export default function AssetSell(props: IProps) {
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
 	const [connectedDisabledSale, setConnectedDisabledSale] = React.useState<boolean>(false);
+	const [tradeable, setTradeable] = React.useState<boolean>(false);
 
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
@@ -121,6 +121,12 @@ export default function AssetSell(props: IProps) {
 	}, [unitPrice]);
 
 	React.useEffect(() => {
+		if (props.asset && props.asset.state) {
+			setTradeable(props.asset.state.claimable ? true : false);
+		}
+	}, [props.asset]);
+
+	React.useEffect(() => {
 		if (initialLoad) {
 			setInitialLoad(false);
 		}
@@ -150,7 +156,9 @@ export default function AssetSell(props: IProps) {
 			<S.Price>
 				<p>{price}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
-					<ReactSVG src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : ''} />
+					<ReactSVG
+						src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : CURRENCY_ICONS[CURRENCY_DICT.U]}
+					/>
 				)}
 			</S.Price>
 		);
@@ -221,7 +229,7 @@ export default function AssetSell(props: IProps) {
 							label={getMaxQuantityLabel()}
 							value={quantity}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
-							disabled={loading || !arProvider.walletAddress || connectedDisabledSale}
+							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
 							invalid={invalidQuantity}
 							tooltip={language.saleQuantityTooltip}
 						/>
@@ -232,7 +240,7 @@ export default function AssetSell(props: IProps) {
 							label={language.unitPrice}
 							value={isNaN(unitPrice) ? '' : unitPrice}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
-							disabled={loading || !arProvider.walletAddress || connectedDisabledSale}
+							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
 							invalid={invalidUnitPrice}
 							tooltip={language.saleUnitPriceTooltip}
 						/>
@@ -249,16 +257,22 @@ export default function AssetSell(props: IProps) {
 					<S.DCLineHeader>{`${language.totalAssetBalance}:`}</S.DCLineHeader>
 					<S.DCLineDetail>{totalBalance}</S.DCLineDetail>
 				</S.DCLine>
-				<S.DCWrapper>
-					<S.DCLine>
-						<S.DCLineHeader>{`${language.totalAvailableSalesBalance}:`}</S.DCLineHeader>
-						<S.DCLineDetail>{totalSalesBalance}</S.DCLineDetail>
-					</S.DCLine>
-					<S.DCLine>
-						<S.DCLineHeader>{`${language.totalAvailableSalesPercentage}:`}</S.DCLineHeader>
-						<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
-					</S.DCLine>
-				</S.DCWrapper>
+				{tradeable ? (
+					<S.DCWrapper>
+						<S.DCLine>
+							<S.DCLineHeader>{`${language.totalAvailableSalesBalance}:`}</S.DCLineHeader>
+							<S.DCLineDetail>{totalSalesBalance}</S.DCLineDetail>
+						</S.DCLine>
+						<S.DCLine>
+							<S.DCLineHeader>{`${language.totalAvailableSalesPercentage}:`}</S.DCLineHeader>
+							<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
+						</S.DCLine>
+					</S.DCWrapper>
+				) : (
+					<S.Warning>
+						<p>{language.assetNotTradeable}</p>
+					</S.Warning>
+				)}
 				{connectedDisabledSale && (
 					<S.Warning>
 						<p>{language.connectedDisabledSale}</p>
@@ -285,18 +299,20 @@ export default function AssetSell(props: IProps) {
 						</S.PriceInfoWrapper>
 					</S.SpendWrapper>
 					<S.SellAction>
-						<Button
-							type={'alt2'}
-							label={language.confirmListing.toUpperCase()}
-							handlePress={(e: any) => {
-								e.preventDefault();
-								setShowConfirmation(true);
-							}}
-							height={60}
-							fullWidth
-							disabled={getActionDisabled()}
-							formSubmit
-						/>
+						<S.SellActionEnd>
+							<Button
+								type={'alt2'}
+								label={language.confirmListing.toUpperCase()}
+								handlePress={(e: any) => {
+									e.preventDefault();
+									setShowConfirmation(true);
+								}}
+								height={60}
+								width={450}
+								disabled={getActionDisabled()}
+								formSubmit
+							/>
+						</S.SellActionEnd>
 					</S.SellAction>
 				</S.Form>
 				{!arProvider.walletAddress && (

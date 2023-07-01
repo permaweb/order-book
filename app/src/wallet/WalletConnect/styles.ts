@@ -44,6 +44,12 @@ export const BalanceWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 	}
+	svg {
+		padding: 1.5px 0 0 0;
+		height: 20px;
+		width: 20px;
+		margin: 0 0 0 5.5px;
+	}
 `;
 
 export const WalletDropdown = styled.ul`

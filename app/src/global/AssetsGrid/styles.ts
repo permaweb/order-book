@@ -36,14 +36,15 @@ export const HCWrapper = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
+`;
+
+export const HCEnd = styled.div`
+	display: flex;
+	align-items: center;
+	margin: 0 0 0 auto;
 	> * {
 		margin: 0 20px 0 0;
 	}
-	// svg {
-	// 	height: 30px !important;
-	// 	width: 25px !important;
-	// }
 `;
 
 export const HCLoader = styled(HCWrapper)`
@@ -70,9 +71,9 @@ export const PCWrapper = styled.div`
 `;
 
 export const ICWrapper = styled.div`
-	min-height: 50px;
+	height: 60px;
 	width: 100%;
-	padding: 0 20px 5px 20px;
+	padding: 0 20px;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
@@ -89,19 +90,18 @@ export const ICLoader = styled(ICWrapper)`
 `;
 
 export const ICFlex = styled.div`
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	button {
-		min-width: 42.5px;
-		margin: 0 0 0 10px;
+	svg {
+		width: 25px;
+		margin: 0 0 0 -4.5px;
 	}
 `;
 
 export const AssetData = styled.div`
-	height: 50px;
 	width: 100%;
-	margin: 5px 0;
 	display: flex;
 	align-items: center;
 	span {
@@ -128,7 +128,6 @@ export const AssetData = styled.div`
 `;
 
 export const DetailAction = styled.div`
-	border: 1px solid purple;
 	margin: 10px 0 0 0;
 	svg {
 		height: 20px;
@@ -137,8 +136,9 @@ export const DetailAction = styled.div`
 `;
 
 export const AssetDataAlt = styled(AssetData)`
-	max-width: none;
+	max-width: 200px;
 	padding: 0;
+	margin: 0 0 0 20px;
 	background: ${(props) => props.theme.colors.transparent};
 	border: 1px solid ${(props) => props.theme.colors.transparent};
 	border-radius: 0;

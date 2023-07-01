@@ -9,24 +9,38 @@ import { Loader } from 'components/atoms/Loader';
 import { AssetData } from 'global/AssetData';
 import { AssetOrders } from 'global/AssetOrders';
 import { StampWidget } from 'global/StampWidget';
-import { ASSETS, FEATURE_COUNT } from 'helpers/config';
+import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: orders
 function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
 	return (
 		<S.PICWrapper>
 			<S.HCWrapper>
-				{props.asset.data.renderWith && props.asset.data.renderWith !== STORAGE.none && (
-					<S.RendererSVG>
-						<ReactSVG src={ASSETS.renderer} />
-					</S.RendererSVG>
-				)}
-				<StampWidget assetId={props.asset.data.id} title={props.asset.data.title} />
+				{/* {props.asset.orders && (
+					<S.AssetDataAlt>
+						<span>{language.listing}</span>
+						<div className={'a-divider'} />
+						{props.asset.orders.length > 0 ? <AssetOrders asset={props.asset} /> : <p>{language.none}</p>}
+					</S.AssetDataAlt>
+				)} */}
+				<S.HCEnd>
+					{props.asset.data.renderWith && props.asset.data.renderWith !== STORAGE.none && (
+						<S.RendererSVG>
+							<ReactSVG src={ASSETS.renderer} />
+						</S.RendererSVG>
+					)}
+					<StampWidget
+						assetId={props.asset.data.id}
+						title={props.asset.data.title}
+						stamps={props.asset.stamps ? props.asset.stamps : null}
+					/>
+				</S.HCEnd>
 			</S.HCWrapper>
 			<S.PCWrapper>
 				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} />
@@ -37,22 +51,12 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						<p>{props.asset.data.title}</p>
 					</S.AssetData>
 					<IconButton
-						type={'alt1'}
+						type={'primary'}
 						src={ASSETS.details}
 						handlePress={() => navigate(`${urls.asset}${props.asset.data.id}`)}
-						dimensions={{
-							wrapper: 42.5,
-							icon: 25,
-						}}
+						tooltip={language.viewDetails}
 					/>
 				</S.ICFlex>
-				{/* {props.asset.orders && (
-					<S.AssetDataAlt>
-						<span>{language.listing}</span>
-						<div className={'a-divider'} />
-						{props.asset.orders.length > 0 ? <AssetOrders asset={props.asset} /> : <p>{language.none}</p>}
-					</S.AssetDataAlt>
-				)} */}
 			</S.ICWrapper>
 		</S.PICWrapper>
 	);
@@ -68,7 +72,7 @@ export default function AssetsGrid(props: IProps) {
 	}, [props.assets]);
 
 	function getData() {
-		if (assets) {
+		if (assets && !props.loading) {
 			if (assets.length > 0) {
 				return assets.map((asset: AssetType, index: number) => {
 					return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;

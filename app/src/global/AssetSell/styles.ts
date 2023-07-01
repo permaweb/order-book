@@ -133,6 +133,11 @@ export const SellAction = styled.div`
 	}
 `;
 
+export const SellActionEnd = styled.div`
+	width: fit-content;
+	margin: 0 0 0 auto;	
+`;
+
 export const ModalTitle = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.lg};
@@ -144,16 +149,20 @@ export const ModalTitle = styled.div`
 `;
 
 export const WalletConnectionWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 15px;
-	margin: 20px 0 0 0;
+	width: fit-content;
+	margin: 20px 0 0 auto;
 	span {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
+		text-align: right;
+	}
+	button {
+		margin: 20px 0 0 auto;
+		span {
+			color: ${(props) => props.theme.colors.font.primary.alt1};
+		}
 	}
 `;

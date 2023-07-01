@@ -1,5 +1,3 @@
-import React from 'react';
-
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -24,6 +22,7 @@ export default function Slider(props: IProps) {
 				step={'1'}
 				value={props.value.toString()}
 				onChange={props.handleChange}
+				disabled={props.disabled}
 			/>
 		</S.Wrapper>
 	);

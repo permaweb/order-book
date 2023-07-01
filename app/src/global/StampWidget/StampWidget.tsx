@@ -10,6 +10,7 @@ import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
 import { formatFloat } from 'helpers/utils';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from './styles';
@@ -81,6 +82,7 @@ function StampAction(props: {
 }
 
 export default function StampWidget(props: IProps) {
+	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [stamps, setStamps] = React.useState<any>(null);
@@ -92,13 +94,15 @@ export default function StampWidget(props: IProps) {
 
 	const [updateCount, setUpdateCount] = React.useState<boolean>(false);
 	const [showModal, setShowModal] = React.useState<boolean>(false);
-	const [disabled, setDisabled] = React.useState<boolean>(false);
+
+	const [disabled, setDisabled] = React.useState<boolean>(true);
+	const [initLoadingDisabled, setInitLoadingDisabled] = React.useState<boolean>(true);
 
 	const [stampNotification, setStampNotification] = React.useState<ResponseType | null>(null);
 	const [showStampAction, setShowStampAction] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
-		if (orProvider.orderBook) {
+		if (orProvider.orderBook && (showModal || props.getCount)) {
 			setStamps(
 				Stamps.init({
 					warp: orProvider.orderBook.env.arClient.warpDefault,
@@ -106,11 +110,11 @@ export default function StampWidget(props: IProps) {
 				})
 			);
 		}
-	}, [orProvider.orderBook]);
+	}, [orProvider.orderBook, showModal]);
 
 	React.useEffect(() => {
 		(async function () {
-			if (props.assetId) {
+			if (props.assetId && stamps) {
 				try {
 					setCount(await stamps.count(props.assetId));
 					const hasStamped = await stamps.hasStamped(props.assetId);
@@ -124,6 +128,23 @@ export default function StampWidget(props: IProps) {
 		})();
 	}, [stamps, props.assetId, updateCount]);
 
+	React.useEffect(() => {
+		(async function () {
+			if (stamps) {
+				await new Promise((r) => setTimeout(r, 500));
+				setInitLoadingDisabled(hasStamped ? true : false);
+			}
+		})();
+	}, [stamps, hasStamped]);
+
+	React.useEffect(() => {
+		(async function () {
+			if (stamps) {
+				setDisabled(hasStamped ? true : false);
+			}
+		})();
+	}, [stamps, hasStamped]);
+
 	function handleModalOpen(e: any) {
 		e.preventDefault();
 		setShowModal(true);
@@ -135,28 +156,36 @@ export default function StampWidget(props: IProps) {
 
 	const handleStamp = React.useCallback(
 		async (amount?: number) => {
-			setLoading(true);
-			if (props.assetId) {
-				setDisabled(true);
+			try {
+				setLoading(true);
+				if (props.assetId) {
+					setDisabled(true);
 
-				let stamp: any = await stamps.stamp(props.assetId, amount ? amount : 0, [{ name: '', value: '' }]);
-				let stampSuccess = stamp && stamp.bundlrResponse && stamp.bundlrResponse.id;
-				if (!stampSuccess) {
-					stampSuccess = stamp && stamp.id;
+					let stamp: any = await stamps.stamp(props.assetId, amount ? amount : 0, [{ name: '', value: '' }]);
+					let stampSuccess = stamp && stamp.bundlrResponse && stamp.bundlrResponse.id;
+					if (!stampSuccess) {
+						stampSuccess = stamp && stamp.id;
+					}
+
+					setUpdateCount(!updateCount);
+
+					if (!stampSuccess) {
+						setDisabled(false);
+					}
+
+					setStampNotification({
+						status: stampSuccess,
+						message: stampSuccess ? language.assetStamped : language.errorOccurred,
+					});
 				}
-
-				setUpdateCount(!updateCount);
-
-				if (!stampSuccess) {
-					setDisabled(false);
-				}
-
+				setLoading(false);
+			} catch (e: any) {
+				setLoading(false);
 				setStampNotification({
-					status: stampSuccess,
-					message: stampSuccess ? language.assetStamped : language.errorOccurred,
+					status: false,
+					message: e.toString(),
 				});
 			}
-			setLoading(false);
 		},
 		[stamps, updateCount, props]
 	);
@@ -165,10 +194,20 @@ export default function StampWidget(props: IProps) {
 		handleStamp(amount);
 	}
 
+	function getTotalCount() {
+		if (count) return count.total.toString();
+		else if (props.stamps) return props.stamps.total.toString();
+		else return '0';
+	}
+
 	return (
 		<>
-			<S.Wrapper onClick={handleModalOpen}>
-				<p>{count ? count.total.toString() : '0'}</p>
+			<S.Wrapper
+				onClick={handleModalOpen}
+				disabled={!arProvider.walletAddress}
+				title={arProvider.walletAddress ? '' : language.connectWalletToStamp}
+			>
+				<p>{getTotalCount()}</p>
 				<ReactSVG src={ASSETS.stamps} />
 			</S.Wrapper>
 			{showModal && (
@@ -189,7 +228,7 @@ export default function StampWidget(props: IProps) {
 								e.preventDefault();
 								handleStamp();
 							}}
-							disabled={disabled}
+							disabled={disabled || initLoadingDisabled}
 							icon={ASSETS.stamp.default}
 						/>
 						<Button
@@ -199,7 +238,7 @@ export default function StampWidget(props: IProps) {
 								e.preventDefault();
 								setShowStampAction(!showStampAction);
 							}}
-							disabled={disabled}
+							disabled={disabled || initLoadingDisabled}
 							icon={ASSETS.stamp.super}
 							width={180}
 						/>

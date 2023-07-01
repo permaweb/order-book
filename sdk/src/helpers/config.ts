@@ -35,6 +35,7 @@ export const TAGS = {
 			topic: 'Topic:*',
 			type: 'Type',
 			implements: 'Implements',
+			license: 'License'
 		},
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',

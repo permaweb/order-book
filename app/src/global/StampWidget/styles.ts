@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { STYLING } from 'helpers/styling';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.button`
 	height: 37.5px;
 	width: fit-content;
 	background: ${(props) => props.theme.colors.container.primary.background};
@@ -14,6 +14,10 @@ export const Wrapper = styled.div`
 	cursor: pointer;
 	&:hover {
 		background: ${(props) => props.theme.colors.container.primary.hover};
+	}
+	&:disabled {
+		background: ${(props) => props.theme.colors.button.primary.disabled.background};
+		cursor: default;
 	}
 	p {
 		margin: 0 12.5px 0 0;

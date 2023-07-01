@@ -12,29 +12,33 @@ import { RootState } from 'store';
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
-	const [assets, setAssets] = React.useState<{ contractData: AssetType[]; featuredData: AssetType[] } | null>(null);
+	const [loading, setLoading] = React.useState<boolean>(false);
 	const [featuredAssets, setFeaturedAssets] = React.useState<AssetType[] | null>(null);
 	const [tableAssets, setTableAssets] = React.useState<AssetType[] | null>(null);
 
 	React.useEffect(() => {
-		if (assetsReducer) {
-			setAssets(assetsReducer);
+		if (assetsReducer.featuredData) {
+			setFeaturedAssets(assetsReducer.featuredData);
+			setLoading(false);
+		} else {
+			setLoading(true);
 		}
 	}, [assetsReducer.contractData]);
 
-	// TODO: get featured
 	React.useEffect(() => {
-		if (assets) {
-			setFeaturedAssets(assets.featuredData);
-			setTableAssets(assets.contractData);
+		if (assetsReducer.contractData) {
+			setTableAssets(assetsReducer.contractData);
+			setLoading(false);
+		} else {
+			setLoading(true);
 		}
-	}, [assets]);
+	}, [assetsReducer.contractData]);
 
 	return (
 		<>
 			<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<AssetsGrid assets={featuredAssets} autoLoad={true} loaderCount={FEATURE_COUNT} />
+					<AssetsGrid assets={featuredAssets} autoLoad={true} loaderCount={FEATURE_COUNT} loading={false} />
 				</div>
 			</div>
 			<AssetsTable
@@ -45,6 +49,7 @@ export default function Landing() {
 				showPageNumbers={false}
 				tableType={'list'}
 				showNoResults={true}
+				loading={loading}
 			/>
 		</>
 	);
