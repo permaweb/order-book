@@ -201,7 +201,7 @@ export default function AssetBuy(props: IProps) {
 							label={language.confirmPurchase.toUpperCase()}
 							handlePress={() => setShowConfirmation(true)}
 							height={60}
-							width={450}
+							noMinWidth
 							disabled={getActionDisabled()}
 						/>
 					</S.BuyActionEnd>

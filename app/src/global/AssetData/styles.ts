@@ -33,11 +33,29 @@ export const Image = styled.img`
 	object-fit: contain;
 `
 
-export const Audio = styled.audio`
+export const AudioWrapper = styled.div`
 	height: 100%;
 	width: 100%;
-	background: ${(props) => props.theme.colors.container.alt9.background};
-	padding: 20px;
+	position: relative;
+	svg {
+		height: 75px;
+		width: 75px;
+		max-height: 50%;
+		max-width: 50%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+`;
+
+export const Audio = styled.audio`
+	height: 50px;
+	width: calc(100% - 40px);
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translate(-50%, 0);
 `;
 
 export const Video = styled.video`

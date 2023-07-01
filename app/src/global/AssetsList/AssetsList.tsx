@@ -13,7 +13,6 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: orders
 function AssetRow(props: { asset: AssetType; index: number }) {
 	return (
 		<S.PICWrapper>
@@ -24,18 +23,22 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 						<S.AWrapper>
 							<AssetData asset={props.asset} preview />
 						</S.AWrapper>
-						<p>{props.asset.data.title}</p>
+						<S.ATitle>
+							<p>{props.asset.data.title}</p>
+						</S.ATitle>
 					</S.AFlex>
-					{/* <S.AOrders>
-						<AssetOrders asset={props.asset} />
-					</S.AOrders> */}
-					<S.SCValue>
-						<StampWidget
-							assetId={props.asset.data.id}
-							title={props.asset.data.title}
-							stamps={props.asset.stamps ? props.asset.stamps : null}
-						/>
-					</S.SCValue>
+					<S.SFlex>
+						<S.AOrders>
+							<AssetOrders asset={props.asset} />
+						</S.AOrders>
+						<S.SCValue>
+							<StampWidget
+								assetId={props.asset.data.id}
+								title={props.asset.data.title}
+								stamps={props.asset.stamps ? props.asset.stamps : null}
+							/>
+						</S.SCValue>
+					</S.SFlex>
 				</S.PCWrapper>
 			</Link>
 		</S.PICWrapper>
@@ -56,26 +59,38 @@ export default function AssetsList(props: IProps) {
 			if (assets.length > 0) {
 				return (
 					<>
-						{/* <S.HeaderWrapper>
+						<S.HeaderWrapper>
 							<S.HSection1>
-								<p>#</p>
+								<S.Rank>
+									<p>{language.rank}</p>
+								</S.Rank>
 								<S.AtomicAsset>
 									<p>{language.atomicAsset}</p>
 								</S.AtomicAsset>
-								<S.Listing>
-									<p>{language.listing}</p>
-								</S.Listing>
-								<S.StampCount>
-									<p>{language.stampCount}</p>
-								</S.StampCount>
+								<S.SHeaderFlex>
+									<S.Listing>
+										<p>{language.listing}</p>
+									</S.Listing>
+									<S.StampCount>
+										<p>{language.stampCount}</p>
+									</S.StampCount>
+								</S.SHeaderFlex>
 							</S.HSection1>
 							<S.HSection2>
-								<p>#</p>
-								<S.AtomicAsset>{language.atomicAsset}</S.AtomicAsset>
-								<S.Listing>{language.listing}</S.Listing>
-								<S.StampCount>{language.stampCount}</S.StampCount>
+								<p>{language.rank}</p>
+								<S.AtomicAsset>
+									<p>{language.atomicAsset}</p>
+								</S.AtomicAsset>
+								<S.SHeaderFlex>
+									<S.Listing>
+										<p>{language.listing}</p>
+									</S.Listing>
+									<S.StampCount>
+										<p>{language.stampCount}</p>
+									</S.StampCount>
+								</S.SHeaderFlex>
 							</S.HSection2>
-						</S.HeaderWrapper> */}
+						</S.HeaderWrapper>
 						<S.C1>
 							{assets.map((asset: AssetType, index: number) => {
 								return <AssetRow key={asset.data.id} asset={asset} index={index + 1} />;

@@ -16,19 +16,14 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: orders
 function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
 	return (
 		<S.PICWrapper>
 			<S.HCWrapper>
-				{/* {props.asset.orders && (
-					<S.AssetDataAlt>
-						<span>{language.listing}</span>
-						<div className={'a-divider'} />
-						{props.asset.orders.length > 0 ? <AssetOrders asset={props.asset} /> : <p>{language.none}</p>}
-					</S.AssetDataAlt>
-				)} */}
+				<S.Index>
+					<p>{props.index}</p>
+				</S.Index>
 				<S.HCEnd>
 					{props.asset.data.renderWith && props.asset.data.renderWith !== STORAGE.none && (
 						<S.RendererSVG>
@@ -57,6 +52,9 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						tooltip={language.viewDetails}
 					/>
 				</S.ICFlex>
+				<S.AssetDataAlt>
+					<AssetOrders asset={props.asset} />
+				</S.AssetDataAlt>
 			</S.ICWrapper>
 		</S.PICWrapper>
 	);

@@ -38,6 +38,20 @@ export const HCWrapper = styled.div`
 	align-items: center;
 `;
 
+export const Index = styled.div`
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt8};
+		max-width: 305px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		margin: 0 0 0 20px;
+	}
+`;
+
 export const HCEnd = styled.div`
 	display: flex;
 	align-items: center;
@@ -71,9 +85,9 @@ export const PCWrapper = styled.div`
 `;
 
 export const ICWrapper = styled.div`
-	height: 60px;
+	min-height: 60px;
 	width: 100%;
-	padding: 0 20px;
+	padding: 15px 20px 0 20px;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
@@ -101,7 +115,8 @@ export const ICFlex = styled.div`
 `;
 
 export const AssetData = styled.div`
-	width: 100%;
+	width: 250px;
+	max-width: 85%;
 	display: flex;
 	align-items: center;
 	span {
@@ -113,17 +128,11 @@ export const AssetData = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
 		font-weight: ${(props) => props.theme.typography.weight.bold};
-		color: ${(props) => props.theme.colors.font.primary.alt1};
+		color: ${(props) => props.theme.colors.font.primary.alt8};
 		max-width: 305px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	}
-	.a-divider {
-		margin: 0 10px;
-		height: 25px;
-		width: 1px;
-		border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
 `;
 
@@ -135,24 +144,8 @@ export const DetailAction = styled.div`
 	}
 `;
 
-export const AssetDataAlt = styled(AssetData)`
-	max-width: 200px;
-	padding: 0;
-	margin: 0 0 0 20px;
-	background: ${(props) => props.theme.colors.transparent};
-	border: 1px solid ${(props) => props.theme.colors.transparent};
-	border-radius: 0;
-	span {
-		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
-		color: ${(props) => props.theme.colors.font.primary.alt8};
-	}
-	.ad-divider {
-		margin: 0 10px;
-		height: 25px;
-		width: 1px;
-		border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-	}
+export const AssetDataAlt = styled.div`
+	margin: 10px 0 12.5px 0;
 `;
 
 export const NoAssetsContainer = styled.div`

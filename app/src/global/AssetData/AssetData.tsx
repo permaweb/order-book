@@ -21,9 +21,7 @@ export default function AssetData(props: IProps) {
 	const handleError = () => {
 		setLoadError(true);
 	};
-	
-	// TODO: audio icon
-	// TODO: generic token icon
+
 	React.useEffect(() => {
 		(async function () {
 			const renderWith =
@@ -104,9 +102,12 @@ export default function AssetData(props: IProps) {
 					}
 					if (assetRender.contentType.includes('audio')) {
 						return (
-							<S.Audio controls onError={handleError}>
-								<source src={assetRender.url} type={assetRender.contentType} />
-							</S.Audio>
+							<S.AudioWrapper>
+								<ReactSVG src={ASSETS.audio} />
+								<S.Audio controls onError={handleError}>
+									<source src={assetRender.url} type={assetRender.contentType} />
+								</S.Audio>
+							</S.AudioWrapper>
 						);
 					}
 					if (assetRender.contentType.includes('video')) {
