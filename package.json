@@ -13,7 +13,8 @@
     "start-arlocal": "npx arlocal",
     "local": "node ./scripts/deploy-u-local.mjs ./local/U",
     "read-state-local": "node ./scripts/read-state-local.mjs",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "cd app && npm run deploy"
   },
   "repository": {
     "type": "git",

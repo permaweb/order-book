@@ -13,8 +13,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 18.x
-      - run: npm i
-      - run: npm run deploy
+      - run: cd app && npm i
+      - run: cd app && npm run deploy
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
           ANT_CONTRACT: ${{ secrets.ANT_CONTRACT }}
