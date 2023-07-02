@@ -4,7 +4,6 @@ import { ReactSVG } from 'react-svg';
 
 import { AssetType } from 'permaweb-orderbook';
 
-import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
 import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'global/AssetData';
@@ -124,19 +123,19 @@ export default function Search() {
 					))}
 					{currentResults.length > 1 && (
 						<S.SPaginator>
-							<Button
-								label={language.previous}
-								type={'primary'}
+							<IconButton
+								src={ASSETS.arrowPrevious}
+								type={'alt1'}
 								handlePress={handlePreviousPage}
 								disabled={startIndex === 0}
-								noMinWidth
+								dimensions={{ wrapper: 25, icon: 11 }}
 							/>
-							<Button
-								label={language.next}
-								type={'primary'}
+							<IconButton
+								src={ASSETS.arrowNext}
+								type={'alt1'}
 								handlePress={handleNextPage}
 								disabled={endIndex >= results.length}
-								noMinWidth
+								dimensions={{ wrapper: 25, icon: 11 }}
 							/>
 						</S.SPaginator>
 					)}

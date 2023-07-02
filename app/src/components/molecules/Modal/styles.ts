@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { fadeIn1, open } from 'helpers/animations';
 import { STYLING } from 'helpers/styling';
 
-export const Wrapper = styled.div<{ top: number }>`
+export const Wrapper = styled.div<{ top: number, noHeader: boolean }>`
 	min-height: 100vh;
 	height: 100%;
 	width: 100%;
@@ -11,7 +11,7 @@ export const Wrapper = styled.div<{ top: number }>`
 	z-index: 11;
 	top: 0;
 	left: 0;
-	background: ${(props) => props.theme.colors.overlay.primary};
+	background: ${(props) => props.noHeader ? props.theme.colors.container.alt11.background : props.theme.colors.overlay.primary};
 	backdrop-filter: blur(3px);
 	animation: ${open} ${fadeIn1};
 `;
@@ -22,7 +22,7 @@ export const Container = styled.div<{
 }>`
 	max-height: calc(100vh - 100px);
 	width: ${(props) => (props.useMax ? STYLING.cutoffs.max : '600px')};
-	max-width: 88.75vw;
+	max-width: 99.75vw;
 	background: ${(props) =>
 		props.noHeader ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => (props.noHeader ? props.theme.colors.transparent : props.theme.colors.border.primary)};
@@ -98,8 +98,9 @@ export const CloseTextContainerAlt = styled.div`
 `;
 
 export const CloseButtonContainer = styled.button`
-	background: ${(props) => props.theme.colors.warning};
-	color: ${(props) => props.theme.colors.font.primary.base};
+	background: ${(props) => props.theme.colors.container.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	color: ${(props) => props.theme.colors.warning};
 	padding: 5px 10px;
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	font-size: ${(props) => props.theme.typography.size.xxSmall};

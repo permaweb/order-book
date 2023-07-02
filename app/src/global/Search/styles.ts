@@ -50,6 +50,9 @@ export const SearchInput = styled.input<{ hasResults: boolean }>`
 		box-shadow: none;
 		border: 1px solid ${(props) => props.theme.colors.form.border};
 	}
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		font-size: ${(props) => props.theme.typography.size.base};
+	}
 `;
 
 export const ClearWrapper = styled.div`
@@ -114,19 +117,22 @@ export const SearchResult = styled.div`
 `;
 
 export const AssetData = styled.div`
+	min-height: 30px;
 	height: 30px;
+	min-width: 30px;
 	width: 30px;
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	overflow: hidden;
 	svg {
 		padding: 2.5px 0 0 0;
-		max-height: 100%;
-		max-width: 100%;
+		max-height: 20px !important;
+		max-width: 20px !important;
 	}
 `;
 
 export const DetailLine = styled.div`
+	width: calc(100% - 45px);	
 	margin: 0 0 0 10px;
 	p {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
@@ -134,6 +140,10 @@ export const DetailLine = styled.div`
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
+		max-width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 `;
 
