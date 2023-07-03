@@ -16,31 +16,31 @@ import { IProps } from './types';
 function AssetRow(props: { asset: AssetType; index: number }) {
 	return (
 		<S.PICWrapper>
-			<Link to={`${urls.asset}${props.asset.data.id}`}>
-				<S.PCWrapper>
-					<S.AFlex>
-						<p>{props.index}</p>
-						<S.AWrapper>
-							<AssetData asset={props.asset} preview />
-						</S.AWrapper>
-						<S.ATitle>
-							<p>{props.asset.data.title}</p>
-						</S.ATitle>
-					</S.AFlex>
-					<S.SFlex>
-						<S.AOrders>
-							<AssetOrders asset={props.asset} />
-						</S.AOrders>
-						<S.SCValue>
-							<StampWidget
-								assetId={props.asset.data.id}
-								title={props.asset.data.title}
-								stamps={props.asset.stamps ? props.asset.stamps : null}
-							/>
-						</S.SCValue>
-					</S.SFlex>
-				</S.PCWrapper>
-			</Link>
+			<S.PCWrapper>
+				<S.AFlex>
+					<p>{props.index}</p>
+					<S.AWrapper>
+						<AssetData asset={props.asset} preview />
+					</S.AWrapper>
+					<S.ATitle>
+						<Link to={`${urls.asset}${props.asset.data.id}`}>
+							{props.asset.data.title}
+						</Link>
+					</S.ATitle>
+				</S.AFlex>
+				<S.SFlex>
+					<S.AOrders>
+						<AssetOrders asset={props.asset} />
+					</S.AOrders>
+					<S.SCValue>
+						<StampWidget
+							assetId={props.asset.data.id}
+							title={props.asset.data.title}
+							stamps={props.asset.stamps ? props.asset.stamps : null}
+						/>
+					</S.SCValue>
+				</S.SFlex>
+			</S.PCWrapper>
 		</S.PICWrapper>
 	);
 }

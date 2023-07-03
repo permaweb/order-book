@@ -29,6 +29,7 @@ function StampAction(props: {
 	const [disabled, setDisabled] = React.useState<boolean>(false);
 
 	function handleSubmit(e: any) {
+		e.stopPropagation();
 		e.preventDefault();
 		setDisabled(true);
 		props.handleSubmit(Number(amount) * 1e12);
@@ -61,6 +62,7 @@ function StampAction(props: {
 						label={language.close}
 						handlePress={(e: any) => {
 							e.preventDefault();
+							e.stopPropagation();
 							props.handleClose();
 						}}
 						disabled={false}
@@ -146,6 +148,7 @@ export default function StampWidget(props: IProps) {
 	}, [stamps, hasStamped]);
 
 	function handleModalOpen(e: any) {
+		e.stopPropagation();
 		e.preventDefault();
 		setShowModal(true);
 	}

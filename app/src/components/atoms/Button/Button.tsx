@@ -69,6 +69,7 @@ export default function Button(props: IProps) {
 
 	function handlePress(e: React.MouseEvent) {
 		e.stopPropagation();
+		e.preventDefault();
 		props.handlePress(e);
 	}
 
