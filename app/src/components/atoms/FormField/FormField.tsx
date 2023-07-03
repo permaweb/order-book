@@ -38,6 +38,7 @@ export default function FormField(props: IProps) {
 				<S.Input
 					type={props.type ? props.type : 'text'}
 					value={getValue()}
+					onWheel={(e: any) => e.target.blur()} 
 					onChange={props.onChange}
 					disabled={props.disabled}
 					invalid={props.invalid.status}
