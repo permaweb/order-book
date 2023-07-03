@@ -1,3 +1,4 @@
+//FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ
 import { SourceType, WarpFactory } from 'warp-contracts'
 import { DeployPlugin, ArweaveSigner } from 'warp-contracts-plugin-deploy'
 import fs from 'fs'
@@ -13,7 +14,7 @@ async function main() {
     src,
     initState: JSON.stringify({
       pairs: [],
-      name: "marketplace",
+      name: "zAR",
       ticker: 'zAR',
       balances: {},
       claimable: [],
@@ -23,8 +24,8 @@ async function main() {
         ['isTradeable', true],
         ['website', 'https://zAR-wiki.arweave.dev']
       ],
-      recentRewards: {},
-      U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
+      U: 'FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ',
+      recentRewards: {}
     }),
     //initState,
     evaluationManifest: {
