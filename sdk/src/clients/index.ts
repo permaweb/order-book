@@ -105,6 +105,8 @@ const client: OrderBookType = {
 		});
 
 		await fetch(getSyncEndpoint(args.assetId));
+		await fetch(getSyncEndpoint(env.orderBookContract));
+		await fetch(getSyncEndpoint(env.currencyContract));
 
 		return orderTx;
 	},
@@ -151,6 +153,8 @@ const client: OrderBookType = {
 		});
 
 		await fetch(getSyncEndpoint(args.assetId));
+		await fetch(getSyncEndpoint(env.orderBookContract));
+		await fetch(getSyncEndpoint(env.currencyContract));
 
 		return orderTx;
 	}

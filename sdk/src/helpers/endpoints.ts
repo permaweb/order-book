@@ -6,6 +6,6 @@ export function getTxEndpoint(txId: string) {
 	return `https://arweave.net/${txId}`;
 }
 
-export function getSyncEndpoint(assetId: string) {
-	return `https://dre-1.warp.cc/sync?id=${assetId}&test=false`;
+export function getSyncEndpoint(contractId: string) {
+	return `https://dre-1.warp.cc/sync?id=${contractId}&test=false`;
 }
