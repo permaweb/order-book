@@ -18,7 +18,7 @@ export async function handle(state, action) {
   }
   switch (action?.input?.function) {
     case "noop":
-      return { state }
+      return { state };
     case "addPair":
       return addPair(state, action).extract();
     case "createOrder":
