@@ -14,18 +14,18 @@ async function main() {
     src,
     initState: JSON.stringify({
       pairs: [],
-      name: "marketplace",
-      ticker: 't-zAR',
+      name: "zAR",
+      ticker: 'zAR',
       balances: {},
       claimable: [],
       lastReward: 0,
       streaks: {},
       settings: [
-        ['logo', 'TX_ID'],
-        ['tradeable', true],
-        ['website', 'WIKI_SITE']
+        ['isTradeable', true],
+        ['website', 'https://zAR-wiki.arweave.dev']
       ],
-      U: 'FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ'
+      U: 'FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ',
+      recentRewards: {}
     }),
     //initState,
     evaluationManifest: {

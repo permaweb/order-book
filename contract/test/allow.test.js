@@ -1,8 +1,6 @@
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
-
-
 test("allow should create a claimable record", async () => {
   globalThis.ContractError = function (msg) {
     return new Error(msg);

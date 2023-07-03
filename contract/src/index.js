@@ -17,6 +17,8 @@ export async function handle(state, action) {
     state = await buyback(state);
   }
   switch (action?.input?.function) {
+    case "noop":
+      return { state }
     case "addPair":
       return addPair(state, action).extract();
     case "createOrder":

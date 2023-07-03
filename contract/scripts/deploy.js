@@ -20,10 +20,11 @@ async function main() {
       lastReward: 0,
       streaks: {},
       settings: [
-        ['logo', 'TX_ID'],
-        ['tradeable', true],
-        ['website', 'WIKI_SITE']
-      ]
+        ['isTradeable', true],
+        ['website', 'https://zAR-wiki.arweave.dev']
+      ],
+      recentRewards: {},
+      U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
     }),
     //initState,
     evaluationManifest: {
