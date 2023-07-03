@@ -82,7 +82,9 @@ export async function getAssetIdsByUser(args: { walletAddress: string, arClient:
 		if (result.status === 200) {
 			let balances = ((await result.json()) as UserBalancesType).balances;
 
-			let assetIds = balances.map((balance: BalanceType) => {
+			let assetIds = balances.filter((balance: BalanceType) => {
+				return balance.balance && (parseInt(balance.balance) !== 0)
+			}).map((balance: BalanceType) => {
 				return balance.contract_tx_id
 			});
 			return assetIds;
