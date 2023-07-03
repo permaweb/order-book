@@ -68,6 +68,7 @@ export const ClearWrapper = styled.div`
 		width: auto;
 		width: 12.5px;
 		height: auto;
+		padding: 3.5px 0 0 0;
 	}
 `;
 
