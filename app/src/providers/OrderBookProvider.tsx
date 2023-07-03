@@ -32,45 +32,47 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const [orderBook, setOrderBook] = React.useState<OrderBookType | null>(null);
 
 	React.useEffect(() => {
-		const GET_ENDPOINT = 'arweave-search.goldsky.com';
-		const POST_ENDPOINT = 'arweave.net';
-
-		const PORT = 443;
-		const PROTOCOL = 'https';
-		const TIMEOUT = 40000;
-		const LOGGING = false;
-
-		let arweaveGet = Arweave.init({
-			host: GET_ENDPOINT,
-			port: PORT,
-			protocol: PROTOCOL,
-			timeout: TIMEOUT,
-			logging: LOGGING,
-		});
-
-		let arweavePost = Arweave.init({
-			host: POST_ENDPOINT,
-			port: PORT,
-			protocol: PROTOCOL,
-			timeout: TIMEOUT,
-			logging: LOGGING,
-		});
-
-		let warp = WarpFactory.forMainnet({
-			...defaultCacheOptions,
-			inMemory: true,
-		});
-
-		setOrderBook(
-			OrderBook.init({
-				currency: 'U',
-				wallet: 'use_wallet',
-				arweaveGet: arweaveGet,
-				arweavePost: arweavePost,
-				warp: warp,
-				walletAddress: arProvider.walletAddress,
-			})
-		);
+		if(arProvider.walletAddress) {
+			const GET_ENDPOINT = 'arweave-search.goldsky.com';
+			const POST_ENDPOINT = 'arweave.net';
+	
+			const PORT = 443;
+			const PROTOCOL = 'https';
+			const TIMEOUT = 40000;
+			const LOGGING = false;
+	
+			let arweaveGet = Arweave.init({
+				host: GET_ENDPOINT,
+				port: PORT,
+				protocol: PROTOCOL,
+				timeout: TIMEOUT,
+				logging: LOGGING,
+			});
+	
+			let arweavePost = Arweave.init({
+				host: POST_ENDPOINT,
+				port: PORT,
+				protocol: PROTOCOL,
+				timeout: TIMEOUT,
+				logging: LOGGING,
+			});
+	
+			let warp = WarpFactory.forMainnet({
+				...defaultCacheOptions,
+				inMemory: true,
+			});
+	
+			setOrderBook(
+				OrderBook.init({
+					currency: 'U',
+					wallet: 'use_wallet',
+					arweaveGet: arweaveGet,
+					arweavePost: arweavePost,
+					warp: warp,
+					walletAddress: arProvider.walletAddress,
+				})
+			);
+		}
 	}, [arProvider.walletAddress]);
 
 	return (

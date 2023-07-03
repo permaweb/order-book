@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
 	ApiClientType,
 	ApiClientInitArgs,
@@ -24,13 +23,6 @@ import {
 const apiClient: ApiClientType = {
 	arClient: null,
 	orderBookContract: null,
-=======
-import { getAssetsByContract, getAssetsByUser } from '../../api';
-import { ApiClientInitArgs, ApiClientType, AssetType, GetAssetsByUserArgs } from '../../helpers';
-
-const apiClient: ApiClientType = {
-	arClient: null,
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 
 	init: function (args: ApiClientInitArgs) {
 		this.arClient = args.arClient;
@@ -38,7 +30,6 @@ const apiClient: ApiClientType = {
 		return this;
 	},
 
-<<<<<<< HEAD
 	getAssetsByContract: async function (args: AssetArgsType): Promise<AssetType[]> {
 		return await getAssetsByContract({ ...args, arClient: this.arClient });
 	},
@@ -74,20 +65,5 @@ const apiClient: ApiClientType = {
 		return await search({...args, arClient: this.arClient});
 	}
 }
-=======
-	getAssetsByContract: async function (): Promise<AssetType[]> {
-		return await getAssetsByContract({
-			arClient: this.arClient,
-		});
-	},
-
-	getAssetsByUser: async function (args: GetAssetsByUserArgs): Promise<AssetType[]> {
-		return await getAssetsByUser({
-			walletAddress: args.walletAddress,
-			arClient: this.arClient,
-		});
-	},
-};
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 
 export { apiClient as ApiClient };

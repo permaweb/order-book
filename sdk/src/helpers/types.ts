@@ -1,6 +1,5 @@
 export type AssetType = {
 	data: {
-<<<<<<< HEAD
 		id: string
 		title: string
 		description: string
@@ -11,15 +10,6 @@ export type AssetType = {
 		renderWith: string | null
 		dateCreated: number
 		blockHeight: number
-=======
-		id: string;
-		title: string;
-		description: string;
-		topic: string;
-		type: string;
-		implementation: string;
-		renderWith: string | null;
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 	};
 	orders?: OrderBookPairOrderType[];
 	stamps?: { total: number, vouched: number }
@@ -63,7 +53,6 @@ export type InitArgs = {
 
 export type ApiClientInitArgs = {
 	arClient: ArweaveClientType;
-<<<<<<< HEAD
 	orderBookContract: string;
 }
 
@@ -86,12 +75,6 @@ export type SearchReturnType = {
 
 export type SearchArgs = AssetArgsType & {
 	term: string,
-=======
-};
-
-export type GetAssetsByUserArgs = {
-	walletAddress: string;
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 };
 
 export type ApiClientType = {

@@ -5,7 +5,7 @@ export function getArweaveBalanceEndpoint(walletAddress: string) {
 }
 
 export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContract: string) {
-	return `https://dre-6.warp.cc/contract?id=${currencyContract}&query=$.balances.${walletAddress}`;
+	return `https://dre-1.warp.cc/contract?id=${currencyContract}&query=$.balances.${walletAddress}`;
 }
 
 export function getBalancesEndpoint(walletAddress: string) {
