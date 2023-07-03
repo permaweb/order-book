@@ -59,7 +59,7 @@ export const FlexActions = styled.div`
 	align-items: center;
 	margin: 20px 0 0 0;
 	flex-wrap: wrap;
-    gap: 20px;
+	gap: 20px;
 	button {
 		margin: 0 20px 0 0;
 	}
@@ -140,6 +140,7 @@ export const Message = styled.div<{ loading: 'true' | 'false' }>`
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
-		color: ${(props) => (props.loading === 'true') ? props.theme.colors.font.primary.alt1 : props.theme.colors.font.primary.alt2};
+		color: ${(props) =>
+			props.loading === 'true' ? props.theme.colors.font.primary.alt1 : props.theme.colors.font.primary.alt2};
 	}
 `;

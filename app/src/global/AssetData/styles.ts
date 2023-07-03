@@ -30,7 +30,7 @@ export const Image = styled.img`
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
-`
+`;
 
 export const AudioWrapper = styled.div`
 	height: 100%;
@@ -92,7 +92,7 @@ export const UnsupportedWrapper = styled.div`
 	}
 	svg {
 		height: 75px;
-   	 	width: 75px;
+		width: 75px;
 		max-height: 50%;
 		max-width: 50%;
 		position: absolute;

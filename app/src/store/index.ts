@@ -18,7 +18,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	assetsReducer,
 	cursorsReducer,
-	dreReducer
+	dreReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

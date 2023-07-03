@@ -85,8 +85,8 @@ export default function AssetsTable(props: IProps) {
 						setCurrentPage={setCurrentPage}
 						showPageNumbers={props.showPageNumbers}
 						handleCursorFetch={(cursor: string | null) => {
-							handlePageFetch()
-							setCurrentTableCursor(cursor)
+							handlePageFetch();
+							setCurrentTableCursor(cursor);
 						}}
 						cursors={{
 							next: getPaginatorAction('next'),

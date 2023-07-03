@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { fadeIn1, open } from 'helpers/animations';
 import { STYLING } from 'helpers/styling';
 
-export const Wrapper = styled.div<{ top: number, noHeader: boolean }>`
+export const Wrapper = styled.div<{ top: number; noHeader: boolean }>`
 	min-height: 100vh;
 	height: 100%;
 	width: 100%;
@@ -11,7 +11,8 @@ export const Wrapper = styled.div<{ top: number, noHeader: boolean }>`
 	z-index: 11;
 	top: 0;
 	left: 0;
-	background: ${(props) => props.noHeader ? props.theme.colors.container.alt11.background : props.theme.colors.overlay.primary};
+	background: ${(props) =>
+		props.noHeader ? props.theme.colors.container.alt11.background : props.theme.colors.overlay.primary};
 	backdrop-filter: blur(3px);
 	animation: ${open} ${fadeIn1};
 `;
@@ -60,8 +61,8 @@ export const Title = styled.p`
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.bold};
 	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 export const Close = styled.div`

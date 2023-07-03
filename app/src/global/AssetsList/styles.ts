@@ -31,7 +31,8 @@ export const HSection1 = styled.div`
 	display: flex;
 	align-items: center;
 	padding: 0 20px;
-	p, a {
+	p,
+	a {
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt6};
@@ -104,7 +105,8 @@ export const PCWrapper = styled.div`
 	padding: 20px;
 	position: relative;
 	transition: background 0.1s;
-	p, a {
+	p,
+	a {
 		max-width: 175px;
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
@@ -148,15 +150,17 @@ export const ATitle = styled.div`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	p, a {
-    	width: fit-content;
+	p,
+	a {
+		width: fit-content;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		width: 165px;
-		p, a {
+		p,
+		a {
 			width: 100%;
 			max-width: none;
 		}

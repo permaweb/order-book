@@ -119,9 +119,13 @@ const client: OrderBookType = {
 			input: {function: 'balance'},
 		});
 
-		await fetch(getSyncEndpoint(args.assetId));
-		await fetch(getSyncEndpoint(env.orderBookContract));
-		await fetch(getSyncEndpoint(env.currencyContract));
+		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
+			0, 
+			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
+		);
+		await fetch(getSyncEndpoint(args.assetId, dreNode));
+		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
+		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
 
 		return orderTx;
 	},
@@ -183,9 +187,13 @@ const client: OrderBookType = {
 			input: {function: 'balance'},
 		});
 
-		await fetch(getSyncEndpoint(args.assetId));
-		await fetch(getSyncEndpoint(env.orderBookContract));
-		await fetch(getSyncEndpoint(env.currencyContract));
+		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
+			0, 
+			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
+		);
+		await fetch(getSyncEndpoint(args.assetId, dreNode));
+		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
+		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
 
 		return orderTx;
 	}

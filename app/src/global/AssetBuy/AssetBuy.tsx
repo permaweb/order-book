@@ -98,8 +98,8 @@ export default function AssetBuy(props: IProps) {
 			await orProvider.orderBook.buy({
 				assetId: props.asset.data.id,
 				spend: calcTotalPrice(),
-				wallet: "use_wallet",
-				walletAddress: arProvider.walletAddress
+				wallet: 'use_wallet',
+				walletAddress: arProvider.walletAddress,
 			});
 
 			setLoading(false);
@@ -118,7 +118,7 @@ export default function AssetBuy(props: IProps) {
 
 		return (
 			<S.Price>
-				<p>{(calcTotalPrice() / 1e6).toFixed(2)}</p>
+				<p>{(calcTotalPrice() / 1e6).toFixed(4)}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : ''} />
 				)}

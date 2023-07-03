@@ -22,12 +22,45 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	const [showWallet, setShowWallet] = React.useState<boolean>(false);
 	const [showDropdown, setShowDropdown] = React.useState<boolean>(false);
 	const [copied, setCopied] = React.useState<boolean>(false);
+	const [label, setLabel] = React.useState<string | null>(null);
 
 	React.useEffect(() => {
 		setTimeout(() => {
 			setShowWallet(true);
 		}, 200);
 	}, [arProvider.walletAddress]);
+
+	React.useEffect(() => {
+		if (!showWallet) {
+			setLabel(`${language.fetching} ...`);
+		} else {
+			if (arProvider.walletAddress) {
+				if (arProvider.arProfile) {
+					setLabel(arProvider.arProfile.handle);
+				} else {
+					setLabel(formatAddress(arProvider.walletAddress, false));
+				}
+			} else {
+				setLabel(language.connect);
+			}
+		}
+	}, [showWallet, arProvider.walletAddress, arProvider.arProfile]);
+
+	// function getWalletLabel() {
+	// 	if (!showWallet) {
+	// 		return `${language.fetching} ...`;
+	// 	} else {
+	// 		if (arProvider.walletAddress) {
+	// 			if (arProvider.arProfile) {
+	// 				return arProvider.arProfile.handle;
+	// 			} else {
+	// 				return formatAddress(arProvider.walletAddress, false);
+	// 			}
+	// 		} else {
+	// 			return language.connect;
+	// 		}
+	// 	}
+	// }
 
 	function handlePress() {
 		if (arProvider.walletAddress) {
@@ -60,22 +93,6 @@ export default function WalletConnect(props: { callback?: () => void }) {
 		setShowDropdown(false);
 	}
 
-	function getWalletLabel() {
-		if (!showWallet) {
-			return `${language.fetching} ...`;
-		} else {
-			if (arProvider.walletAddress) {
-				if (arProvider.arProfile) {
-					return arProvider.arProfile.handle;
-				} else {
-					return formatAddress(arProvider.walletAddress, false);
-				}
-			} else {
-				return language.connect;
-			}
-		}
-	}
-
 	return (
 		<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>
 			<S.Wrapper>
@@ -98,7 +115,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 					)}
 					<Button
 						type={'alt1'}
-						label={getWalletLabel()}
+						label={label ? label : ''}
 						handlePress={handlePress}
 						height={45}
 						noMinWidth

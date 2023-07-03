@@ -27,9 +27,7 @@ export default function AssetOrders(props: IProps) {
 			const orderIndex = props.asset.orders.findIndex((order: OrderBookPairOrderType) => order.id === currentOrder.id);
 			if (orderIndex !== -1) {
 				const newOrders = props.asset.orders.filter((_: OrderBookPairOrderType, index: number) => {
-					return (
-						index !== orderIndex
-					)
+					return index !== orderIndex;
 				});
 				setRemainingOrders(newOrders);
 			}

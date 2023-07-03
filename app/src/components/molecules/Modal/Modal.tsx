@@ -61,7 +61,9 @@ export default function Modal(props: IProps) {
 
 	return (
 		<Portal node={DOM.modal}>
-			<S.Wrapper noHeader={!props.header} top={window ? (window as any).pageYOffset : 0}>{getBody()}</S.Wrapper>
+			<S.Wrapper noHeader={!props.header} top={window ? (window as any).pageYOffset : 0}>
+				{getBody()}
+			</S.Wrapper>
 		</Portal>
 	);
 }

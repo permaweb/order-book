@@ -120,7 +120,7 @@ export const BuyAction = styled.div`
 
 export const BuyActionEnd = styled.div`
 	width: fit-content;
-	margin: 0 0 0 auto;	
+	margin: 0 0 0 auto;
 `;
 
 export const MaxQty = styled.div`

@@ -135,7 +135,7 @@ export const SellAction = styled.div`
 
 export const SellActionEnd = styled.div`
 	width: fit-content;
-	margin: 0 0 0 auto;	
+	margin: 0 0 0 auto;
 `;
 
 export const ModalTitle = styled.div`

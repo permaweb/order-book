@@ -133,7 +133,7 @@ export const AssetData = styled.div`
 `;
 
 export const DetailLine = styled.div`
-	width: calc(100% - 45px);	
+	width: calc(100% - 45px);
 	margin: 0 0 0 10px;
 	p {
 		font-size: ${(props) => props.theme.typography.size.xSmall};

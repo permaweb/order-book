@@ -34,7 +34,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						tooltip={language.viewDetails}
 						dimensions={{
 							wrapper: 37.5,
-							icon: 22.5
+							icon: 22.5,
 						}}
 					/>
 				</S.ICFlex>
