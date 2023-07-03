@@ -88,9 +88,9 @@ export default function WalletConnect(props: { callback?: () => void }) {
 									<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
 								</S.BalanceWrapper>
 							)}
-							{arProvider.availableBalance && (
+							{arProvider.availableBalance !== null && (
 								<S.BalanceWrapper>
-									<p>{`${arProvider.availableBalance?.toFixed(2)}`}</p>
+									<p>{`${arProvider.availableBalance.toFixed(2)}`}</p>
 									<ReactSVG src={ASSETS.arLogo} />
 								</S.BalanceWrapper>
 							)}

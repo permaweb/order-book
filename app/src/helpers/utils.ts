@@ -66,3 +66,16 @@ export function formatFloat(number: number, value: number) {
 	string = string.slice(0, string.indexOf('.') + value + 1);
 	return Number(string);
 }
+
+export function formatPrice(price: number) {
+	let updatedPrice = price / 1e6;
+	if (updatedPrice >= 0.0001) {
+		if (updatedPrice.toFixed(4).split('.')[1].length > 4) {
+			return updatedPrice.toExponential(2).replace(/\.?0+e/, 'e');
+		} else {
+			return updatedPrice.toFixed(4);
+		}
+	} else {
+		return updatedPrice.toExponential(2).replace(/\.?0+e/, 'e');
+	}
+}

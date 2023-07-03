@@ -132,9 +132,6 @@ export default function AssetBuy(props: IProps) {
 		setBuyResponse(null);
 	}
 
-	console.log(`total sales balance ${totalSalesBalance}`)
-	console.log(`total balance ${totalBalance}`)
-
 	return (
 		<>
 			<S.Wrapper>

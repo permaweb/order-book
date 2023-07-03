@@ -13,7 +13,7 @@ import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
-import { formatCount, formatDate } from 'helpers/utils';
+import { formatCount, formatDate, formatPrice } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import { AssetDetailAction } from './AssetDetailAction';
@@ -222,7 +222,7 @@ export default function AssetDetail(props: IProps) {
 
 														<S.DCLineFlex>
 															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
-															<S.DCLineDetail>{`${owner.sellUnitPrice / 1e6} U`}</S.DCLineDetail>
+															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
 														</S.DCLineFlex>
 													</S.DCLine>
 												);
@@ -276,7 +276,7 @@ export default function AssetDetail(props: IProps) {
 
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
-												<S.DCLineDetail>{`${owner.sellUnitPrice / 1e6} U`}</S.DCLineDetail>
+												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
 											</S.DCLineFlex>
 										</S.DCLine>
 									);

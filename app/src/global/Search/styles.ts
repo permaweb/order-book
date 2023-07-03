@@ -39,10 +39,10 @@ export const SearchInput = styled.input<{ hasResults: boolean }>`
 	border-bottom: ${(props) => (props.hasResults ? `none` : `1px solid ${props.theme.colors.form.border}`)};
 	border-right: 1px solid ${(props) => props.theme.colors.form.border};
 	border-left: 1px solid ${(props) => props.theme.colors.form.border};
-	border-top-left-radius: 18px;
-	border-top-right-radius: 18px;
-	border-bottom-left-radius: ${(props) => (props.hasResults ? `0` : `18px`)};
-	border-bottom-right-radius: ${(props) => (props.hasResults ? `0` : `18px`)};
+	border-top-left-radius: ${STYLING.dimensions.borderRadius};
+	border-top-right-radius: ${STYLING.dimensions.borderRadius};
+	border-bottom-left-radius: ${(props) => (props.hasResults ? `0` : `${STYLING.dimensions.borderRadius}`)};
+	border-bottom-right-radius: ${(props) => (props.hasResults ? `0` : `${STYLING.dimensions.borderRadius}`)};
 	padding: 10px 35px 10px 40px;
 	&:disabled {
 		background: ${(props) => props.theme.colors.form.disabled.background};
@@ -85,8 +85,8 @@ export const SearchResultsWrapper = styled.div`
 	position: absolute;
 	top: calc(${STYLING.dimensions.formHeightSm} + 0px);
 	background: ${(props) => props.theme.colors.container.primary.background};
-	border-bottom-left-radius: 18px;
-	border-bottom-right-radius: 18px;
+	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
+	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
 	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};

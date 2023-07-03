@@ -168,6 +168,7 @@ export const AWrapper = styled.div`
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	margin: 0 15px;
+	overflow: hidden;
 `;
 
 export const SFlex = styled.div`
