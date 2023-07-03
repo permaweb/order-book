@@ -149,7 +149,7 @@ export default function AssetSell(props: IProps) {
 		if (isNaN(unitPrice) || isNaN(quantity) || quantity < 0 || unitPrice < 0) {
 			price = 0;
 		} else {
-			price = (quantity * unitPrice) / 1e6;
+			price = quantity * unitPrice;
 		}
 
 		return (
