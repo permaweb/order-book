@@ -168,7 +168,7 @@ const client: OrderBookType = {
 		await arClient.writeContract({
 			contract: env.orderBookContract,
 			wallet: args.wallet,
-			input: {function: 'balance'},
+			input: {function: 'noop'},
 		});
 
 		await arClient.writeContract({
