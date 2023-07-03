@@ -36,46 +36,44 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	React.useEffect(() => {
-		if (arProvider.walletAddress) {
-			const GET_ENDPOINT = 'arweave-search.goldsky.com';
-			const POST_ENDPOINT = 'arweave.net';
+		const GET_ENDPOINT = 'arweave-search.goldsky.com';
+		const POST_ENDPOINT = 'arweave.net';
 
-			const PORT = 443;
-			const PROTOCOL = 'https';
-			const TIMEOUT = 40000;
-			const LOGGING = false;
+		const PORT = 443;
+		const PROTOCOL = 'https';
+		const TIMEOUT = 40000;
+		const LOGGING = false;
 
-			let arweaveGet = Arweave.init({
-				host: GET_ENDPOINT,
-				port: PORT,
-				protocol: PROTOCOL,
-				timeout: TIMEOUT,
-				logging: LOGGING,
-			});
+		let arweaveGet = Arweave.init({
+			host: GET_ENDPOINT,
+			port: PORT,
+			protocol: PROTOCOL,
+			timeout: TIMEOUT,
+			logging: LOGGING,
+		});
 
-			let arweavePost = Arweave.init({
-				host: POST_ENDPOINT,
-				port: PORT,
-				protocol: PROTOCOL,
-				timeout: TIMEOUT,
-				logging: LOGGING,
-			});
+		let arweavePost = Arweave.init({
+			host: POST_ENDPOINT,
+			port: PORT,
+			protocol: PROTOCOL,
+			timeout: TIMEOUT,
+			logging: LOGGING,
+		});
 
-			let warp = WarpFactory.forMainnet({
-				...defaultCacheOptions,
-				inMemory: true,
-			});
+		let warp = WarpFactory.forMainnet({
+			...defaultCacheOptions,
+			inMemory: true,
+		});
 
-			setOrderBook(
-				OrderBook.init({
-					currency: 'U',
-					arweaveGet: arweaveGet,
-					arweavePost: arweavePost,
-					warp: warp,
-					warpDreNode: dreReducer.source,
-				})
-			);
-		}
+		setOrderBook(
+			OrderBook.init({
+				currency: 'U',
+				arweaveGet: arweaveGet,
+				arweavePost: arweavePost,
+				warp: warp,
+				warpDreNode: dreReducer.source,
+			})
+		);
 	}, [arProvider.walletAddress, dreReducer.source]);
 
 	return (
