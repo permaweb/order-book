@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 
 import { assetsReducer } from './assets/reducers';
 import { cursorsReducer } from './cursors/reducers';
+import { dreReducer } from './dre/reducers';
 
 declare const window: any;
 
@@ -17,6 +18,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	assetsReducer,
 	cursorsReducer,
+	dreReducer
 });
 
 export type RootState = ReturnType<typeof store.getState>;

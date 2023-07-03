@@ -1,4 +1,4 @@
-export const ORDERBOOK_CONTRACT = 'IRaNlW4qTQBUGecfVs4oo-8cfm_ul881TDYXIBTCSgE';
+export const ORDERBOOK_CONTRACT = 'XVO04wSSqoyrPN5ut4jtFjKc_c41k6nUhpilohRDilM';
 // export const ORDERBOOK_CONTRACT = 'R-z-3b6gelKYIG9dTi1mLoipKwxIrbF9zimkho-PuLw';
 
 // {

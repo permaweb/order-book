@@ -6,6 +6,7 @@ import { AssetDetailType, STORAGE } from 'permaweb-orderbook';
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { Loader } from 'components/atoms/Loader';
+import { PieChart } from 'components/atoms/PieChart';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'global/AssetData';
@@ -134,7 +135,7 @@ export default function AssetDetail(props: IProps) {
 						</S.AssetInfoWrapper>
 					</S.C1Wrapper>
 					<S.C2>
-						<div className={'border-wrapper'}>
+						<div className={'border-wrapper-alt'}>
 							<S.ACHeader>
 								<h2>{asset.data.title}</h2>
 								<S.StampWidget>
@@ -164,6 +165,18 @@ export default function AssetDetail(props: IProps) {
 								)}
 							</S.ACHeader>
 						</div>
+
+						{currentOwners && currentOwners.length > 1 && (
+							<div className={'border-wrapper'}>
+								<S.ACChartWrapper>
+									<p>{language.currentOwners}</p>
+									<S.ACChart>
+										<PieChart owners={currentOwners} />
+									</S.ACChart>
+								</S.ACChartWrapper>
+							</div>
+						)}
+
 						<S.AssetCAction className={'border-wrapper-alt'}>
 							<AssetDetailAction asset={asset} updateAsset={updateAsset} />
 						</S.AssetCAction>
@@ -293,12 +306,7 @@ export default function AssetDetail(props: IProps) {
 				return (
 					<S.Warning>
 						<p>{language.errorFetchingAsset}</p>
-						<Button 
-							type={'alt1'}
-							label={language.goBack}
-							handlePress={() => navigate(-1)}
-							noMinWidth
-						/>
+						<Button type={'alt1'} label={language.goBack} handlePress={() => navigate(-1)} noMinWidth />
 					</S.Warning>
 				);
 			} else {

@@ -47,6 +47,12 @@ export const NavPaths = styled.div`
 	}
 `;
 
+export const SettingsWrapper = styled.div`
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		margin: 0 20px 0 auto;
+	}
+`;
+
 export const Link = styled.div`
 	a {
 		height: 100%;
@@ -120,6 +126,7 @@ export const NC = styled.div`
 	right: 0;
 	position: absolute;
 	display: flex;
+	align-items: center;
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		flex-direction: column;
 		width: auto;

@@ -24,10 +24,10 @@ let warp = WarpFactory.forMainnet({
 
 let orderbook = OrderBook.init({
 	currency: 'U',
-	wallet: 'jwk, use_wallet, window.arweaveWallet',
-	arweaveGet: arweave,
-	arweavePost: arweave,
-	warp: warp
+	arweaveGet: arweaveGet,
+	arweavePost: arweavePost,
+	warp: warp,
+	warpDreNode: 'https://dre-1.warp.cc/contract'
 });
 ```
 
@@ -41,18 +41,10 @@ Limit Buy Market Sell
 // Limit sell
 let orderTx = await orderbook.sell({
 	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
-	// price in sub $U
-	price: 1000000,
-	// quantity of asset
-	qty: 1,
-});
-
-// Sell an asset at the market price
-// If a buy order exists it will fill automatically
-let orderTx = await orderbook.sell({
-	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
-	// quantity of asset
-	qty: 1,
+	qty: 10, // quantity of asset to sell
+	price: unitPrice, // unit price in subunits 
+	wallet: "use_wallet",
+	walletAddress: walletAddress
 });
 
 console.log(orderTx);
@@ -66,6 +58,8 @@ let orderTx = await orderbook.buy({
 	assetId: 'jsDyuWAfDpvng789iOpoG9GJpd91VayNizlFzOyNiRE',
 	// amount of sub $U to spend
 	spend: 1000,
+	wallet: "use_wallet",
+	walletAddress: walletAddress
 });
 
 console.log(orderTx);
