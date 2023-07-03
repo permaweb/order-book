@@ -31,7 +31,7 @@ export const HSection1 = styled.div`
 	display: flex;
 	align-items: center;
 	padding: 0 20px;
-	p {
+	p, a {
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt6};
@@ -83,7 +83,7 @@ export const PICWrapper = styled.div`
 	width: 48.5%;
 	margin: 0 0 20px 0;
 	a {
-		text-decoration: none !important;
+		// text-decoration: none !important;
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
@@ -101,11 +101,10 @@ export const PCWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	// flex-wrap: wrap;
 	padding: 20px;
 	position: relative;
 	transition: background 0.1s;
-	p {
+	p, a {
 		max-width: 175px;
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
@@ -116,8 +115,6 @@ export const PCWrapper = styled.div`
 		white-space: nowrap;
 	}
 	&:hover {
-		cursor: pointer;
-		text-decoration: none !important;
 		background: ${(props) => props.theme.colors.container.alt2.background};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
@@ -147,12 +144,19 @@ export const AFlex = styled.div`
 `;
 
 export const ATitle = styled.div`
-	p {
+	max-width: 165px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	p, a {
     	width: fit-content;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		width: 165px;
-		p {
+		p, a {
 			width: 100%;
 			max-width: none;
 		}

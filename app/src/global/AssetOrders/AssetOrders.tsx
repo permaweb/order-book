@@ -42,6 +42,7 @@ export default function AssetOrders(props: IProps) {
 	}
 
 	function handleChangeOrder(e: any, order: OrderBookPairOrderType) {
+		e.stopPropagation();
 		e.preventDefault();
 		setCurrentOrder(order);
 		setShowDropdown(!showDropdown);
