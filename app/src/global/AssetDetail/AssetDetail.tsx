@@ -166,7 +166,7 @@ export default function AssetDetail(props: IProps) {
 							</S.ACHeader>
 						</div>
 
-						{currentOwners && (
+						{currentOwners && currentOwners.length > 1 && (
 							<div className={'border-wrapper'}>
 								<S.ACChartWrapper>
 									<p>{language.currentOwners}</p>
