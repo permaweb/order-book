@@ -22,6 +22,7 @@ import provenanceSVG from 'assets/provenance.svg';
 import rendererSVG from 'assets/renderer.svg';
 import searchSVG from 'assets/search.svg';
 import sellSVG from 'assets/sell.svg';
+import settingsSVG from 'assets/settings.svg';
 import defaultStampSVG from 'assets/stamp-default.svg';
 import superStampSVG from 'assets/stamp-super.svg';
 import vouchedStampSVG from 'assets/stamp-vouched.svg';
@@ -32,6 +33,7 @@ import userSVG from 'assets/user.svg';
 import walletSVG from 'assets/wallet.svg';
 
 import { language } from './language';
+import { DREObjectType } from './types';
 
 export const ASSETS = {
 	arLogo: arLogoSVG,
@@ -55,6 +57,7 @@ export const ASSETS = {
 	renderer: rendererSVG,
 	search: searchSVG,
 	sell: sellSVG,
+	settings: settingsSVG,
 	stamps: stampsSVG,
 	stamp: {
 		default: defaultStampSVG,
@@ -110,3 +113,30 @@ export const ACTION_TABS = [
 		label: TAB_OPTIONS.sell,
 	},
 ];
+
+export const DRE_NODES: DREObjectType[] = [
+	{
+		label: 'DRE-1',
+		source: 'https://dre-1.warp.cc/contract'
+	},
+	{
+		label: 'DRE-2',
+		source: 'https://dre-2.warp.cc/contract'
+	},
+	{
+		label: 'DRE-3',
+		source: 'https://dre-3.warp.cc/contract'
+	},
+	{
+		label: 'DRE-4',
+		source: 'https://dre-4.warp.cc/contract'
+	},
+	{
+		label: 'DRE-5',
+		source: 'https://dre-5.warp.cc/contract'
+	},
+	{
+		label: 'DRE-6',
+		source: 'https://dre-6.warp.cc/contract'
+	},
+]
