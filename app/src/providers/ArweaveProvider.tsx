@@ -5,11 +5,13 @@ import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
 import { OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
+import { RootState } from 'store';
 import { Modal } from 'components/molecules/Modal';
 import { AR_WALLETS, WALLET_PERMISSIONS } from 'helpers/config';
 import { getArweaveBalanceEndpoint, getCurrencyBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { STYLING } from 'helpers/styling';
+import { useSelector } from 'react-redux';
 
 export const WalletListContainer = styled.div`
 	height: 100%;
@@ -107,6 +109,8 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
 	const [currencyBalances, setCurrencyBalances] = React.useState<CurrencyBalancesType | null>(null);
 
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
+
 	async function handleConnect() {
 		// @ts-ignore
 		await global.window?.arweaveWallet
@@ -189,6 +193,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
+				warpDreNode: dreReducer.source
 			})
 		);
 	}, []);

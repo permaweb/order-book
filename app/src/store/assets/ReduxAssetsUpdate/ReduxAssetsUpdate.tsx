@@ -26,6 +26,7 @@ export default function ReduxAssetsUpdate(props: {
 
 	const dispatch = useDispatch();
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
@@ -67,6 +68,7 @@ export default function ReduxAssetsUpdate(props: {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
+				warpDreNode: dreReducer.source
 			})
 		);
 	}, []);

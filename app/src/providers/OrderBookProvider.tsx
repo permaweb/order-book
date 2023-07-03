@@ -2,9 +2,11 @@ import React from 'react';
 import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 
+import { RootState } from 'store';
 import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { useArweaveProvider } from 'providers/ArweaveProvider';
+import { useSelector } from 'react-redux';
 
 LoggerFactory.INST.logLevel('fatal');
 
@@ -30,6 +32,8 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const arProvider = useArweaveProvider();
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType | null>(null);
+
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	React.useEffect(() => {
 		if(arProvider.walletAddress) {
@@ -68,6 +72,7 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 					arweaveGet: arweaveGet,
 					arweavePost: arweavePost,
 					warp: warp,
+					warpDreNode: dreReducer.source
 				})
 			);
 		}

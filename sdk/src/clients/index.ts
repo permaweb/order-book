@@ -26,7 +26,8 @@ const client: OrderBookType = {
 			arClient: ArweaveClient.init({
 				arweaveGet: args.arweaveGet,
 				arweavePost: args.arweavePost,
-				warp: args.warp
+				warp: args.warp,
+				warpDreNode: args.warpDreNode
 			})
 		};
 
@@ -100,6 +101,24 @@ const client: OrderBookType = {
 			input: orderInput,
 		});
 
+		await arClient.writeContract({
+			contract: env.orderBookContract,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+
+		await arClient.writeContract({
+			contract: env.currencyContract,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+
+		await arClient.writeContract({
+			contract: args.assetId,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+
 		await fetch(getSyncEndpoint(args.assetId));
 		await fetch(getSyncEndpoint(env.orderBookContract));
 		await fetch(getSyncEndpoint(env.currencyContract));
@@ -144,6 +163,24 @@ const client: OrderBookType = {
 			contract: env.orderBookContract,
 			wallet: args.wallet,
 			input: orderInput,
+		});
+
+		await arClient.writeContract({
+			contract: env.orderBookContract,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+
+		await arClient.writeContract({
+			contract: env.currencyContract,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+		
+		await arClient.writeContract({
+			contract: args.assetId,
+			wallet: args.wallet,
+			input: {function: 'balance'},
 		});
 
 		await fetch(getSyncEndpoint(args.assetId));
