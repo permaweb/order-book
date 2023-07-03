@@ -24,20 +24,6 @@ export const PICWrapper = styled.div`
 	}
 `;
 
-export const HCWrapper = styled.div`
-	height: 60px;
-	width: 100%;
-	background: ${(props) => props.theme.colors.container.primary.background};
-	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-top-left-radius: ${STYLING.dimensions.borderRadius};
-	border-top-right-radius: ${STYLING.dimensions.borderRadius};
-	position: relative;
-	display: flex;
-	align-items: center;
-`;
-
 export const Index = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.small};
@@ -61,13 +47,6 @@ export const HCEnd = styled.div`
 	}
 `;
 
-export const HCLoader = styled(HCWrapper)`
-	overflow: hidden;
-	> * {
-		margin: 0;
-	}
-`;
-
 export const RendererSVG = styled.div`
 	svg {
 		height: 30px !important;
@@ -80,12 +59,16 @@ export const PCWrapper = styled.div`
 	width: 100%;
 	position: relative;
 	background: ${(props) => props.theme.colors.container.primary.background};
+	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-top-left-radius: ${STYLING.dimensions.borderRadius};
+	border-top-right-radius: ${STYLING.dimensions.borderRadius};
+	overflow: hidden;
 `;
 
 export const ICWrapper = styled.div`
-	min-height: 60px;
+	min-height: 100px;
 	width: 100%;
 	padding: 15px 20px 0 20px;
 	background: ${(props) => props.theme.colors.container.primary.background};
@@ -98,7 +81,7 @@ export const ICWrapper = styled.div`
 `;
 
 export const ICLoader = styled(ICWrapper)`
-	height: 50px;
+	height: 115px;
 	padding: 0;
 	overflow: hidden;
 `;
@@ -108,10 +91,10 @@ export const ICFlex = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	svg {
-		width: 25px;
-		margin: 0 0 0 -4.5px;
-	}
+`;
+
+export const ICBottom = styled(ICFlex)`
+	margin: 10px 0 15px 0;
 `;
 
 export const AssetData = styled.div`
@@ -144,9 +127,7 @@ export const DetailAction = styled.div`
 	}
 `;
 
-export const AssetDataAlt = styled.div`
-	margin: 10px 0 12.5px 0;
-`;
+export const AssetDataAlt = styled.div``;
 
 export const NoAssetsContainer = styled.div`
 	height: fit-content;

@@ -193,13 +193,36 @@ export const OwnerLine = styled.div`
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
-		color: ${(props) => props.theme.colors.button.primary.background};
+		color: ${(props) => props.theme.colors.font.primary.alt12};
 		text-decoration: underline;
 		margin: 0 0 0 5px;
 		&:hover {
 			color: ${(props) => props.theme.colors.button.primary.hover};
 		}
 	}
+`;
+
+export const ACChartWrapper = styled.div`
+	width: 100%;
+	padding: 20px;
+	p {
+		font-size: ${(props) => props.theme.typography.size.base};
+		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+		margin: 0 0 -60px 0;
+		width: fit-content;
+		padding: 10px 20px;
+		border: 1px solid ${(props) => props.theme.colors.border.primary};
+		border-radius: ${STYLING.dimensions.borderRadiusField};
+	}
+`;
+
+export const ACChart = styled.div`
+	width: 550px;
+	max-width: 100%;
+	margin: 0 40px 0 auto;
 `;
 
 export const AssetCAction = styled.div`

@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ReactSVG } from 'react-svg';
 
-import { AssetType, STORAGE } from 'permaweb-orderbook';
+import { AssetType } from 'permaweb-orderbook';
 
 import { IconButton } from 'components/atoms/IconButton';
 import { Loader } from 'components/atoms/Loader';
@@ -20,23 +19,6 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 	const navigate = useNavigate();
 	return (
 		<S.PICWrapper>
-			<S.HCWrapper>
-				<S.Index>
-					<p>{props.index}</p>
-				</S.Index>
-				<S.HCEnd>
-					{props.asset.data.renderWith && props.asset.data.renderWith !== STORAGE.none && (
-						<S.RendererSVG>
-							<ReactSVG src={ASSETS.renderer} />
-						</S.RendererSVG>
-					)}
-					<StampWidget
-						assetId={props.asset.data.id}
-						title={props.asset.data.title}
-						stamps={props.asset.stamps ? props.asset.stamps : null}
-					/>
-				</S.HCEnd>
-			</S.HCWrapper>
 			<S.PCWrapper>
 				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} />
 			</S.PCWrapper>
@@ -46,15 +28,26 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						<p>{props.asset.data.title}</p>
 					</S.AssetData>
 					<IconButton
-						type={'primary'}
+						type={'alt1'}
 						src={ASSETS.details}
 						handlePress={() => navigate(`${urls.asset}${props.asset.data.id}`)}
 						tooltip={language.viewDetails}
+						dimensions={{
+							wrapper: 37.5,
+							icon: 22.5
+						}}
 					/>
 				</S.ICFlex>
-				<S.AssetDataAlt>
-					<AssetOrders asset={props.asset} />
-				</S.AssetDataAlt>
+				<S.ICBottom>
+					<S.AssetDataAlt>
+						<AssetOrders asset={props.asset} />
+					</S.AssetDataAlt>
+					<StampWidget
+						assetId={props.asset.data.id}
+						title={props.asset.data.title}
+						stamps={props.asset.stamps ? props.asset.stamps : null}
+					/>
+				</S.ICBottom>
 			</S.ICWrapper>
 		</S.PICWrapper>
 	);
@@ -88,9 +81,6 @@ export default function AssetsGrid(props: IProps) {
 			const keys = Array.from({ length: props.loaderCount }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
-					<S.HCLoader key={`hc_${element}`}>
-						<Loader placeholder />
-					</S.HCLoader>
 					<S.PCWrapper key={`pc_${element}`}>
 						<Loader placeholder />
 					</S.PCWrapper>
