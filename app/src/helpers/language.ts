@@ -58,7 +58,7 @@ export const language = {
 	quantityMustBeInteger: `Quantity must be an integer`,
 	rank: `Rank`,
 	saleQuantityTooltip: `This value represents the total quantity of the asset you currently own that you would like to list for sale`,
-	saleUnitPriceTooltip: `This value represents the cost for 1 unit of the asset`,
+	saleUnitPriceTooltip: `This value represents the cost for 1 unit of the asset in U`,
 	searchAssets: `Search Assets`,
 	sell: `Sell`,
 	seller: `Seller`,

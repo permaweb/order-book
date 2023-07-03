@@ -5,6 +5,7 @@ import { OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
+import { formatPrice } from 'helpers/utils';
 import { CloseHandler } from 'wrappers/CloseHandler';
 
 import * as S from './styles';
@@ -52,7 +53,7 @@ export default function AssetOrders(props: IProps) {
 				<>
 					<S.DropdownAction disabled={!remainingOrders || !remainingOrders.length} onClick={(e: any) => handlePress(e)}>
 						<S.Currency>
-							<p>{currentOrder.price / 1e6}</p>
+							<p>{formatPrice(currentOrder.price)}</p>
 							{currentOrder.currency && (
 								<ReactSVG src={CURRENCY_ICONS[currentOrder.currency] ? CURRENCY_ICONS[currentOrder.currency] : ''} />
 							)}
@@ -66,7 +67,7 @@ export default function AssetOrders(props: IProps) {
 									return (
 										<S.DropdownSubAction key={index} onClick={(e: any) => handleChangeOrder(e, order)}>
 											<S.Currency>
-												<p>{order.price / 1e6}</p>
+												<p>{formatPrice(order.price)}</p>
 												{order.currency && (
 													<ReactSVG src={CURRENCY_ICONS[order.currency] ? CURRENCY_ICONS[order.currency] : ''} />
 												)}
