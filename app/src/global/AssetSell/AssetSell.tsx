@@ -154,7 +154,7 @@ export default function AssetSell(props: IProps) {
 
 		return (
 			<S.Price>
-				<p>{price}</p>
+				<p>{price.toFixed(2)}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG
 						src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : CURRENCY_ICONS[CURRENCY_DICT.U]}
@@ -173,7 +173,7 @@ export default function AssetSell(props: IProps) {
 				await orProvider.orderBook?.sell({
 					assetId: props.asset.data.id,
 					qty: quantity,
-					price: unitPrice / 1e6,
+					price: unitPrice * 1e6,
 				});
 			} catch (e: any) {
 				throw new Error(e);

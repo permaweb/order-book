@@ -116,7 +116,7 @@ export default function AssetBuy(props: IProps) {
 
 		return (
 			<S.Price>
-				<p>{calcTotalPrice() / 1e6}</p>
+				<p>{(calcTotalPrice() / 1e6).toFixed(2)}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : ''} />
 				)}
