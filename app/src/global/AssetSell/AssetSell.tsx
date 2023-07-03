@@ -173,7 +173,7 @@ export default function AssetSell(props: IProps) {
 				await orProvider.orderBook?.sell({
 					assetId: props.asset.data.id,
 					qty: quantity,
-					price: unitPrice,
+					price: unitPrice / 1e6,
 				});
 			} catch (e: any) {
 				throw new Error(e);
