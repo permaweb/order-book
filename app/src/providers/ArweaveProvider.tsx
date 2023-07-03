@@ -207,7 +207,8 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				}
 
 				try{
-					const rawBalance = await fetch(getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract));
+					let dreNode  = dreReducer.source.substring(0, dreReducer.source.lastIndexOf('/'));
+					const rawBalance = await fetch(getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract, dreNode));
 					const jsonBalance = await rawBalance.json();
 					const numBalance = jsonBalance.result && jsonBalance.result[0] ? jsonBalance.result[0] : 0;
 					setCurrencyBalances({

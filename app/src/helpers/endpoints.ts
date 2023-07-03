@@ -4,8 +4,8 @@ export function getArweaveBalanceEndpoint(walletAddress: string) {
 	return `https://arweave.net/wallet/${walletAddress}/balance`;
 }
 
-export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContract: string) {
-	return `https://dre-1.warp.cc/contract?id=${currencyContract}&query=$.balances.${walletAddress}`;
+export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContract: string, dreNode: string) {
+	return `${dreNode}/contract?id=${currencyContract}&query=$.balances.${walletAddress}`;
 }
 
 export function getBalancesEndpoint(walletAddress: string) {
