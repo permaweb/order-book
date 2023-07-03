@@ -48,6 +48,7 @@ export type InitArgs = {
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
+	warpDreNode: string;
 };
 
 export type ApiClientInitArgs = {
@@ -127,6 +128,7 @@ export type ArweaveClientInitArgs = {
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
+	warpDreNode: string;
 };
 
 export type ArweaveClientType = {
@@ -136,6 +138,7 @@ export type ArweaveClientType = {
 	warpDefault: any;
 	writeContract: (args: WriteContractArgs) => Promise<any>;
 	read: (id: string) => Promise<any>;
+	options: any;
 };
 
 export type OrderBookType = {

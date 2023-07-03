@@ -27,6 +27,7 @@ let orderbook = OrderBook.init({
 	arweaveGet: arweaveGet,
 	arweavePost: arweavePost,
 	warp: warp,
+	warpDreNode: 'https://dre-1.warp.cc/contract'
 });
 ```
 
