@@ -1,7 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
+
+import { CURRENCY_DICT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
+import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
@@ -62,7 +66,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 		} else {
 			if (arProvider.walletAddress) {
 				if (arProvider.arProfile) {
-					return arProvider.arProfile.profile.handleName || formatAddress(arProvider.arProfile.addr, false);
+					return arProvider.arProfile.handle;
 				} else {
 					return formatAddress(arProvider.walletAddress, false);
 				}
@@ -75,7 +79,32 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	return (
 		<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>
 			<S.Wrapper>
-				<Button type={'primary'} label={getWalletLabel()} handlePress={handlePress} width={160} useMaxWidth />
+				<S.FlexAction>
+					{arProvider.walletAddress && (
+						<>
+							{arProvider.currencyBalances && (
+								<S.BalanceWrapper>
+									<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
+									<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
+								</S.BalanceWrapper>
+							)}
+							{arProvider.availableBalance !== null && (
+								<S.BalanceWrapper>
+									<p>{`${arProvider.availableBalance.toFixed(2)}`}</p>
+									<ReactSVG src={ASSETS.arLogo} />
+								</S.BalanceWrapper>
+							)}
+						</>
+					)}
+					<Button
+						type={'alt1'}
+						label={getWalletLabel()}
+						handlePress={handlePress}
+						height={45}
+						noMinWidth
+						icon={ASSETS.wallet}
+					/>
+				</S.FlexAction>
 				{showDropdown && (
 					<S.WalletDropdown>
 						<li onClick={handleViewAccount}>{language.account}</li>

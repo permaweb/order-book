@@ -69,6 +69,7 @@ export default function Button(props: IProps) {
 
 	function handlePress(e: React.MouseEvent) {
 		e.stopPropagation();
+		e.preventDefault();
 		props.handlePress(e);
 	}
 
@@ -88,7 +89,7 @@ export default function Button(props: IProps) {
 			height={props.height}
 			data-testid={props.testingCtx}
 		>
-			{props.loading ? `${language.loading} ...` : getLabel()}
+			{props.loading ? <span>{`${language.loading} ...`}</span> : getLabel()}
 		</StyledButton>
 	);
 }

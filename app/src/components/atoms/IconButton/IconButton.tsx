@@ -35,11 +35,16 @@ export default function IconButton(props: IProps) {
 		}
 	}
 
+	function handlePress(e: any) {
+		e.preventDefault();
+		props.handlePress();
+	}
+
 	function getAction() {
 		return (
 			<StyledButton
 				title={props.tooltip ? props.tooltip : null}
-				onClick={props.handlePress}
+				onClick={(e: any) => handlePress(e)}
 				disabled={props.disabled}
 				sm={props.sm}
 				warning={props.warning}

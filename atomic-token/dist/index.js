@@ -95,7 +95,9 @@ function claim(state, action) {
     if (!action2.input.qty) {
       return Left("claim quantity is not specified.");
     }
-    const idx = state2.claimable.findIndex((c) => c.txID === action2.input.txID);
+    const idx = state2.claimable.findIndex(
+      (c) => c.txID === action2.input.txID
+    );
     if (idx < 0) {
       return Left("claimable not found.");
     }

@@ -1,7 +1,14 @@
-export const ORDERBOOK_CONTRACT = 'hY3jZrvejIjQmLjya3yarDyKNgdiG-BiR6GxG_X3rY8';
+export const ORDERBOOK_CONTRACT = 'IRaNlW4qTQBUGecfVs4oo-8cfm_ul881TDYXIBTCSgE';
+// export const ORDERBOOK_CONTRACT = 'R-z-3b6gelKYIG9dTi1mLoipKwxIrbF9zimkho-PuLw';
 
+// {
+// 	contractTxId: 'QzqLKlswebY0u6wpvG8bwe0_xuZfNig1EVLMIPbEVSc',
+// 	srcTxId: 'ycZOo0CE_mjpQZWoko3dqqJWcPuUjcmarPTiZpjz_qA'
+//   }
+
+// KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw
 export const CURRENCY_DICT = {
-	U: 'rO8f4nTVarU6OtU2284C8-BIH6HscNd-srhWznUllTk',
+	U: 'FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ',
 };
 
 export const PAGINATOR = 100;
@@ -16,7 +23,6 @@ export const CURSORS = {
 };
 
 export const SEARCH = {
-	cursorPrefix: 'searchCursor',
 	idTerm: '`*',
 	ownerTerm: '`%',
 };
@@ -29,9 +35,16 @@ export const TAGS = {
 			topic: 'Topic:*',
 			type: 'Type',
 			implements: 'Implements',
+			license: 'License'
 		},
+		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
 	},
-	values: {},
+	values: {
+		profileVersions: {
+			'0.2': 'Account-0.2',
+			'0.3': 'Account-0.3',
+		}
+	},
 };
