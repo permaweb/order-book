@@ -13,54 +13,54 @@ import { CloseHandler } from 'wrappers/CloseHandler';
 import * as S from './styles';
 
 function DRESwitch() {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    const dreReducer = useSelector((state: RootState) => state.dreReducer);
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
-    function handlePress(node: DREObjectType) {
-        dispatch(dreActions.setNode(node));
-    }
+	function handlePress(node: DREObjectType) {
+		dispatch(dreActions.setNode(node));
+	}
 
-    return (
-        <S.DREWrapper>
-            <p>{language.selectDRENode}</p>
-            {DRE_NODES.map((node: DREObjectType, index: number) => {
-                return (
-                    <Button
-                        key={index}
-                        type={'alt1'}
-                        active={node.label === dreReducer.label}
-                        label={node.label}
-                        handlePress={() => handlePress(node)}
-                        fullWidth
-                    />
-                )
-            })}
-        </S.DREWrapper>
-    )
+	return (
+		<S.DREWrapper>
+			<p>{language.selectDRENode}</p>
+			{DRE_NODES.map((node: DREObjectType, index: number) => {
+				return (
+					<Button
+						key={index}
+						type={'alt1'}
+						active={node.label === dreReducer.label}
+						label={node.label}
+						handlePress={() => handlePress(node)}
+						fullWidth
+					/>
+				);
+			})}
+		</S.DREWrapper>
+	);
 }
 
 export default function Settings() {
-    const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
+	const [dropdownOpen, setDropdownOpen] = React.useState<boolean>(false);
 
-    return (
-        <CloseHandler active={dropdownOpen} callback={() => setDropdownOpen(false)} disabled={false}>
-        <S.Wrapper>
-            <IconButton 
-                type={'alt1'}
-                src={ASSETS.settings}
-                handlePress={() => setDropdownOpen(!dropdownOpen)}
-                dimensions={{
-                    wrapper: 45,
-                    icon: 20
-                }}
-            />
-            {dropdownOpen && (
-                <S.Dropdown className={'border-wrapper'}>
-                    <DRESwitch />
-                </S.Dropdown>
-            )}
-        </S.Wrapper>
-        </CloseHandler>
-    )
+	return (
+		<CloseHandler active={dropdownOpen} callback={() => setDropdownOpen(false)} disabled={false}>
+			<S.Wrapper>
+				<IconButton
+					type={'alt1'}
+					src={ASSETS.settings}
+					handlePress={() => setDropdownOpen(!dropdownOpen)}
+					dimensions={{
+						wrapper: 45,
+						icon: 20,
+					}}
+				/>
+				{dropdownOpen && (
+					<S.Dropdown className={'border-wrapper'}>
+						<DRESwitch />
+					</S.Dropdown>
+				)}
+			</S.Wrapper>
+		</CloseHandler>
+	);
 }

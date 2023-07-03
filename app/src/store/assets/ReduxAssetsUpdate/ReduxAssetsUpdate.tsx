@@ -68,10 +68,10 @@ export default function ReduxAssetsUpdate(props: {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
-				warpDreNode: dreReducer.source
+				warpDreNode: dreReducer.source,
 			})
 		);
-	}, []);
+	}, [dreReducer.source]);
 
 	React.useEffect(() => {
 		if (orderBook) {
@@ -124,7 +124,11 @@ export default function ReduxAssetsUpdate(props: {
 							const cursorIds = [...contractIds].slice(i, i + PAGINATOR);
 							const newIndex = `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`;
 
-							if (![...groupIndex.values()].some((ids: any) => ids.every((id: any, index: any) => id === cursorIds[index]))) {
+							if (
+								![...groupIndex.values()].some((ids: any) =>
+									ids.every((id: any, index: any) => id === cursorIds[index])
+								)
+							) {
 								updatedReducer.push({
 									index: newIndex,
 									ids: cursorIds,

@@ -123,7 +123,7 @@ export const DetailAction = styled.div`
 	margin: 10px 0 0 0;
 	svg {
 		height: 20px;
-    	width: 19.5px;
+		width: 19.5px;
 	}
 `;
 

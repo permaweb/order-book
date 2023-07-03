@@ -7,19 +7,15 @@ const DEPLOY_FOLDER = './dist';
 const BUNDLR_NODE = 'https://node2.bundlr.network';
 
 (async () => {
-    const jwk = JSON.parse(Buffer.from(process.env.DEPLOY_KEY as any, 'base64').toString('utf-8'));
+	const jwk = JSON.parse(Buffer.from(process.env.DEPLOY_KEY as any, 'base64').toString('utf-8'));
 
-    const arweave = Arweave.init({ host: 'arweave.net', port: 443, protocol: 'https' });
-    const bundlr = new (Bundlr as any).default(BUNDLR_NODE, 'arweave', jwk);
-    const warp = WarpFactory.custom(
-        arweave,
-        defaultCacheOptions,
-        'mainnet'
-      ).useArweaveGateway().build()
-	
-	const warpContract = warp.contract(ANT).connect(jwk)
+	const arweave = Arweave.init({ host: 'arweave.net', port: 443, protocol: 'https' });
+	const bundlr = new (Bundlr as any).default(BUNDLR_NODE, 'arweave', jwk);
+	const warp = WarpFactory.custom(arweave, defaultCacheOptions, 'mainnet').useArweaveGateway().build();
+
+	const warpContract = warp.contract(ANT).connect(jwk);
 	const contractState: any = (await warpContract.readState()).cachedValue.state;
-	console.log(contractState)
+	console.log(contractState);
 
 	try {
 		console.log(`Deploying ${DEPLOY_FOLDER} folder`);

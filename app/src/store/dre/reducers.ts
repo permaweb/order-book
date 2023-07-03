@@ -3,7 +3,7 @@ import { DREObjectType, ReduxActionType } from 'helpers/types';
 
 import { SET_DRE_NODE } from './constants';
 
-export const initStateDRENode: DREObjectType = DRE_NODES[0]
+export const initStateDRENode: DREObjectType = DRE_NODES[0];
 
 export function dreReducer(state: DREObjectType = initStateDRENode, action: ReduxActionType) {
 	switch (action.type) {

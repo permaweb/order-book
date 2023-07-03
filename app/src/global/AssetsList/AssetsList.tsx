@@ -23,9 +23,7 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 						<AssetData asset={props.asset} preview />
 					</S.AWrapper>
 					<S.ATitle>
-						<Link to={`${urls.asset}${props.asset.data.id}`}>
-							{props.asset.data.title}
-						</Link>
+						<Link to={`${urls.asset}${props.asset.data.id}`}>{props.asset.data.title}</Link>
 					</S.ATitle>
 				</S.AFlex>
 				<S.SFlex>

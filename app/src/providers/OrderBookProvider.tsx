@@ -1,12 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 
-import { RootState } from 'store';
 import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { useArweaveProvider } from 'providers/ArweaveProvider';
-import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 LoggerFactory.INST.logLevel('fatal');
 
@@ -36,15 +36,15 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	React.useEffect(() => {
-		if(arProvider.walletAddress) {
+		if (arProvider.walletAddress) {
 			const GET_ENDPOINT = 'arweave-search.goldsky.com';
 			const POST_ENDPOINT = 'arweave.net';
-	
+
 			const PORT = 443;
 			const PROTOCOL = 'https';
 			const TIMEOUT = 40000;
 			const LOGGING = false;
-	
+
 			let arweaveGet = Arweave.init({
 				host: GET_ENDPOINT,
 				port: PORT,
@@ -52,7 +52,7 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 				timeout: TIMEOUT,
 				logging: LOGGING,
 			});
-	
+
 			let arweavePost = Arweave.init({
 				host: POST_ENDPOINT,
 				port: PORT,
@@ -60,23 +60,23 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 				timeout: TIMEOUT,
 				logging: LOGGING,
 			});
-	
+
 			let warp = WarpFactory.forMainnet({
 				...defaultCacheOptions,
 				inMemory: true,
 			});
-	
+
 			setOrderBook(
 				OrderBook.init({
 					currency: 'U',
 					arweaveGet: arweaveGet,
 					arweavePost: arweavePost,
 					warp: warp,
-					warpDreNode: dreReducer.source
+					warpDreNode: dreReducer.source,
 				})
 			);
 		}
-	}, [arProvider.walletAddress]);
+	}, [arProvider.walletAddress, dreReducer.source]);
 
 	return (
 		<OrderBookContext.Provider

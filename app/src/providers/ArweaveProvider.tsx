@@ -1,17 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Arweave from 'arweave';
 import styled from 'styled-components';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
 import { OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
-import { RootState } from 'store';
 import { Modal } from 'components/molecules/Modal';
 import { AR_WALLETS, WALLET_PERMISSIONS } from 'helpers/config';
 import { getArweaveBalanceEndpoint, getCurrencyBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { STYLING } from 'helpers/styling';
-import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 export const WalletListContainer = styled.div`
 	height: 100%;
@@ -193,10 +193,10 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
-				warpDreNode: dreReducer.source
+				warpDreNode: dreReducer.source,
 			})
 		);
-	}, []);
+	}, [dreReducer.source]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -204,16 +204,18 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				const profile = await orderBook.api.getProfile({ walletAddress: walletAddress });
 				if (profile) {
 					setArProfile(profile);
+				} else {
+					setArProfile(null);
 				}
 
-				try{
+				try {
 					const rawBalance = await fetch(getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract));
 					const jsonBalance = await rawBalance.json();
 					const numBalance = jsonBalance.result && jsonBalance.result[0] ? jsonBalance.result[0] : 0;
 					setCurrencyBalances({
 						U: numBalance,
 					});
-				} catch(e: any) {
+				} catch (e: any) {
 					setCurrencyBalances({
 						U: 0,
 					});

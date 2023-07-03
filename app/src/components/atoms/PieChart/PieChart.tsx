@@ -17,18 +17,40 @@ export default function PieChart(props: IProps) {
 			const pieData: any = {
 				labels: props.owners.map((owner: any) =>
 					owner.handle
-						? `${owner.handle} (${((owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage) * 100).toFixed(2)}%)`
-						: `${formatAddress(owner.address, false)} (${
-								((owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage
-						  ) * 100).toFixed(2)}%)`
+						? `${owner.handle} (${(
+								(owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage) * 100
+						  ).toFixed(2)}%)`
+						: `${formatAddress(owner.address, false)} (${(
+								(owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage) * 100
+						  ).toFixed(2)}%)`
 				),
 				datasets: [],
 			};
 
 			pieData.datasets.push({
 				data: props.owners.map((owner: any) => (owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage)),
-				backgroundColor: ['#EC9192', '#90C3C8', '#B9B8D3', '#759FBC', '#1F5673', '#463730', '#FFCAAF', '#8E4A49', '#D7B29D'],
-				borderColor: ['#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3'],
+				backgroundColor: [
+					'#EC9192',
+					'#90C3C8',
+					'#B9B8D3',
+					'#759FBC',
+					'#1F5673',
+					'#463730',
+					'#FFCAAF',
+					'#8E4A49',
+					'#D7B29D',
+				],
+				borderColor: [
+					'#D3D3D3',
+					'#D3D3D3',
+					'#D3D3D3',
+					'#D3D3D3',
+					'#D3D3D3',
+					'#D3D3D3',
+					'#D3D3D3',
+					'#D3D3D3',
+					'#D3D3D3',
+				],
 				borderWidth: 1,
 			});
 
@@ -48,13 +70,13 @@ export default function PieChart(props: IProps) {
 							labels: {
 								boxHeight: 20,
 								boxWidth: 20,
-                                color: '#000',
+								color: '#000',
 								font: {
 									size: 14,
 									weight: 'bold',
 								},
 							},
-							onClick: () => {}
+							onClick: () => {},
 						},
 					},
 				}}

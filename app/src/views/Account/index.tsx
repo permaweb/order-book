@@ -32,10 +32,9 @@ export default function Account() {
 	React.useEffect(() => {
 		if (assetsReducer.accountData) {
 			setAssets(assetsReducer.accountData);
-			setLoading(false)
-		}
-		else {
-			setLoading(true)
+			setLoading(false);
+		} else {
+			setLoading(true);
 		}
 	}, [arProvider.walletAddress, assetsReducer.accountData]);
 

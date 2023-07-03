@@ -174,8 +174,8 @@ export default function AssetSell(props: IProps) {
 					assetId: props.asset.data.id,
 					qty: quantity,
 					price: unitPrice * 1e6,
-					wallet: "use_wallet",
-					walletAddress: arProvider.walletAddress
+					wallet: 'use_wallet',
+					walletAddress: arProvider.walletAddress,
 				});
 			} catch (e: any) {
 				throw new Error(e);

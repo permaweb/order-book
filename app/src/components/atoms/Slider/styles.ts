@@ -23,25 +23,29 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		transition: background 0.1s;
 		&:hover {
-			background: ${(props) => props.disabled ? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
-				props.theme.colors.container.primary.background
-			} ${(props.value / props.max) * 100}% )` :
-				`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
-					props.theme.colors.container.primary.hover
-				} ${(props.value / props.max) * 100}% )`};
-			cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
+			background: ${(props) =>
+				props.disabled
+					? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${
+							(props.value / props.max) * 100
+					  }%, ${props.theme.colors.container.primary.background} ${(props.value / props.max) * 100}% )`
+					: `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${
+							(props.value / props.max) * 100
+					  }%, ${props.theme.colors.container.primary.hover} ${(props.value / props.max) * 100}% )`};
+			cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 		}
 	}
 
 	&::-moz-range-track {
 		height: 12.5px;
 		border-radius: ${STYLING.dimensions.borderRadiusField};
-		background: ${(props) => props.disabled ? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
-			props.theme.colors.container.primary.background
-		} ${(props.value / props.max) * 100}% )` :
-			`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
-				props.theme.colors.container.primary.background
-			} ${(props.value / props.max) * 100}% )`};
+		background: ${(props) =>
+			props.disabled
+				? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${
+						(props.value / props.max) * 100
+				  }%, ${props.theme.colors.container.primary.background} ${(props.value / props.max) * 100}% )`
+				: `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${
+						(props.value / props.max) * 100
+				  }%, ${props.theme.colors.container.primary.background} ${(props.value / props.max) * 100}% )`};
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		transition: background 0.1s;
 		&:hover {
@@ -49,19 +53,21 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 				`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
 					props.theme.colors.container.primary.hover
 				} ${(props.value / props.max) * 100}% )`};
-			cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
+			cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 		}
 	}
 
 	&::-ms-track {
 		height: 12.5px;
 		border-radius: ${STYLING.dimensions.borderRadiusField};
-		background: ${(props) => props.disabled ? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
-			props.theme.colors.container.primary.background
-		} ${(props.value / props.max) * 100}% )` :
-			`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
-				props.theme.colors.container.primary.background
-			} ${(props.value / props.max) * 100}% )`};
+		background: ${(props) =>
+			props.disabled
+				? `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${
+						(props.value / props.max) * 100
+				  }%, ${props.theme.colors.container.primary.background} ${(props.value / props.max) * 100}% )`
+				: `linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${
+						(props.value / props.max) * 100
+				  }%, ${props.theme.colors.container.primary.background} ${(props.value / props.max) * 100}% )`};
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		transition: background 0.1s;
 		&:hover {
@@ -69,7 +75,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 				`linear-gradient(90deg, ${props.theme.colors.container.alt8.background} ${(props.value / props.max) * 100}%, ${
 					props.theme.colors.container.primary.hover
 				} ${(props.value / props.max) * 100}% )`};
-			cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
+			cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 		}
 	}
 
@@ -78,10 +84,13 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		appearance: none;
 		height: 27.5px;
 		width: 10px;
-		background: ${(props) => props.disabled ? props.theme.colors.button.primary.disabled.background : props.theme.colors.container.alt8.background};
+		background: ${(props) =>
+			props.disabled
+				? props.theme.colors.button.primary.disabled.background
+				: props.theme.colors.container.alt8.background};
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: 2.5px;
-		cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
+		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 		margin-top: -8px;
 	}
 
@@ -90,9 +99,13 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		appearance: none;
 		height: 27.5px;
 		width: 10px;
-		background: ${(props) => props.disabled ? props.theme.colors.button.primary.disabled.background : props.theme.colors.container.alt8.background};		border: 1px solid ${(props) => props.theme.colors.border.primary};
+		background: ${(props) =>
+			props.disabled
+				? props.theme.colors.button.primary.disabled.background
+				: props.theme.colors.container.alt8.background};		border: 1px solid ${(props) =>
+	props.theme.colors.border.primary};
 		border-radius: 2.5px;
-		cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
+		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 		margin-top: -7.5px;
 	}
 
@@ -101,9 +114,13 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		appearance: none;
 		height: 27.5px;
 		width: 10px;
-		background: ${(props) => props.disabled ? props.theme.colors.button.primary.disabled.background : props.theme.colors.container.alt8.background};		border: 1px solid ${(props) => props.theme.colors.border.primary};
+		background: ${(props) =>
+			props.disabled
+				? props.theme.colors.button.primary.disabled.background
+				: props.theme.colors.container.alt8.background};		border: 1px solid ${(props) =>
+	props.theme.colors.border.primary};
 		border-radius: 2.5px;
-		cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
+		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 		margin-top: -6.5px;
 	}
 
@@ -112,7 +129,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		position: absolute;
 		width: ${(props) => (props.value / props.max) * 100 + '%'};
 		height: 15px;
-		cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'}
+		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')}
 		border-radius: ${STYLING.dimensions.borderRadiusField};
 	}
 
@@ -121,7 +138,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		position: absolute;
 		width: ${(props) => (props.value / props.max) * 100 + '%'};
 		height: 15px;
-		cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'}
+		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')}
 		border-radius: ${STYLING.dimensions.borderRadiusField};
 	}
 
@@ -130,7 +147,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		position: absolute;
 		width: ${(props) => (props.value / props.max) * 100 + '%'};
 		height: 15px;
-		cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'}
+		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')}
 		border-radius: ${STYLING.dimensions.borderRadiusField};
 	}
 
