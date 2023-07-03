@@ -10,16 +10,16 @@ import { getTagValue, isSingleQtyAsset } from "./utils";
 
 
 export async function validateSell(args: ValidateSellArgs) {
-    if(!args.walletAddress || !args.wallet) {
-        throw new Error(`Please initialize OrderBook with a wallet and wallet address to sell`);
+    if(!args.sellArgs.walletAddress || !args.sellArgs.wallet) {
+        throw new Error(`Please call sell with a wallet and wallet address`);
     }
 
-    if(!(args.walletAddress in args.assetState.balances)) {
+    if(!(args.sellArgs.walletAddress in args.assetState.balances)) {
         throw new Error(`This wallet does not have a balance to sell on this asset`);
     }
 
     let sellQty = args.sellArgs.qty;
-    let walletQty = args.assetState.balances[args.walletAddress];
+    let walletQty = args.assetState.balances[args.sellArgs.walletAddress];
 
     if((sellQty % 1 !== 0) || (sellQty === 0)) {
         throw new Error(`Please provide an integer quantity greater than 0 to sell`);
@@ -33,8 +33,8 @@ export async function validateSell(args: ValidateSellArgs) {
 }
 
 export async function validateBuy(args: ValidateBuyArgs) {
-    if(!args.walletAddress || !args.wallet) {
-        throw new Error(`Please initialize OrderBook with a wallet and wallet address to buy`);
+    if(!args.buyArgs.walletAddress || !args.buyArgs.wallet) {
+        throw new Error(`Please call buy with a wallet and wallet address`);
     }
 
     let buySpend = args.buyArgs.spend;

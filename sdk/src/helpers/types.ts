@@ -25,12 +25,15 @@ export type SellArgs = {
 	price: number;
 	qty: number;
 	collection?: string;
+	wallet: any;
+	walletAddress: string | null;
 };
 
 export type BuyArgs = {
 	assetId: string;
 	spend: number;
-
+	wallet: any;
+	walletAddress: string | null;
 };
 
 export type EnvType = {
@@ -38,14 +41,10 @@ export type EnvType = {
 	currency: string;
 	currencyContract: string;
 	arClient: ArweaveClientType;
-	wallet: any;
-	walletAddress: string;
 };
 
 export type InitArgs = {
 	currency: 'U';
-	wallet: any;
-	walletAddress: string | null;
 	arweaveGet: any;
 	arweavePost: any;
 	warp: any;
@@ -107,16 +106,12 @@ export type ValidateSellArgs = {
 	sellArgs: SellArgs;
 	assetState: any;
 	orderBookState: any;
-	wallet: any;
-	walletAddress: string | null;
 };
 
 export type ValidateBuyArgs = {
 	buyArgs: BuyArgs;
 	assetState: any;
 	orderBookState: any;
-	wallet: any;
-	walletAddress: string | null;
 	currencyContract: string;
 };
 

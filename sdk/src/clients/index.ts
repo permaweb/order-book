@@ -27,9 +27,7 @@ const client: OrderBookType = {
 				arweaveGet: args.arweaveGet,
 				arweavePost: args.arweavePost,
 				warp: args.warp
-			}),
-			wallet: args.wallet,
-			walletAddress: args.walletAddress
+			})
 		};
 
 		let api: ApiClientType = ApiClient.init({ 
@@ -59,8 +57,6 @@ const client: OrderBookType = {
 			sellArgs: args,
 			assetState,
 			orderBookState,
-			wallet: env.wallet,
-			walletAddress: env.walletAddress
 		});
 
 		let pair = [args.assetId, env.currencyContract];
@@ -73,7 +69,7 @@ const client: OrderBookType = {
 
 			await arClient.writeContract({
 				contract: env.orderBookContract,
-				wallet: env.wallet,
+				wallet: args.wallet,
 				input: addPairInput,
 			});
 		}
@@ -86,7 +82,7 @@ const client: OrderBookType = {
 
 		let allowTx = await arClient.writeContract({
 			contract: args.assetId,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: allowInput,
 		});
 
@@ -100,7 +96,7 @@ const client: OrderBookType = {
 
 		let orderTx = await arClient.writeContract({
 			contract: env.orderBookContract,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: orderInput,
 		});
 
@@ -122,8 +118,6 @@ const client: OrderBookType = {
 			buyArgs: args,
 			assetState,
 			orderBookState,
-			wallet: this.env.wallet,
-			walletAddress: this.env.walletAddress,
 			currencyContract: env.currencyContract
 		});
 
@@ -135,7 +129,7 @@ const client: OrderBookType = {
 
 		let allowTx = await arClient.writeContract({
 			contract: env.currencyContract,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: allowInput,
 		});
 
@@ -148,7 +142,7 @@ const client: OrderBookType = {
 
 		let orderTx = await arClient.writeContract({
 			contract: env.orderBookContract,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: orderInput,
 		});
 

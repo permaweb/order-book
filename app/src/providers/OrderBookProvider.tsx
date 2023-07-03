@@ -65,11 +65,9 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 			setOrderBook(
 				OrderBook.init({
 					currency: 'U',
-					wallet: 'use_wallet',
 					arweaveGet: arweaveGet,
 					arweavePost: arweavePost,
 					warp: warp,
-					walletAddress: arProvider.walletAddress,
 				})
 			);
 		}

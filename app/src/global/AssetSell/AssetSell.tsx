@@ -149,12 +149,12 @@ export default function AssetSell(props: IProps) {
 		if (isNaN(unitPrice) || isNaN(quantity) || quantity < 0 || unitPrice < 0) {
 			price = 0;
 		} else {
-			price = (quantity * unitPrice);
+			price = (quantity * unitPrice) / 1e6;
 		}
 
 		return (
 			<S.Price>
-				<p>{price.toFixed(2)}</p>
+				<p>{price}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG
 						src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : CURRENCY_ICONS[CURRENCY_DICT.U]}
@@ -174,6 +174,8 @@ export default function AssetSell(props: IProps) {
 					assetId: props.asset.data.id,
 					qty: quantity,
 					price: unitPrice * 1e6,
+					wallet: "use_wallet",
+					walletAddress: arProvider.walletAddress
 				});
 			} catch (e: any) {
 				throw new Error(e);
