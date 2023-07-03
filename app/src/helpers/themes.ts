@@ -22,6 +22,7 @@ const DEFAULT = {
 	primary3: '#333848',
 	primary4: '#2A2E3C',
 	primary5: '#212530',
+	primary6: '#076FA9',
 	alt1: '#FF7A41',
 	alt2: '#FF621F',
 	alt3: '#FFDECF',
@@ -177,6 +178,7 @@ export const defaultTheme: DefaultTheme = {
 				alt9: DEFAULT.neutral15,
 				alt10: DEFAULT.neutral5,
 				alt11: DEFAULT.primary2,
+				alt12: DEFAULT.primary6,
 				active: {
 					base: DEFAULT.primary,
 					hover: DEFAULT.primary3,

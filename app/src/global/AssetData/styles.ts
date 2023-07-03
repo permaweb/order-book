@@ -22,7 +22,6 @@ export const FrameLoader = styled.button`
 	background: ${(props) => props.theme.colors.container.primary.background};
 	&:hover {
 		background: ${(props) => props.theme.colors.container.primary.hover};
-		border-top: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
 `;
