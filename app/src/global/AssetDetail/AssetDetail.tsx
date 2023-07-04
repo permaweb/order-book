@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AssetDetailType, STORAGE } from 'permaweb-orderbook';
+import { AssetDetailType, OrderBookPairOrderType, STORAGE } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
@@ -14,7 +14,7 @@ import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
-import { formatCount, formatDate, formatPrice } from 'helpers/utils';
+import { formatAddress, formatCount, formatDate, formatPrice } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import { AssetDetailAction } from './AssetDetailAction';
@@ -36,6 +36,9 @@ export default function AssetDetail(props: IProps) {
 	const [showCurrentOwnersModal, setShowCurrentOwnersModal] = React.useState<boolean>(false);
 	const [showCurrentSalesModal, setShowCurrentSalesModal] = React.useState<boolean>(false);
 
+	const [totalBalance, setTotalBalance] = React.useState<number>(0);
+	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
+
 	React.useEffect(() => {
 		setAsset(null);
 	}, [props.assetId]);
@@ -54,6 +57,24 @@ export default function AssetDetail(props: IProps) {
 			}
 		})();
 	}, [orProvider.orderBook, props.assetId]);
+
+	React.useEffect(() => {
+		if (asset && asset.state) {
+			const balances = Object.keys(asset.state.balances).map((balance: any) => {
+				return asset.state.balances[balance];
+			});
+			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
+		}
+	}, [asset]);
+
+	React.useEffect(() => {
+		if (asset && asset.orders) {
+			const saleBalances = asset.orders.map((order: OrderBookPairOrderType) => {
+				return order.quantity;
+			});
+			setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
+		}
+	}, [asset]);
 
 	async function updateAsset() {
 		if (orProvider.orderBook) {
@@ -74,6 +95,47 @@ export default function AssetDetail(props: IProps) {
 			}
 		})();
 	}, [asset]);
+
+	function getChart() {
+		if (currentOwners && currentOwners.length > 1) {
+			const quantities: { label: string; value: string; quantity: number }[] = [...currentOwners].map((owner: any) => {
+				return {
+					label: owner.handle
+						? `${owner.handle} (${(
+								(owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage) * 100
+						  ).toFixed(2)}%)`
+						: `${formatAddress(owner.address, false)} (${(
+								(owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage) * 100
+						  ).toFixed(2)}%)`,
+					value: currentOwners.map((owner: any) =>
+						owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage
+					),
+					quantity: owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage,
+				};
+			}) as any;
+
+			if (totalSalesBalance && totalSalesBalance > 0) {
+				quantities.push({
+					label: `${language.totalSalesPercentage} (${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%)`,
+					value: `${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`,
+					quantity: totalSalesBalance / totalBalance,
+				});
+			}
+
+			return (
+				<div className={'border-wrapper'}>
+					<S.ACChartWrapper>
+						<p>{language.currentOwners}</p>
+						<S.ACChart>
+							<PieChart quantities={quantities.reverse()} />
+						</S.ACChart>
+					</S.ACChartWrapper>
+				</div>
+			);
+		} else {
+			return null;
+		}
+	}
 
 	function getData() {
 		if (asset) {
@@ -165,22 +227,10 @@ export default function AssetDetail(props: IProps) {
 								)}
 							</S.ACHeader>
 						</div>
-
-						{currentOwners && currentOwners.length > 1 && (
-							<div className={'border-wrapper'}>
-								<S.ACChartWrapper>
-									<p>{language.currentOwners}</p>
-									<S.ACChart>
-										<PieChart owners={currentOwners} />
-									</S.ACChart>
-								</S.ACChartWrapper>
-							</div>
-						)}
-
+						{getChart()}
 						<S.AssetCAction className={'border-wrapper-alt'}>
 							<AssetDetailAction asset={asset} updateAsset={updateAsset} />
 						</S.AssetCAction>
-
 						{currentOwners && currentOwners.length > 0 && (
 							<S.DrawerWrapper>
 								<Drawer
@@ -209,7 +259,6 @@ export default function AssetDetail(props: IProps) {
 								/>
 							</S.DrawerWrapper>
 						)}
-
 						{currentSaleOwners && currentSaleOwners.length > 0 && (
 							<S.DrawerWrapper>
 								<Drawer

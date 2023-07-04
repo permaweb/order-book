@@ -35,6 +35,7 @@ export default function AssetOrders(props: IProps) {
 	}, [props.asset, currentOrder]);
 
 	function handlePress(e: any) {
+		e.stopPropagation();
 		e.preventDefault();
 		setShowDropdown(!showDropdown);
 	}
@@ -49,7 +50,7 @@ export default function AssetOrders(props: IProps) {
 	return (
 		<S.Wrapper>
 			{currentOrder ? (
-				<>
+				<CloseHandler active={showDropdown} callback={() => setShowDropdown(false)} disabled={false}>
 					<S.DropdownAction disabled={!remainingOrders || !remainingOrders.length} onClick={(e: any) => handlePress(e)}>
 						<S.Currency>
 							<p>{formatPrice(currentOrder.price)}</p>
@@ -57,27 +58,24 @@ export default function AssetOrders(props: IProps) {
 								<ReactSVG src={CURRENCY_ICONS[currentOrder.currency] ? CURRENCY_ICONS[currentOrder.currency] : ''} />
 							)}
 						</S.Currency>
-						{/* <S.C2>{remainingOrders && remainingOrders.length > 0 && <ReactSVG src={ASSETS.arrowDown} />}</S.C2> */}
 					</S.DropdownAction>
 					{showDropdown && remainingOrders && remainingOrders.length > 0 && (
-						<CloseHandler active={showDropdown} callback={() => setShowDropdown(false)} disabled={false}>
-							<S.Dropdown>
-								{remainingOrders.map((order: OrderBookPairOrderType, index: number) => {
-									return (
-										<S.DropdownSubAction key={index} onClick={(e: any) => handleChangeOrder(e, order)}>
-											<S.Currency>
-												<p>{formatPrice(order.price)}</p>
-												{order.currency && (
-													<ReactSVG src={CURRENCY_ICONS[order.currency] ? CURRENCY_ICONS[order.currency] : ''} />
-												)}
-											</S.Currency>
-										</S.DropdownSubAction>
-									);
-								})}
-							</S.Dropdown>
-						</CloseHandler>
+						<S.Dropdown>
+							{remainingOrders.map((order: OrderBookPairOrderType, index: number) => {
+								return (
+									<S.DropdownSubAction key={index} onClick={(e: any) => handleChangeOrder(e, order)}>
+										<S.Currency>
+											<p>{formatPrice(order.price)}</p>
+											{order.currency && (
+												<ReactSVG src={CURRENCY_ICONS[order.currency] ? CURRENCY_ICONS[order.currency] : ''} />
+											)}
+										</S.Currency>
+									</S.DropdownSubAction>
+								);
+							})}
+						</S.Dropdown>
 					)}
-				</>
+				</CloseHandler>
 			) : (
 				<S.Message>
 					<p>{language.noListings}</p>

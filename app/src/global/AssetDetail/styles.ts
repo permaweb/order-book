@@ -220,9 +220,12 @@ export const ACChartWrapper = styled.div`
 `;
 
 export const ACChart = styled.div`
-	width: 550px;
+	width: 625px;
 	max-width: 100%;
-	margin: 0 40px 0 auto;
+	margin: -100px 0 0 auto;
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		margin: 100px auto 20px auto;
+	}
 `;
 
 export const AssetCAction = styled.div`
