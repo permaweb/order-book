@@ -8,6 +8,7 @@ import { allow } from "./write/allow.js";
 import { claim } from "./write/claim.js";
 import { buyback } from "./cron/buyback.js";
 import { reward } from "./cron/reward.js";
+import { cancelClaim } from './write/cancel-claim.js';
 
 export async function handle(state, action) {
   validate(state);
@@ -25,6 +26,8 @@ export async function handle(state, action) {
       return CreateOrder(state, action);
     case "cancelOrder":
       return CancelOrder(state, action);
+    case "cancelClaim":
+      return cancelClaim(state, action);
     case "balance":
       return balance(state, action);
     case "transfer":
