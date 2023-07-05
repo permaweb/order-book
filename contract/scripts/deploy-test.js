@@ -25,7 +25,8 @@ async function main() {
         ['website', 'https://zAR-wiki.arweave.dev']
       ],
       U: 'FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ',
-      recentRewards: {}
+      recentRewards: {},
+      mode: 'test'
     }),
     //initState,
     evaluationManifest: {

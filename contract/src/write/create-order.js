@@ -70,7 +70,10 @@ export const CreateOrder = async (state, action) => {
       );
     }
     // Claim tokens from other contract
-    await claimBalance(contractID, tokenTx, qty);
+    const result = await claimBalance(contractID, tokenTx, qty);
+    if (state.mode && state.mode === "test") {
+      console.log(JSON.stringify(result))
+    }
   }
 
   /**
