@@ -47,6 +47,7 @@ test("buyback ", async () => {
     },
   };
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     balances: {},
     pairs: [
       {

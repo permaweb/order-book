@@ -1,8 +1,9 @@
 import { calculateStreak } from "../lib/streak-calc.js";
 
-const U = "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw";
+let U = 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw'
 
 export const CreateOrder = async (state, action) => {
+  U = state.U;
   const caller = action.caller;
   const input = action.input;
 
@@ -69,7 +70,10 @@ export const CreateOrder = async (state, action) => {
       );
     }
     // Claim tokens from other contract
-    await claimBalance(contractID, tokenTx, qty);
+    const result = await claimBalance(contractID, tokenTx, qty);
+    if (state.mode && state.mode === "test") {
+      console.log(JSON.stringify(result))
+    }
   }
 
   /**

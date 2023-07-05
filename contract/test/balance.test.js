@@ -16,6 +16,7 @@ globalThis.SmartWeave = {
 const TOM = "vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI";
 const JUSTIN = "9x24zjvs9DA5zAz2DmqBWAg6XcxrrE-8w3EkpwRm4e4";
 const state = {
+  U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
   balances: {
     [TOM]: 100,
     [JUSTIN]: 10000000,

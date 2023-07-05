@@ -29,6 +29,7 @@ test("calculate new streak", async () => {
   };
 
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     recentRewards: {},
     lastReward: 0,
     streaks: {},
@@ -110,6 +111,7 @@ test("calc streak when buy happens between 720 and 1440 heights", async () => {
   };
 
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     recentRewards: {},
     lastReward: 0,
     streaks: {
@@ -196,6 +198,7 @@ test("streak calc on buy after 5 day streak but greater than 1440 heights", asyn
   };
 
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     recentRewards: {},
     lastReward: 0,
     streaks: {
@@ -282,6 +285,7 @@ test("streak calc on 30 days and between 720 and 1440", async () => {
   };
 
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     recentRewards: {},
     lastReward: 0,
     streaks: {

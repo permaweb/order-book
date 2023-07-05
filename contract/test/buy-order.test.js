@@ -47,6 +47,7 @@ test("buy order", async () => {
 
   const { handle } = await import("../src/index.js");
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     streaks: {},
     balances: {},
     name: "BazAR",
