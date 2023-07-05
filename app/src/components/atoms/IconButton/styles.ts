@@ -53,6 +53,7 @@ export const Alt1 = styled(Primary)<{
 	align-items: center;
 	padding: 2.5px 0 0 0;
 	background: ${(props) => props.theme.colors.button.alt1.background};
+	border: 1px solid ${(props) => props.theme.colors.button.alt1.border};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	position: relative;
 
@@ -77,6 +78,7 @@ export const Alt1 = styled(Primary)<{
 
 	&:disabled {
 		background: ${(props) => props.theme.colors.button.alt1.disabled.background};
+		border: 1px solid ${(props) => props.theme.colors.button.alt1.disabled.border};
 		color: ${(props) => props.theme.colors.button.alt1.disabled.label};
 		svg {
 			fill: ${(props) => props.theme.colors.button.alt1.disabled.label};

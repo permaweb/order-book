@@ -19,10 +19,50 @@ export type MintStatusType = 'pending' | 'confirmed';
 export type RefType = { current: HTMLElement };
 
 export type RenderType = 'renderer' | 'raw';
-export type ContentType = 'renderer' | 'image/png';
+export type ContentType = 'renderer' | any;
 
 export type AssetRenderType = {
 	url: string;
 	type: RenderType;
 	contentType: ContentType;
 };
+
+export type ReduxActionType = {
+	type: string;
+	payload: any;
+};
+
+export type CursorType = {
+	next: string | null;
+	previous: string | null;
+};
+
+export type AssetTableType = 'grid' | 'list';
+
+export type ApiFetchType = 'contract' | 'user';
+
+export type ValidationType = {
+	status: boolean;
+	message: string | null;
+};
+
+export type FormFieldType = 'number' | 'password';
+
+export type OwnerType = {
+	address: string;
+	handle: string | null;
+	balance: number;
+	ownerPercentage: number;
+};
+
+export type OwnerListingType = {
+	address: string;
+	handle: string | null;
+	sellQuantity: number;
+	sellPercentage: number;
+	sellUnitPrice: number;
+};
+
+export type DateType = 'iso' | 'epoch';
+
+export type DREObjectType = { label: string; source: string };

@@ -1,42 +1,53 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { AssetType, OrderBook } from 'permaweb-orderbook';
+import { AssetType } from 'permaweb-orderbook';
 
-import { ButtonLink } from 'components/atoms/ButtonLink';
+import { IconButton } from 'components/atoms/IconButton';
 import { Loader } from 'components/atoms/Loader';
 import { AssetData } from 'global/AssetData';
-import { ASSETS, FEATURE_COUNT } from 'helpers/config';
+import { AssetOrders } from 'global/AssetOrders';
+import { StampWidget } from 'global/StampWidget';
+import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: add title
-// TODO: add orders list
-function AssetTile(props: { asset: AssetType }) {
+function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
+	const navigate = useNavigate();
 	return (
 		<S.PICWrapper>
-			<S.HCWrapper></S.HCWrapper>
 			<S.PCWrapper>
-				<AssetData asset={props.asset} />
+				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} />
 			</S.PCWrapper>
 			<S.ICWrapper>
 				<S.ICFlex>
 					<S.AssetData>
-						<span># 1</span>
 						<p>{props.asset.data.title}</p>
 					</S.AssetData>
+					<IconButton
+						type={'alt1'}
+						src={ASSETS.details}
+						handlePress={() => navigate(`${urls.asset}${props.asset.data.id}`)}
+						tooltip={language.viewDetails}
+						dimensions={{
+							wrapper: 37.5,
+							icon: 22.5,
+						}}
+					/>
 				</S.ICFlex>
-				{/* <S.AssetPrice></S.AssetPrice>
-				<ButtonLink
-					type={'primary'}
-					label={language.details}
-					href={`${urls.asset}${props.asset.data.id}`}
-					icon={ASSETS.details}
-					iconLeftAlign
-					noMinWidth
-				/> */}
+				<S.ICBottom>
+					<S.AssetDataAlt>
+						<AssetOrders asset={props.asset} />
+					</S.AssetDataAlt>
+					<StampWidget
+						assetId={props.asset.data.id}
+						title={props.asset.data.title}
+						stamps={props.asset.stamps ? props.asset.stamps : null}
+					/>
+				</S.ICBottom>
 			</S.ICWrapper>
 		</S.PICWrapper>
 	);
@@ -45,7 +56,6 @@ function AssetTile(props: { asset: AssetType }) {
 export default function AssetsGrid(props: IProps) {
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 
-	// TODO: filters
 	React.useEffect(() => {
 		if (props.assets) {
 			setAssets(props.assets);
@@ -53,36 +63,35 @@ export default function AssetsGrid(props: IProps) {
 	}, [props.assets]);
 
 	function getData() {
-		if (assets) {
+		if (assets && !props.loading) {
 			if (assets.length > 0) {
-				return assets.map((asset: AssetType) => {
-					return <AssetTile asset={asset} key={asset.data.id} />;
+				return assets.map((asset: AssetType, index: number) => {
+					return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;
 				});
 			} else {
 				return (
-					<S.NoAssetsContainer>
-						<p>{language.noAssets}</p>
-					</S.NoAssetsContainer>
+					<div className={'view-wrapper max-cutoff'}>
+						<S.NoAssetsContainer>
+							<p>{language.noAssets}</p>
+						</S.NoAssetsContainer>
+					</div>
 				);
 			}
 		} else {
-			// TODO: get count
-			const keys = Array.from({ length: FEATURE_COUNT }, (_, i) => i + 1);
+			const keys = Array.from({ length: props.loaderCount }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
 					<S.PCWrapper key={`pc_${element}`}>
 						<Loader placeholder />
 					</S.PCWrapper>
-					<S.ICWrapper key={`ic_${element}`} />
+					<S.ICLoader key={`ic_${element}`}>
+						<Loader placeholder />
+					</S.ICLoader>
 				</S.PICWrapper>
 			));
 			return <>{elements}</>;
 		}
 	}
 
-	return (
-		<div className={'view-wrapper max-cutoff'}>
-			<S.Wrapper>{getData()}</S.Wrapper>
-		</div>
-	);
+	return <S.Wrapper>{getData()}</S.Wrapper>;
 }

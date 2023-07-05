@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
 import { IconButton } from 'components/atoms/IconButton';
+import { Search } from 'global/Search';
+import { Settings } from 'global/Settings';
 import { ASSETS } from 'helpers/config';
 import * as urls from 'helpers/urls';
 import { checkDesktop, checkWindowResize, hideDocumentBody, showDocumentBody } from 'helpers/window';
@@ -44,6 +46,9 @@ export default function Header() {
 		return (
 			<S.NC>
 				<S.NavPaths></S.NavPaths>
+				<S.SettingsWrapper>
+					<Settings />
+				</S.SettingsWrapper>
 				<S.SC>
 					<S.Connect show={getWalletDisplay()}>
 						<WalletConnect callback={() => setOpen(!open)} />
@@ -63,7 +68,7 @@ export default function Header() {
 						<S.MenuContainer>
 							<S.Menu>
 								<IconButton
-									type={'primary'}
+									type={'alt1'}
 									warning={open}
 									src={open ? ASSETS.close : ASSETS.menu}
 									handlePress={handleNavStatus}
@@ -87,6 +92,9 @@ export default function Header() {
 							</S.LogoContent>
 						</Link>
 					</S.LogoContainer>
+					<S.SearchWrapper>
+						<Search />
+					</S.SearchWrapper>
 					{getNav()}
 				</S.NavContainer>
 			</S.NavWrapper>
@@ -94,5 +102,3 @@ export default function Header() {
 		</S.Wrapper>
 	);
 }
-
-// https://github.com/permaweb/RebAR#readme

@@ -1,15 +1,19 @@
 import React from 'react';
 
+import { FormFieldType, ValidationType } from 'helpers/types';
+
 export interface IProps {
 	label?: string;
 	value: number | string;
-	type?: 'number' | 'password';
+	type?: FormFieldType;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	invalid: { status: boolean; message: string | null };
+	invalid: ValidationType;
 	disabled: boolean;
 	placeholder?: string;
-	logo?: any;
+	endText?: string;
 	error?: string | null;
 	sm?: boolean;
 	testingCtx?: string;
+	tooltip?: string;
+	tooltipLabel?: string;
 }

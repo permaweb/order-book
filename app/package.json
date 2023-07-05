@@ -17,10 +17,13 @@
 		"check-packages": "node src/workers/check-packages.mjs"
 	},
 	"dependencies": {
+		"@bundlr-network/client": "^0.11.9",
+		"@permaweb/stampjs": "0.2.6",
 		"@types/react-router-dom": "^5.3.3",
 		"html-react-parser": "^3.0.4",
-		"permaweb-orderbook": "file:../sdk",
+		"permaweb-orderbook": "^1.1.5",
 		"react": "^18.2.0",
+		"react-chartjs-2": "^5.2.0",
 		"react-dom": "^18.2.0",
 		"react-markdown": "^8.0.7",
 		"react-redux": "^7.2.9",

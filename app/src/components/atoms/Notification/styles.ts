@@ -4,6 +4,10 @@ import { fadeIn1, open } from 'helpers/animations';
 import { STYLING } from 'helpers/styling';
 import { NotificationType } from 'helpers/types';
 
+type NotificationProps = {
+	type: NotificationType;
+};
+
 function getColor(m: NotificationType, theme: DefaultTheme) {
 	switch (m) {
 		case 'success':
@@ -19,12 +23,11 @@ function getColor(m: NotificationType, theme: DefaultTheme) {
 
 export const Wrapper = styled.div`
 	height: 55px;
-	width: 300px;
+	min-width: 350px;
 	max-width: 90vw;
-	background: ${(props) => props.theme.colors.container.primary.background1};
-	border: 1px solid ${(props) => props.theme.colors.border.alt1};
+	background: ${(props) => props.theme.colors.container.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
-	box-shadow: 0 0 2.5px ${(props) => props.theme.colors.shadow.primary};
 	position: fixed;
 	left: 20px;
 	bottom: 20px;
@@ -32,50 +35,22 @@ export const Wrapper = styled.div`
 	animation: ${open} ${fadeIn1};
 	display: flex;
 	align-items: center;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
-		left: 50%;
-		transform: translate(-50%, 0);
-	}
 `;
 
-export const Message = styled.span`
-	color: ${(props) => props.theme.colors.font.primary.active.base};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+export const Message = styled.span<NotificationProps>`
+	color: ${(props) => props.theme.colors.font.primary.alt1};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	margin-left: 20px;
+	border-left: 3.5px solid ${(props) => getColor(props.type, props.theme)};
 	padding-left: 7.5px;
-`;
-
-export const Icon = styled.div<{ type: NotificationType }>`
-	height: 25px;
-	width: 25px;
-	background: ${(props) => getColor(props.type, props.theme)};
-	border-radius: 50%;
-	margin: 0 0 0 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	svg {
-		padding: 2.5px 0 0 0;
-		height: 15px;
-		width: 15px;
-	}
 `;
 
 export const Close = styled.div`
 	height: 100%;
 	width: 50px;
-	position: absolute;
-	top: 5px;
-	right: 10px;
+	margin: 0 0 0 auto;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
+	align-items: center;
 	padding: 1.5px 0 0 0;
-	button {
-		height: 10px !important;
-		width: 10px !important;
-		svg {
-			height: 10px !important;
-			width: 10-px !important;
-		}
-	}
 `;

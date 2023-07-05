@@ -1,17 +1,18 @@
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
 import {
-	ApiClientType,
 	ArweaveClientType,
 	EnvType,
 	InitArgs,
 	OrderBookType,
 	SellArgs,
-	ValidateArgs,
+	ApiClientType,
+	BuyArgs
 } from '../helpers/types';
 import { pairExists } from '../helpers/utils';
 
-import { ApiClient } from './api';
 import { ArweaveClient } from './arweave';
+import { ApiClient } from './api';
+import { validateAsset, validateSell, validateBuy, getSyncEndpoint } from '../helpers';
 
 const client: OrderBookType = {
 	env: null,
@@ -26,11 +27,15 @@ const client: OrderBookType = {
 				arweaveGet: args.arweaveGet,
 				arweavePost: args.arweavePost,
 				warp: args.warp,
-			}),
-			wallet: args.wallet,
+				warpDreNode: args.warpDreNode
+			})
 		};
 
-		let api: ApiClientType = ApiClient.init({ arClient: this.env.arClient });
+		let api: ApiClientType = ApiClient.init({ 
+			arClient: this.env.arClient, 
+			orderBookContract: ORDERBOOK_CONTRACT 
+		});
+		
 		this.api = api;
 
 		return this;
@@ -41,10 +46,19 @@ const client: OrderBookType = {
 		let arClient: ArweaveClientType = this.env.arClient;
 
 		let assetState = await arClient.read(args.assetId);
-		let currencyState = await arClient.read(env.currencyContract);
 		let orderBookState = await arClient.read(env.orderBookContract);
 
-		this.validateAsset({ asset: args.assetId, assetState: assetState });
+		await validateAsset({ 
+			asset: args.assetId, 
+			assetState: assetState, 
+			arClient: this.env.arClient
+		});
+
+		await validateSell({
+			sellArgs: args,
+			assetState,
+			orderBookState,
+		});
 
 		let pair = [args.assetId, env.currencyContract];
 
@@ -56,7 +70,7 @@ const client: OrderBookType = {
 
 			await arClient.writeContract({
 				contract: env.orderBookContract,
-				wallet: env.wallet,
+				wallet: args.wallet,
 				input: addPairInput,
 			});
 		}
@@ -69,7 +83,7 @@ const client: OrderBookType = {
 
 		let allowTx = await arClient.writeContract({
 			contract: args.assetId,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: allowInput,
 		});
 
@@ -83,26 +97,62 @@ const client: OrderBookType = {
 
 		let orderTx = await arClient.writeContract({
 			contract: env.orderBookContract,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: orderInput,
 		});
+
+		await arClient.writeContract({
+			contract: env.orderBookContract,
+			wallet: args.wallet,
+			input: {function: 'noop'},
+		});
+
+		await arClient.writeContract({
+			contract: env.currencyContract,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+
+		await arClient.writeContract({
+			contract: args.assetId,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+
+		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
+			0, 
+			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
+		);
+		await fetch(getSyncEndpoint(args.assetId, dreNode));
+		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
+		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
 
 		return orderTx;
 	},
 
-	buy: async function (args: SellArgs) {
+	buy: async function (args: BuyArgs) {
 		let env: EnvType = this.env;
 		let arClient: ArweaveClientType = this.env.arClient;
+
+		let assetState = await arClient.read(args.assetId);
+		let orderBookState = await arClient.read(env.orderBookContract);
+
+		await validateBuy({
+			buyArgs: args,
+			assetState,
+			orderBookState,
+			currencyContract: env.currencyContract
+		});
 
 		let allowInput = {
 			function: 'allow',
 			target: env.orderBookContract,
-			qty: args.qty,
+			qty: args.spend,
 		};
 
 		let allowTx = await arClient.writeContract({
 			contract: env.currencyContract,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: allowInput,
 		});
 
@@ -110,34 +160,43 @@ const client: OrderBookType = {
 			function: 'createOrder',
 			pair: [env.currencyContract, args.assetId],
 			transaction: allowTx.originalTxId,
-			qty: args.qty,
+			qty: args.spend,
 		};
 
 		let orderTx = await arClient.writeContract({
 			contract: env.orderBookContract,
-			wallet: env.wallet,
+			wallet: args.wallet,
 			input: orderInput,
 		});
 
+		await arClient.writeContract({
+			contract: env.orderBookContract,
+			wallet: args.wallet,
+			input: {function: 'noop'},
+		});
+
+		await arClient.writeContract({
+			contract: env.currencyContract,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+		
+		await arClient.writeContract({
+			contract: args.assetId,
+			wallet: args.wallet,
+			input: {function: 'balance'},
+		});
+
+		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
+			0, 
+			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
+		);
+		await fetch(getSyncEndpoint(args.assetId, dreNode));
+		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
+		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
+
 		return orderTx;
-	},
-
-	// TODO: validation incomplete
-	validateAsset: async function (args: ValidateArgs) {
-		// validate collection if provided
-		// validate contract
-		// validate asset data (not 404)
-		// validate tags
-
-		if (!args.assetState) {
-			throw new Error(`No state found for asset`);
-		}
-
-		if (!args.assetState.claimable) {
-			throw new Error(`No claimable array found in the asset state`);
-		}
-	},
+	}
 };
 
 export { client as OrderBook };
-export { ArweaveClient } from './arweave';
