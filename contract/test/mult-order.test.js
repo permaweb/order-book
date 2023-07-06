@@ -39,8 +39,8 @@ test("buy multi sell order", async () => {
       write: (id, input) => {
         
         if (id === U && input.function === "transfer") {
-          console.log(input.target)
-          console.log(input.qty)
+          //console.log(input.target)
+          //console.log(input.qty)
         //   assert.equal(input.qty, 20000);
         }
         return Promise.resolve({ type: "ok" });
@@ -62,7 +62,7 @@ test("buy multi sell order", async () => {
           {
             id: "xkKyDgsr360TVgy07XwbWOuWXUD2WdXil_Npk8wx8Qg",
             transfer: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
-            creator: "jnbRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
+            creator: "billhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
             token: "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
             price: 100,
             quantity: 100,
@@ -71,7 +71,7 @@ test("buy multi sell order", async () => {
           {
             id: "ikKyDgsr360TVgy07XwbWOuWXUD2WdXil_Npk8wx8Qg",
             transfer: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
-            creator: "jnbRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
+            creator: "joeRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
             token: "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
             price: 100,
             quantity: 100,
@@ -80,7 +80,7 @@ test("buy multi sell order", async () => {
           {
             id: "zkKyDgsr360TVgy07XwbWOuWXUD2WdXil_Npk8wx8Qg",
             transfer: "_cgC5BGpH9A_HWIOd1FA0L1nxL0etq_xaOA7JxmK9f8",
-            creator: "jnbRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
+            creator: "robRhoH3JGTdRz0Y9X-gh-eosrbIpdxs58DPTtlOVE8",
             token: "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8",
             price: 100,
             quantity: 100,
@@ -100,7 +100,7 @@ test("buy multi sell order", async () => {
     input: {
       function: "createOrder",
       pair: [U, "cJLpXX2StsvkdPbIHJp2TuTIpdDBRTWouD6o1Ig9-S8"],
-      qty: 15000,
+      qty: 12000,
       transaction: "MsflN4glR9noV-DN00ygwKJZmCQS1S1ejbVRmQ5N_Nc",
     },
   };

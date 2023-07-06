@@ -2,6 +2,7 @@ export const cancelClaim = async (state, action) => {
   // validate
   ContractAssert(action.input.contract, 'contract is required')
   ContractAssert(action.input.transaction, 'transaction is required')
+  ContractAssert(action.input.qty, 'transaction is required')
   ContractAssert(action.input.contract.length === 43, 'contract is not valid')
   ContractAssert(action.input.transaction.length === 43, 'transaction is not valid')
 
@@ -9,7 +10,7 @@ export const cancelClaim = async (state, action) => {
   await SmartWeave.contracts.write(action.input.contract, {
     function: "reject",
     txID: action.input.transaction,
-    qty,
+    qty: action.input.qty,
   });
   
   return { state }

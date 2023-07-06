@@ -317,7 +317,7 @@ export default function matchOrder(input, orderbook) {
 
   // the remaining tokens to be matched with an order
   let remainingQuantity = input.quantity;
-
+  
   // loop through orders against this order
   //for (let i = 0; i < orderbook.length; i++) {
   const newOrderbook = orderbook.reduce((acc, currentOrder) => {
@@ -343,7 +343,7 @@ export default function matchOrder(input, orderbook) {
     // set the total amount of tokens we would receive
     // from this order
     fillAmount = remainingQuantity * (input.price ?? reversePrice);
-
+    
     // the input order creator receives this much
     // of the tokens from the current order
     let receiveFromCurrent = 0;
@@ -395,6 +395,7 @@ export default function matchOrder(input, orderbook) {
       // from this order
       remainingQuantity -= sendAmount;
 
+      
       // send tokens to the current order's creator
       foreignCalls.push({
         txID: SmartWeave.transaction.id,
@@ -404,8 +405,8 @@ export default function matchOrder(input, orderbook) {
           target: currentOrder.creator,
           qty:
             input.pair.from === U
-              ? Math.round(remainingQuantity * 0.995)
-              : remainingQuantity,
+              ? Math.round(sendAmount * 0.995)
+              : sendAmount,
         },
       });
 
@@ -443,127 +444,7 @@ export default function matchOrder(input, orderbook) {
     //if (remainingQuantity === 0) break;
     return acc
   }, [])
-  /*
-  for (let i = 0; i < orderbook.length; i++) {
-    const currentOrder = orderbook[i];
-    // only loop orders that are against this order
-    if (
-      input.pair.from === currentOrder.token ||
-      currentOrder.id === input.transaction
-    )
-      continue;
-
-    // price of the current order reversed to the input token
-    const reversePrice = 1 / currentOrder.price;
-
-    // continue if the current order's price matches
-    // the input order's price (if the order is a limit order)
-    if (orderType === "limit" && input.price !== reversePrice) continue;
-
-    // set the total amount of tokens we would receive
-    // from this order
-    fillAmount = remainingQuantity * (input.price ?? reversePrice);
-
-    // the input order creator receives this much
-    // of the tokens from the current order
-    let receiveFromCurrent = 0;
-
-    // the input order is going to be completely filled
-    if (fillAmount <= currentOrder.quantity) {
-      // calculate receive amount
-      receiveFromCurrent = remainingQuantity * reversePrice;
-
-      // reduce the current order in the loop
-      currentOrder.quantity -= fillAmount;
-
-      // fill the remaining tokens
-      receiveAmount += receiveFromCurrent;
-
-      // send tokens to the current order's creator
-      if (remainingQuantity > 0) {
-        foreignCalls.push({
-          txID: SmartWeave.transaction.id,
-          contract: input.pair.from,
-          input: {
-            function: "transfer",
-            target: currentOrder.creator,
-            qty:
-              input.pair.from === U
-                ? Math.round(remainingQuantity * 0.995)
-                : remainingQuantity,
-          },
-        });
-
-      }
-
-      // no tokens left in the input order to be matched
-      remainingQuantity = 0;
-    } else {
-      // the input order is going to be partially filled
-      // but the current order will be
-
-      // calculate receive amount
-      receiveFromCurrent = currentOrder.quantity;
-
-      // add all the tokens from the current order to fill up
-      // the input order
-      receiveAmount += receiveFromCurrent;
-
-      // the amount the current order creator will receive
-      const sendAmount = receiveFromCurrent * currentOrder.price;
-
-      // reduce the remaining tokens to be matched
-      // by the amount the user is going to receive
-      // from this order
-      remainingQuantity -= sendAmount;
-
-      // send tokens to the current order's creator
-      foreignCalls.push({
-        txID: SmartWeave.transaction.id,
-        contract: input.pair.from,
-        input: {
-          function: "transfer",
-          target: currentOrder.creator,
-          qty:
-            input.pair.from === U
-              ? Math.round(remainingQuantity * 0.995)
-              : remainingQuantity,
-        },
-      });
-
-      // no tokens left in the current order to be matched
-      currentOrder.quantity = 0;
-    }
-
-    // calculate dominant token price
-    let dominantPrice = 0;
-
-    if (input.pair.dominant === input.pair.from) {
-      dominantPrice = input.price ?? reversePrice;
-    } else {
-      dominantPrice = currentOrder.price;
-    }
-
-    // push the match
-    matches.push({
-      id: currentOrder.id,
-      qty: receiveFromCurrent,
-      price: dominantPrice,
-    });
-
-    // if the current order is completely filled,
-    // remove it from the orderbook
-    if (currentOrder.quantity === 0) {
-      orderbook = orderbook.filter((val) => val.id !== currentOrder.id);
-    }
-
-    console.log('order ', i, 'remainingQty', remainingQuantity)
-    // if there are no more tokens to be matched,
-    // we can break the loop
-    if (remainingQuantity === 0) break;
-  }
-  */
-
+  
   if (remainingQuantity > 0) {
     // if the input order is not completely filled,
     // and it is a limit order, push it to the orderbook
@@ -604,7 +485,7 @@ export default function matchOrder(input, orderbook) {
         input.pair.to === U ? Math.round(receiveAmount * 0.995) : receiveAmount,
     },
   });
-  console.log(newOrderbook)
+  
   return {
     orderbook: newOrderbook,
     foreignCalls,
