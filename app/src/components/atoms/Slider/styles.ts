@@ -12,6 +12,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 	appearance: none;
 	height: 15px;
 	outline: none;
+	scroll-behavior: smooth;
 
 	&::-webkit-slider-runnable-track {
 		height: 12.5px;

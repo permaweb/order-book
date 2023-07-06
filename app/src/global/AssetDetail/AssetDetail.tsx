@@ -98,7 +98,9 @@ export default function AssetDetail(props: IProps) {
 
 	function getChart() {
 		if (currentOwners && currentOwners.length > 1) {
-			const quantities: { label: string; value: string; quantity: number }[] = [...currentOwners].map((owner: any) => {
+			const quantities: { label: string; value: string; quantity: number }[] = [...currentOwners].filter((owner: any) => {
+				return owner.address !== orProvider.orderBook.env.orderBookContract
+			}).map((owner: any) => {
 				return {
 					label: owner.handle
 						? `${owner.handle} (${(
@@ -390,9 +392,11 @@ async function getOwners(
 			for (let i = 0; i < addressObject.length; i++) {
 				if (addressObject[i].creator) {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
+					let handle = profile ? profile.handle : null;
+					handle = !handle && (addressObject[i].creator === orProvider.orderBook.env.orderBookContract) ? language.orderBook : null; 
 					owners.push({
 						address: addressObject[i].creator,
-						handle: profile ? profile.handle : null,
+						handle: handle,
 						sellQuantity: addressObject[i].quantity,
 						sellPercentage: addressObject[i].quantity / totalBalance,
 						sellUnitPrice: addressObject[i].price,
@@ -406,9 +410,11 @@ async function getOwners(
 				Object.keys(addressObject).map(async (address: string) => {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
 					const ownerPercentage = addressObject[address] / totalBalance;
+					let handle = profile ? profile.handle : null;
+					handle = !handle && (address === orProvider.orderBook.env.orderBookContract) ? language.orderBook : null; 
 					return {
 						address: address,
-						handle: profile ? profile.handle : null,
+						handle: handle,
 						balance: addressObject[address],
 						ownerPercentage: ownerPercentage,
 					};

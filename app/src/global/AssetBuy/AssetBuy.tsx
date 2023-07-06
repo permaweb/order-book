@@ -95,19 +95,28 @@ export default function AssetBuy(props: IProps) {
 		if (props.asset && orProvider.orderBook) {
 			setLoading(true);
 
-			await orProvider.orderBook.buy({
-				assetId: props.asset.data.id,
-				spend: calcTotalPrice(),
-				wallet: 'use_wallet',
-				walletAddress: arProvider.walletAddress,
-			});
-
-			setLoading(false);
-			setShowConfirmation(false);
-			setBuyResponse({
-				status: true,
-				message: `${language.purchaseSuccess}!`,
-			});
+			try {
+				await orProvider.orderBook.buy({
+					assetId: props.asset.data.id,
+					spend: calcTotalPrice(),
+					wallet: 'use_wallet',
+					walletAddress: arProvider.walletAddress,
+				});
+	
+				setLoading(false);
+				setShowConfirmation(false);
+				setBuyResponse({
+					status: true,
+					message: `${language.purchaseSuccess}!`,
+				});
+			} catch(e: any) {
+				setLoading(false);
+				setShowConfirmation(false);
+				setBuyResponse({
+					status: false,
+					message: e.message,
+				});
+			}
 		}
 	}
 
@@ -221,7 +230,15 @@ export default function AssetBuy(props: IProps) {
 					handleClose={() => handleModalClose(buyResponse && buyResponse.status ? true : false)}
 				>
 					<S.ModalTitle>
-						<p>{buyResponse ? buyResponse.message : props.asset.data.title}</p>
+						{buyResponse && buyResponse.status &&
+							<p>{buyResponse.message}</p>
+						}
+						{buyResponse && !buyResponse.status &&
+							<S.ErrorMessage>{buyResponse.message}</S.ErrorMessage>
+						}
+						{!buyResponse && 
+							<p>{props.asset.data.title}</p>
+						}
 					</S.ModalTitle>
 					{showConfirmation && (
 						<>

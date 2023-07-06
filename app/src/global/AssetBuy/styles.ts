@@ -156,3 +156,9 @@ export const WalletConnectionWrapper = styled.div`
 		}
 	}
 `;
+
+export const ErrorMessage = styled.div`
+	font-size: ${(props) => props.theme.typography.size.base};
+	width: 100%;
+	overflow-wrap: break-word;
+`;

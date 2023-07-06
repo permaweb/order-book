@@ -12,7 +12,7 @@ import { pairExists } from '../helpers/utils';
 
 import { ArweaveClient } from './arweave';
 import { ApiClient } from './api';
-import { validateAsset, validateSell, validateBuy, getSyncEndpoint } from '../helpers';
+import { validateAsset, validateSell, validateBuy, getSyncEndpoint, getContractEndpoint, getTransactionLink } from '../helpers';
 
 const client: OrderBookType = {
 	env: null,
@@ -127,6 +127,37 @@ const client: OrderBookType = {
 		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
 		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
 
+		let contractWithErrors = await fetch(getContractEndpoint(env.orderBookContract, dreNode));
+		let contractJson = await contractWithErrors.json();
+		if(orderTx.originalTxId in contractJson.errorMessages){
+			let cancelClaimInput = {
+				function: 'cancelClaim',
+				transaction: allowTx.originalTxId,
+				contract: args.assetId,
+				qty: args.qty
+			};
+	
+			await arClient.writeContract({
+				contract: env.orderBookContract,
+				wallet: args.wallet,
+				input: cancelClaimInput,
+			});
+
+			await arClient.writeContract({
+				contract: env.orderBookContract,
+				wallet: args.wallet,
+				input: {function: 'noop'},
+			});
+	
+			await arClient.writeContract({
+				contract: env.currencyContract,
+				wallet: args.wallet,
+				input: {function: 'balance'},
+			});
+
+			throw new Error(`Order Failed, transaction - ${getTransactionLink(orderTx.originalTxId)}`);
+		}
+
 		return orderTx;
 	},
 
@@ -195,6 +226,37 @@ const client: OrderBookType = {
 		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
 		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
 
+		let contractWithErrors = await fetch(getContractEndpoint(env.orderBookContract, dreNode));
+		let contractJson = await contractWithErrors.json();
+		if(orderTx.originalTxId in contractJson.errorMessages){
+			let cancelClaimInput = {
+				function: 'cancelClaim',
+				transaction: allowTx.originalTxId,
+				contract: env.currencyContract,
+				qty: args.spend
+			};
+	
+			await arClient.writeContract({
+				contract: env.orderBookContract,
+				wallet: args.wallet,
+				input: cancelClaimInput,
+			});
+
+			await arClient.writeContract({
+				contract: env.orderBookContract,
+				wallet: args.wallet,
+				input: {function: 'noop'},
+			});
+	
+			await arClient.writeContract({
+				contract: env.currencyContract,
+				wallet: args.wallet,
+				input: {function: 'balance'},
+			});
+
+			throw new Error(`Order Failed, transaction - ${getTransactionLink(orderTx.originalTxId)}`);
+		}
+		
 		return orderTx;
 	}
 };

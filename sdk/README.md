@@ -1,5 +1,10 @@
 # Orderbook sdk
 
+## Install
+```
+npm install permaweb-orderbook
+```
+
 ## Initialize
 
 Optionally when initializing, you can specify a different instance of arweave for querying/posting, for example if you want to post to arweave.net and retrieve from goldsky. Below we are using the same instance for both.
@@ -64,3 +69,12 @@ let orderTx = await orderbook.buy({
 
 console.log(orderTx);
 ```
+
+## Asset Requirements
+
+In order to list an asset for sale (call the sell function on it successfully) it must meet the following requirements
+	- Must be an atomic asset where the id represents both the contract and the data
+	- the contract must have state
+	- the contract state must have balances and claimable array
+	- the asset must be retrievable via id on the the gateway directly (arweave.net/txid) and via gql (by id query), it cannot be 404
+	- it must contain ANS-110 Title, Description, and Type tags, https://specs.g8way.io/?tx=SYHBhGAmBo6fgAkINNoRtumOzxNB8-JFv2tPhBuNk5c

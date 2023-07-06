@@ -9,3 +9,11 @@ export function getTxEndpoint(txId: string) {
 export function getSyncEndpoint(contractId: string, dreNode: string) {
 	return `${dreNode}/sync?id=${contractId}&test=false`;
 }
+
+export function getContractEndpoint(contractId: string, dreNode: string) {
+	return `${dreNode}/contract?id=${contractId}&errorMessages=true`;
+}
+
+export function getTransactionLink(transactionId: string) {
+	return `https://sonar.warp.cc/#/app/interaction/${transactionId}?network=mainnet`;
+}

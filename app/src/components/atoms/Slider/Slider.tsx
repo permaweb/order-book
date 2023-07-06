@@ -1,7 +1,25 @@
+import { useEffect, useRef } from 'react';
 import * as S from './styles';
 import { IProps } from './types';
 
 export default function Slider(props: IProps) {
+	const rangeRef = useRef<HTMLInputElement>(null);
+
+	// TODO: working for firefox but throwing a warnign in firefox and chrome
+	useEffect(() => {
+        const rangeElement = rangeRef.current;
+
+        const handleWheel = (e) => {
+            e.preventDefault();
+        };
+
+        rangeElement.addEventListener('wheel', handleWheel, { passive: false });
+
+        return () => {
+            rangeElement.removeEventListener('wheel', handleWheel);
+        };
+    }, []);
+	
 	return (
 		<S.Wrapper>
 			{props.label && (
@@ -15,6 +33,7 @@ export default function Slider(props: IProps) {
 				</S.LabelWrapper>
 			)}
 			<S.Input
+				ref={rangeRef}
 				className={'custom-range'}
 				type={'range'}
 				min={'0'}
@@ -23,6 +42,7 @@ export default function Slider(props: IProps) {
 				value={props.value.toString()}
 				onChange={props.handleChange}
 				disabled={props.disabled}
+				onWheel={e => e.preventDefault()}
 			/>
 		</S.Wrapper>
 	);
