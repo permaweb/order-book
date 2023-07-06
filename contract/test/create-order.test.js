@@ -9,6 +9,7 @@ globalThis.ContractAssert = function (expr, msg) {
 
 test("create order with no limits but vwap set", async () => {
   const state = {
+    U: "KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw",
     recentRewards: {},
     lastReward: 0,
     streaks: {},
