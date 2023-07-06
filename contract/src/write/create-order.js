@@ -342,7 +342,7 @@ export default function matchOrder(input, orderbook) {
 
     // set the total amount of tokens we would receive
     // from this order
-    fillAmount = remainingQuantity * (input.price ?? reversePrice);
+    fillAmount = Math.floor(remainingQuantity * (input.price ?? reversePrice));
     
     // the input order creator receives this much
     // of the tokens from the current order
@@ -350,11 +350,11 @@ export default function matchOrder(input, orderbook) {
     // the input order is going to be completely filled
     if (fillAmount <= currentOrder.quantity) {
       // calculate receive amount
-      receiveFromCurrent = remainingQuantity * reversePrice;
+      receiveFromCurrent = Math.floor(remainingQuantity * reversePrice);
 
       // reduce the current order in the loop
       currentOrder.quantity -= fillAmount;
-
+      
       // fill the remaining tokens
       receiveAmount += receiveFromCurrent;
 
