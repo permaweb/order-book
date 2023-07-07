@@ -1,14 +1,11 @@
-export const ORDERBOOK_CONTRACT = 'XVO04wSSqoyrPN5ut4jtFjKc_c41k6nUhpilohRDilM';
-// export const ORDERBOOK_CONTRACT = 'R-z-3b6gelKYIG9dTi1mLoipKwxIrbF9zimkho-PuLw';
 
-// {
-// 	contractTxId: 'QzqLKlswebY0u6wpvG8bwe0_xuZfNig1EVLMIPbEVSc',
-// 	srcTxId: 'ycZOo0CE_mjpQZWoko3dqqJWcPuUjcmarPTiZpjz_qA'
-//   }
+export const ORDERBOOK_CONTRACT = 'pKAUV26rFgG13XwS7oZ1IQ8dDIRcdV9xnC8XEnZ7cfQ';
+
 
 // KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw
+// FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ
 export const CURRENCY_DICT = {
-	U: 'FYJOKdtNKl18QgblxgLEZUfJMFUv6tZTQqGTtY-D6jQ',
+	U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw',
 };
 
 export const PAGINATOR = 100;

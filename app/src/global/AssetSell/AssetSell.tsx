@@ -110,13 +110,35 @@ export default function AssetSell(props: IProps) {
 						status: true,
 						message: language.unitPriceAboveZero,
 					});
-				} else {
+				} else if(unitPrice < 0.000001) {
 					setInvalidUnitPrice({
-						status: false,
-						message: null,
+						status: true,
+						message: "Unit price must be above 0.000001",
 					});
+				} else {
+					const decimalString = unitPrice.toString();
+					const decimalIndex = decimalString.indexOf(".");
+					if (decimalIndex !== -1) {
+						const decimalPlaces = decimalString.substring(decimalIndex + 1);
+						if (decimalPlaces.length > 6) {
+							setInvalidUnitPrice({
+								status: true,
+								message: "Unit price must have at most 6 decimal places",
+							});
+						} else {
+							setInvalidUnitPrice({
+								status: false,
+								message: null,
+							});
+						}
+					} else {
+						setInvalidUnitPrice({
+							status: false,
+							message: null,
+						});
+					}
 				}
-			}
+			} 
 		}
 	}, [unitPrice]);
 
@@ -154,7 +176,7 @@ export default function AssetSell(props: IProps) {
 
 		return (
 			<S.Price>
-				<p>{price}</p>
+				<p>{price.toFixed(4)}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG
 						src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : CURRENCY_ICONS[CURRENCY_DICT.U]}
@@ -177,16 +199,20 @@ export default function AssetSell(props: IProps) {
 					wallet: 'use_wallet',
 					walletAddress: arProvider.walletAddress,
 				});
+				setLoading(false);
+				setShowConfirmation(false);
+				setSellResponse({
+					status: true,
+					message: `${language.listingSuccess}!`,
+				});
 			} catch (e: any) {
-				throw new Error(e);
+				setLoading(false);
+				setShowConfirmation(false);
+				setSellResponse({
+					status: false,
+					message: e.message,
+				});
 			}
-
-			setLoading(false);
-			setShowConfirmation(false);
-			setSellResponse({
-				status: true,
-				message: `${language.listingSuccess}!`,
-			});
 		}
 	}
 
@@ -330,7 +356,15 @@ export default function AssetSell(props: IProps) {
 					handleClose={() => handleModalClose(sellResponse && sellResponse.status ? true : false)}
 				>
 					<S.ModalTitle>
-						<p>{sellResponse ? sellResponse.message : props.asset.data.title}</p>
+						{sellResponse && sellResponse.status &&
+							<p>{sellResponse.message}</p>
+						}
+						{sellResponse && !sellResponse.status &&
+							<S.ErrorMessage>{sellResponse.message}</S.ErrorMessage>
+						}
+						{!sellResponse && 
+							<p>{props.asset.data.title}</p>
+						}
 					</S.ModalTitle>
 					{showConfirmation && (
 						<>

@@ -45,6 +45,7 @@ export const language = {
 	noAssets: `No Assets`,
 	noListings: `No Listings`,
 	none: `None`,
+	orderBook: `Order Book`,
 	overview: `Overview`,
 	owner: `owner`,
 	owners: `owners`,
