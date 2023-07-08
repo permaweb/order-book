@@ -1,8 +1,10 @@
-import { ArweaveClientType, AGQLResponseType, CursorEnum, getTxEndpoint, ProfileType, TAGS } from '../helpers';
-
 import { getGQLData } from '../gql';
+import { AGQLResponseType, ArweaveClientType, CursorEnum, getTxEndpoint, ProfileType, TAGS } from '../helpers';
 
-export async function getProfile(args: {walletAddress: string | null, arClient: ArweaveClientType}): Promise<ProfileType | null> {
+export async function getProfile(args: {
+	walletAddress: string | null;
+	arClient: ArweaveClientType;
+}): Promise<ProfileType | null> {
 	if (!args.walletAddress) return null;
 
 	args.walletAddress = args.walletAddress.trim();
@@ -22,7 +24,7 @@ export async function getProfile(args: {walletAddress: string | null, arClient: 
 			cursor: null,
 			reduxCursor: null,
 			cursorObject: CursorEnum.GQL,
-            arClient: args.arClient
+			arClient: args.arClient,
 		});
 
 		if (gqlResponse.data && gqlResponse.data.length) {

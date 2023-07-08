@@ -1,13 +1,13 @@
 import { getGqlDataByIds } from '../gql';
 import {
 	AssetArgsClientType,
+	AssetDetailType,
 	AssetsResponseType,
 	AssetType,
 	BalanceType,
 	getBalancesEndpoint,
 	getTagValue,
 	ORDERBOOK_CONTRACT,
-	AssetDetailType,
 	OrderBookPairOrderType,
 	OrderBookPairType,
 	STORAGE,
@@ -20,7 +20,7 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
 
 		const ids = assets.map((asset: OrderBookPairType) => {
-			return asset.pair[0]
+			return asset.pair[0];
 		});
 
 		const gqlData: AssetsResponseType = await getGqlDataByIds({
@@ -30,7 +30,7 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 			cursor: null,
 			reduxCursor: null,
 			arClient: args.arClient,
-			walletAddress: args.walletAddress
+			walletAddress: args.walletAddress,
 		});
 
 		return getValidatedAssets(gqlData, assets);
@@ -42,12 +42,13 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
 	try {
-		let r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs.map((asset: OrderBookPairType) => {
-			return asset.pair[0]
-		}).reverse();
+		let r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
+			.map((asset: OrderBookPairType) => {
+				return asset.pair[0];
+			})
+			.reverse();
 		return r;
-	}
-	catch (e: any) {
+	} catch (e: any) {
 		return [];
 	}
 }
@@ -58,7 +59,7 @@ export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetT
 		let balances = ((await result.json()) as UserBalancesType).balances;
 
 		let assetIds = balances.map((balance: BalanceType) => {
-			return balance.contract_tx_id
+			return balance.contract_tx_id;
 		});
 
 		const gqlData: AssetsResponseType = await getGqlDataByIds({
@@ -68,7 +69,7 @@ export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetT
 			cursor: args.cursor,
 			reduxCursor: args.reduxCursor,
 			arClient: args.arClient,
-			walletAddress: args.walletAddress
+			walletAddress: args.walletAddress,
 		});
 
 		return getValidatedAssets(gqlData);
@@ -76,24 +77,24 @@ export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetT
 	return [];
 }
 
-export async function getAssetIdsByUser(args: { walletAddress: string, arClient: any }): Promise<string[]> {
+export async function getAssetIdsByUser(args: { walletAddress: string; arClient: any }): Promise<string[]> {
 	try {
 		const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 		if (result.status === 200) {
 			let balances = ((await result.json()) as UserBalancesType).balances;
 
-			let assetIds = balances.filter((balance: BalanceType) => {
-				return balance.balance && (parseInt(balance.balance) !== 0)
-			}).map((balance: BalanceType) => {
-				return balance.contract_tx_id
-			});
+			let assetIds = balances
+				.filter((balance: BalanceType) => {
+					return balance.balance && parseInt(balance.balance) !== 0;
+				})
+				.map((balance: BalanceType) => {
+					return balance.contract_tx_id;
+				});
 			return assetIds;
-		}
-		else {
+		} else {
 			return [];
 		}
-	}
-	catch (e: any) {
+	} catch (e: any) {
 		return [];
 	}
 }
@@ -106,28 +107,33 @@ export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetTy
 		cursor: args.cursor,
 		reduxCursor: args.reduxCursor,
 		arClient: args.arClient,
-		walletAddress: args.walletAddress
+		walletAddress: args.walletAddress,
 	});
 
 	const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
 
 	return getValidatedAssets(gqlData, pairs);
-
 }
 
-export async function getAssetById(args: { id: string, arClient: any, orderBookContract: string }): Promise<AssetDetailType> {
-	const asset = (await getAssetsByIds({
-		ids: [args.id],
-		owner: null,
-		uploader: null,
-		cursor: null,
-		reduxCursor: null,
-		walletAddress: null,
-		arClient: args.arClient
-	}))[0];
+export async function getAssetById(args: {
+	id: string;
+	arClient: any;
+	orderBookContract: string;
+}): Promise<AssetDetailType> {
+	const asset = (
+		await getAssetsByIds({
+			ids: [args.id],
+			owner: null,
+			uploader: null,
+			cursor: null,
+			reduxCursor: null,
+			walletAddress: null,
+			arClient: args.arClient,
+		})
+	)[0];
 
 	if (asset) {
-		const state = (await args.arClient.read(args.id));
+		const state = await args.arClient.read(args.id);
 		let orders = [];
 		let orderBookState = await args.arClient.read(args.orderBookContract);
 		let pair = orderBookState.pairs.find((p: any) => {
@@ -135,12 +141,11 @@ export async function getAssetById(args: { id: string, arClient: any, orderBookC
 		});
 		if (pair) {
 			orders = pair.orders.map((order: OrderBookPairOrderType) => {
-				return { ...order, currency: pair.pair[1] }
-			})
+				return { ...order, currency: pair.pair[1] };
+			});
 		}
-		return ({ ...asset, state: state, orders: orders });
-	}
-	else {
+		return { ...asset, state: state, orders: orders };
+	} else {
 		return null;
 	}
 }
@@ -155,7 +160,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const implementation = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.implements);
 		const license = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.license);
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
-		
+
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
 				data: {
@@ -168,15 +173,15 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 					license: license,
 					renderWith: renderWith ? renderWith : null,
 					dateCreated: gqlData.assets[i].node.block.timestamp,
-					blockHeight: gqlData.assets[i].node.block.height
-				}
-			}
+					blockHeight: gqlData.assets[i].node.block.height,
+				},
+			};
 
 			if (pairs) {
 				const assetIndex = pairs.findIndex((asset: OrderBookPairType) => asset.pair[0] === gqlData.assets[i].node.id);
 				if (assetIndex !== -1) {
 					asset.orders = pairs[assetIndex].orders.map((order: OrderBookPairOrderType) => {
-						return { ...order, currency: pairs[assetIndex].pair[1] }
+						return { ...order, currency: pairs[assetIndex].pair[1] };
 					});
 				}
 			}

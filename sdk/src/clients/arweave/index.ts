@@ -1,8 +1,4 @@
-import { 
-	ArweaveClientInitArgs, 
-	ArweaveClientType, 
-	WriteContractArgs 
-} from '../../helpers';
+import { ArweaveClientInitArgs, ArweaveClientType, WriteContractArgs } from '../../helpers';
 
 const arClient: ArweaveClientType = {
 	arweaveGet: null,

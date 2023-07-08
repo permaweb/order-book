@@ -1,5 +1,11 @@
 import { CURSORS, STORAGE, TAGS } from '../helpers/config';
-import { AGQLResponseType, AssetArgsClientType, AssetsResponseType, CursorEnum, GQLResponseType } from '../helpers/types';
+import {
+	AGQLResponseType,
+	AssetArgsClientType,
+	AssetsResponseType,
+	CursorEnum,
+	GQLResponseType,
+} from '../helpers/types';
 import { checkGqlCursor, getTagValue } from '../helpers/utils';
 
 import { getGQLData } from '.';
@@ -12,7 +18,7 @@ export async function getGqlDataByIds(args: AssetArgsClientType): Promise<Assets
 		cursor: null,
 		reduxCursor: args.reduxCursor,
 		cursorObject: CursorEnum.idGQL,
-		arClient: args.arClient
+		arClient: args.arClient,
 	});
 
 	return getAssetsResponseObject(artifacts);

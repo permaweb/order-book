@@ -1,18 +1,18 @@
 export type AssetType = {
 	data: {
-		id: string
-		title: string
-		description: string
-		topic: string
-		type: string
-		implementation: string
-		license: string
-		renderWith: string | null
-		dateCreated: number
-		blockHeight: number
+		id: string;
+		title: string;
+		description: string;
+		topic: string;
+		type: string;
+		implementation: string;
+		license: string;
+		renderWith: string | null;
+		dateCreated: number;
+		blockHeight: number;
 	};
 	orders?: OrderBookPairOrderType[];
-	stamps?: { total: number, vouched: number }
+	stamps?: { total: number; vouched: number };
 };
 
 export type AssetDetailType = AssetType & {
@@ -54,7 +54,7 @@ export type InitArgs = {
 export type ApiClientInitArgs = {
 	arClient: ArweaveClientType;
 	orderBookContract: string;
-}
+};
 
 export type AssetArgsType = {
 	ids: string[] | null;
@@ -74,7 +74,7 @@ export type SearchReturnType = {
 };
 
 export type SearchArgs = AssetArgsType & {
-	term: string,
+	term: string;
 };
 
 export type ApiClientType = {
@@ -89,7 +89,7 @@ export type ApiClientType = {
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
-}
+};
 
 export type WriteContractArgs = {
 	contract: string;
@@ -186,7 +186,7 @@ export type OrderBookPairOrderType = {
 
 export enum CursorEnum {
 	GQL = 'gql',
-	idGQL = 'idGQL'
+	idGQL = 'idGQL',
 }
 
 export type CursorObjectKeyType = CursorEnum.GQL | CursorEnum.idGQL | null;
@@ -201,9 +201,9 @@ export type GQLResponseType = {
 			type: string;
 		};
 		block: {
-			height: number,
-			timestamp: number
-		}
+			height: number;
+			timestamp: number;
+		};
 	};
 };
 
