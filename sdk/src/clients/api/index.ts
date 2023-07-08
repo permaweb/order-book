@@ -1,24 +1,23 @@
 import {
-	ApiClientType,
-	ApiClientInitArgs,
-	AssetType,
-	AssetDetailType,
-	AssetArgsType,
-	ProfileType,
-	SearchReturnType,
-	SearchArgs
-} from "../../helpers";
-
-import { 
-	getAssetsByContract, 
-	getAssetIdsByContract, 
-	getAssetById, 
-	getAssetsByIds, 
-	getAssetsByUser,
+	getAssetById,
+	getAssetIdsByContract,
 	getAssetIdsByUser,
+	getAssetsByContract,
+	getAssetsByIds,
+	getAssetsByUser,
 	getProfile,
-	search
-} from "../../api";
+	search,
+} from '../../api';
+import {
+	ApiClientInitArgs,
+	ApiClientType,
+	AssetArgsType,
+	AssetDetailType,
+	AssetType,
+	ProfileType,
+	SearchArgs,
+	SearchReturnType,
+} from '../../helpers';
 
 const apiClient: ApiClientType = {
 	arClient: null,
@@ -57,13 +56,13 @@ const apiClient: ApiClientType = {
 	getProfile: async function (args: { walletAddress: string }): Promise<ProfileType> {
 		return await getProfile({
 			walletAddress: args.walletAddress,
-			arClient: this.arClient
-		})
+			arClient: this.arClient,
+		});
 	},
 
-	search: async function(args: SearchArgs): Promise<SearchReturnType> {
-		return await search({...args, arClient: this.arClient});
-	}
-}
+	search: async function (args: SearchArgs): Promise<SearchReturnType> {
+		return await search({ ...args, arClient: this.arClient });
+	},
+};
 
 export { apiClient as ApiClient };

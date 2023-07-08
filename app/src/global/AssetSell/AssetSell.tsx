@@ -110,20 +110,20 @@ export default function AssetSell(props: IProps) {
 						status: true,
 						message: language.unitPriceAboveZero,
 					});
-				} else if(unitPrice < 0.000001) {
+				} else if (unitPrice < 0.000001) {
 					setInvalidUnitPrice({
 						status: true,
-						message: "Unit price must be above 0.000001",
+						message: 'Unit price must be above 0.000001',
 					});
 				} else {
 					const decimalString = unitPrice.toString();
-					const decimalIndex = decimalString.indexOf(".");
+					const decimalIndex = decimalString.indexOf('.');
 					if (decimalIndex !== -1) {
 						const decimalPlaces = decimalString.substring(decimalIndex + 1);
 						if (decimalPlaces.length > 6) {
 							setInvalidUnitPrice({
 								status: true,
-								message: "Unit price must have at most 6 decimal places",
+								message: 'Unit price must have at most 6 decimal places',
 							});
 						} else {
 							setInvalidUnitPrice({
@@ -138,7 +138,7 @@ export default function AssetSell(props: IProps) {
 						});
 					}
 				}
-			} 
+			}
 		}
 	}, [unitPrice]);
 
@@ -356,15 +356,9 @@ export default function AssetSell(props: IProps) {
 					handleClose={() => handleModalClose(sellResponse && sellResponse.status ? true : false)}
 				>
 					<S.ModalTitle>
-						{sellResponse && sellResponse.status &&
-							<p>{sellResponse.message}</p>
-						}
-						{sellResponse && !sellResponse.status &&
-							<S.ErrorMessage>{sellResponse.message}</S.ErrorMessage>
-						}
-						{!sellResponse && 
-							<p>{props.asset.data.title}</p>
-						}
+						{sellResponse && sellResponse.status && <p>{sellResponse.message}</p>}
+						{sellResponse && !sellResponse.status && <S.ErrorMessage>{sellResponse.message}</S.ErrorMessage>}
+						{!sellResponse && <p>{props.asset.data.title}</p>}
 					</S.ModalTitle>
 					{showConfirmation && (
 						<>

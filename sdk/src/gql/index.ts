@@ -1,5 +1,12 @@
 import { CURSORS, PAGINATOR } from '../helpers/config';
-import { ArweaveClientType, CursorEnum, CursorObjectKeyType, GQLResponseType, AGQLResponseType, TagFilterType } from '../helpers/types';
+import {
+	AGQLResponseType,
+	ArweaveClientType,
+	CursorEnum,
+	CursorObjectKeyType,
+	GQLResponseType,
+	TagFilterType,
+} from '../helpers/types';
 import { unquoteJsonKeys } from '../helpers/utils';
 
 export async function getGQLData(args: {
@@ -56,7 +63,7 @@ export async function getGQLData(args: {
             }
         `,
 	};
-	
+
 	const response = args.useArweavePost
 		? await args.arClient.arweavePost.api.post('/graphql', query)
 		: await args.arClient.arweaveGet.api.post('/graphql', query);

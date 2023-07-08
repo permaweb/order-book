@@ -36,15 +36,17 @@ export function checkGqlCursor(string: string): boolean {
 }
 
 export function unquoteJsonKeys(json: Object): string {
-	return JSON.stringify(json).replace(/"([^"]+)":/g, '$1:').replace(/"FUZZY_OR"/g, 'FUZZY_OR');
+	return JSON.stringify(json)
+		.replace(/"([^"]+)":/g, '$1:')
+		.replace(/"FUZZY_OR"/g, 'FUZZY_OR');
 }
 
 export function isSingleQtyAsset(assetState: any) {
 	let balances = Object.keys(assetState.balances);
-	if ((balances.length > 1) || (balances.length === 0)) {
+	if (balances.length > 1 || balances.length === 0) {
 		return false;
 	}
-	if(assetState.balances[balances[0]] !== 1) {
+	if (assetState.balances[balances[0]] !== 1) {
 		return false;
 	}
 	return true;

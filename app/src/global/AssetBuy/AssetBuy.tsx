@@ -102,14 +102,14 @@ export default function AssetBuy(props: IProps) {
 					wallet: 'use_wallet',
 					walletAddress: arProvider.walletAddress,
 				});
-	
+
 				setLoading(false);
 				setShowConfirmation(false);
 				setBuyResponse({
 					status: true,
 					message: `${language.purchaseSuccess}!`,
 				});
-			} catch(e: any) {
+			} catch (e: any) {
 				setLoading(false);
 				setShowConfirmation(false);
 				setBuyResponse({
@@ -230,15 +230,9 @@ export default function AssetBuy(props: IProps) {
 					handleClose={() => handleModalClose(buyResponse && buyResponse.status ? true : false)}
 				>
 					<S.ModalTitle>
-						{buyResponse && buyResponse.status &&
-							<p>{buyResponse.message}</p>
-						}
-						{buyResponse && !buyResponse.status &&
-							<S.ErrorMessage>{buyResponse.message}</S.ErrorMessage>
-						}
-						{!buyResponse && 
-							<p>{props.asset.data.title}</p>
-						}
+						{buyResponse && buyResponse.status && <p>{buyResponse.message}</p>}
+						{buyResponse && !buyResponse.status && <S.ErrorMessage>{buyResponse.message}</S.ErrorMessage>}
+						{!buyResponse && <p>{props.asset.data.title}</p>}
 					</S.ModalTitle>
 					{showConfirmation && (
 						<>
