@@ -23,7 +23,7 @@ export default function _Routes() {
 					}
 				/>
 				<Route
-					path={urls.account}
+					path={`${urls.account}:id`}
 					element={
 						<View>
 							<Account />
@@ -35,6 +35,14 @@ export default function _Routes() {
 					element={
 						<View>
 							<Asset />
+						</View>
+					}
+				/>
+				<Route
+					path={urls.notFound}
+					element={
+						<View>
+							<NotFound />
 						</View>
 					}
 				/>

@@ -222,4 +222,5 @@ export type ProfileType = {
 	avatar: string | null;
 	twitter: string | null;
 	discord: string | null;
+	walletAddress?: string;
 };
