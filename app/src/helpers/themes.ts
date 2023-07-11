@@ -24,7 +24,7 @@ const DEFAULT = {
 	primary5: '#212530',
 	primary6: '#076FA9',
 	alt1: '#ECE0D9',
-	alt2: '#FF621F',
+	alt2: '#D7AF98',
 	alt3: '#FFDECF',
 	alt4: '#ECE0D9',
 	overlay1: '#2D2D2DC4',

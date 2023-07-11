@@ -96,6 +96,7 @@ export const IconPrimary = styled.div<{
 `;
 
 export const Alt1 = styled(Primary)`
+	transition: all 500ms;
 	background: ${(props) =>
 		props.active ? props.theme.colors.button.alt1.active.background : props.theme.colors.button.alt1.background};
 	border: 1px solid
@@ -108,9 +109,9 @@ export const Alt1 = styled(Primary)`
 	}
 	
 	&:focus {
-		border: 1px solid ${(props) => (props.active ? 'transparent' : props.theme.colors.button.alt1.border)};
+		border: 1px solid ${(props) => (props.active ? props.theme.colors.button.alt1.active.background : props.theme.colors.button.alt1.border)};
 		background: ${(props) =>
-			props.active ? props.theme.colors.button.alt1.active.hover : props.theme.colors.button.alt1.hover};
+			props.active ? props.theme.colors.button.alt1.active.background : props.theme.colors.button.alt1.background};
 	}
 	&:disabled {
 		background: ${(props) => props.theme.colors.button.alt1.disabled.background};
