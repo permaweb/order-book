@@ -112,6 +112,7 @@ export default function AssetsTable(props: IProps) {
 
 	return (
 		<ReduxAssetsUpdate
+			addr={props.addr}
 			apiFetch={props.apiFetch}
 			reduxCursor={props.reduxCursor}
 			cursorObject={CursorEnum.idGQL}
