@@ -179,6 +179,50 @@ export const IconAlt2 = styled(IconPrimary)`
 	}
 `;
 
+
+export const Alt3 = styled(Primary)`
+	background: ${(props) =>
+		props.active ? props.theme.colors.button.alt3.active.background : props.theme.colors.button.alt3.background};
+	border: 1px solid
+		${(props) =>
+			props.active ? props.theme.colors.button.alt3.active.background : props.theme.colors.button.alt3.border};
+	&:hover {
+		border: 1px solid
+			${(props) => (props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.border)};
+		background: ${(props) =>
+			props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.hover};
+	}
+	&:focus {
+		border: 1px solid
+			${(props) => (props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.border)};
+		background: ${(props) =>
+			props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.hover};
+	}
+	&:disabled {
+		background: ${(props) => props.theme.colors.button.alt3.disabled.background};
+		color: ${(props) => props.theme.colors.button.alt3.disabled.label};
+		border: 1px solid ${(props) => props.theme.colors.button.alt3.disabled.border};
+		span {
+			color: ${(props) => props.theme.colors.button.alt3.disabled.label};
+		}
+	}
+	span {
+		color: ${(props) =>
+			props.active ? props.theme.colors.button.alt3.active.label : props.theme.colors.button.alt3.label};
+	}
+`;
+
+export const IconAlt3 = styled(IconPrimary)`
+	svg {
+		fill: ${(props) =>
+			props.disabled
+				? props.theme.colors.button.alt3.disabled.label
+				: props.active
+				? props.theme.colors.button.alt3.active.label
+				: props.theme.colors.button.alt3.label};
+	}
+`;
+
 export const Success = styled(Alt1)`
 	background: ${(props) => props.theme.colors.button.success.background};
 	&:hover {

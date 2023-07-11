@@ -66,3 +66,5 @@ export type OwnerListingType = {
 export type DateType = 'iso' | 'epoch';
 
 export type DREObjectType = { label: string; source: string };
+
+export type StepType = 'prev' | 'next';

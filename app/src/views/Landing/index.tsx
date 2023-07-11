@@ -8,6 +8,7 @@ import { AssetsTable } from 'global/AssetsTable';
 import { FEATURE_COUNT } from 'helpers/config';
 import { REDUX_TABLES } from 'helpers/redux';
 import { RootState } from 'store';
+import { CollectionsCarousel } from 'global/CollectionsCarousel';
 
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
@@ -37,6 +38,9 @@ export default function Landing() {
 	return (
 		<>
 			<div className={'background-wrapper'}>
+				<div className={'view-wrapper max-cutoff'}>
+					<CollectionsCarousel/>
+				</div>
 				<div className={'view-wrapper max-cutoff'}>
 					<AssetsGrid assets={featuredAssets} autoLoad={true} loaderCount={FEATURE_COUNT} loading={false} />
 				</div>

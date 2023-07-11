@@ -12,6 +12,7 @@ export const language = {
 	buy: `Buy`,
 	buyNow: `Buy Now`,
 	close: `Close`,
+	collections: `Collections`,
 	confirmListing: `Confirm Listing`,
 	confirmPurchase: `Confirm Purchase`,
 	connect: `Connect`,
@@ -86,6 +87,7 @@ export const language = {
 	unitPrice: `Unit Price`,
 	unitPriceAboveZero: `Unit price must be above 0`,
 	viewDetails: `View Details`,
+	viewCollection: `View Collection`,
 	walletNotConnected: `Connect a wallet to continue`,
 	walletTransactionInfo: `Your wallet must be connected to make transactions`,
 };

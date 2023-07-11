@@ -103,6 +103,22 @@ export const defaultTheme: DefaultTheme = {
 					label: DEFAULT.neutral7,
 				},
 			},
+			alt3: {
+				background: '#ECE0D9',
+				border: '2px solid black',
+				hover: 'gray',
+				label: 'black',
+				active: {
+					background: 'gray',
+					hover:  'gray',
+					label: 'black',
+				},
+				disabled: {
+					background: DEFAULT.neutral13,
+					border: DEFAULT.neutral5,
+					label: DEFAULT.neutral7,
+				},
+			},
 			success: {
 				background: DEFAULT.positive,
 				hover: DEFAULT.positiveHover,
