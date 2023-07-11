@@ -138,7 +138,7 @@ export default function ReduxAssetsUpdate(props: {
 				}
 			})();
 		}
-	}, [orderBook, stamps]);
+	}, [orderBook, stamps, props.addr]);
 
 	React.useEffect(() => {
 		(async function () {
