@@ -28,8 +28,8 @@ export const Wrapper = styled.button`
 	}
 	svg {
 		margin: 2.5px 0 0 0;
-		height: 20px !important;
-		width: 20px !important;
+		height: 25px !important;
+		width: 25px !important;
 	}
 `;
 
