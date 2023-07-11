@@ -6,7 +6,7 @@ const DEFAULT = {
 	neutral3: '#FCFAFA',
 	neutral4: '#3A3A3A',
 	neutral5: '#D0D7DE',
-	neutral6: '#ffffff',
+	neutral6: '#FAFAFA',
 	neutral7: '#757582',
 	neutral8: '#BDBDBD',
 	neutral9: '#F9F9F9',
@@ -15,7 +15,7 @@ const DEFAULT = {
 	neutral12: '#FAFAFA',
 	neutral13: '#F7F7F7',
 	neutral14: '#FFFFFF',
-	neutral15: '#757582',
+	neutral15: '#F8F5F3',
 	neutral16: '#FFF9F6',
 	primary: '#444C62',
 	primary2: '#3B4154',
@@ -57,14 +57,14 @@ export const defaultTheme: DefaultTheme = {
 		},
 		button: {
 			primary: {
-				background: DEFAULT.primary,
+				background: DEFAULT.neutral1,
 				border: DEFAULT.primary,
 				hover: DEFAULT.primary2,
 				label: DEFAULT.neutral1,
 				active: {
 					background: DEFAULT.primary,
 					hover: DEFAULT.primary2,
-					label: DEFAULT.neutral1,
+					label: DEFAULT.neutral11,
 				},
 				disabled: {
 					background: DEFAULT.neutral13,
@@ -75,12 +75,12 @@ export const defaultTheme: DefaultTheme = {
 			alt1: {
 				background: DEFAULT.neutral1,
 				border: DEFAULT.neutral5,
-				hover: DEFAULT.neutral2,
-				label: DEFAULT.primary,
+				hover: DEFAULT.neutral15,
+				label: DEFAULT.neutral11,
 				active: {
-					background: DEFAULT.primary,
-					hover: DEFAULT.primary2,
-					label: DEFAULT.neutral1,
+					background: DEFAULT.alt1,
+					hover: DEFAULT.neutral15,
+					label: DEFAULT.neutral11,
 				},
 				disabled: {
 					background: DEFAULT.neutral13,
