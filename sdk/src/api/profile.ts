@@ -37,6 +37,7 @@ export async function getProfile(args: {
 					avatar: fetchedProfile.avatar ? fetchedProfile.avatar : null,
 					twitter: fetchedProfile.links.twitter ? fetchedProfile.links.twitter : null,
 					discord: fetchedProfile.links.discord ? fetchedProfile.links.discord : null,
+					walletAddress: args.walletAddress,
 				};
 			}
 		}

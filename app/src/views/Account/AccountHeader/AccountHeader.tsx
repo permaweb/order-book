@@ -1,47 +1,33 @@
-import React from 'react';
 import { ReactSVG } from 'react-svg';
-
-import { ProfileType } from 'permaweb-orderbook';
 
 import { ButtonLink } from 'components/atoms/ButtonLink';
 import { ASSETS, REDIRECTS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { formatAddress } from 'helpers/utils';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 import * as S from './styles';
+import { IProps } from './types';
 
-export default function AccountHeader() {
-	const arProvider = useArweaveProvider();
-
-	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
-
-	React.useEffect(() => {
-		if (arProvider && arProvider.arProfile) {
-			setArProfile(arProvider.arProfile);
-		}
-	}, [arProvider]);
-
+export default function AccountHeader(props: IProps) {
 	function getProfileImage() {
-		if (arProfile && arProfile.avatar !== 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') {
-			return <S.Avatar src={getTxEndpoint(arProfile.avatar!.substring(5))} />;
+		if (props.profile && props.profile.avatar !== 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') {
+			return <S.Avatar src={getTxEndpoint(props.profile.avatar!.substring(5))} />;
 		} else {
 			return <ReactSVG src={ASSETS.user} />;
 		}
 	}
 
 	function getHeader() {
-		if (arProfile) return arProfile.handle;
-		else return formatAddress(arProvider.walletAddress, false);
+		if (props.profile) return props.profile.handle;
 	}
 
 	function getSubHeader() {
-		if (arProfile) return formatAddress(arProvider.walletAddress, true);
+		if (props.profile) return formatAddress(props.profile.walletAddress, true);
 		else return language.arProfileCreate;
 	}
 
-	return arProvider ? (
+	return (
 		<div className={'background-wrapper'}>
 			<div className={'view-wrapper max-cutoff'}>
 				<S.Wrapper>
@@ -55,7 +41,7 @@ export default function AccountHeader() {
 					<S.SubHeader>
 						<p>{getSubHeader()}</p>
 					</S.SubHeader>
-					{!arProfile && (
+					{!props.profile && (
 						<S.Action>
 							<ButtonLink type={'primary'} href={REDIRECTS.arProfile} label={language.createProfile} targetBlank />
 						</S.Action>
@@ -63,5 +49,5 @@ export default function AccountHeader() {
 				</S.Wrapper>
 			</div>
 		</div>
-	) : null;
+	);
 }

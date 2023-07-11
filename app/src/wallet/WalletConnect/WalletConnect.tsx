@@ -81,7 +81,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	}, [arProvider.walletAddress]);
 
 	function handleViewAccount() {
-		navigate(urls.account);
+		navigate(`${urls.account}${arProvider.walletAddress}`);
 		setShowDropdown(false);
 		if (props.callback) {
 			props.callback();
