@@ -225,7 +225,7 @@ export default function StampWidget(props: IProps) {
 					</S.DetailLine>
 					<S.FlexActions>
 						<Button
-							type={'primary'}
+							type={'alt1'}
 							label={language.stamp}
 							handlePress={(e: any) => {
 								e.preventDefault();

@@ -192,7 +192,7 @@ export const GlobalStyle = createGlobalStyle`
     right: 0;
     height: 500px;
     background: ${(props) =>
-			`linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background2Gradient}, ${props.theme.colors.container.primary.background1Gradient})`};
+			`linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background1Gradient})`};
     z-index: -1;
   }  
 `;
