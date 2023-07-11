@@ -114,7 +114,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 						</>
 					)}
 					<Button
-						type={'alt1'}
+						type={'alt2'}
 						label={label ? label : ''}
 						handlePress={handlePress}
 						height={45}

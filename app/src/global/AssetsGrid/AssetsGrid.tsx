@@ -28,7 +28,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						<p>{props.asset.data.title}</p>
 					</S.AssetData>
 					<IconButton
-						type={'alt1'}
+						type={'alt3'}
 						src={ASSETS.details}
 						handlePress={() => navigate(`${urls.asset}${props.asset.data.id}`)}
 						tooltip={language.viewDetails}
