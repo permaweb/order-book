@@ -8,7 +8,6 @@ import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'perm
 
 import { FEATURE_COUNT } from 'helpers/config';
 import { ApiFetchType } from 'helpers/types';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import * as cursorActions from 'store/cursors/actions';
@@ -21,9 +20,8 @@ export default function ReduxAssetsUpdate(props: {
 	cursorObject: CursorEnum;
 	currentTableCursor: string | null;
 	children: React.ReactNode;
+	addr?: string;
 }) {
-	const arProvider = useArweaveProvider();
-
 	const dispatch = useDispatch();
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
@@ -112,8 +110,8 @@ export default function ReduxAssetsUpdate(props: {
 								});
 								break;
 							case 'user':
-								if (arProvider.walletAddress) {
-									contractIds = await orderBook.api.getAssetIdsByUser({ walletAddress: arProvider.walletAddress });
+								if (props.addr) {
+									contractIds = await orderBook.api.getAssetIdsByUser({ walletAddress: props.addr });
 								}
 								break;
 						}
@@ -140,7 +138,7 @@ export default function ReduxAssetsUpdate(props: {
 				}
 			})();
 		}
-	}, [orderBook, stamps, arProvider.walletAddress]);
+	}, [orderBook, stamps]);
 
 	React.useEffect(() => {
 		(async function () {
