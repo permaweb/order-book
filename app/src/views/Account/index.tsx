@@ -1,33 +1,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsTable } from 'global/AssetsTable';
 import { REDUX_TABLES } from 'helpers/redux';
+import * as urls from 'helpers/urls';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
-import { WalletBlock } from 'wallet/WalletBlock';
 
 import { AccountHeader } from './AccountHeader';
 
 export default function Account() {
+	const navigate = useNavigate();
+	const { id } = useParams();
+	const orProvider = useOrderBookProvider();
+
 	const arProvider = useArweaveProvider();
 
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
 	const [loading, setLoading] = React.useState<boolean>(false);
-
-	const [showWalletBlock, setShowWalletBlock] = React.useState<boolean>(false);
+	const [profile, setProfile] = React.useState<any>();
 
 	React.useEffect(() => {
-		setTimeout(() => {
-			if (!arProvider.walletAddress) {
-				setShowWalletBlock(true);
-			}
-		}, 200);
-	}, [arProvider.walletAddress]);
+		orProvider.orderBook.api.getProfile({ walletAddress: id }).then((p) => {
+			if (!p) navigate(urls.notFound);
+			setProfile(p);
+		});
+	}, [id]);
 
 	React.useEffect(() => {
 		if (assetsReducer.accountData) {
@@ -38,10 +42,11 @@ export default function Account() {
 		}
 	}, [arProvider.walletAddress, assetsReducer.accountData]);
 
-	return arProvider.walletAddress ? (
+	return (
 		<>
-			<AccountHeader />
+			<AccountHeader profile={profile} />
 			<AssetsTable
+				addr={id}
 				assets={assets}
 				apiFetch={'user'}
 				reduxCursor={REDUX_TABLES.userAssets}
@@ -52,13 +57,5 @@ export default function Account() {
 				loading={loading}
 			/>
 		</>
-	) : (
-		showWalletBlock && (
-			<div className={'background-wrapper'}>
-				<div className={'view-wrapper max-cutoff'}>
-					<WalletBlock />
-				</div>
-			</div>
-		)
 	);
 }
