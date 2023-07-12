@@ -300,7 +300,10 @@ export default function AssetDetail(props: IProps) {
 																<TxAddress address={owner.address} wrap={false} />
 															</S.DCLineHeader>
 														)}
-														<S.DCLineDetail>{`${(owner.sellUnitPrice * 100).toFixed(2)}%`}</S.DCLineDetail>
+														<S.DCLineFlex>
+															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
+															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
+														</S.DCLineFlex>
 													</S.DCLine>
 												);
 											})}
@@ -364,7 +367,10 @@ export default function AssetDetail(props: IProps) {
 													<TxAddress address={owner.address} wrap={false} />
 												</S.DCLineHeader>
 											)}
-											<S.DCLineDetail>{`${(owner.sellUnitPrice * 100).toFixed(2)}%`}</S.DCLineDetail>
+											<S.DCLineFlex>
+												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
+												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
+											</S.DCLineFlex>
 										</S.DCLine>
 									);
 								})}
