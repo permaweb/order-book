@@ -289,18 +289,15 @@ export default function AssetDetail(props: IProps) {
 												return (
 													<S.DCLine key={index}>
 														{owner.handle ? (
-															<S.DCLineHeader>
-																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
-																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-																{owner.handle} 
-															</S.DCLineHeader>
+															<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
 														) : (
-															<S.DCLineHeader>
-																<S.Avatar src={ASSETS.user}></S.Avatar>
-																<TxAddress address={owner.address} wrap={false} />
-															</S.DCLineHeader>
+															<TxAddress address={owner.address} wrap={false} />
 														)}
-														<S.DCLineDetail>{`${(owner.sellUnitPrice * 100).toFixed(2)}%`}</S.DCLineDetail>
+
+														<S.DCLineFlex>
+															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
+															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
+														</S.DCLineFlex>
 													</S.DCLine>
 												);
 											})}
@@ -353,18 +350,15 @@ export default function AssetDetail(props: IProps) {
 									return (
 										<S.DCLine key={index}>
 											{owner.handle ? (
-												<S.DCLineHeader>
-													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
-													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-													{owner.handle} 
-												</S.DCLineHeader>
+												<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
 											) : (
-												<S.DCLineHeader>
-													<S.Avatar src={ASSETS.user}></S.Avatar>
-													<TxAddress address={owner.address} wrap={false} />
-												</S.DCLineHeader>
+												<TxAddress address={owner.address} wrap={false} />
 											)}
-											<S.DCLineDetail>{`${(owner.sellUnitPrice * 100).toFixed(2)}%`}</S.DCLineDetail>
+
+											<S.DCLineFlex>
+												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
+												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
+											</S.DCLineFlex>
 										</S.DCLine>
 									);
 								})}
