@@ -125,6 +125,7 @@ export const SellAction = styled.div`
 		span {
 			width: fit-content;
 			font-family: ${(props) => props.theme.typography.family.alt1};
+			letter-spacing: 0.1rem;
 			font-size: ${(props) => props.theme.typography.size.lg};
 			font-weight: ${(props) => props.theme.typography.weight.bold};
 		}
