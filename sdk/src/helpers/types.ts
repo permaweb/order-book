@@ -69,6 +69,15 @@ export type AssetArgsClientType = AssetArgsType & {
 	arClient: any;
 };
 
+export type GetCollectionsArgs = {
+	arClient: any;
+};
+
+export type GetCollectionArgs = {
+	arClient: any;
+	collectionId: string;
+};
+
 export type SearchReturnType = {
 	assets: AssetType[];
 };
@@ -89,6 +98,8 @@ export type ApiClientType = {
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
+	getCollections: (args: GetCollectionsArgs) => Promise<CollectionType[]>;
+	getCollection: (args: GetCollectionArgs) => Promise<CollectionWithAssetsType>;
 };
 
 export type WriteContractArgs = {
@@ -224,3 +235,28 @@ export type ProfileType = {
 	discord: string | null;
 	walletAddress?: string;
 };
+
+export type CollectionType = {
+	id: string,
+	banner: string,
+	thumbnail: string,
+	title: string,
+	description: string,
+	stamps: {
+		total: number | null,
+		vouched: number | null,
+	},
+	author: {
+		address: string,
+		handle: string | null
+	}
+};
+
+export type CollectionWithAssetsType = CollectionType & {
+	assets: AssetType[];
+}
+
+export type CollectionManifestType = {
+	type: string;
+	items: string[];
+}
