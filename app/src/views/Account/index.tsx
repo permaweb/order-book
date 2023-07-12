@@ -6,7 +6,6 @@ import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsTable } from 'global/AssetsTable';
 import { REDUX_TABLES } from 'helpers/redux';
-import * as urls from 'helpers/urls';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
@@ -14,7 +13,6 @@ import { RootState } from 'store';
 import { AccountHeader } from './AccountHeader';
 
 export default function Account() {
-	const navigate = useNavigate();
 	const { id } = useParams();
 	const orProvider = useOrderBookProvider();
 
@@ -27,10 +25,7 @@ export default function Account() {
 	const [profile, setProfile] = React.useState<any>();
 
 	React.useEffect(() => {
-		orProvider.orderBook.api.getProfile({ walletAddress: id }).then((p) => {
-			if (!p) navigate(urls.notFound);
-			setProfile(p);
-		});
+		orProvider.orderBook.api.getProfile({ walletAddress: id }).then(setProfile);
 	}, [id]);
 
 	React.useEffect(() => {

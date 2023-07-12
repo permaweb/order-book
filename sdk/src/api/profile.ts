@@ -40,6 +40,14 @@ export async function getProfile(args: {
 					walletAddress: args.walletAddress,
 				};
 			}
+		} else {
+			finalProfile = {
+				handle: null,
+				avatar: null,
+				twitter: null,
+				discord: null,
+				walletAddress: args.walletAddress,
+			};
 		}
 
 		return finalProfile;
