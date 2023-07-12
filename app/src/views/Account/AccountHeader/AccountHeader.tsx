@@ -12,7 +12,8 @@ import { IProps } from './types';
 export default function AccountHeader(props: IProps) {
 	function getProfileImage() {
 		if (props.profile && props.profile.avatar !== 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') {
-			return <S.Avatar src={getTxEndpoint(props.profile.avatar!.substring(5))} />;
+			if (props.profile.avatar) return <S.Avatar src={getTxEndpoint(props.profile.avatar!.substring(5))} />;
+			else return <ReactSVG src={ASSETS.user} />;
 		} else {
 			return <ReactSVG src={ASSETS.user} />;
 		}
