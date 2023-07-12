@@ -89,7 +89,7 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt2: {
-				background: DEFAULT.alt1,
+				background: DEFAULT.neutral2,
 				border: DEFAULT.alt1,
 				hover: DEFAULT.alt2,
 				label: DEFAULT.neutral1,
