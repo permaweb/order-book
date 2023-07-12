@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.button`
+	transition: all 200ms
 	height: 37.5px;
 	width: fit-content;
 	background: ${(props) => props.theme.colors.container.primary.background};
@@ -14,6 +15,10 @@ export const Wrapper = styled.button`
 	cursor: pointer;
 	&:hover {
 		background: ${(props) => props.theme.colors.container.primary.hover};
+		cursor: pointer
+	}
+	&:hover svg{
+		scale: 110%;
 	}
 	&:disabled {
 		background: ${(props) => props.theme.colors.button.primary.disabled.background};
@@ -27,6 +32,7 @@ export const Wrapper = styled.button`
 		color: ${(props) => props.theme.colors.font.primary.alt8} !important;
 	}
 	svg {
+		transition: all 300ms;	
 		margin: 2.5px 0 0 0;
 		height: 25px !important;
 		width: 25px !important;

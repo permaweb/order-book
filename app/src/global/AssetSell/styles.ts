@@ -120,6 +120,8 @@ export const Price = styled.div`
 export const SellAction = styled.div`
 	margin: 40px 0 0 0;
 	button {
+		width: 100%;
+		padding: 40px;
 		span {
 			width: fit-content;
 			font-family: ${(props) => props.theme.typography.family.alt1};
@@ -134,8 +136,7 @@ export const SellAction = styled.div`
 `;
 
 export const SellActionEnd = styled.div`
-	width: fit-content;
-	margin: 0 0 0 auto;
+	width: 100%;
 `;
 
 export const ModalTitle = styled.div`

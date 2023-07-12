@@ -105,13 +105,16 @@ export const Price = styled.div`
 export const BuyAction = styled.div`
 	margin: 40px 0 0 0;
 	button {
+		width: 100%;
+		padding: 40px;
 		span {
 			width: fit-content;
 			font-family: ${(props) => props.theme.typography.family.alt1};
-			font-size: ${(props) => props.theme.typography.size.lg};
+			font-size: 24px;
 			font-weight: ${(props) => props.theme.typography.weight.bold};
 		}
 		svg {
+			margin-left: 10px;
 			height: 25px;
 			width: 30px;
 		}
@@ -119,8 +122,7 @@ export const BuyAction = styled.div`
 `;
 
 export const BuyActionEnd = styled.div`
-	width: fit-content;
-	margin: 0 0 0 auto;
+	width: 100%;
 `;
 
 export const MaxQty = styled.div`
