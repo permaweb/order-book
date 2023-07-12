@@ -98,8 +98,8 @@ export type ApiClientType = {
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
-	getCollections: (args: GetCollectionsArgs) => Promise<CollectionType[]>;
-	getCollection: (args: GetCollectionArgs) => Promise<CollectionWithAssetsType>;
+	getCollections: () => Promise<CollectionType[]>;
+	getCollection: (args: {collectionId: string}) => Promise<CollectionWithAssetsType>;
 };
 
 export type WriteContractArgs = {
@@ -215,6 +215,9 @@ export type GQLResponseType = {
 			height: number;
 			timestamp: number;
 		};
+		owner: {
+			address: string;
+		};
 	};
 };
 
@@ -240,12 +243,10 @@ export type CollectionType = {
 	id: string,
 	banner: string,
 	thumbnail: string,
+	name: string,
 	title: string,
 	description: string,
-	stamps: {
-		total: number | null,
-		vouched: number | null,
-	},
+	type: string,
 	author: {
 		address: string,
 		handle: string | null
@@ -253,7 +254,7 @@ export type CollectionType = {
 };
 
 export type CollectionWithAssetsType = CollectionType & {
-	assets: AssetType[];
+	assets: string[];
 }
 
 export type CollectionManifestType = {

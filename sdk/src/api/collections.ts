@@ -1,57 +1,81 @@
-import { getGqlDataByIds } from "../gql";
-import { AssetsResponseType, CollectionManifestType, CollectionType, CollectionWithAssetsType, GetCollectionArgs, getTxEndpoint } from "../helpers";
-import { getValidatedAssets } from "./assets";
+import { getGQLData, getGqlDataByIds } from "../gql";
+import { 
+    ArweaveClientType, 
+    CollectionManifestType, 
+    CollectionType, 
+    CollectionWithAssetsType, 
+    DEFAULT_COLLECTION_BANNER, 
+    DEFAULT_COLLECTION_THUMB, 
+    GetCollectionArgs, 
+    STORAGE, 
+    getTagValue, 
+    getTxEndpoint 
+} from "../helpers";
+import { getProfile } from "./profile";
 
+async function buildCollection(node: any, items: string[] | null, arClient: ArweaveClientType) {
+    let banner = getTagValue(node.tags, "Banner") !== STORAGE.none ? getTagValue(node.tags, "Banner") : DEFAULT_COLLECTION_BANNER;
+    let thumbnail = getTagValue(node.tags, "Thumbnail") !== STORAGE.none ? getTagValue(node.tags, "Thumbnail") : DEFAULT_COLLECTION_THUMB;
+    let name = getTagValue(node.tags, "Name");
+    let title = getTagValue(node.tags, "Title");
+    let description = getTagValue(node.tags, "Description");
+    let type = getTagValue(node.tags, "Type");
 
+    let profile = await getProfile({
+        walletAddress: node.owner.address,
+        arClient: arClient
+    });
 
-export async function getCollections({arClient: ArweaveClientType}) : Promise<CollectionType[]> {
-    let collections = [
-        {
-            id: "pvxq9B446TL96zOsCv6E8-YL1XDPwbLExMaBO9xbtQY",
-            banner: "https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40",
-            thumbnail: "https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA",
-            title: "Title 1",
-            description: "Desc 1",
-            stamps: {
-                total: 5,
-                vouched: 2,
-            },
-            author: {
-                address: "asdlkvn....asldkvna",
-                handle: "jajablinky"
-            }
+    let collection = {
+        id: node.id,
+        banner: banner,
+        thumbnail: thumbnail,
+        name: name,
+        title: title,
+        description: description,
+        type: type,
+        author: {
+            address: node.owner.address,
+            handle: profile ? profile.handle : null
         },
-        {
-            id: "pvxq9B446TL96zOsCv6E8-YL1XDPwbLExMaBO9xbtQY",
-            banner: "https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40",
-            thumbnail: "https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA",
-            title: "Title 1",
-            description: "Desc 1",
-            stamps: {
-                total: 5,
-                vouched: 2,
-            },
-            author: {
-                address: "asdlkvn....asldkvna",
-                handle: "jajablinky"
+        assets: items,
+    };
+
+    if(items) {
+        collection.assets = items;
+    }
+
+    return collection;
+}
+
+export async function getCollections(args: {arClient: ArweaveClientType}) : Promise<CollectionType[]> {
+    let gqlData = await getGQLData({
+        ids: null,
+        tagFilters: [
+            {
+                name: "Data-Protocol",
+                values: ["Collection"]
             }
-        },
-        {
-            id: "pvxq9B446TL96zOsCv6E8-YL1XDPwbLExMaBO9xbtQY",
-            banner: "https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40",
-            thumbnail: "https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA",
-            title: "Title 1",
-            description: "Desc 1",
-            stamps: {
-                total: 5,
-                vouched: 2,
-            },
-            author: {
-                address: "asdlkvn....asldkvna",
-                handle: "jajablinky"
-            }
-        }
-    ];
+        ],
+        uploader: null,
+        cursor: null,
+        reduxCursor: null,
+        cursorObject: null,
+        arClient: args.arClient
+    });
+    let collections: CollectionType[] = [];
+    for(let i = 0; i < gqlData.data.length; i++) {
+        let node = gqlData.data[i].node;
+        let name = getTagValue(node.tags, "Name");
+        let title = getTagValue(node.tags, "Title");
+        let description = getTagValue(node.tags, "Description");
+        let type = getTagValue(node.tags, "Type");
+
+        // dont return non compliant collections
+        if([name, title, description, type].includes(STORAGE.none)) continue;
+
+        collections.push(await buildCollection(node, null, args.arClient));
+    }
     return collections;
 }
 
@@ -59,42 +83,21 @@ export async function getCollection(args: GetCollectionArgs) : Promise<Collectio
 	try {
         let collectionFetch = await fetch(getTxEndpoint(args.collectionId));
 		let collection:CollectionManifestType = await collectionFetch.json();
-        let collectionGql = await getGqlDataByIds({
+        let collectionGql = await getGQLData({
 			ids: [args.collectionId],
-			owner: null,
+            tagFilters: null,
+            cursorObject: null,
 			uploader: null,
 			cursor: null,
 			reduxCursor: null,
 			arClient: args.arClient,
-			walletAddress: null,
 		});
 
-		const gqlData: AssetsResponseType = await getGqlDataByIds({
-			ids: collection.items,
-			owner: null,
-			uploader: null,
-			cursor: null,
-			reduxCursor: null,
-			arClient: args.arClient,
-			walletAddress: null,
-		});
+        if(collectionGql.data.length < 1) return null;
 
-		return {
-            id: args.collectionId,
-            banner: "https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40",
-            thumbnail: "https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA",
-            title: "Title 1",
-            description: "Desc 1",
-            stamps: {
-                total: 5,
-                vouched: 2,
-            },
-            author: {
-                address: "asdlkvn....asldkvna",
-                handle: "jajablinky"
-            },
-            assets: getValidatedAssets(gqlData)
-        };
+        let node = collectionGql.data[0].node;
+
+        return await buildCollection(node, collection.items, args.arClient);
 	} catch (error: any) {
 		console.error(error);
 	}

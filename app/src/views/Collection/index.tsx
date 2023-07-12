@@ -25,23 +25,37 @@ export default function Collection() {
 	const [collection, setCollection] = React.useState<CollectionType | null>(null);
 
 	React.useEffect(() => {
-		if (id) {
-			
+		if (id && orProvider.orderBook) {
+			(async function () {
+				setLoading(true);
+				let collectionFetch = await orProvider.orderBook.api.getCollection({collectionId: id});
+				setCollection(collectionFetch);
+				setLoading(false);
+			})();
 		}
-	}, [id]);
+	}, [id, orProvider.orderBook]);
+
+	React.useEffect(() => {
+		if (assetsReducer.collectionData) {
+			setAssets(assetsReducer.collectionData);
+			setLoading(false);
+		} else {
+			setLoading(true);
+		}
+	}, [assetsReducer.collectionData]);
 
 	return (
 		<>
 		<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<CollectionCard collection={collection} hideButton={true}/>
+					<CollectionCard collection={collection} hideButton={true} height={440}/>
 				</div>
 				<div className={'view-wrapper max-cutoff'}>
 					<AssetsTable
-						addr={id}
+						collectionId={id}
 						assets={assets}
-						apiFetch={'user'}
-						reduxCursor={REDUX_TABLES.userAssets}
+						apiFetch={'collection'}
+						reduxCursor={REDUX_TABLES.collectionAssets}
 						recordsPerPage={PAGINATOR}
 						showPageNumbers={false}
 						tableType={'grid'}
