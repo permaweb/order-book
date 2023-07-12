@@ -27,7 +27,6 @@ export const Wrapper = styled.button`
 	p {
 		margin: 0 12.5px 0 0;
 		font-size: ${(props) => props.theme.typography.size.small} !important;
-		font-weight: ${(props) => props.theme.typography.weight.light} !important;
 		font-family: ${(props) => props.theme.typography.family.alt1} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt8} !important;
 	}
@@ -48,7 +47,6 @@ export const DetailLine = styled.div`
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.alt1};
 		letter-spacing: .1rem;
-		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
@@ -56,7 +54,6 @@ export const DetailLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.alt1};
-		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;

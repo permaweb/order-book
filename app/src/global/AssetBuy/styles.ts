@@ -112,7 +112,6 @@ export const BuyAction = styled.div`
 			font-family: ${(props) => props.theme.typography.family.alt1};
 			letter-spacing: 0.1rem;
 			font-size: 24px;
-			font-weight: ${(props) => props.theme.typography.weight.bold};
 		}
 		svg {
 			margin-left: 10px;

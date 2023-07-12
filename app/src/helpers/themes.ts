@@ -333,7 +333,7 @@ export const defaultTheme: DefaultTheme = {
 	typography: {
 		family: {
 			primary: `'Inter', sans-serif`,
-			alt1: `'Orbitron', sans-serif`,
+			alt1: `'Quantico', sans-serif`,
 		},
 		size: {
 			h1: 'clamp(38px, 4.5vw, 62px)',
@@ -345,6 +345,9 @@ export const defaultTheme: DefaultTheme = {
 			xxSmall: '13px',
 		},
 		weight: {
+			thin: '100',
+			extraLight: '200',
+			light: '300',
 			regular: '400',
 			medium: '500',
 			bold: '700',

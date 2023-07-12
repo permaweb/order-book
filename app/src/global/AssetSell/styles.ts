@@ -127,7 +127,6 @@ export const SellAction = styled.div`
 			font-family: ${(props) => props.theme.typography.family.alt1};
 			letter-spacing: 0.1rem;
 			font-size: ${(props) => props.theme.typography.size.lg};
-			font-weight: ${(props) => props.theme.typography.weight.bold};
 		}
 		svg {
 			height: 25px;
