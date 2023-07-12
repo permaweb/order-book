@@ -3,10 +3,12 @@ import { CURRENCY_DICT } from 'permaweb-orderbook';
 import arLogoSVG from 'assets/ar-logo.svg';
 import arconnectWalletPNG from 'assets/arconnect-wallet-logo.png';
 import arrowDownSVG from 'assets/arrow-down.svg';
+import arrowLeftSVG from 'assets/arrow-left-bold.svg'
 import arrowNextSVG from 'assets/arrow-next.svg';
 import arrowPreviousSVG from 'assets/arrow-previous.svg';
 import arrowUpSVG from 'assets/arrow-up.svg';
 import audioSVG from 'assets/audio.svg';
+import bazarCartSVG from 'assets/bazar-cart.svg'
 import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
@@ -38,10 +40,12 @@ import { DREObjectType } from './types';
 export const ASSETS = {
 	arLogo: arLogoSVG,
 	arrowDown: arrowDownSVG,
+	arrowLeft: arrowLeftSVG,
 	arrowNext: arrowNextSVG,
 	arrowPrevious: arrowPreviousSVG,
 	arrowUp: arrowUpSVG,
 	audio: audioSVG,
+	bazarCart: bazarCartSVG,
 	buy: buySVG,
 	checkmark: checkmarkSVG,
 	close: closeSVG,

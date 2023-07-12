@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.button`
+	transition: all 200ms
 	height: 37.5px;
 	width: fit-content;
 	background: ${(props) => props.theme.colors.container.primary.background};
@@ -14,6 +15,10 @@ export const Wrapper = styled.button`
 	cursor: pointer;
 	&:hover {
 		background: ${(props) => props.theme.colors.container.primary.hover};
+		cursor: pointer
+	}
+	&:hover svg{
+		scale: 110%;
 	}
 	&:disabled {
 		background: ${(props) => props.theme.colors.button.primary.disabled.background};
@@ -22,11 +27,12 @@ export const Wrapper = styled.button`
 	p {
 		margin: 0 12.5px 0 0;
 		font-size: ${(props) => props.theme.typography.size.small} !important;
-		font-weight: ${(props) => props.theme.typography.weight.bold} !important;
+		font-weight: ${(props) => props.theme.typography.weight.light} !important;
 		font-family: ${(props) => props.theme.typography.family.alt1} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt8} !important;
 	}
 	svg {
+		transition: all 300ms;	
 		margin: 2.5px 0 0 0;
 		height: 25px !important;
 		width: 25px !important;
@@ -41,6 +47,7 @@ export const DetailLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.alt1};
+		letter-spacing: .1rem;
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
@@ -49,7 +56,7 @@ export const DetailLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.alt1};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;
@@ -97,7 +104,7 @@ export const SABalanceContainer = styled.div`
 		max-width: 85%;
 		font-family: ${(props) => props.theme.typography.family.primary} !important;
 		font-size: ${(props) => props.theme.typography.size.xSmall} !important;
-		font-weight: ${(props) => props.theme.typography.weight.medium} !important;
+		font-weight: ${(props) => props.theme.typography.weight.light} !important;
 		color: ${(props) => props.theme.colors.font.primary.active.base} !important;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -139,7 +146,7 @@ export const Message = styled.div<{ loading: 'true' | 'false' }>`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) =>
 			props.loading === 'true' ? props.theme.colors.font.primary.alt1 : props.theme.colors.font.primary.alt2};
 	}

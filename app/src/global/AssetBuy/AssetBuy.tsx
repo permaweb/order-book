@@ -209,11 +209,12 @@ export default function AssetBuy(props: IProps) {
 					<S.BuyActionEnd>
 						<Button
 							type={'alt2'}
-							label={language.confirmPurchase.toUpperCase()}
+							label={language.addToCart.toUpperCase()}
 							handlePress={() => setShowConfirmation(true)}
 							height={60}
 							noMinWidth
 							disabled={getActionDisabled()}
+							icon={ASSETS.arrowLeft}
 						/>
 					</S.BuyActionEnd>
 				</S.BuyAction>
@@ -226,7 +227,7 @@ export default function AssetBuy(props: IProps) {
 			</S.Wrapper>
 			{(showConfirmation || buyResponse) && (
 				<Modal
-					header={language.confirmPurchase}
+					header={language.addToCart}
 					handleClose={() => handleModalClose(buyResponse && buyResponse.status ? true : false)}
 				>
 					<S.ModalTitle>
@@ -261,7 +262,7 @@ export default function AssetBuy(props: IProps) {
 									handlePress={buyAsset}
 									height={60}
 									fullWidth
-									icon={ASSETS.buy}
+									icon={ASSETS.bazarCart}
 									disabled={loading || getActionDisabled()}
 									loading={loading}
 								/>

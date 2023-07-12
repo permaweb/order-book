@@ -225,24 +225,24 @@ export default function StampWidget(props: IProps) {
 					</S.DetailLine>
 					<S.FlexActions>
 						<Button
-							type={'alt1'}
+							type={'alt2'}
 							label={language.stamp}
 							handlePress={(e: any) => {
 								e.preventDefault();
 								handleStamp();
 							}}
 							disabled={disabled || initLoadingDisabled}
-							icon={ASSETS.stamp.default}
+							icon={ASSETS.stamps}
 						/>
 						<Button
-							type={'alt2'}
+							type={'alt1'}
 							label={language.superStamp}
 							handlePress={(e: any) => {
 								e.preventDefault();
 								setShowStampAction(!showStampAction);
 							}}
 							disabled={disabled || initLoadingDisabled}
-							icon={ASSETS.stamp.super}
+							icon={ASSETS.stamps}
 							width={180}
 						/>
 					</S.FlexActions>

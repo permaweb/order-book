@@ -89,8 +89,8 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt2: {
-				background: DEFAULT.alt1,
-				border: DEFAULT.alt1,
+				background: DEFAULT.neutral1,
+				border: DEFAULT.neutral5,
 				hover: DEFAULT.alt2,
 				label: DEFAULT.neutral1,
 				active: {
@@ -236,7 +236,7 @@ export const defaultTheme: DefaultTheme = {
 				fill: DEFAULT.primary,
 			},
 			alt2: {
-				fill: DEFAULT.neutral4,
+				fill: DEFAULT.neutral,
 			},
 			inactive: DEFAULT.neutral4,
 			info: {
