@@ -20,6 +20,7 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
+import { getTxEndpoint } from 'permaweb-orderbook';
 
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
@@ -250,9 +251,16 @@ export default function AssetDetail(props: IProps) {
 												return (
 													<S.DCLine key={index}>
 														{owner.handle ? (
-															<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
+															<S.DCLineHeader>
+																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
+																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
+																{owner.handle} 
+															</S.DCLineHeader>
 														) : (
-															<TxAddress address={owner.address} wrap={false} />
+															<S.DCLineHeader>
+																<S.Avatar src={ASSETS.user}></S.Avatar>
+																<TxAddress address={owner.address} wrap={false} />
+															</S.DCLineHeader>
 														)}
 														<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 													</S.DCLine>
@@ -310,9 +318,16 @@ export default function AssetDetail(props: IProps) {
 									return (
 										<S.DCLine key={index}>
 											{owner.handle ? (
-												<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
+												<S.DCLineHeader>
+													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
+													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
+													{owner.handle} 
+												</S.DCLineHeader>
 											) : (
-												<TxAddress address={owner.address} wrap={false} />
+												<S.DCLineHeader>
+													<S.Avatar src={ASSETS.user}></S.Avatar>
+													<TxAddress address={owner.address} wrap={false} />
+												</S.DCLineHeader>
 											)}
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>
@@ -395,19 +410,23 @@ async function getOwners(
 				if (addressObject[i].creator) {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
 					let handle = profile ? profile.handle : null;
+					let avatar = profile ? profile.avatar : null;
 					handle =
 						!handle && addressObject[i].creator === orProvider.orderBook.env.orderBookContract
 							? language.orderBook
-							: null;
+							: handle;
 					owners.push({
 						address: addressObject[i].creator,
 						handle: handle,
+						avatar: avatar,
 						sellQuantity: addressObject[i].quantity,
 						sellPercentage: addressObject[i].quantity / totalBalance,
 						sellUnitPrice: addressObject[i].price,
 					});
 				}
 			}
+
+			console.log(owners)
 
 			return owners;
 		} else {
@@ -416,10 +435,12 @@ async function getOwners(
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
 					const ownerPercentage = addressObject[address] / totalBalance;
 					let handle = profile ? profile.handle : null;
-					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : null;
+					let avatar = profile ? profile.avatar : null;
+					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : handle;
 					return {
 						address: address,
 						handle: handle,
+						avatar: avatar,
 						balance: addressObject[address],
 						ownerPercentage: ownerPercentage,
 					};

@@ -118,6 +118,8 @@ export const DCLineHeader = styled.p`
 	font-weight: ${(props) => props.theme.typography.weight.medium};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
+	display: flex;
+	align-items: center;
 `;
 
 export const DCLineDetail = styled.p`
@@ -127,6 +129,8 @@ export const DCLineDetail = styled.p`
 	font-weight: ${(props) => props.theme.typography.weight.bold};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
+	display: flex;
+	align-items: center;
 `;
 
 export const DCLineDetailMedium = styled(DCLineDetail)`
@@ -244,4 +248,13 @@ export const Warning = styled.div`
 	button {
 		margin: 20px 0 0 0;
 	}
+`;
+
+
+export const Avatar = styled.img`
+	height: 22px;
+	width: 22px;
+	margin-right: 8px;
+	border-radius: 50%;
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
 `;

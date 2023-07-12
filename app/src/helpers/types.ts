@@ -51,6 +51,7 @@ export type FormFieldType = 'number' | 'password';
 export type OwnerType = {
 	address: string;
 	handle: string | null;
+	avatar: string | null;
 	balance: number;
 	ownerPercentage: number;
 };
@@ -58,6 +59,7 @@ export type OwnerType = {
 export type OwnerListingType = {
 	address: string;
 	handle: string | null;
+	avatar: string | null;
 	sellQuantity: number;
 	sellPercentage: number;
 	sellUnitPrice: number;

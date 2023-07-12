@@ -35,7 +35,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 			setLabel(`${language.fetching} ...`);
 		} else {
 			if (arProvider.walletAddress) {
-				if (arProvider.arProfile) {
+				if (arProvider.arProfile && arProvider.arProfile.handle) {
 					setLabel(arProvider.arProfile.handle);
 				} else {
 					setLabel(formatAddress(arProvider.walletAddress, false));
