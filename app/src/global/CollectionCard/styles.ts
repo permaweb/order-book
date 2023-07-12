@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 
 export const CollectionCard = styled.div<{height: number}>`
+    display: flex;
+    flex-direction: column;
     height: ${props => props.height}px;
     width: 100%;
     border-radius: 6px;
