@@ -70,7 +70,7 @@ export const Primary = styled.button<{
 		text-overflow: ellipsis;
 		overflow: hidden;
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.thin};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.primary.active.label : props.theme.colors.button.primary.label};
 	}
@@ -150,15 +150,13 @@ export const Alt2 = styled(Primary)`
 			${(props) => (props.active ? props.theme.colors.button.alt2.active.hover : props.theme.colors.button.alt2.border)};
 		background: ${(props) =>
 			props.active ? props.theme.colors.button.alt2.active.hover : props.theme.colors.button.alt2.hover};
-		color: white;
 	}
 
 	&:hover span{
-		color: white;
 	}
 
 	&:hover svg{
-		fill: white;
+		fill: #FF7F37;
 		animation: gelatine 0.5s;
 		animation-iteration-count: 2; 
 	}
@@ -192,7 +190,6 @@ export const Alt2 = styled(Primary)`
 
 export const IconAlt2 = styled(IconPrimary)`
 	svg {
-		
 		transition: all 500ms;
 		fill: ${(props) =>
 			props.disabled
@@ -234,6 +231,7 @@ export const Alt3 = styled(Primary)`
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.alt3.active.label : props.theme.colors.button.alt3.label};
 	}
+	
 `;
 
 export const IconAlt3 = styled(IconPrimary)`

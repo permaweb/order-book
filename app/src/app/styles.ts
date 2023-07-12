@@ -95,7 +95,7 @@ export const GlobalStyle = createGlobalStyle`
     sans-serif;
     font-family: ${(props) => props.theme.typography.family.primary};
     font-size: ${(props) => props.theme.typography.size.small};
-    font-weight: ${(props) => props.theme.typography.weight.light};
+    font-weight: ${(props) => props.theme.typography.weight.extraLight};
     color: ${(props) => props.theme.colors.font.primary.alt1};
   }
 

@@ -77,7 +77,7 @@ export default function PieChart(props: IProps) {
 								color: '#000',
 								font: {
 									size: 13,
-									weight: 'bold',
+									weight: 'light',
 								},
 							},
 							onClick: () => {},

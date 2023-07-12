@@ -101,7 +101,7 @@ export const SABalanceContainer = styled.div`
 		max-width: 85%;
 		font-family: ${(props) => props.theme.typography.family.primary} !important;
 		font-size: ${(props) => props.theme.typography.size.xSmall} !important;
-		font-weight: ${(props) => props.theme.typography.weight.light} !important;
+		font-weight: ${(props) => props.theme.typography.weight.extraLight} !important;
 		color: ${(props) => props.theme.colors.font.primary.active.base} !important;
 		overflow: hidden;
 		text-overflow: ellipsis;

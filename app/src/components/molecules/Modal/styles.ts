@@ -59,7 +59,7 @@ export const Title = styled.p`
 	font-size: ${(props) => props.theme.typography.size.xSmall};
 	line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.bold};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -105,7 +105,7 @@ export const CloseButtonContainer = styled.button`
 	padding: 5px 10px;
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	font-size: ${(props) => props.theme.typography.size.xxSmall};
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	&:hover {
 		opacity: 0.75;
 	}

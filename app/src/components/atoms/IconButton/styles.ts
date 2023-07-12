@@ -129,6 +129,6 @@ export const InfoWrapper = styled.div`
 		margin: 0 !important;
 		color: ${(props) => props.theme.colors.font.primary.base} !important;
 		font-size: 12px !important;
-		font-weight: ${(props) => props.theme.typography.weight.medium} !important;
+		font-weight: ${(props) => props.theme.typography.weight.light} !important;
 	}
 `;

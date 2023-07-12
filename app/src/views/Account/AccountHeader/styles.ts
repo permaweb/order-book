@@ -46,7 +46,7 @@ export const Header = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.lg};
 		line-height: calc(${(props) => props.theme.typography.size.lg} + 2px);
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		text-align: center;
 	}
@@ -60,7 +60,7 @@ export const SubHeader = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.extraLight};
 		color: ${(props) => props.theme.colors.font.primary.alt6};
 		text-align: center;
 	}

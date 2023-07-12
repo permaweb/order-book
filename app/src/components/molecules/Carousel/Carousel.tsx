@@ -39,7 +39,7 @@ export default function _Carousel(props: IProps) {
 	return props.data ? (
 		<S.Content>
 			<S.Header>
-				<S.Header1>{props.title}</S.Header1>
+				<S.Header1>{props.title.toUpperCase()}</S.Header1>
 			</S.Header>
 			<S.Body>
 				<Carousel

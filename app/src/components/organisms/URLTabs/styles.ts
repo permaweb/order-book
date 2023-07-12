@@ -44,7 +44,7 @@ export const TabAction = styled.button<{ active: boolean }>`
 	top: -9.5px;
 	padding: 8.15px 25px;
 	font-size: ${(props) => props.theme.typography.size.small};
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 

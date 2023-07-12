@@ -39,7 +39,7 @@ export const Wrapper = styled.div`
 
 export const Message = styled.span<NotificationProps>`
 	color: ${(props) => props.theme.colors.font.primary.alt1};
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.extraLight};
 	margin-left: 20px;
 	border-left: 3.5px solid ${(props) => getColor(props.type, props.theme)};
 	padding-left: 7.5px;

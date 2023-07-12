@@ -32,7 +32,7 @@ export const SearchInput = styled.input<{ hasResults: boolean }>`
 	height: ${STYLING.dimensions.formHeightSm};
 	width: 100%;
 	font-size: ${(props) => props.theme.typography.size.small};
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	color: ${(props) => props.theme.colors.font.primary.alt8};
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-top: 1px solid ${(props) => props.theme.colors.form.border};
@@ -139,7 +139,7 @@ export const DetailLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		max-width: 100%;
 		overflow: hidden;

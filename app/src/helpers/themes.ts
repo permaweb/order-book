@@ -3,7 +3,7 @@ import { DefaultTheme } from 'styled-components';
 const DEFAULT = {
 	neutral1: '#FFFFFF',
 	neutral2: '#F7F7F7',
-	neutral3: '#FCFAFA',
+	neutral3: '#FAFAFC',
 	neutral4: '#3A3A3A',
 	neutral5: '#D0D7DE',
 	neutral6: '#FAFAFA',
@@ -24,7 +24,7 @@ const DEFAULT = {
 	primary5: '#212530',
 	primary6: '#076FA9',
 	alt1: '#ECE0D9',
-	alt2: '#D7AF98',
+	alt2: '#E4E4E4',
 	alt3: '#FFDECF',
 	alt4: '#ECE0D9',
 	overlay1: '#2D2D2DC4',
@@ -74,17 +74,17 @@ export const defaultTheme: DefaultTheme = {
 			},
 			alt1: {
 				background: DEFAULT.neutral1,
-				border: DEFAULT.neutral5,
+				border: DEFAULT.neutral2,
 				hover: DEFAULT.neutral15,
 				label: DEFAULT.neutral11,
 				active: {
-					background: DEFAULT.alt1,
+					background: DEFAULT.alt2,
+					border: DEFAULT.neutral2,
 					hover: DEFAULT.neutral15,
 					label: DEFAULT.neutral11,
 				},
 				disabled: {
 					background: DEFAULT.neutral13,
-					border: DEFAULT.neutral5,
 					label: DEFAULT.neutral7,
 				},
 			},

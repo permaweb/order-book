@@ -15,18 +15,20 @@ export const Content = styled.div`
 `;
 
 export const Header = styled.div`
-    height: 50px;
+    height: 60px;
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: end;
     padding 0 0 0 2.5px;
 `;
 
 export const Header1 = styled.h2`
 	font-size: 20px;
 	color: ${(props) => props.theme.colors.font.primary.active.base};
-	font-family: ${(props) => props.theme.typography.family.alt1};
-`;
+	font-family: ${(props) => props.theme.typography.family.primary};
+	font-weight: 300;
+	margin: 0;
+	`;
 
 export const Body = styled.div`
 	height: calc(100% - 50px);

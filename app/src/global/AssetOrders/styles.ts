@@ -55,8 +55,8 @@ export const Currency = styled.div`
 	align-items: center;
 	p {
 		font-size: ${(props) => props.theme.typography.size.small} !important;
-		font-weight: ${(props) => props.theme.typography.weight.bold} !important;
-		color: ${(props) => props.theme.colors.font.primary.alt1} !important;
+		font-weight: ${(props) => props.theme.typography.weight.extraLight} !important;
+		color: ${(props) => props.theme.colors.font.primary.neutral} !important;
 	}
 	svg {
 		margin: -1px 0 0 2.5px;
@@ -76,7 +76,7 @@ export const Percentage = styled.div`
 	margin: 0 20px 0 0;
 	p {
 		font-size: ${(props) => props.theme.typography.size.xSmall} !important;
-		font-weight: ${(props) => props.theme.typography.weight.medium} !important;
+		font-weight: ${(props) => props.theme.typography.weight.extraLight} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt6} !important;
 	}
 	svg {
@@ -90,7 +90,7 @@ export const Message = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.small} !important;
 		line-height: 24px;
-		font-weight: ${(props) => props.theme.typography.weight.bold} !important;
+		font-weight: ${(props) => props.theme.typography.weight.light} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt6} !important;
 	}
 `;
