@@ -14,6 +14,26 @@ export const Wrapper = styled.div`
 	}
 `;
 
+export const Header = styled.div`
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	margin-left: 15px;
+	margin-top: 20px;
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+		width: 100%;
+		margin: 0;
+	}
+`;
+
+export const Header1 = styled.h2`
+	font-size: 20px;
+	color: #000000;
+	font-family: ${(props) => props.theme.typography.family.primary};
+	font-weight: 200;
+	margin: 0;
+`;
+
 export const PICWrapper = styled.div`
 	margin: 15px;
 	width: calc(33.3% - 30px);

@@ -10,6 +10,7 @@ import { REDUX_TABLES } from 'helpers/redux';
 import { RootState } from 'store';
 import { CollectionsCarousel } from 'global/CollectionsCarousel';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { language } from 'helpers/language';
 
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
@@ -51,10 +52,16 @@ export default function Landing() {
 		<>
 			<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<CollectionsCarousel collections={collections}/>
+					<CollectionsCarousel collections={collections} />
 				</div>
 				<div className={'view-wrapper max-cutoff'}>
-					<AssetsGrid assets={featuredAssets} autoLoad={true} loaderCount={FEATURE_COUNT} loading={false} />
+					<AssetsGrid
+						title={language.assets}
+						assets={featuredAssets}
+						autoLoad={true}
+						loaderCount={FEATURE_COUNT}
+						loading={false}
+					/>
 				</div>
 			</div>
 			<AssetsTable

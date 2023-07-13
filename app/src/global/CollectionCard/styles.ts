@@ -63,13 +63,13 @@ export const CollectionCardLabelInfo = styled.div`
 
 export const CollectionCardLabelInfoCollection = styled.div`
     font-size: 22px;
-    font-weight: 400;
+    font-weight: 300;
     margin-bottom: 4px;
 `;
 
 export const CollectionCardLabelInfoAuthor = styled.div`
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 200;
 `;
 
 export const CollectionCardStamps = styled.div`
