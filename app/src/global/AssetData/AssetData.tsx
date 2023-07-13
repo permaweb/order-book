@@ -9,6 +9,8 @@ import { AssetRenderType, ContentType } from 'helpers/types';
 
 import * as S from './styles';
 import { IProps } from './types';
+import { useNavigate } from 'react-router-dom';
+import * as urls from 'helpers/urls';
 
 export default function AssetData(props: IProps) {
 	const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
@@ -17,6 +19,8 @@ export default function AssetData(props: IProps) {
 	const [loadRenderer, setLoadRenderer] = React.useState<boolean>(false);
 
 	const [loadError, setLoadError] = React.useState<boolean>(false);
+
+	const navigate = useNavigate();
 
 	const handleError = () => {
 		setLoadError(true);
@@ -98,7 +102,13 @@ export default function AssetData(props: IProps) {
 						return getUnsupportedWrapper();
 					}
 					if (assetRender.contentType.includes('image')) {
-						return <S.Image src={assetRender.url} onError={handleError} />;
+						return (
+							<S.Image
+								src={assetRender.url}
+								onError={handleError}
+								onClick={() => navigate(`${urls.asset}${props.asset.data.id}`)}
+							/>
+						);
 					}
 					if (assetRender.contentType.includes('audio')) {
 						return (

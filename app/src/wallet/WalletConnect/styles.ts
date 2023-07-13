@@ -42,7 +42,7 @@ export const BalanceWrapper = styled.div`
 	p {
 		color: ${(props) => props.theme.colors.button.alt1.label};
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.extraLight};
 	}
 	svg {
 		padding: 1.5px 0 0 0;
@@ -73,7 +73,7 @@ export const WalletDropdown = styled.ul`
 		cursor: pointer;
 		color: ${(props) => props.theme.colors.button.alt1.label};
 		font-size: ${(props) => props.theme.typography.size.xxSmall};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		border: 1px solid ${(props) => props.theme.colors.transparent};
 		padding: 0 15px;
 		&:hover {

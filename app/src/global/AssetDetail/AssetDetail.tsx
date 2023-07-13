@@ -20,10 +20,13 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
+import { getTxEndpoint } from 'permaweb-orderbook';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
 
+	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
@@ -232,37 +235,11 @@ export default function AssetDetail(props: IProps) {
 							</S.ACHeader>
 						</div>
 						{getChart()}
-						<S.AssetCAction className={'border-wrapper-alt'}>
-							<AssetDetailAction asset={asset} updateAsset={updateAsset} />
-						</S.AssetCAction>
-						{currentOwners && currentOwners.length > 0 && (
-							<S.DrawerWrapper>
-								<Drawer
-									title={language.currentAssetOwners}
-									icon={ASSETS.owners}
-									content={
-										<S.DrawerContent>
-											<S.DrawerHeader>
-												<p>{language.owner.charAt(0).toUpperCase() + language.owner.slice(1)}</p>
-												<p>{language.percentage}</p>
-											</S.DrawerHeader>
-											{currentOwners.map((owner: OwnerType, index: number) => {
-												return (
-													<S.DCLine key={index}>
-														{owner.handle ? (
-															<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
-														) : (
-															<TxAddress address={owner.address} wrap={false} />
-														)}
-														<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
-													</S.DCLine>
-												);
-											})}
-										</S.DrawerContent>
-									}
-								/>
-							</S.DrawerWrapper>
-						)}
+						{arProvider.walletAddress && 
+							<S.AssetCAction className={'border-wrapper-alt'}>
+								<AssetDetailAction asset={asset} updateAsset={updateAsset} />
+							</S.AssetCAction>
+						}
 						{currentSaleOwners && currentSaleOwners.length > 0 && (
 							<S.DrawerWrapper>
 								<Drawer
@@ -281,15 +258,56 @@ export default function AssetDetail(props: IProps) {
 												return (
 													<S.DCLine key={index}>
 														{owner.handle ? (
-															<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
+															<S.DCLineHeader>
+																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
+																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
+																{owner.handle}
+															</S.DCLineHeader>
 														) : (
-															<TxAddress address={owner.address} wrap={false} />
+															<S.DCLineHeader>
+																<S.Avatar src={ASSETS.user}></S.Avatar>
+																<TxAddress address={owner.address} wrap={false} />
+															</S.DCLineHeader>
 														)}
-
 														<S.DCLineFlex>
 															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
 														</S.DCLineFlex>
+													</S.DCLine>
+												);
+											})}
+										</S.DrawerContent>
+									}
+								/>
+							</S.DrawerWrapper>
+						)}
+						{currentOwners && currentOwners.length > 0 && (
+							<S.DrawerWrapper>
+								<Drawer
+									title={language.currentAssetOwners}
+									icon={ASSETS.owners}
+									content={
+										<S.DrawerContent>
+											<S.DrawerHeader>
+												<p>{language.owner.charAt(0).toUpperCase() + language.owner.slice(1)}</p>
+												<p>{language.percentage}</p>
+											</S.DrawerHeader>
+											{currentOwners.map((owner: OwnerType, index: number) => {
+												return (
+													<S.DCLine key={index}>
+														{owner.handle ? (
+															<S.DCLineHeader>
+																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
+																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
+																{owner.handle} 
+															</S.DCLineHeader>
+														) : (
+															<S.DCLineHeader>
+																<S.Avatar src={ASSETS.user}></S.Avatar>
+																<TxAddress address={owner.address} wrap={false} />
+															</S.DCLineHeader>
+														)}
+														<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 													</S.DCLine>
 												);
 											})}
@@ -310,9 +328,16 @@ export default function AssetDetail(props: IProps) {
 									return (
 										<S.DCLine key={index}>
 											{owner.handle ? (
-												<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
+												<S.DCLineHeader>
+													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
+													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
+													{owner.handle}
+												</S.DCLineHeader>
 											) : (
-												<TxAddress address={owner.address} wrap={false} />
+												<S.DCLineHeader>
+													<S.Avatar src={ASSETS.user}></S.Avatar>
+													<TxAddress address={owner.address} wrap={false} />
+												</S.DCLineHeader>
 											)}
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>
@@ -335,11 +360,17 @@ export default function AssetDetail(props: IProps) {
 									return (
 										<S.DCLine key={index}>
 											{owner.handle ? (
-												<S.DCLineHeader>{owner.handle}</S.DCLineHeader>
+												<S.DCLineHeader>
+													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
+													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
+													{owner.handle}
+												</S.DCLineHeader>
 											) : (
-												<TxAddress address={owner.address} wrap={false} />
+												<S.DCLineHeader>
+													<S.Avatar src={ASSETS.user}></S.Avatar>
+													<TxAddress address={owner.address} wrap={false} />
+												</S.DCLineHeader>
 											)}
-
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -395,13 +426,15 @@ async function getOwners(
 				if (addressObject[i].creator) {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
 					let handle = profile ? profile.handle : null;
+					let avatar = profile ? profile.avatar : null;
 					handle =
 						!handle && addressObject[i].creator === orProvider.orderBook.env.orderBookContract
 							? language.orderBook
-							: null;
+							: handle;
 					owners.push({
 						address: addressObject[i].creator,
 						handle: handle,
+						avatar: avatar,
 						sellQuantity: addressObject[i].quantity,
 						sellPercentage: addressObject[i].quantity / totalBalance,
 						sellUnitPrice: addressObject[i].price,
@@ -416,10 +449,12 @@ async function getOwners(
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
 					const ownerPercentage = addressObject[address] / totalBalance;
 					let handle = profile ? profile.handle : null;
-					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : null;
+					let avatar = profile ? profile.avatar : null;
+					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : handle;
 					return {
 						address: address,
 						handle: handle,
+						avatar: avatar,
 						balance: addressObject[address],
 						ownerPercentage: ownerPercentage,
 					};

@@ -21,6 +21,7 @@ export default function ReduxAssetsUpdate(props: {
 	currentTableCursor: string | null;
 	children: React.ReactNode;
 	addr?: string;
+	collectionId?: string;
 }) {
 	const dispatch = useDispatch();
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
@@ -114,6 +115,12 @@ export default function ReduxAssetsUpdate(props: {
 									contractIds = await orderBook.api.getAssetIdsByUser({ walletAddress: props.addr });
 								}
 								break;
+							case 'collection':
+								if (props.collectionId) {
+									let collection = await orderBook.api.getCollection({ collectionId: props.collectionId });
+									contractIds = collection.assets;
+								}
+								break;
 						}
 
 						let groupIndex = new Map(currentReducer[props.reduxCursor].map((group: any) => [group.index, group.ids]));
@@ -187,6 +194,10 @@ export default function ReduxAssetsUpdate(props: {
 								break;
 							case 'user':
 								dispatch(assetActions.setAssets({ accountData: fetchedAssets }));
+								break;
+							case 'collection':
+								console.log(fetchedAssets)
+								dispatch(assetActions.setAssets({ collectionData: fetchedAssets }));
 								break;
 						}
 					}

@@ -13,4 +13,5 @@ export interface IProps {
 	showNoResults: boolean;
 	loading: boolean;
 	addr?: string;
+	collectionId?: string;
 }

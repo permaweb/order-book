@@ -16,4 +16,5 @@ export const Content = styled.div`
 	position: relative;
 `;
 
-export const Tab = styled.div``;
+export const Tab = styled.div`
+`;

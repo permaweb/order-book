@@ -35,7 +35,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 			setLabel(`${language.fetching} ...`);
 		} else {
 			if (arProvider.walletAddress) {
-				if (arProvider.arProfile) {
+				if (arProvider.arProfile && arProvider.arProfile.handle) {
 					setLabel(arProvider.arProfile.handle);
 				} else {
 					setLabel(formatAddress(arProvider.walletAddress, false));
@@ -114,7 +114,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 						</>
 					)}
 					<Button
-						type={'alt1'}
+						type={'alt2'}
 						label={label ? label : ''}
 						handlePress={handlePress}
 						height={45}

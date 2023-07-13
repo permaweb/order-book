@@ -1,6 +1,8 @@
 export const language = {
 	assetNotTradeable: `This asset is not tradeable`,
+	assets: 'Single Assets',
 	account: `Account`,
+	addToCart: 'Add To Cart',
 	activeSaleOrders: `Active Sale Orders`,
 	atomicAsset: `Atomic Asset`,
 	appName: `BazAR`,
@@ -12,6 +14,7 @@ export const language = {
 	buy: `Buy`,
 	buyNow: `Buy Now`,
 	close: `Close`,
+	collections: `Collections`,
 	confirmListing: `Confirm Listing`,
 	confirmPurchase: `Confirm Purchase`,
 	connect: `Connect`,
@@ -52,6 +55,7 @@ export const language = {
 	pageNotFound: `Page Not Found`,
 	percentage: `Percentage`,
 	previous: `Previous`,
+	processing: 'Processing',
 	provenanceDetails: `Provenance Details`,
 	purchaseSuccess: `Purchase Successful`,
 	quantity: `Quantity`,
@@ -86,6 +90,7 @@ export const language = {
 	unitPrice: `Unit Price`,
 	unitPriceAboveZero: `Unit price must be above 0`,
 	viewDetails: `View Details`,
+	viewCollection: `View Collection`,
 	walletNotConnected: `Connect a wallet to continue`,
 	walletTransactionInfo: `Your wallet must be connected to make transactions`,
 };

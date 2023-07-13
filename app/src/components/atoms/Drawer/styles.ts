@@ -27,7 +27,7 @@ export const Label = styled.div`
 	padding: 2.5px 20px 0 20px;
 	span {
 		font-size: ${(props) => props.theme.typography.size.base};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.accordion.color};
 		padding: 0 0 2.5px 0;
 	}

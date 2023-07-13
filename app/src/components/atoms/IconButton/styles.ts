@@ -46,6 +46,7 @@ export const Primary = styled.button<{
 export const Alt1 = styled(Primary)<{
 	dimensions: { wrapper: number; icon: number } | undefined;
 }>`
+	transition: all 300ms ease;
 	height: ${(props) => (props.dimensions ? `${props.dimensions.wrapper.toString()}px` : `32.5px`)};
 	width: ${(props) => (props.dimensions ? `${props.dimensions.wrapper.toString()}px` : `32.5px`)};
 	display: flex;
@@ -61,6 +62,7 @@ export const Alt1 = styled(Primary)<{
 		background: ${(props) => props.theme.colors.button.alt1.hover};
 	}
 
+	
 	svg {
 		height: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
 		width: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
@@ -95,13 +97,15 @@ export const Alt2 = styled(Primary)`
 export const Alt3 = styled(Alt1)`
 	background: ${(props) => props.theme.colors.container.alt3.background} !important;
 	border: 1px solid ${(props) => props.theme.colors.icon.inactive} !important;
+	transition: all 500ms ease;
 	&:hover {
-		cursor: default;
+		cursor: pointer;
+		opacity: 50%;
 	}
 	svg {
 		fill: ${(props) => props.theme.colors.icon.inactive} !important;
 		&:hover {
-			cursor: default;
+			cursor: pointer;
 		}
 	}
 `;
@@ -125,6 +129,6 @@ export const InfoWrapper = styled.div`
 		margin: 0 !important;
 		color: ${(props) => props.theme.colors.font.primary.base} !important;
 		font-size: 12px !important;
-		font-weight: ${(props) => props.theme.typography.weight.medium} !important;
+		font-weight: ${(props) => props.theme.typography.weight.light} !important;
 	}
 `;

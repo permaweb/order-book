@@ -80,7 +80,7 @@ export const DrawerHeader = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.extraLight};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		word-wrap: break-word;
 	}
@@ -97,7 +97,7 @@ export const DrawerHeaderFlex = styled.div`
 export const DCHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.base};
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.bold};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	line-height: 1.65;
 	word-wrap: break-word;
@@ -115,22 +115,26 @@ export const DCLineHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.extraLight};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
+	display: flex;
+	align-items: center;
 `;
 
 export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.bold};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
+	display: flex;
+	align-items: center;
 `;
 
 export const DCLineDetailMedium = styled(DCLineDetail)`
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.extraLight};
 `;
 
 export const DCSalePercentage = styled(DCLineDetail)`
@@ -185,19 +189,19 @@ export const OwnerLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.extraLight};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	button {
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
-		color: ${(props) => props.theme.colors.font.primary.alt12};
+		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		color: #000000;
 		text-decoration: underline;
 		margin: 0 0 0 5px;
 		&:hover {
-			color: ${(props) => props.theme.colors.button.primary.hover};
+			color: #EC7F00;
 		}
 	}
 `;
@@ -209,7 +213,7 @@ export const ACChartWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		margin: 0 0 -60px 0;
 		width: fit-content;
@@ -238,10 +242,19 @@ export const Warning = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.warning};
 	}
 	button {
 		margin: 20px 0 0 0;
 	}
+`;
+
+
+export const Avatar = styled.img`
+	height: 22px;
+	width: 22px;
+	margin-right: 8px;
+	border-radius: 50%;
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
 `;

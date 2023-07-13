@@ -7,6 +7,7 @@ export const initStateAssets: AssetsType = {
 	contractData: null,
 	featuredData: null,
 	accountData: null,
+	collectionData: null,
 };
 
 export function assetsReducer(state: AssetsType = initStateAssets, action: ReduxActionType) {
@@ -20,6 +21,7 @@ export function assetsReducer(state: AssetsType = initStateAssets, action: Redux
 				contractData: action.payload.contractData,
 				featuredData: action.payload.featuredData,
 				accountData: action.payload.accountData,
+				collectionData: action.payload.collectionData
 			});
 		default:
 			return state;

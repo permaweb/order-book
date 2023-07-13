@@ -6,6 +6,22 @@ export const Wrapper = styled.div`
 	overflow: hidden;
 `;
 
+export const Header = styled.div`
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: end;
+    padding 0 0 0 2.5px;
+`;
+
+export const Header1 = styled.h2`
+	font-size: 20px;
+	color: #000000;
+	font-family: ${(props) => props.theme.typography.family.primary};
+	font-weight: 200;
+	margin: 0;
+	`;
+
 export const Frame = styled.iframe`
 	height: 100%;
 	width: 100%;
@@ -30,6 +46,7 @@ export const Image = styled.img`
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
+	cursor: pointer;
 `;
 
 export const AudioWrapper = styled.div`
@@ -87,7 +104,7 @@ export const UnsupportedWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.extraLight};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	svg {

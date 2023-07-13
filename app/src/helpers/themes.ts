@@ -3,19 +3,19 @@ import { DefaultTheme } from 'styled-components';
 const DEFAULT = {
 	neutral1: '#FFFFFF',
 	neutral2: '#F7F7F7',
-	neutral3: '#F6F8FA',
+	neutral3: '#FAFAFC',
 	neutral4: '#3A3A3A',
 	neutral5: '#D0D7DE',
 	neutral6: '#FAFAFA',
 	neutral7: '#757582',
 	neutral8: '#BDBDBD',
 	neutral9: '#F9F9F9',
-	neutral10: '#EAEEF6',
+	neutral10: '#FAFAFA',
 	neutral11: '#000000',
 	neutral12: '#FAFAFA',
 	neutral13: '#F7F7F7',
 	neutral14: '#FFFFFF',
-	neutral15: '#757582',
+	neutral15: '#F8F5F3',
 	neutral16: '#FFF9F6',
 	primary: '#444C62',
 	primary2: '#3B4154',
@@ -23,9 +23,10 @@ const DEFAULT = {
 	primary4: '#2A2E3C',
 	primary5: '#212530',
 	primary6: '#076FA9',
-	alt1: '#FF7A41',
-	alt2: '#FF621F',
+	alt1: '#ECE0D9',
+	alt2: '#E4E4E4',
 	alt3: '#FFDECF',
+	alt4: '#ECE0D9',
 	overlay1: '#2D2D2DC4',
 	negative: '#D24646',
 	negativeHover: '#F26969',
@@ -34,7 +35,7 @@ const DEFAULT = {
 	positiveHover: '#209720',
 	neutral: '#FFB600',
 	transparent: 'rgba(255, 255, 255, 0)',
-	semiTransparent1: 'rgba(255, 255, 255, 0.45)',
+	semiTransparent1: '#FFFFFF',
 	semiTransparent2: 'rgba(255, 255, 255, 0.1)',
 	semiTransparent3: 'rgba(255, 255, 255, 0.3)',
 	backdropShadow1: '#c4c4c4b0',
@@ -56,14 +57,14 @@ export const defaultTheme: DefaultTheme = {
 		},
 		button: {
 			primary: {
-				background: DEFAULT.primary,
+				background: DEFAULT.neutral1,
 				border: DEFAULT.primary,
 				hover: DEFAULT.primary2,
 				label: DEFAULT.neutral1,
 				active: {
 					background: DEFAULT.primary,
 					hover: DEFAULT.primary2,
-					label: DEFAULT.neutral1,
+					label: DEFAULT.neutral11,
 				},
 				disabled: {
 					background: DEFAULT.neutral13,
@@ -73,12 +74,28 @@ export const defaultTheme: DefaultTheme = {
 			},
 			alt1: {
 				background: DEFAULT.neutral1,
-				border: DEFAULT.neutral5,
-				hover: DEFAULT.neutral2,
-				label: DEFAULT.primary,
+				border: DEFAULT.neutral2,
+				hover: DEFAULT.alt2,
+				label: DEFAULT.neutral11,
 				active: {
-					background: DEFAULT.primary,
-					hover: DEFAULT.primary2,
+					background: DEFAULT.alt2,
+					border: DEFAULT.neutral2,
+					hover: DEFAULT.neutral15,
+					label: DEFAULT.neutral11,
+				},
+				disabled: {
+					background: DEFAULT.neutral13,
+					label: DEFAULT.neutral7,
+				},
+			},
+			alt2: {
+				background: DEFAULT.neutral1,
+				border: DEFAULT.neutral5,
+				hover: DEFAULT.alt2,
+				label: DEFAULT.neutral1,
+				active: {
+					background: DEFAULT.alt1,
+					hover: DEFAULT.alt2,
 					label: DEFAULT.neutral1,
 				},
 				disabled: {
@@ -87,15 +104,15 @@ export const defaultTheme: DefaultTheme = {
 					label: DEFAULT.neutral7,
 				},
 			},
-			alt2: {
-				background: DEFAULT.alt1,
-				border: DEFAULT.alt1,
-				hover: DEFAULT.alt2,
-				label: DEFAULT.neutral1,
+			alt3: {
+				background: '#EC7F00',
+				border: DEFAULT.neutral5,
+				hover: '#EC7F00',
+				label: 'white',
 				active: {
-					background: DEFAULT.alt1,
-					hover: DEFAULT.alt2,
-					label: DEFAULT.neutral1,
+					background: '#EC7F00',
+					hover:  '#EC7F00',
+					label: 'white',
 				},
 				disabled: {
 					background: DEFAULT.neutral13,
@@ -137,7 +154,7 @@ export const defaultTheme: DefaultTheme = {
 				background: DEFAULT.neutral3,
 			},
 			alt3: {
-				background: DEFAULT.neutral9,
+				background: DEFAULT.alt1,
 			},
 			alt4: {
 				background: DEFAULT.neutral4,
@@ -219,7 +236,7 @@ export const defaultTheme: DefaultTheme = {
 				fill: DEFAULT.primary,
 			},
 			alt2: {
-				fill: DEFAULT.neutral4,
+				fill: DEFAULT.neutral,
 			},
 			inactive: DEFAULT.neutral4,
 			info: {
@@ -316,7 +333,7 @@ export const defaultTheme: DefaultTheme = {
 	typography: {
 		family: {
 			primary: `'Inter', sans-serif`,
-			alt1: `'Orbitron', sans-serif`,
+			alt1: `'Quantico', sans-serif`,
 		},
 		size: {
 			h1: 'clamp(38px, 4.5vw, 62px)',
@@ -328,6 +345,9 @@ export const defaultTheme: DefaultTheme = {
 			xxSmall: '13px',
 		},
 		weight: {
+			thin: '100',
+			extraLight: '200',
+			light: '300',
 			regular: '400',
 			medium: '500',
 			bold: '700',

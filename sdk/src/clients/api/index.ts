@@ -8,12 +8,16 @@ import {
 	getProfile,
 	search,
 } from '../../api';
+import { getCollection, getCollections } from '../../api/collections';
 import {
 	ApiClientInitArgs,
 	ApiClientType,
 	AssetArgsType,
 	AssetDetailType,
 	AssetType,
+	CollectionType,
+	CollectionWithAssetsType,
+	GetCollectionArgs,
 	ProfileType,
 	SearchArgs,
 	SearchReturnType,
@@ -62,6 +66,14 @@ const apiClient: ApiClientType = {
 
 	search: async function (args: SearchArgs): Promise<SearchReturnType> {
 		return await search({ ...args, arClient: this.arClient });
+	},
+
+	getCollection: async function (args: {collectionId: string}): Promise<CollectionWithAssetsType> {
+		return await getCollection({ ...args, arClient: this.arClient });
+	},
+
+	getCollections: async function (): Promise<CollectionType[]> {
+		return await getCollections({ arClient: this.arClient });
 	},
 };
 

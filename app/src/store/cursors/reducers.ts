@@ -10,6 +10,7 @@ export const initStateCursors: CursorsType = {
 	idGQL: {
 		[REDUX_TABLES.contractAssets]: [],
 		[REDUX_TABLES.userAssets]: [],
+		[REDUX_TABLES.collectionAssets]: [],
 	},
 };
 
@@ -23,6 +24,9 @@ export function cursorsReducer(state: CursorsType = initStateCursors, action: Re
 						: [],
 					[REDUX_TABLES.userAssets]: checkPayload(action.payload, CursorEnum.idGQL, REDUX_TABLES.userAssets)
 						? action.payload.idGQL[REDUX_TABLES.userAssets]
+						: [],
+					[REDUX_TABLES.collectionAssets]: checkPayload(action.payload, CursorEnum.idGQL, REDUX_TABLES.collectionAssets)
+						? action.payload.idGQL[REDUX_TABLES.collectionAssets]
 						: [],
 				},
 			});

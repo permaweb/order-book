@@ -39,7 +39,7 @@ export type CursorType = {
 
 export type AssetTableType = 'grid' | 'list';
 
-export type ApiFetchType = 'contract' | 'user';
+export type ApiFetchType = 'contract' | 'user' | 'collection';
 
 export type ValidationType = {
 	status: boolean;
@@ -51,6 +51,7 @@ export type FormFieldType = 'number' | 'password';
 export type OwnerType = {
 	address: string;
 	handle: string | null;
+	avatar: string | null;
 	balance: number;
 	ownerPercentage: number;
 };
@@ -58,6 +59,7 @@ export type OwnerType = {
 export type OwnerListingType = {
 	address: string;
 	handle: string | null;
+	avatar: string | null;
 	sellQuantity: number;
 	sellPercentage: number;
 	sellUnitPrice: number;
@@ -66,3 +68,5 @@ export type OwnerListingType = {
 export type DateType = 'iso' | 'epoch';
 
 export type DREObjectType = { label: string; source: string };
+
+export type StepType = 'prev' | 'next';

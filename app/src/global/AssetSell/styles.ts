@@ -28,7 +28,7 @@ export const DCLineHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.medium};
+	font-weight: ${(props) => props.theme.typography.weight.extraLight};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 `;
 
@@ -37,7 +37,7 @@ export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.bold};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 `;
 
@@ -80,7 +80,7 @@ export const Warning = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.warning};
 	}
 `;
@@ -92,7 +92,7 @@ export const SpendInfoContainer = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
@@ -100,7 +100,7 @@ export const SpendInfoContainer = styled.div`
 		font-size: ${(props) => props.theme.typography.size.lg};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 	}
 `;
@@ -120,11 +120,13 @@ export const Price = styled.div`
 export const SellAction = styled.div`
 	margin: 40px 0 0 0;
 	button {
+		width: 100%;
+		padding: 40px;
 		span {
 			width: fit-content;
-			font-family: ${(props) => props.theme.typography.family.alt1};
+			font-family: ${(props) => props.theme.typography.family.primary};
+			letter-spacing: 0.1rem;
 			font-size: ${(props) => props.theme.typography.size.lg};
-			font-weight: ${(props) => props.theme.typography.weight.bold};
 		}
 		svg {
 			height: 25px;
@@ -134,8 +136,7 @@ export const SellAction = styled.div`
 `;
 
 export const SellActionEnd = styled.div`
-	width: fit-content;
-	margin: 0 0 0 auto;
+	width: 100%;
 `;
 
 export const ModalTitle = styled.div`
@@ -143,7 +144,7 @@ export const ModalTitle = styled.div`
 		font-size: ${(props) => props.theme.typography.size.lg};
 		line-height: calc(${(props) => props.theme.typography.size.lg} + 6px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 	}
 `;
@@ -155,7 +156,7 @@ export const WalletConnectionWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		text-align: right;
 	}

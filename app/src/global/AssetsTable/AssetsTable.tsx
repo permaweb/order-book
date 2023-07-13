@@ -50,6 +50,9 @@ export default function AssetsTable(props: IProps) {
 			case 'user':
 				dispatch(assetActions.setAssets({ accountData: null }));
 				break;
+			case 'collection':
+				dispatch(assetActions.setAssets({ collectionData: null }));
+				break;
 		}
 	}
 
@@ -117,6 +120,7 @@ export default function AssetsTable(props: IProps) {
 			reduxCursor={props.reduxCursor}
 			cursorObject={CursorEnum.idGQL}
 			currentTableCursor={currentTableCursor}
+			collectionId={props.collectionId}
 		>
 			<div className={'view-wrapper max-cutoff'}>
 				<S.Wrapper>

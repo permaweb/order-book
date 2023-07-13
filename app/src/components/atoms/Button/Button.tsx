@@ -28,6 +28,12 @@ export default function Button(props: IProps) {
 					icon: S.IconAlt2,
 				};
 				return buttonObj;
+			case 'alt3':
+				buttonObj = {
+					wrapper: S.Alt3,
+					icon: S.IconAlt3,
+				};
+				return buttonObj;
 			case 'success':
 				buttonObj = {
 					wrapper: S.Success,
@@ -89,7 +95,7 @@ export default function Button(props: IProps) {
 			height={props.height}
 			data-testid={props.testingCtx}
 		>
-			{props.loading ? <span>{`${language.loading} ...`}</span> : getLabel()}
+			{props.loading ? <span>{`${language.processing} ...`}</span> : getLabel()}
 		</StyledButton>
 	);
 }
