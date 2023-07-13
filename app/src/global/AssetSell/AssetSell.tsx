@@ -329,7 +329,7 @@ export default function AssetSell(props: IProps) {
 					<S.SellAction>
 						<S.SellActionEnd>
 							<Button
-								type={'alt2'}
+								type={'alt3'}
 								label={language.confirmListing.toUpperCase()}
 								handlePress={(e: any) => {
 									e.preventDefault();

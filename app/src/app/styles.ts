@@ -65,6 +65,11 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
+  a: hover {
+    color: #EC7F00;
+  }
+
+
   * {
     box-sizing: border-box;
     &:focus {

@@ -261,7 +261,7 @@ export default function AssetDetail(props: IProps) {
 															<S.DCLineHeader>
 																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
 																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-																{owner.handle} 
+																{owner.handle}
 															</S.DCLineHeader>
 														) : (
 															<S.DCLineHeader>
@@ -331,7 +331,7 @@ export default function AssetDetail(props: IProps) {
 												<S.DCLineHeader>
 													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
 													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-													{owner.handle} 
+													{owner.handle}
 												</S.DCLineHeader>
 											) : (
 												<S.DCLineHeader>
@@ -363,7 +363,7 @@ export default function AssetDetail(props: IProps) {
 												<S.DCLineHeader>
 													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
 													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-													{owner.handle} 
+													{owner.handle}
 												</S.DCLineHeader>
 											) : (
 												<S.DCLineHeader>
@@ -441,8 +441,6 @@ async function getOwners(
 					});
 				}
 			}
-
-			console.log(owners)
 
 			return owners;
 		} else {

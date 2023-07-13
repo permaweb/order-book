@@ -197,11 +197,11 @@ export const OwnerLine = styled.div`
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.extraLight};
-		color: ${(props) => props.theme.colors.font.primary.alt12};
+		color: #000000;
 		text-decoration: underline;
 		margin: 0 0 0 5px;
 		&:hover {
-			color: ${(props) => props.theme.colors.button.primary.hover};
+			color: #EC7F00;
 		}
 	}
 `;
