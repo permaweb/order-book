@@ -202,6 +202,7 @@ export const IconAlt2 = styled(IconPrimary)`
 
 
 export const Alt3 = styled(Primary)`
+	transition: all 500ms;
 	background: ${(props) =>
 		props.active ? props.theme.colors.button.alt3.active.background : props.theme.colors.button.alt3.background};
 	border: 1px solid
@@ -212,7 +213,33 @@ export const Alt3 = styled(Primary)`
 			${(props) => (props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.border)};
 		background: ${(props) =>
 			props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.hover};
+		scale: 100.5%;
+		box-shadow: 0px 2px white;
 	}
+
+	svg{
+		fill: #ffffff;
+	}
+
+
+	&:hover span {
+		color: white;
+	}
+
+	&:hover svg{
+		fill: #ffffff;
+
+		animation: gelatine 0.5s;
+		animation-iteration-count: 2; 
+	}
+	  @keyframes gelatine {
+		from, to { transform: scale(1, 1); }
+		25% { transform: scale(0.9, 1.4); }
+		50% { transform: scale(1.1, 0.9); }
+		75% { transform: scale(0.95, 1.05); }
+	  }
+
+
 	&:focus {
 		border: 1px solid
 			${(props) => (props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.border)};
@@ -227,15 +254,17 @@ export const Alt3 = styled(Primary)`
 			color: ${(props) => props.theme.colors.button.alt3.disabled.label};
 		}
 	}
+
+
 	span {
-		color: ${(props) =>
-			props.active ? props.theme.colors.button.alt3.active.label : props.theme.colors.button.alt3.label};
+		color: #ffffff;
 	}
 	
 `;
 
 export const IconAlt3 = styled(IconPrimary)`
 	svg {
+		transition: all 500ms;
 		fill: ${(props) =>
 			props.disabled
 				? props.theme.colors.button.alt3.disabled.label

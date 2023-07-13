@@ -105,14 +105,14 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt3: {
-				background: '#ECE0D9',
-				border: '2px solid black',
-				hover: 'gray',
-				label: 'black',
+				background: '#EC7F00',
+				border: DEFAULT.neutral5,
+				hover: '#EC7F00',
+				label: 'white',
 				active: {
-					background: 'gray',
-					hover:  'gray',
-					label: 'black',
+					background: '#EC7F00',
+					hover:  '#EC7F00',
+					label: 'white',
 				},
 				disabled: {
 					background: DEFAULT.neutral13,

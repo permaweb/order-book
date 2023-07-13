@@ -208,8 +208,8 @@ export default function AssetBuy(props: IProps) {
 				<S.BuyAction>
 					<S.BuyActionEnd>
 						<Button
-							type={'alt2'}
-							label={language.addToCart.toUpperCase()}
+							type={'alt3'}
+							label={language.buy.toUpperCase()}
 							handlePress={() => setShowConfirmation(true)}
 							height={60}
 							noMinWidth
@@ -257,8 +257,8 @@ export default function AssetBuy(props: IProps) {
 							</S.SpendWrapper>
 							<S.BuyAction>
 								<Button
-									type={'alt2'}
-									label={language.buyNow.toUpperCase()}
+									type={'alt3'}
+									label={language.confirmPurchase.toUpperCase()}
 									handlePress={buyAsset}
 									height={60}
 									fullWidth
