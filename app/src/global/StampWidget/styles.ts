@@ -46,7 +46,7 @@ export const DetailLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.alt1};
-		letter-spacing: .1rem;
+		letter-spacing: 0.1rem;
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
@@ -101,7 +101,7 @@ export const SABalanceContainer = styled.div`
 		max-width: 85%;
 		font-family: ${(props) => props.theme.typography.family.primary} !important;
 		font-size: ${(props) => props.theme.typography.size.xSmall} !important;
-		font-weight: ${(props) => props.theme.typography.weight.extraLight} !important;
+		font-weight: ${(props) => props.theme.typography.weight.light} !important;
 		color: ${(props) => props.theme.colors.font.primary.active.base} !important;
 		overflow: hidden;
 		text-overflow: ellipsis;

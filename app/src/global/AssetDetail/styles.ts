@@ -80,7 +80,7 @@ export const DrawerHeader = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		word-wrap: break-word;
 	}
@@ -115,7 +115,7 @@ export const DCLineHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.extraLight};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
 	display: flex;
@@ -124,7 +124,7 @@ export const DCLineHeader = styled.p`
 
 export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
-	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+	line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: ${(props) => props.theme.typography.weight.light};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
@@ -134,7 +134,7 @@ export const DCLineDetail = styled.p`
 `;
 
 export const DCLineDetailMedium = styled(DCLineDetail)`
-	font-weight: ${(props) => props.theme.typography.weight.extraLight};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 `;
 
 export const DCSalePercentage = styled(DCLineDetail)`
@@ -189,19 +189,19 @@ export const OwnerLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	button {
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: #000000;
 		text-decoration: underline;
 		margin: 0 0 0 5px;
 		&:hover {
-			color: #EC7F00;
+			color: #ec7f00;
 		}
 	}
 `;
@@ -249,7 +249,6 @@ export const Warning = styled.div`
 		margin: 20px 0 0 0;
 	}
 `;
-
 
 export const Avatar = styled.img`
 	height: 22px;

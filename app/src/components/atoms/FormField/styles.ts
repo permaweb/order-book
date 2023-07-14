@@ -45,7 +45,7 @@ export const Input = styled.input<{
 	height: ${(props) => (props.sm ? STYLING.dimensions.formHeightSm : STYLING.dimensions.formHeightMax)};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	font-size: ${(props) => (props.sm ? props.theme.typography.size.small : '19px')};
-	font-weight: ${(props) => props.theme.typography.weight.extraLight};
+	font-weight: ${(props) => props.theme.typography.weight.light};
 	margin: 7.5px 0 0 0;
 	border: 1px solid
 		${(props) => (props.invalid ? props.theme.colors.form.invalid.outline : props.theme.colors.form.border)};

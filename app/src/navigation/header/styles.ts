@@ -33,7 +33,6 @@ export const NavContainer = styled.div`
 	align-items: center;
 	background: ${(props) => props.theme.colors.navigation.header.backgroundNav};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	box-shadow: 0 0 2.5px ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
 `;
 
@@ -60,7 +59,7 @@ export const Link = styled.div`
 		justify-content: center;
 		align-items: center;
 		padding: 0 20px;
-		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		&:hover {
 			text-decoration: none;
 			color: ${(props) => props.theme.colors.font.primary.active.hover};

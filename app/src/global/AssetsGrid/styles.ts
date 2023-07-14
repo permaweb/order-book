@@ -28,7 +28,6 @@ export const Header = styled.div`
 
 export const Header1 = styled.h2`
 	font-size: 20px;
-	color: #000000;
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: 200;
 	margin: 0;
@@ -38,6 +37,9 @@ export const PICWrapper = styled.div`
 	margin: 15px;
 	width: calc(33.3% - 30px);
 	animation: ${open} ${fadeIn2};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadius};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		margin: 0 0 40px 0;
@@ -79,11 +81,7 @@ export const PCWrapper = styled.div`
 	width: 100%;
 	position: relative;
 	background: ${(props) => props.theme.colors.container.primary.background};
-	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-top-left-radius: ${STYLING.dimensions.borderRadius};
-	border-top-right-radius: ${STYLING.dimensions.borderRadius};
+	border-radius: ${STYLING.dimensions.borderRadius};
 	overflow: hidden;
 `;
 
@@ -92,9 +90,6 @@ export const ICWrapper = styled.div`
 	width: 100%;
 	padding: 15px 20px 0 20px;
 	background: ${(props) => props.theme.colors.container.primary.background};
-	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-right: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-bottom-left-radius: ${STYLING.dimensions.borderRadius};
 	border-bottom-right-radius: ${STYLING.dimensions.borderRadius};
 	position: relative;

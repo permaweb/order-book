@@ -21,7 +21,7 @@ export function assetsReducer(state: AssetsType = initStateAssets, action: Redux
 				contractData: action.payload.contractData,
 				featuredData: action.payload.featuredData,
 				accountData: action.payload.accountData,
-				collectionData: action.payload.collectionData
+				collectionData: action.payload.collectionData,
 			});
 		default:
 			return state;

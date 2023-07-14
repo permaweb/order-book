@@ -20,7 +20,7 @@ export const Header1 = styled.h2`
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: 200;
 	margin: 0;
-	`;
+`;
 
 export const Frame = styled.iframe`
 	height: 100%;
@@ -104,7 +104,7 @@ export const UnsupportedWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	svg {

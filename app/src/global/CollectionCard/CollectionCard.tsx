@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
-import * as S from './styles';
-import { IProps } from './types';
-import { language } from 'helpers/language';
-import { ASSETS } from 'helpers/config';
 import { Button } from 'components/atoms/Button';
 import { StampWidget } from 'global/StampWidget';
+import { ASSETS } from 'helpers/config';
+import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
+
+import * as S from './styles';
+import { IProps } from './types';
 
 export default function CollectionsCard(props: IProps) {
 	const navigate = useNavigate();

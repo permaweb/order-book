@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-	// height: 500px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -13,7 +12,6 @@ export const AvatarWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: ${(props) => props.theme.colors.container.alt3.background};
 	border: 2.5px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: 50%;
 	svg {
@@ -60,7 +58,7 @@ export const SubHeader = styled.div`
 	p {
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
-		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt6};
 		text-align: center;
 	}

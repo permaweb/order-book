@@ -5,12 +5,11 @@ import { useParams } from 'react-router-dom';
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsTable } from 'global/AssetsTable';
+import { CollectionCard } from 'global/CollectionCard';
 import { REDUX_TABLES } from 'helpers/redux';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
-import { CollectionCard } from 'global/CollectionCard';
-
 
 export default function Collection() {
 	const { id } = useParams();
@@ -28,7 +27,7 @@ export default function Collection() {
 		if (id && orProvider.orderBook) {
 			(async function () {
 				setLoading(true);
-				let collectionFetch = await orProvider.orderBook.api.getCollection({collectionId: id});
+				let collectionFetch = await orProvider.orderBook.api.getCollection({ collectionId: id });
 				setCollection(collectionFetch);
 				setLoading(false);
 			})();
@@ -46,9 +45,9 @@ export default function Collection() {
 
 	return (
 		<>
-		<div className={'background-wrapper'}>
+			<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<CollectionCard collection={collection} hideButton={true} height={440}/>
+					<CollectionCard collection={collection} hideButton={true} height={440} />
 				</div>
 				<div className={'view-wrapper max-cutoff'}>
 					<AssetsTable

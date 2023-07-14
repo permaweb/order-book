@@ -62,7 +62,6 @@ export const Alt1 = styled(Primary)<{
 		background: ${(props) => props.theme.colors.button.alt1.hover};
 	}
 
-	
 	svg {
 		height: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
 		width: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};

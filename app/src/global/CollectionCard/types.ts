@@ -1,9 +1,7 @@
-
-import { CollectionType } from "permaweb-orderbook";
-
+import { CollectionType } from 'permaweb-orderbook';
 
 export interface IProps {
-    collection: CollectionType;
-    hideButton?: boolean;
-    height: number;
+	collection: CollectionType;
+	hideButton?: boolean;
+	height: number;
 }

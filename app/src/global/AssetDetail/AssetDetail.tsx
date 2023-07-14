@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AssetDetailType, OrderBookPairOrderType, STORAGE } from 'permaweb-orderbook';
+import { AssetDetailType, getTxEndpoint, OrderBookPairOrderType, STORAGE } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
@@ -15,13 +15,12 @@ import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
 import { formatAddress, formatCount, formatDate, formatPrice } from 'helpers/utils';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
-import { getTxEndpoint } from 'permaweb-orderbook';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
@@ -235,11 +234,11 @@ export default function AssetDetail(props: IProps) {
 							</S.ACHeader>
 						</div>
 						{getChart()}
-						{arProvider.walletAddress && 
+						{arProvider.walletAddress && (
 							<S.AssetCAction className={'border-wrapper-alt'}>
 								<AssetDetailAction asset={asset} updateAsset={updateAsset} />
 							</S.AssetCAction>
-						}
+						)}
 						{currentSaleOwners && currentSaleOwners.length > 0 && (
 							<S.DrawerWrapper>
 								<Drawer
@@ -299,7 +298,7 @@ export default function AssetDetail(props: IProps) {
 															<S.DCLineHeader>
 																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
 																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-																{owner.handle} 
+																{owner.handle}
 															</S.DCLineHeader>
 														) : (
 															<S.DCLineHeader>

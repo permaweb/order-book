@@ -58,9 +58,9 @@ export const defaultTheme: DefaultTheme = {
 		button: {
 			primary: {
 				background: DEFAULT.neutral1,
-				border: DEFAULT.primary,
-				hover: DEFAULT.primary2,
-				label: DEFAULT.neutral1,
+				border: DEFAULT.neutral5,
+				hover: DEFAULT.neutral2,
+				label: DEFAULT.primary,
 				active: {
 					background: DEFAULT.primary,
 					hover: DEFAULT.primary2,
@@ -74,7 +74,7 @@ export const defaultTheme: DefaultTheme = {
 			},
 			alt1: {
 				background: DEFAULT.neutral1,
-				border: DEFAULT.neutral2,
+				border: DEFAULT.neutral5,
 				hover: DEFAULT.alt2,
 				label: DEFAULT.neutral11,
 				active: {
@@ -91,11 +91,11 @@ export const defaultTheme: DefaultTheme = {
 			alt2: {
 				background: DEFAULT.neutral1,
 				border: DEFAULT.neutral5,
-				hover: DEFAULT.alt2,
+				hover: DEFAULT.neutral2,
 				label: DEFAULT.neutral1,
 				active: {
 					background: DEFAULT.alt1,
-					hover: DEFAULT.alt2,
+					hover: DEFAULT.neutral2,
 					label: DEFAULT.neutral1,
 				},
 				disabled: {
@@ -111,7 +111,7 @@ export const defaultTheme: DefaultTheme = {
 				label: 'white',
 				active: {
 					background: '#EC7F00',
-					hover:  '#EC7F00',
+					hover: '#EC7F00',
 					label: 'white',
 				},
 				disabled: {
@@ -157,7 +157,7 @@ export const defaultTheme: DefaultTheme = {
 				background: DEFAULT.alt1,
 			},
 			alt4: {
-				background: DEFAULT.neutral4,
+				background: DEFAULT.neutral11,
 			},
 			alt5: {
 				background: DEFAULT.neutral8,
@@ -345,9 +345,9 @@ export const defaultTheme: DefaultTheme = {
 			xxSmall: '13px',
 		},
 		weight: {
-			thin: '100',
-			extraLight: '200',
-			light: '300',
+			thin: '200',
+			extraLight: '300',
+			light: '400',
 			regular: '400',
 			medium: '500',
 			bold: '700',

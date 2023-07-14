@@ -1,8 +1,9 @@
 import { Carousel } from 'components/molecules/Carousel';
+import { CollectionCard } from 'global/CollectionCard';
+import { language } from 'helpers/language';
+
 import * as S from './styles';
 import { IProps } from './types';
-import { language } from 'helpers/language';
-import { CollectionCard } from 'global/CollectionCard';
 
 export default function CollectionsCarousel(props: IProps) {
 	function getCollections() {

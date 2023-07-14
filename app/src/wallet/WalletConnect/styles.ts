@@ -36,13 +36,13 @@ export const BalanceWrapper = styled.div`
 	align-items: center;
 	padding: 0 10px;
 	margin: 0 10px 0 0;
-	background: ${(props) => props.theme.colors.button.alt1.background};
-	border: 1px solid ${(props) => props.theme.colors.button.alt1.border};
+	background: ${(props) => props.theme.colors.container.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	p {
 		color: ${(props) => props.theme.colors.button.alt1.label};
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.extraLight};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 	svg {
 		padding: 1.5px 0 0 0;

@@ -6,6 +6,4 @@ export const Wrapper = styled.div`
 	}
 `;
 
-export const Loader = styled.div`
-
-`;
+export const Loader = styled.div``;

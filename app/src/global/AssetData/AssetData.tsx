@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
 import * as OrderBook from 'permaweb-orderbook';
@@ -6,11 +7,10 @@ import * as OrderBook from 'permaweb-orderbook';
 import { ASSETS } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
+import * as urls from 'helpers/urls';
 
 import * as S from './styles';
 import { IProps } from './types';
-import { useNavigate } from 'react-router-dom';
-import * as urls from 'helpers/urls';
 
 export default function AssetData(props: IProps) {
 	const iframeRef = React.useRef<HTMLIFrameElement | null>(null);

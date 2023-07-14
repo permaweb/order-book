@@ -28,7 +28,7 @@ export const Header1 = styled.h2`
 	font-family: ${(props) => props.theme.typography.family.primary};
 	font-weight: 200;
 	margin: 0;
-	`;
+`;
 
 export const Body = styled.div`
 	height: calc(100% - 50px);

@@ -5,12 +5,12 @@ import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsGrid } from 'global/AssetsGrid';
 import { AssetsTable } from 'global/AssetsTable';
-import { FEATURE_COUNT } from 'helpers/config';
-import { REDUX_TABLES } from 'helpers/redux';
-import { RootState } from 'store';
 import { CollectionsCarousel } from 'global/CollectionsCarousel';
-import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { FEATURE_COUNT } from 'helpers/config';
 import { language } from 'helpers/language';
+import { REDUX_TABLES } from 'helpers/redux';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { RootState } from 'store';
 
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
@@ -51,9 +51,9 @@ export default function Landing() {
 	return (
 		<>
 			<div className={'background-wrapper'}>
-				<div className={'view-wrapper max-cutoff'}>
+				{/* <div className={'view-wrapper max-cutoff'}>
 					<CollectionsCarousel collections={collections} />
-				</div>
+				</div> */}
 				<div className={'view-wrapper max-cutoff'}>
 					<AssetsGrid
 						title={language.assets}

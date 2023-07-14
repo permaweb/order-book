@@ -196,7 +196,7 @@ export default function ReduxAssetsUpdate(props: {
 								dispatch(assetActions.setAssets({ accountData: fetchedAssets }));
 								break;
 							case 'collection':
-								console.log(fetchedAssets)
+								console.log(fetchedAssets);
 								dispatch(assetActions.setAssets({ collectionData: fetchedAssets }));
 								break;
 						}
