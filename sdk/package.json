@@ -1,6 +1,6 @@
 {
 	"name": "permaweb-orderbook",
-	"version": "1.1.8",
+	"version": "1.1.9",
 	"description": "Orderbook sdk",
 	"author": "VinceJuliano",
 	"license": "ISC",
@@ -11,13 +11,7 @@
 		"build:publish": "npm run build && npm publish",
 		"check-packages": "node src/workers/check-packages.mjs"
 	},
-	"dependencies": {
-		"arweave": "1.13.7",
-		"esbuild-node-loader": "0.8.0",
-		"mime": "^3.0.0",
-		"warp-contracts": "1.4.6",
-		"warp-contracts-plugin-deploy": "1.0.8"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/mime": "^3.0.1",
 		"@types/mime-types": "^2.1.1",
