@@ -8,7 +8,7 @@ import { IProps } from './types';
 export default function CollectionsCarousel(props: IProps) {
 	function getCollections() {
 		return props.collections.map((collection: any) => {
-			return <CollectionCard collection={collection} height={700}></CollectionCard>;
+			return <CollectionCard collection={collection} height={450}></CollectionCard>;
 		});
 	}
 

@@ -74,7 +74,8 @@ export const CollectionCardLabelInfoAuthor = styled.div`
 export const CollectionCardStamps = styled.div``;
 
 export const ButtonWrapper = styled.div`
-	padding-left: 14px;
-	padding-right: 14px;
-	width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+    margin-bottom: 20px;
+    width: 100%;
 `;
