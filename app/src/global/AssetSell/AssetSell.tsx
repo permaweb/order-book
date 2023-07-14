@@ -15,6 +15,7 @@ import { WalletConnect } from 'wallet/WalletConnect';
 
 import * as S from './styles';
 import { IProps } from './types';
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
@@ -192,11 +193,14 @@ export default function AssetSell(props: IProps) {
 			setLoading(true);
 
 			try {
+				let signer = new InjectedArweaveSigner(window.arweaveWallet);
+				signer.getAddress = window.arweaveWallet.getActiveAddress;
+				signer.setPublicKey();
 				await orProvider.orderBook?.sell({
 					assetId: props.asset.data.id,
 					qty: quantity,
 					price: unitPrice * 1e6,
-					wallet: 'use_wallet',
+					wallet: signer,
 					walletAddress: arProvider.walletAddress,
 				});
 				setLoading(false);

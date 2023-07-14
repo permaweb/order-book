@@ -106,6 +106,7 @@ export type WriteContractArgs = {
 	contract: string;
 	wallet: any;
 	input: any;
+	options?: any;
 };
 
 export type ValidateAssetArgs = {
