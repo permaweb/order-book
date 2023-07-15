@@ -73,7 +73,7 @@ export const Primary = styled.button<{
 		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.primary.active.label : props.theme.colors.button.primary.label};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 `;
 
@@ -127,7 +127,7 @@ export const Alt1 = styled(Primary)`
 	span {
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.alt1.active.label : props.theme.colors.button.alt1.label};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 `;
 
@@ -208,7 +208,7 @@ export const Alt2 = styled(Primary)`
 		transition: all 250ms;
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.alt1.active.label : props.theme.colors.button.alt1.label};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 `;
 
@@ -287,7 +287,7 @@ export const Alt3 = styled(Primary)`
 
 	span {
 		color: #ffffff;
-		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 `;
 

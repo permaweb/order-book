@@ -118,7 +118,8 @@ export default function ReduxAssetsUpdate(props: {
 							case 'collection':
 								if (props.collectionId) {
 									let collection = await orderBook.api.getCollection({ collectionId: props.collectionId });
-									contractIds = collection.assets;
+									console.log(collection)
+									if (collection) contractIds = collection.assets;
 								}
 								break;
 						}

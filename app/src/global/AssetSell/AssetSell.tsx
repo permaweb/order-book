@@ -329,7 +329,7 @@ export default function AssetSell(props: IProps) {
 					<S.SellAction>
 						<S.SellActionEnd>
 							<Button
-								type={'alt3'}
+								type={'primary'}
 								label={language.confirmListing.toUpperCase()}
 								handlePress={(e: any) => {
 									e.preventDefault();
@@ -382,7 +382,7 @@ export default function AssetSell(props: IProps) {
 							</S.SpendWrapper>
 							<S.SellAction>
 								<Button
-									type={'alt2'}
+									type={'primary'}
 									label={language.listNow.toUpperCase()}
 									handlePress={async (e) => await sellAsset(e)}
 									height={60}
@@ -398,7 +398,7 @@ export default function AssetSell(props: IProps) {
 						<>
 							<S.SellAction>
 								<Button
-									type={'alt2'}
+									type={'primary'}
 									label={language.close.toUpperCase()}
 									handlePress={() => handleModalClose(sellResponse.status ? true : false)}
 									height={60}

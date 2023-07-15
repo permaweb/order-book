@@ -58,7 +58,7 @@ function StampAction(props: {
 				</S.SAInput>
 				<S.SAActions>
 					<Button
-						type={'alt1'}
+						type={'primary'}
 						label={language.close}
 						handlePress={(e: any) => {
 							e.preventDefault();
@@ -225,7 +225,7 @@ export default function StampWidget(props: IProps) {
 					</S.DetailLine>
 					<S.FlexActions>
 						<Button
-							type={'alt2'}
+							type={'primary'}
 							label={language.stamp}
 							handlePress={(e: any) => {
 								e.preventDefault();
@@ -235,7 +235,7 @@ export default function StampWidget(props: IProps) {
 							icon={ASSETS.stamps}
 						/>
 						<Button
-							type={'alt1'}
+							type={'primary'}
 							label={language.superStamp}
 							handlePress={(e: any) => {
 								e.preventDefault();

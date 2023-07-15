@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.button`
-	transition: all 200ms
 	height: 37.5px;
 	width: fit-content;
 	background: ${(props) => props.theme.colors.container.primary.background};
@@ -144,7 +143,6 @@ export const Message = styled.div<{ loading: 'true' | 'false' }>`
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.light};
-		color: ${(props) =>
-			props.loading === 'true' ? props.theme.colors.font.primary.alt1 : props.theme.colors.font.primary.alt2};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;

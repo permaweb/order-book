@@ -1,81 +1,66 @@
 import styled from 'styled-components';
 
-export const CollectionCard = styled.div<{ height: number }>`
-	display: flex;
-	flex-direction: column;
-	height: ${(props) => props.height}px;
+import { STYLING } from 'helpers/styling';
+
+export const Wrapper = styled.div`
+	height: 450px;
 	width: 100%;
-	border-radius: 6px;
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadius};
 	overflow: hidden;
-	border-left: 1px solid #e0e0e0;
-	border-right: 1px solid #e0e0e0;
-	border-bottom: 1px solid #e0e0e0;
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		height: auto;
+	}
 `;
 
-export const CollectionCardImage = styled.div<{ backgroundImage: string; buttonHidden: boolean }>`
+export const CollectionCard = styled.div`
+	height: 100%;
 	width: 100%;
-	height: ${(props) => (props.buttonHidden ? '78%' : '72%')};
-	background-image: url(${(props) => props.backgroundImage});
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-color: rgb(0, 0, 0);
-`;
-
-export const CollectionCardDetails = styled.div<{ buttonHidden: boolean }>`
-	width: 100%;
-	height: ${(props) => (props.buttonHidden ? '22%' : '16%')};
+	background: ${(props) => props.theme.colors.container.primary.background};
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding-left: 14px;
-	padding-right: 14px;
-	margin-bottom: 10px;
-	margin-top: 20px;
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		height: auto;
+		flex-direction: column-reverse;
+	}
 `;
 
-export const CollectionCardLabel = styled.div`
-	display: flex;
-	justify-content: space-between;
+export const InfoWrapper = styled.div`
+	height: 100%;
+	width: calc(100% - 800px);
+	padding: 110px 30px;
+	h2,
+	p {
+		text-align: left;
+	}
+	h2 {
+		line-height: 1.5;
+		font-weight: ${(props) => props.theme.typography.weight.light};
+	}
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		height: auto;
+		width: 100%;
+		padding: 40px 20px;
+	}
 `;
-
-export const CollectionCardLabelThumb = styled.div<{ backgroundImage: string }>`
-	height: 75px;
-	width: 75px;
-	background-image: url(${(props) => props.backgroundImage});
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-color: rgb(0, 0, 0);
-	margin-right: 15px;
-	border-radius: 4px;
-`;
-
-export const CollectionCardLabelInfo = styled.div`
-	display: flex;
-	flex-direction: column;
-	text-align: left;
-	justify-content: center;
-	color: black;
-	gap: 10px;
-`;
-
-export const CollectionCardLabelInfoCollection = styled.div`
-	font-size: 22px;
-	font-weight: 300;
-	margin-bottom: 4px;
-`;
-
-export const CollectionCardLabelInfoAuthor = styled.div`
-	font-size: 12px;
-	font-weight: 200;
-`;
-
-export const CollectionCardStamps = styled.div``;
 
 export const ButtonWrapper = styled.div`
-    padding-left: 14px;
-    padding-right: 14px;
-    margin-bottom: 20px;
-    width: 100%;
+    margin: 20px 0 0 0;
+`;
+
+export const StampWidget = styled.div`
+	margin: 20px 0 0 0;
+`;
+
+export const ImageWrapper = styled.div<{ backgroundImage: string }>`
+	height: 100%;
+	width: 800px;
+	background-image: url(${(props) => props.backgroundImage});
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-radius: ${STYLING.dimensions.borderRadius};
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		height: 450px;
+		width: 100%;
+	}
 `;

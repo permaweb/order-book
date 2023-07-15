@@ -389,7 +389,7 @@ export default function AssetDetail(props: IProps) {
 				return (
 					<S.Warning>
 						<p>{language.errorFetchingAsset}</p>
-						<Button type={'alt1'} label={language.goBack} handlePress={() => navigate(-1)} noMinWidth />
+						<Button type={'primary'} label={language.goBack} handlePress={() => navigate(-1)} noMinWidth />
 					</S.Warning>
 				);
 			} else {

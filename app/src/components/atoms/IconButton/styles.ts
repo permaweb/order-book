@@ -46,26 +46,26 @@ export const Primary = styled.button<{
 export const Alt1 = styled(Primary)<{
 	dimensions: { wrapper: number; icon: number } | undefined;
 }>`
-	transition: all 300ms ease;
+	transition: all 250ms ease;
 	height: ${(props) => (props.dimensions ? `${props.dimensions.wrapper.toString()}px` : `32.5px`)};
 	width: ${(props) => (props.dimensions ? `${props.dimensions.wrapper.toString()}px` : `32.5px`)};
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 2.5px 0 0 0;
-	background: ${(props) => props.theme.colors.button.alt1.background};
-	border: 1px solid ${(props) => props.theme.colors.button.alt1.border};
+	background: ${(props) => props.theme.colors.button.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.button.primary.border};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	position: relative;
 
 	&:hover {
-		background: ${(props) => props.theme.colors.button.alt1.hover};
+		background: ${(props) => props.theme.colors.button.primary.hover};
 	}
 
 	svg {
 		height: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
 		width: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
-		fill: ${(props) => props.theme.colors.button.alt1.label};
+		fill: ${(props) => props.theme.colors.button.primary.label};
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -78,11 +78,11 @@ export const Alt1 = styled(Primary)<{
 	}
 
 	&:disabled {
-		background: ${(props) => props.theme.colors.button.alt1.disabled.background};
-		border: 1px solid ${(props) => props.theme.colors.button.alt1.disabled.border};
-		color: ${(props) => props.theme.colors.button.alt1.disabled.label};
+		background: ${(props) => props.theme.colors.button.primary.disabled.background};
+		border: 1px solid ${(props) => props.theme.colors.button.primary.disabled.border};
+		color: ${(props) => props.theme.colors.button.primary.disabled.label};
 		svg {
-			fill: ${(props) => props.theme.colors.button.alt1.disabled.label};
+			fill: ${(props) => props.theme.colors.button.primary.disabled.label};
 		}
 	}
 `;
@@ -96,7 +96,7 @@ export const Alt2 = styled(Primary)`
 export const Alt3 = styled(Alt1)`
 	background: ${(props) => props.theme.colors.container.alt3.background} !important;
 	border: 1px solid ${(props) => props.theme.colors.icon.inactive} !important;
-	transition: all 500ms ease;
+	transition: all 250ms ease;
 	&:hover {
 		cursor: pointer;
 		opacity: 50%;

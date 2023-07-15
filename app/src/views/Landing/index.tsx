@@ -24,7 +24,7 @@ export default function Landing() {
 	React.useEffect(() => {
 		if (orProvider.orderBook) {
 			(async function () {
-				let collectionsFetch = await orProvider.orderBook.api.getCollections();
+				const collectionsFetch = await orProvider.orderBook.api.getCollections();
 				setCollections(collectionsFetch);
 			})();
 		}
@@ -51,9 +51,9 @@ export default function Landing() {
 	return (
 		<>
 			<div className={'background-wrapper'}>
-				{/* <div className={'view-wrapper max-cutoff'}>
+				<div className={'view-wrapper max-cutoff'}>
 					<CollectionsCarousel collections={collections} />
-				</div> */}
+				</div>
 				<div className={'view-wrapper max-cutoff'}>
 					<AssetsGrid
 						title={language.assets}

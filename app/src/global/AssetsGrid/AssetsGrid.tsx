@@ -95,9 +95,13 @@ export default function AssetsGrid(props: IProps) {
 
 	return (
 		<S.Wrapper>
-			<S.Header>
-				<S.Header1>{props.title ? props.title.toUpperCase() : ''}</S.Header1>
-			</S.Header>
+			{props.title && (
+				<S.Header>
+					<S.Header1>
+						<p>{props.title.toUpperCase()}</p>
+					</S.Header1>
+				</S.Header>
+			)}
 			{getData()}
 		</S.Wrapper>
 	);

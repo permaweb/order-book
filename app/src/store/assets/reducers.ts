@@ -13,10 +13,6 @@ export const initStateAssets: AssetsType = {
 export function assetsReducer(state: AssetsType = initStateAssets, action: ReduxActionType) {
 	switch (action.type) {
 		case SET_ASSETS:
-			// return Object.assign({}, state, {
-			// 	data: action.payload.data ?? state.data,
-			// 	featuredData: action.payload.featuredData ?? state.featuredData,
-			// });
 			return Object.assign({}, state, {
 				contractData: action.payload.contractData,
 				featuredData: action.payload.featuredData,

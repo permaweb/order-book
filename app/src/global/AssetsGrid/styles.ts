@@ -26,11 +26,12 @@ export const Header = styled.div`
 	}
 `;
 
-export const Header1 = styled.h2`
-	font-size: 20px;
-	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: 200;
-	margin: 0;
+export const Header1 = styled.div`
+	height: 40px;
+	p {
+		font-size: 28px;
+		font-weight: ${(props) => props.theme.typography.weight.light};
+	}
 `;
 
 export const PICWrapper = styled.div`

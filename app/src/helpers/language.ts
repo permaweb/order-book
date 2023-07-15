@@ -55,7 +55,6 @@ export const language = {
 	pageNotFound: `Page Not Found`,
 	percentage: `Percentage`,
 	previous: `Previous`,
-	processing: 'Processing',
 	provenanceDetails: `Provenance Details`,
 	purchaseSuccess: `Purchase Successful`,
 	quantity: `Quantity`,

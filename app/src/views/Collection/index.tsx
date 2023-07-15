@@ -7,15 +7,12 @@ import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 import { AssetsTable } from 'global/AssetsTable';
 import { CollectionCard } from 'global/CollectionCard';
 import { REDUX_TABLES } from 'helpers/redux';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 
 export default function Collection() {
 	const { id } = useParams();
 	const orProvider = useOrderBookProvider();
-
-	const arProvider = useArweaveProvider();
 
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
@@ -27,7 +24,7 @@ export default function Collection() {
 		if (id && orProvider.orderBook) {
 			(async function () {
 				setLoading(true);
-				let collectionFetch = await orProvider.orderBook.api.getCollection({ collectionId: id });
+				const collectionFetch = await orProvider.orderBook.api.getCollection({ collectionId: id });
 				setCollection(collectionFetch);
 				setLoading(false);
 			})();
@@ -47,9 +44,8 @@ export default function Collection() {
 		<>
 			<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<CollectionCard collection={collection} hideButton={true} height={440} />
+					<CollectionCard collection={collection} hideButton />
 				</div>
-				<div className={'view-wrapper max-cutoff'}>
 					<AssetsTable
 						collectionId={id}
 						assets={assets}
@@ -61,7 +57,6 @@ export default function Collection() {
 						showNoResults={true}
 						loading={loading}
 					/>
-				</div>
 			</div>
 		</>
 	);

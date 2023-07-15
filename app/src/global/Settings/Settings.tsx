@@ -28,7 +28,7 @@ function DRESwitch() {
 				return (
 					<Button
 						key={index}
-						type={'alt1'}
+						type={'primary'}
 						active={node.label === dreReducer.label}
 						label={node.label}
 						handlePress={() => handlePress(node)}

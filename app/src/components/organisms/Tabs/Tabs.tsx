@@ -25,7 +25,7 @@ class Tab extends React.Component<any, any> {
 
 		return (
 			<S.Tab>
-				<Button type={'alt1'} label={label} active={activeTab === label} handlePress={handlePress} />
+				<Button type={'primary'} label={label} active={activeTab === label} handlePress={handlePress} />
 			</S.Tab>
 		);
 	}

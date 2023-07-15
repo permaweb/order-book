@@ -15,19 +15,12 @@ export const Content = styled.div`
 `;
 
 export const Header = styled.div`
-    height: 60px;
+	height: 50px;
     width: 100%;
-    display: flex;
-    align-items: end;
-    padding 0 0 0 2.5px;
-`;
-
-export const Header1 = styled.h2`
-	font-size: 20px;
-	color: #000000;
-	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: 200;
-	margin: 0;
+	p {
+		font-size: 28px;
+		font-weight: ${(props) => props.theme.typography.weight.light};
+	}
 `;
 
 export const Body = styled.div`

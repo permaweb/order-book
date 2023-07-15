@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 export const FlexAction = styled.div`
 	display: flex;
 	align-items: center;
-	span {
+	span 
 		border-right: 1px solid ${(props) => props.theme.colors.button.alt1.border};
 		height: 100%;
 		display: flex;

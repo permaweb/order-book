@@ -5,5 +5,5 @@ export interface IProps {
 	autoLoad: boolean;
 	loaderCount: number;
 	loading: boolean;
-	title: string;
+	title?: string;
 }

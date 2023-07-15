@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
-	h2 {
-		margin: 0 0 20px 0;
-	}
-`;
+import { STYLING } from 'helpers/styling';
 
-export const Loader = styled.div``;
+export const Wrapper = styled.div``;
+
+export const CardLoader = styled.div`
+	height: 500px;
+	width: 100%;
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadius};
+`;

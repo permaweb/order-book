@@ -112,8 +112,9 @@ export const LogoContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+	padding: 2.5px 0 0 0;
 	svg {
-		width: 143px;
+		width: 125px;
 	}
 `;
 

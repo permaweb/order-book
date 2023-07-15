@@ -176,7 +176,7 @@ export default function AssetBuy(props: IProps) {
 					/>
 					<S.MaxQty>
 						<Button
-							type={'alt2'}
+							type={'primary'}
 							label={language.max}
 							handlePress={() => setAssetQuantity(totalSalesBalance)}
 							disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
@@ -208,7 +208,7 @@ export default function AssetBuy(props: IProps) {
 				<S.BuyAction>
 					<S.BuyActionEnd>
 						<Button
-							type={'alt3'}
+							type={'primary'}
 							label={language.buy.toUpperCase()}
 							handlePress={() => setShowConfirmation(true)}
 							height={60}
@@ -257,7 +257,7 @@ export default function AssetBuy(props: IProps) {
 							</S.SpendWrapper>
 							<S.BuyAction>
 								<Button
-									type={'alt3'}
+									type={'primary'}
 									label={language.confirmPurchase.toUpperCase()}
 									handlePress={buyAsset}
 									height={60}
@@ -273,7 +273,7 @@ export default function AssetBuy(props: IProps) {
 						<>
 							<S.BuyAction>
 								<Button
-									type={'alt2'}
+									type={'primary'}
 									label={language.close.toUpperCase()}
 									handlePress={() => handleModalClose(buyResponse.status ? true : false)}
 									height={60}
