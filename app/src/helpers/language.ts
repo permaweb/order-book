@@ -87,6 +87,7 @@ export const language = {
 	totalAvailableSalesBalance: `Total Balance Available For Sale`,
 	totalSalesPercentage: `Total Percentage For Sale`,
 	totalAvailableSalesPercentage: `Total Percentage Available For Sale`,
+	transaction: `Transaction`,
 	transactionId: `Transaction ID`,
 	unitPrice: `Unit Price`,
 	unitPriceAboveZero: `Unit price must be above 0`,

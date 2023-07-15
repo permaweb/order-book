@@ -194,18 +194,6 @@ export const OwnerLine = styled.div`
 		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
-	button {
-		font-size: ${(props) => props.theme.typography.size.small};
-		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
-		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
-		color: #000000;
-		text-decoration: underline;
-		margin: 0 0 0 5px;
-		&:hover {
-			color: #ec7f00;
-		}
-	}
 `;
 
 export const ACChartWrapper = styled.div`

@@ -128,6 +128,14 @@ export const SellAction = styled.div`
 export const SellActionEnd = styled(SellAction)`
 	width: fit-content;
 	margin: 0 0 0 auto;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		margin: 0;
+		width: 100%;
+		button {
+			min-width: 0 !important;
+			width: 100% !important;
+		}
+	}
 `;
 
 export const ModalTitle = styled.div`
