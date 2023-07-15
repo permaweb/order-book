@@ -46,17 +46,17 @@ export default function Collection() {
 				<div className={'view-wrapper max-cutoff'}>
 					<CollectionCard collection={collection} hideButton />
 				</div>
-					<AssetsTable
-						collectionId={id}
-						assets={assets}
-						apiFetch={'collection'}
-						reduxCursor={REDUX_TABLES.collectionAssets}
-						recordsPerPage={PAGINATOR}
-						showPageNumbers={false}
-						tableType={'grid'}
-						showNoResults={true}
-						loading={loading}
-					/>
+				<AssetsTable
+					collectionId={id}
+					assets={assets}
+					apiFetch={'collection'}
+					reduxCursor={REDUX_TABLES.collectionAssets}
+					recordsPerPage={PAGINATOR}
+					showPageNumbers={false}
+					tableType={'grid'}
+					showNoResults={true}
+					loading={loading}
+				/>
 			</div>
 		</>
 	);

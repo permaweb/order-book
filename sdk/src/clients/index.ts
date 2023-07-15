@@ -79,6 +79,7 @@ const client: OrderBookType = {
 				contract: env.orderBookContract,
 				wallet: args.wallet,
 				input: addPairInput,
+				options: { strict: true }
 			});
 		}
 
@@ -92,6 +93,7 @@ const client: OrderBookType = {
 			contract: args.assetId,
 			wallet: args.wallet,
 			input: allowInput,
+			options: { strict: true , tags: [{name: "Indexed-By", value: "ucm"}]}
 		});
 
 		let orderInput = {
@@ -106,33 +108,13 @@ const client: OrderBookType = {
 			contract: env.orderBookContract,
 			wallet: args.wallet,
 			input: orderInput,
-		});
-
-		await arClient.writeContract({
-			contract: env.orderBookContract,
-			wallet: args.wallet,
-			input: { function: 'noop' },
-		});
-
-		await arClient.writeContract({
-			contract: env.currencyContract,
-			wallet: args.wallet,
-			input: { function: 'balance' },
-		});
-
-		await arClient.writeContract({
-			contract: args.assetId,
-			wallet: args.wallet,
-			input: { function: 'balance' },
+			options: { strict: true }
 		});
 
 		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
 			0,
 			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
 		);
-		await fetch(getSyncEndpoint(args.assetId, dreNode));
-		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
-		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
 
 		let contractWithErrors = await fetch(getContractEndpoint(env.orderBookContract, dreNode));
 		let contractJson = await contractWithErrors.json();
@@ -148,18 +130,7 @@ const client: OrderBookType = {
 				contract: env.orderBookContract,
 				wallet: args.wallet,
 				input: cancelClaimInput,
-			});
-
-			await arClient.writeContract({
-				contract: env.orderBookContract,
-				wallet: args.wallet,
-				input: { function: 'noop' },
-			});
-
-			await arClient.writeContract({
-				contract: env.currencyContract,
-				wallet: args.wallet,
-				input: { function: 'balance' },
+				options: { strict: true }
 			});
 
 			throw new Error(`Order Failed, transaction - ${getTransactionLink(orderTx.originalTxId)}`);
@@ -192,6 +163,7 @@ const client: OrderBookType = {
 			contract: env.currencyContract,
 			wallet: args.wallet,
 			input: allowInput,
+			options: { strict: true }
 		});
 
 		let orderInput = {
@@ -205,33 +177,13 @@ const client: OrderBookType = {
 			contract: env.orderBookContract,
 			wallet: args.wallet,
 			input: orderInput,
-		});
-
-		await arClient.writeContract({
-			contract: env.orderBookContract,
-			wallet: args.wallet,
-			input: { function: 'noop' },
-		});
-
-		await arClient.writeContract({
-			contract: env.currencyContract,
-			wallet: args.wallet,
-			input: { function: 'balance' },
-		});
-
-		await arClient.writeContract({
-			contract: args.assetId,
-			wallet: args.wallet,
-			input: { function: 'balance' },
+			options: { strict: true }
 		});
 
 		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
 			0,
 			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
 		);
-		await fetch(getSyncEndpoint(args.assetId, dreNode));
-		await fetch(getSyncEndpoint(env.orderBookContract, dreNode));
-		await fetch(getSyncEndpoint(env.currencyContract, dreNode));
 
 		let contractWithErrors = await fetch(getContractEndpoint(env.orderBookContract, dreNode));
 		let contractJson = await contractWithErrors.json();
@@ -247,18 +199,7 @@ const client: OrderBookType = {
 				contract: env.orderBookContract,
 				wallet: args.wallet,
 				input: cancelClaimInput,
-			});
-
-			await arClient.writeContract({
-				contract: env.orderBookContract,
-				wallet: args.wallet,
-				input: { function: 'noop' },
-			});
-
-			await arClient.writeContract({
-				contract: env.currencyContract,
-				wallet: args.wallet,
-				input: { function: 'balance' },
+				options: { strict: true }
 			});
 
 			throw new Error(`Order Failed, transaction - ${getTransactionLink(orderTx.originalTxId)}`);

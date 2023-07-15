@@ -46,9 +46,9 @@ export default function Header() {
 		return (
 			<S.NC>
 				<S.NavPaths></S.NavPaths>
-				<S.SettingsWrapper>
+				{/* <S.SettingsWrapper>
 					<Settings />
-				</S.SettingsWrapper>
+				</S.SettingsWrapper> */}
 				<S.SC>
 					<S.Connect show={getWalletDisplay()}>
 						<WalletConnect callback={() => setOpen(!open)} />

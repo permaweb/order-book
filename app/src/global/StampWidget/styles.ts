@@ -14,9 +14,9 @@ export const Wrapper = styled.button`
 	cursor: pointer;
 	&:hover {
 		background: ${(props) => props.theme.colors.container.primary.hover};
-		cursor: pointer
+		cursor: pointer;
 	}
-	&:hover svg{
+	&:hover svg {
 		scale: 110%;
 	}
 	&:disabled {
@@ -30,7 +30,7 @@ export const Wrapper = styled.button`
 		color: ${(props) => props.theme.colors.font.primary.alt8} !important;
 	}
 	svg {
-		transition: all 300ms;	
+		transition: all 300ms;
 		margin: 2.5px 0 0 0;
 		height: 25px !important;
 		width: 25px !important;

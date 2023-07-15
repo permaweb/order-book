@@ -90,7 +90,7 @@ export const CURRENCY_ICONS = {
 
 export const AR_WALLETS = [{ name: 'arconnect', logo: ASSETS.wallets.arconnect }];
 
-export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH'];
+export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH', 'SIGNATURE'];
 
 export const FEATURE_COUNT = 3;
 
@@ -119,28 +119,28 @@ export const ACTION_TABS = [
 ];
 
 export const DRE_NODES: DREObjectType[] = [
-	{
-		label: 'DRE-1',
-		source: 'https://dre-1.warp.cc/contract',
-	},
-	{
-		label: 'DRE-2',
-		source: 'https://dre-2.warp.cc/contract',
-	},
-	{
-		label: 'DRE-3',
-		source: 'https://dre-3.warp.cc/contract',
-	},
-	{
-		label: 'DRE-4',
-		source: 'https://dre-4.warp.cc/contract',
-	},
+	// {
+	// 	label: 'DRE-1',
+	// 	source: 'https://dre-1.warp.cc/contract',
+	// },
+	// {
+	// 	label: 'DRE-2',
+	// 	source: 'https://dre-2.warp.cc/contract',
+	// },
+	// {
+	// 	label: 'DRE-3',
+	// 	source: 'https://dre-3.warp.cc/contract',
+	// },
+	// {
+	// 	label: 'DRE-4',
+	// 	source: 'https://dre-4.warp.cc/contract',
+	// },
 	{
 		label: 'DRE-5',
 		source: 'https://dre-5.warp.cc/contract',
 	},
-	{
-		label: 'DRE-6',
-		source: 'https://dre-6.warp.cc/contract',
-	},
+	// {
+	// 	label: 'DRE-6',
+	// 	source: 'https://dre-6.warp.cc/contract',
+	// },
 ];

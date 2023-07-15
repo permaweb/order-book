@@ -16,7 +16,7 @@ export const Content = styled.div`
 
 export const Header = styled.div`
 	height: 50px;
-    width: 100%;
+	width: 100%;
 	p {
 		font-size: 28px;
 		font-weight: ${(props) => props.theme.typography.weight.light};

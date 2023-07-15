@@ -44,7 +44,7 @@ export const InfoWrapper = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
-    margin: 20px 0 0 0;
+	margin: 20px 0 0 0;
 `;
 
 export const StampWidget = styled.div`

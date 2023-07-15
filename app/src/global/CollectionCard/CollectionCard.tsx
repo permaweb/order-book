@@ -19,9 +19,7 @@ export default function CollectionCard(props: IProps) {
 				<S.CollectionCard key={props.collection.id}>
 					<S.InfoWrapper>
 						<h2>{props.collection.title}</h2>
-						<p>
-							{props.collection.author.handle}
-						</p>
+						<p>{props.collection.author.handle}</p>
 						{!props.hideButton && (
 							<S.ButtonWrapper>
 								<Button
@@ -42,14 +40,9 @@ export default function CollectionCard(props: IProps) {
 					</S.InfoWrapper>
 					<S.ImageWrapper backgroundImage={props.collection.banner}></S.ImageWrapper>
 				</S.CollectionCard>
-			)
-		}
-		else return <Loader placeholder />
+			);
+		} else return <Loader placeholder />;
 	}
 
-	return (
-		<S.Wrapper>
-			{getData()}
-		</S.Wrapper>
-	)
+	return <S.Wrapper>{getData()}</S.Wrapper>;
 }
