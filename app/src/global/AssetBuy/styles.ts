@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { STYLING } from 'helpers/styling';
+
 export const Wrapper = styled.div``;
 
 export const DCWrapper = styled.div`
@@ -113,6 +115,14 @@ export const BuyAction = styled.div`
 export const BuyActionEnd = styled(BuyAction)`
 	width: fit-content;
 	margin: 0 0 0 auto;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		margin: 0;
+		width: 100%;
+		button {
+			min-width: 0 !important;
+			width: 100% !important;
+		}
+	}
 `;
 
 export const MaxQty = styled.div`

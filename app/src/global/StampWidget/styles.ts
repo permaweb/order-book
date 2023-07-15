@@ -152,3 +152,10 @@ export const Message = styled.div<{ loading: 'true' | 'false' }>`
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;
+
+export const WalletBlock = styled.div`
+	margin: 30px 0 0 0;
+	p {
+		margin: 0 0 20px 0;
+	}
+`;

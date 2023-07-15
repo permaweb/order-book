@@ -15,3 +15,21 @@ export const Wrapper = styled.div`
 		margin: 4.5px 0 0 10px;
 	}
 `;
+
+export const Details = styled.div`
+	margin: 0 0 0 5px;
+	svg {
+		height: 15.5px !important;
+		width: 17.5px !important;
+		margin: 4.5px 0 0 10px !important;
+	}
+`;
+
+export const TxData = styled.div`
+	pre {
+		font-size: ${(props) => props.theme.typography.size.xSmall};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
+		color: ${(props) => props.theme.colors.font.primary.alt8};
+		line-height: 1.5;
+	}
+`;

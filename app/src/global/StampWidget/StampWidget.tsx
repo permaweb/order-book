@@ -12,6 +12,7 @@ import { ResponseType } from 'helpers/types';
 import { formatFloat } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { WalletConnect } from 'wallet/WalletConnect';
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -207,7 +208,7 @@ export default function StampWidget(props: IProps) {
 		<>
 			<S.Wrapper
 				onClick={handleModalOpen}
-				disabled={!arProvider.walletAddress}
+				disabled={false}
 				title={arProvider.walletAddress ? '' : language.connectWalletToStamp}
 			>
 				<p>{getTotalCount()}</p>
@@ -223,29 +224,37 @@ export default function StampWidget(props: IProps) {
 						<span>{`${language.stampsVouched}:`}</span>
 						<p>{count ? count.vouched.toString() : '0'}</p>
 					</S.DetailLine>
-					<S.FlexActions>
-						<Button
-							type={'primary'}
-							label={language.stamp}
-							handlePress={(e: any) => {
-								e.preventDefault();
-								handleStamp();
-							}}
-							disabled={disabled || initLoadingDisabled}
-							icon={ASSETS.stamps}
-						/>
-						<Button
-							type={'primary'}
-							label={language.superStamp}
-							handlePress={(e: any) => {
-								e.preventDefault();
-								setShowStampAction(!showStampAction);
-							}}
-							disabled={disabled || initLoadingDisabled}
-							icon={ASSETS.stamps}
-							width={180}
-						/>
-					</S.FlexActions>
+					{arProvider.walletAddress ? (
+						<S.FlexActions>
+							<Button
+								type={'primary'}
+								label={language.stamp}
+								handlePress={(e: any) => {
+									e.preventDefault();
+									handleStamp();
+								}}
+								disabled={disabled || initLoadingDisabled}
+								icon={ASSETS.stamps}
+							/>
+							<Button
+								type={'primary'}
+								label={language.superStamp}
+								handlePress={(e: any) => {
+									e.preventDefault();
+									setShowStampAction(!showStampAction);
+								}}
+								disabled={disabled || initLoadingDisabled}
+								icon={ASSETS.stamps}
+								width={180}
+							/>
+						</S.FlexActions>
+					) : (
+						<S.WalletBlock>
+							<p>{language.connectWalletToStamp}</p>
+							<WalletConnect />
+						</S.WalletBlock>
+					)}
+
 					{showStampAction && (
 						<StampAction
 							balance={balance}

@@ -144,4 +144,8 @@ export const DRE_NODES: DREObjectType[] = [
 	// 	label: 'DRE-6',
 	// 	source: 'https://dre-6.warp.cc/contract',
 	// },
+	// {
+	// 	label: 'CACHE-2',
+	// 	source: 'https://cache-2.permaweb.tools/contract',
+	// },
 ];
