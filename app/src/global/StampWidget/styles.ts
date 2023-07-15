@@ -78,6 +78,9 @@ export const SAContainer = styled.div`
 	max-width: 55vw;
 	display: flex;
 	flex-direction: column;
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		max-width: none;
+	}
 `;
 
 export const SAInfoContainer = styled.div`

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
 
 import { AssetDetailType, getTxEndpoint, OrderBookPairOrderType, STORAGE } from 'permaweb-orderbook';
 
@@ -15,7 +16,6 @@ import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
 import { formatAddress, formatCount, formatDate, formatPrice } from 'helpers/utils';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import { AssetDetailAction } from './AssetDetailAction';
@@ -25,7 +25,6 @@ import { IProps } from './types';
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
 
-	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
@@ -143,6 +142,26 @@ export default function AssetDetail(props: IProps) {
 		}
 	}
 
+	function getOwnerInfo(owner: any) {
+		const avatar = owner.avatar ? (
+			<S.Avatar>
+				<img src={getTxEndpoint(owner.avatar!.substring(5))} />
+			</S.Avatar>
+		) : (
+			<S.Avatar>
+				<ReactSVG src={ASSETS.user} />
+			</S.Avatar>
+		);
+		return (
+			<>
+				<S.DCLineHeader>
+					{avatar}
+					{owner.handle ? <p>{owner.handle}</p> : <TxAddress address={owner.address} wrap={false} />}
+				</S.DCLineHeader>
+			</>
+		);
+	}
+
 	function getData() {
 		if (asset) {
 			return (
@@ -234,11 +253,9 @@ export default function AssetDetail(props: IProps) {
 							</S.ACHeader>
 						</div>
 						{getChart()}
-						{arProvider.walletAddress && (
-							<S.AssetCAction className={'border-wrapper-alt'}>
-								<AssetDetailAction asset={asset} updateAsset={updateAsset} />
-							</S.AssetCAction>
-						)}
+						<S.AssetCAction className={'border-wrapper-alt'}>
+							<AssetDetailAction asset={asset} updateAsset={updateAsset} />
+						</S.AssetCAction>
 						{currentSaleOwners && currentSaleOwners.length > 0 && (
 							<S.DrawerWrapper>
 								<Drawer
@@ -256,18 +273,7 @@ export default function AssetDetail(props: IProps) {
 											{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														{owner.handle ? (
-															<S.DCLineHeader>
-																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
-																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-																{owner.handle}
-															</S.DCLineHeader>
-														) : (
-															<S.DCLineHeader>
-																<S.Avatar src={ASSETS.user}></S.Avatar>
-																<TxAddress address={owner.address} wrap={false} />
-															</S.DCLineHeader>
-														)}
+														{getOwnerInfo(owner)}
 														<S.DCLineFlex>
 															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -294,18 +300,7 @@ export default function AssetDetail(props: IProps) {
 											{currentOwners.map((owner: OwnerType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														{owner.handle ? (
-															<S.DCLineHeader>
-																{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
-																{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-																{owner.handle}
-															</S.DCLineHeader>
-														) : (
-															<S.DCLineHeader>
-																<S.Avatar src={ASSETS.user}></S.Avatar>
-																<TxAddress address={owner.address} wrap={false} />
-															</S.DCLineHeader>
-														)}
+														{getOwnerInfo(owner)}
 														<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 													</S.DCLine>
 												);
@@ -326,18 +321,7 @@ export default function AssetDetail(props: IProps) {
 								{currentOwners.map((owner: OwnerType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											{owner.handle ? (
-												<S.DCLineHeader>
-													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
-													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-													{owner.handle}
-												</S.DCLineHeader>
-											) : (
-												<S.DCLineHeader>
-													<S.Avatar src={ASSETS.user}></S.Avatar>
-													<TxAddress address={owner.address} wrap={false} />
-												</S.DCLineHeader>
-											)}
+											{getOwnerInfo(owner)}
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>
 									);
@@ -358,18 +342,7 @@ export default function AssetDetail(props: IProps) {
 								{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											{owner.handle ? (
-												<S.DCLineHeader>
-													{!owner.avatar && <S.Avatar src={ASSETS.user}></S.Avatar>}
-													{owner.avatar && <S.Avatar src={getTxEndpoint(owner.avatar!.substring(5))}></S.Avatar>}
-													{owner.handle}
-												</S.DCLineHeader>
-											) : (
-												<S.DCLineHeader>
-													<S.Avatar src={ASSETS.user}></S.Avatar>
-													<TxAddress address={owner.address} wrap={false} />
-												</S.DCLineHeader>
-											)}
+											{getOwnerInfo(owner)}
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -448,7 +421,10 @@ async function getOwners(
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
 					const ownerPercentage = addressObject[address] / totalBalance;
 					let handle = profile ? profile.handle : null;
+
 					let avatar = profile ? profile.avatar : null;
+					if (avatar === 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') avatar = null;
+
 					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : handle;
 					return {
 						address: address,

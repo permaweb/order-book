@@ -95,20 +95,6 @@ export default function ReduxAssetsUpdate(props: {
 						switch (props.apiFetch) {
 							case 'contract':
 								contractIds = await orderBook.api.getAssetIdsByContract();
-
-								// Rank by stamps
-								const counts = await stamps.counts(contractIds);
-								contractIds.sort((a: string, b: string) => {
-									const totalA = counts[a]?.total || 0;
-									const totalB = counts[b]?.total || 0;
-
-									if (totalB !== totalA) {
-										return totalB - totalA;
-									}
-
-									// If 'total' is the same, sort by 'id' in descending order.
-									return b.localeCompare(a);
-								});
 								break;
 							case 'user':
 								if (props.address) {
@@ -122,6 +108,20 @@ export default function ReduxAssetsUpdate(props: {
 								}
 								break;
 						}
+
+						// Rank by stamps
+						const counts = await stamps.counts(contractIds);
+						contractIds.sort((a: string, b: string) => {
+							const totalA = counts[a]?.total || 0;
+							const totalB = counts[b]?.total || 0;
+
+							if (totalB !== totalA) {
+								return totalB - totalA;
+							}
+
+							// If 'total' is the same, sort by 'id' in descending order.
+							return b.localeCompare(a);
+						});
 
 						let groupIndex = new Map(currentReducer[props.reduxCursor].map((group: any) => [group.index, group.ids]));
 

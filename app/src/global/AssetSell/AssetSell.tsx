@@ -6,7 +6,7 @@ import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
 import { Modal } from 'components/molecules/Modal';
-import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
+import { CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType, ValidationType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -332,14 +332,14 @@ export default function AssetSell(props: IProps) {
 					<S.SellAction>
 						<S.SellActionEnd>
 							<Button
-								type={'primary'}
+								type={'alt1'}
 								label={language.confirmListing.toUpperCase()}
 								handlePress={(e: any) => {
 									e.preventDefault();
 									setShowConfirmation(true);
 								}}
 								height={60}
-								noMinWidth
+								width={350}
 								disabled={getActionDisabled()}
 								formSubmit
 							/>
@@ -360,7 +360,7 @@ export default function AssetSell(props: IProps) {
 				>
 					<S.ModalTitle>
 						{sellResponse && sellResponse.status && <p>{sellResponse.message}</p>}
-						{sellResponse && !sellResponse.status && <S.ErrorMessage>{sellResponse.message}</S.ErrorMessage>}
+						{sellResponse && !sellResponse.status && <S.ErrorMessage><p>{sellResponse.message}</p></S.ErrorMessage>}
 						{!sellResponse && <p>{props.asset.data.title}</p>}
 					</S.ModalTitle>
 					{showConfirmation && (
@@ -385,12 +385,11 @@ export default function AssetSell(props: IProps) {
 							</S.SpendWrapper>
 							<S.SellAction>
 								<Button
-									type={'primary'}
+									type={'alt1'}
 									label={language.listNow.toUpperCase()}
 									handlePress={async (e) => await sellAsset(e)}
 									height={60}
 									fullWidth
-									icon={ASSETS.sell}
 									disabled={loading || getActionDisabled()}
 									loading={loading}
 								/>

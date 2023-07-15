@@ -56,7 +56,7 @@ export const Rank = styled.div`
 
 export const AtomicAsset = styled.div`
 	min-width: 110px;
-	margin: 0 0 0 92.5px;
+	margin: 0 0 0 88.5px;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		margin: 0;
 	}
@@ -72,7 +72,7 @@ export const SHeaderFlex = styled.div`
 `;
 
 export const Listing = styled.div`
-	margin: 0 78.5px 0 0;
+	margin: 0 86.5px 0 0;
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		display: none;
 	}
@@ -83,9 +83,6 @@ export const StampCount = styled.div``;
 export const PICWrapper = styled.div`
 	width: 48.5%;
 	margin: 0 0 20px 0;
-	a {
-		// text-decoration: none !important;
-	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 	}
@@ -115,9 +112,6 @@ export const PCWrapper = styled.div`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	}
-	&:hover {
-		background: ${(props) => props.theme.colors.container.alt2.background};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		height: auto;
@@ -168,6 +162,10 @@ export const ATitle = styled.div`
 `;
 
 export const AWrapper = styled.div`
+	position: relative;
+`;
+
+export const AssetWrapper = styled.div`
 	min-height: 85px;
 	min-width: 85px;
 	height: 85px;
@@ -177,6 +175,24 @@ export const AWrapper = styled.div`
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	margin: 0 15px;
 	overflow: hidden;
+`;
+
+export const AssetLink = styled(AssetWrapper)`
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	background: ${(props) => props.theme.colors.semiTransparentAlt3};
+	opacity: 0;
+	transition: ease 200ms;
+	&:hover {
+		opacity: 1;
+	}
+	a {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
 `;
 
 export const SFlex = styled.div`

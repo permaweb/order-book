@@ -9,4 +9,5 @@ export const CardLoader = styled.div`
 	width: 100%;
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
+	overflow: hidden;
 `;

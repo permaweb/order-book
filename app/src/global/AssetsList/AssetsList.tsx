@@ -14,16 +14,23 @@ import * as S from './styles';
 import { IProps } from './types';
 
 function AssetRow(props: { asset: AssetType; index: number }) {
+	const redirect = `${urls.asset}${props.asset.data.id}`;
+
 	return (
 		<S.PICWrapper>
 			<S.PCWrapper>
 				<S.AFlex>
 					<p>{props.index}</p>
 					<S.AWrapper>
-						<AssetData asset={props.asset} preview />
+						<S.AssetLink>
+							<Link to={redirect} />
+						</S.AssetLink>
+						<S.AssetWrapper>
+							<AssetData asset={props.asset} preview />
+						</S.AssetWrapper>
 					</S.AWrapper>
 					<S.ATitle>
-						<Link to={`${urls.asset}${props.asset.data.id}`}>{props.asset.data.title}</Link>
+						<Link to={redirect}>{props.asset.data.title}</Link>
 					</S.ATitle>
 				</S.AFlex>
 				<S.SFlex>

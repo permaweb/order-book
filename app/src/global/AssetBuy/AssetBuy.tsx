@@ -6,7 +6,7 @@ import { OrderBookPairOrderType } from 'permaweb-orderbook';
 import { Button } from 'components/atoms/Button';
 import { Slider } from 'components/atoms/Slider';
 import { Modal } from 'components/molecules/Modal';
-import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
+import { CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -211,13 +211,12 @@ export default function AssetBuy(props: IProps) {
 				<S.BuyAction>
 					<S.BuyActionEnd>
 						<Button
-							type={'primary'}
-							label={language.buy.toUpperCase()}
+							type={'alt1'}
+							label={language.confirmPurchase.toUpperCase()}
 							handlePress={() => setShowConfirmation(true)}
 							height={60}
-							noMinWidth
+							width={350}
 							disabled={getActionDisabled()}
-							icon={ASSETS.arrowLeft}
 						/>
 					</S.BuyActionEnd>
 				</S.BuyAction>
@@ -235,7 +234,7 @@ export default function AssetBuy(props: IProps) {
 				>
 					<S.ModalTitle>
 						{buyResponse && buyResponse.status && <p>{buyResponse.message}</p>}
-						{buyResponse && !buyResponse.status && <S.ErrorMessage>{buyResponse.message}</S.ErrorMessage>}
+						{buyResponse && !buyResponse.status && <S.ErrorMessage><p>{buyResponse.message}</p></S.ErrorMessage>}
 						{!buyResponse && <p>{props.asset.data.title}</p>}
 					</S.ModalTitle>
 					{showConfirmation && (
@@ -260,12 +259,11 @@ export default function AssetBuy(props: IProps) {
 							</S.SpendWrapper>
 							<S.BuyAction>
 								<Button
-									type={'primary'}
-									label={language.confirmPurchase.toUpperCase()}
+									type={'alt1'}
+									label={language.buyNow.toUpperCase()}
 									handlePress={buyAsset}
 									height={60}
 									fullWidth
-									icon={ASSETS.bazarCart}
 									disabled={loading || getActionDisabled()}
 									loading={loading}
 								/>

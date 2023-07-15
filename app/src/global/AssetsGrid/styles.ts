@@ -41,6 +41,7 @@ export const PICWrapper = styled.div`
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
 	background: ${(props) => props.theme.colors.container.primary.background};
+	position: relative;
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		margin: 0 0 40px 0;
@@ -87,6 +88,28 @@ export const PCWrapper = styled.div`
 	overflow: hidden;
 `;
 
+export const PCLink = styled(PCWrapper)`
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	background: ${(props) => props.theme.colors.semiTransparentAlt3};
+	opacity: 0;
+	transition: ease 200ms;
+	&:hover {
+		opacity: 1;
+	}
+	a {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+`;
+
+export const PCLoader = styled(PCWrapper)`
+	border-bottom: none;
+`;
+
 export const ICWrapper = styled.div`
 	min-height: 100px;
 	width: 100%;
@@ -114,6 +137,15 @@ export const ICBottom = styled(ICFlex)`
 	margin: 10px 0 15px 0;
 `;
 
+export const ICWidgetIcons = styled.div`
+	display: flex;
+	align-items: center;
+`;
+
+export const Icon = styled.div`
+	margin: 0 10px 0 0;
+`;
+
 export const AssetData = styled.div`
 	width: 250px;
 	max-width: 85%;
@@ -130,7 +162,7 @@ export const AssetData = styled.div`
 		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		width: fit-content;
-		max-width: 305px;
+		max-width: 230px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;

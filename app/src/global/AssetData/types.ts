@@ -5,4 +5,5 @@ export interface IProps {
 	preview?: boolean;
 	frameMinHeight?: number;
 	autoLoad?: boolean;
+	loadRenderer?: boolean;
 }

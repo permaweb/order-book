@@ -34,6 +34,7 @@ export const InfoWrapper = styled.div`
 	}
 	h2 {
 		line-height: 1.5;
+		margin: 0 0 2.5px 0;
 		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {

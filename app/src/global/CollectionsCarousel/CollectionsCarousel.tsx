@@ -6,7 +6,6 @@ import { language } from 'helpers/language';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: loader
 export default function CollectionsCarousel(props: IProps) {
 	function getCollections() {
 		return props.collections.map((collection: any, index: number) => {

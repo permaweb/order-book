@@ -35,6 +35,10 @@ export const Wrapper = styled.div`
 	animation: ${open} ${fadeIn1};
 	display: flex;
 	align-items: center;
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		left: 50%;
+		transform: translate(-50%, 0);
+	}
 `;
 
 export const Message = styled.span<NotificationProps>`

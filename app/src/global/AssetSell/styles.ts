@@ -119,24 +119,15 @@ export const Price = styled.div`
 
 export const SellAction = styled.div`
 	margin: 40px 0 0 0;
-	button {
-		width: 100%;
-		padding: 40px;
-		span {
-			width: fit-content;
-			font-family: ${(props) => props.theme.typography.family.primary};
-			letter-spacing: 0.1rem;
-			font-size: ${(props) => props.theme.typography.size.lg};
-		}
-		svg {
-			height: 25px;
-			width: 30px;
-		}
+	span {
+		font-size: 24px;
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 	}
 `;
 
-export const SellActionEnd = styled.div`
-	width: 100%;
+export const SellActionEnd = styled(SellAction)`
+	width: fit-content;
+	margin: 0 0 0 auto;
 `;
 
 export const ModalTitle = styled.div`
@@ -169,7 +160,11 @@ export const WalletConnectionWrapper = styled.div`
 `;
 
 export const ErrorMessage = styled.div`
-	font-size: ${(props) => props.theme.typography.size.base};
-	width: 100%;
-	overflow-wrap: break-word;
+	p {
+		color: ${(props) => props.theme.colors.warning};
+		font-size: ${(props) => props.theme.typography.size.base};
+		line-height: 1.5;
+		width: 100%;
+		overflow-wrap: break-word;
+	}
 `;

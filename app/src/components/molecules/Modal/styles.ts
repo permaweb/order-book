@@ -23,7 +23,7 @@ export const Container = styled.div<{
 }>`
 	max-height: calc(100vh - 100px);
 	width: ${(props) => (props.useMax ? STYLING.cutoffs.max : '600px')};
-	max-width: 99.75vw;
+	max-width: 90vw;
 	background: ${(props) =>
 		props.noHeader ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => (props.noHeader ? props.theme.colors.transparent : props.theme.colors.border.primary)};

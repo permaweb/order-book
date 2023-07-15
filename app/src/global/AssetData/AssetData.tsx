@@ -14,7 +14,6 @@ export default function AssetData(props: IProps) {
 	const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
-	const [loadRenderer, setLoadRenderer] = React.useState<boolean>(false);
 
 	const [loadError, setLoadError] = React.useState<boolean>(false);
 
@@ -67,7 +66,7 @@ export default function AssetData(props: IProps) {
 			switch (assetRender.type) {
 				case 'renderer':
 					if (!props.preview) {
-						return loadRenderer || props.autoLoad ? (
+						return props.loadRenderer || props.autoLoad ? (
 							<S.Frame
 								ref={iframeRef}
 								src={assetRender.url}
@@ -82,9 +81,9 @@ export default function AssetData(props: IProps) {
 								}}
 							/>
 						) : (
-							<S.FrameLoader onClick={() => setLoadRenderer(true)}>
+							<S.FramePreview>
 								<ReactSVG src={ASSETS.renderer} />
-							</S.FrameLoader>
+							</S.FramePreview>
 						);
 					} else {
 						return (

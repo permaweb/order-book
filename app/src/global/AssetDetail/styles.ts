@@ -111,15 +111,17 @@ export const DCLine = styled.div`
 	position: relative;
 `;
 
-export const DCLineHeader = styled.p`
-	font-size: ${(props) => props.theme.typography.size.small};
-	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
-	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.light};
-	color: ${(props) => props.theme.colors.font.primary.alt1};
-	word-wrap: break-word;
+export const DCLineHeader = styled.div`
 	display: flex;
 	align-items: center;
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.light};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+		word-wrap: break-word;
+	}
 `;
 
 export const DCLineDetail = styled.p`
@@ -250,10 +252,25 @@ export const Warning = styled.div`
 	}
 `;
 
-export const Avatar = styled.img`
+export const Avatar = styled.div`
 	height: 22px;
 	width: 22px;
-	margin-right: 8px;
+	margin: 0 8.5px 0 0;
 	border-radius: 50%;
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	img {
+		height: 100%;
+		width: 100%;
+	}
+	svg {
+		height: 16.5px;
+		width: 16.5px;
+		padding: 3.5px 0 0 0px;
+		margin: 0 0 2.5px 0;
+		stroke: ${(props) => props.theme.colors.icon.alt1.fill};
+	}
 `;
