@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "install": "(cd app && npm i) && (cd sdk && npm i) && (cd contract && npm i)",
+    "install": "(cd app && npm i) && (cd sdk && npm i)",
     "commit": "git commit -am \"chore: format\" --allow-empty && git push --no-verify",
     "format": "(cd app && npm run format) && (cd sdk && npm run format)",
     "start-arlocal": "npx arlocal",

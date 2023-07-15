@@ -136,16 +136,16 @@ export const DRE_NODES: DREObjectType[] = [
 	// 	label: 'DRE-4',
 	// 	source: 'https://dre-4.warp.cc/contract',
 	// },
-	{
-		label: 'DRE-5',
-		source: 'https://dre-5.warp.cc/contract',
-	},
+	// {
+	// 	label: 'DRE-5',
+	// 	source: 'https://dre-5.warp.cc/contract',
+	// },
 	// {
 	// 	label: 'DRE-6',
 	// 	source: 'https://dre-6.warp.cc/contract',
 	// },
-	// {
-	// 	label: 'CACHE-2',
-	// 	source: 'https://cache-2.permaweb.tools/contract',
-	// },
+	{
+		label: 'SW-2',
+		source: 'https://cache-2.permaweb.tools/contract'
+	}
 ];

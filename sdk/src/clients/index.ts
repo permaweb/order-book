@@ -49,12 +49,14 @@ const client: OrderBookType = {
 	},
 
 	sell: async function (args: SellArgs) {
+		
 		let env: EnvType = this.env;
 		let arClient: ArweaveClientType = this.env.arClient;
 
 		let assetState = await arClient.read(args.assetId);
 		let orderBookState = await arClient.read(env.orderBookContract);
 
+		
 		await validateAsset({
 			asset: args.assetId,
 			assetState: assetState,
@@ -74,7 +76,7 @@ const client: OrderBookType = {
 				function: 'addPair',
 				pair: [args.assetId, env.currencyContract],
 			};
-
+      
 			await arClient.writeContract({
 				contract: env.orderBookContract,
 				wallet: args.wallet,
@@ -95,7 +97,7 @@ const client: OrderBookType = {
 			input: allowInput,
 			options: { strict: true , tags: [{name: "Indexed-By", value: "ucm"}]}
 		});
-
+    
 		let orderInput = {
 			function: 'createOrder',
 			pair: [args.assetId, env.currencyContract],
@@ -110,14 +112,16 @@ const client: OrderBookType = {
 			input: orderInput,
 			options: { strict: true }
 		});
-
+    
 		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
 			0,
 			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
 		);
 
+		
 		let contractWithErrors = await fetch(getContractEndpoint(env.orderBookContract, dreNode));
 		let contractJson = await contractWithErrors.json();
+		
 		if (orderTx.originalTxId in contractJson.errorMessages) {
 			let cancelClaimInput = {
 				function: 'cancelClaim',
@@ -135,6 +139,7 @@ const client: OrderBookType = {
 
 			throw new Error(`Order Failed, transaction - ${getTransactionLink(orderTx.originalTxId)}`);
 		}
+		
 
 		return orderTx;
 	},
