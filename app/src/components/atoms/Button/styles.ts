@@ -48,12 +48,12 @@ export const Primary = styled.button<{
 	justify-content: center;
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	&:hover {
-		border: 1px solid ${(props) => (props.active ? 'transparent' : props.theme.colors.button.primary.border)};
+		border: 1px solid ${(props) => props.theme.colors.button.primary.border};
 		background: ${(props) =>
 			props.active ? props.theme.colors.button.primary.active.hover : props.theme.colors.button.primary.hover};
 	}
 	&:focus {
-		border: 1px solid ${(props) => (props.active ? 'transparent' : props.theme.colors.button.primary.border)};
+		border: 1px solid ${(props) => props.theme.colors.button.primary.border};
 		background: ${(props) =>
 			props.active ? props.theme.colors.button.primary.active.hover : props.theme.colors.button.primary.hover};
 	}

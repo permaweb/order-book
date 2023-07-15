@@ -115,7 +115,7 @@ export default function AssetsTable(props: IProps) {
 
 	return (
 		<ReduxAssetsUpdate
-			addr={props.addr}
+			address={props.address}
 			apiFetch={props.apiFetch}
 			reduxCursor={props.reduxCursor}
 			cursorObject={CursorEnum.idGQL}

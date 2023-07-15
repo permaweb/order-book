@@ -118,6 +118,7 @@ export const ACTION_TABS = [
 	},
 ];
 
+// TODO: DRE 5
 export const DRE_NODES: DREObjectType[] = [
 	// {
 	// 	label: 'DRE-1',
@@ -135,12 +136,12 @@ export const DRE_NODES: DREObjectType[] = [
 	// 	label: 'DRE-4',
 	// 	source: 'https://dre-4.warp.cc/contract',
 	// },
-	{
-		label: 'DRE-5',
-		source: 'https://dre-5.warp.cc/contract',
-	},
 	// {
-	// 	label: 'DRE-6',
-	// 	source: 'https://dre-6.warp.cc/contract',
+	// 	label: 'DRE-5',
+	// 	source: 'https://dre-5.warp.cc/contract',
 	// },
+	{
+		label: 'DRE-6',
+		source: 'https://dre-6.warp.cc/contract',
+	},
 ];

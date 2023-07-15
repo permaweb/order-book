@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { AssetType } from 'permaweb-orderbook';
 
@@ -17,6 +17,8 @@ import { IProps } from './types';
 
 function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
 	const navigate = useNavigate();
+	const redirect = `${urls.asset}${props.asset.data.id}`;
+
 	return (
 		<S.PICWrapper>
 			<S.PCWrapper>
@@ -25,12 +27,14 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 			<S.ICWrapper>
 				<S.ICFlex>
 					<S.AssetData>
-						<p>{props.asset.data.title}</p>
+						<Link to={redirect}>
+							<p>{props.asset.data.title}</p>
+						</Link>
 					</S.AssetData>
 					<IconButton
 						type={'alt1'}
 						src={ASSETS.details}
-						handlePress={() => navigate(`${urls.asset}${props.asset.data.id}`)}
+						handlePress={() => navigate(redirect)}
 						tooltip={language.viewDetails}
 						dimensions={{
 							wrapper: 37.5,

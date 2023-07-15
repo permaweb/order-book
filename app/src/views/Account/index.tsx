@@ -41,7 +41,7 @@ export default function Account() {
 		<>
 			<AccountHeader profile={profile} />
 			<AssetsTable
-				addr={id}
+				address={id}
 				assets={assets}
 				apiFetch={'user'}
 				reduxCursor={REDUX_TABLES.userAssets}

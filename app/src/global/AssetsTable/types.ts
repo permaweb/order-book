@@ -12,6 +12,6 @@ export interface IProps {
 	tableType: AssetTableType;
 	showNoResults: boolean;
 	loading: boolean;
-	addr?: string;
+	address?: string;
 	collectionId?: string;
 }

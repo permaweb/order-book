@@ -82,6 +82,7 @@ export const PCWrapper = styled.div`
 	width: 100%;
 	position: relative;
 	background: ${(props) => props.theme.colors.container.primary.background};
+	border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
 	overflow: hidden;
 `;
@@ -128,6 +129,7 @@ export const AssetData = styled.div`
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
 		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
+		width: fit-content;
 		max-width: 305px;
 		overflow: hidden;
 		text-overflow: ellipsis;

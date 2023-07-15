@@ -12,7 +12,7 @@ export const AvatarWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border: 2.5px solid ${(props) => props.theme.colors.border.primary};
+	border: 1.5px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: 50%;
 	svg {
 		height: 75px;

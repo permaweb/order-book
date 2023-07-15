@@ -27,6 +27,7 @@ const DEFAULT = {
 	alt2: '#E4E4E4',
 	alt3: '#FFDECF',
 	alt4: '#ECE0D9',
+	alt5: '#EC7F00',
 	overlay1: '#2D2D2DC4',
 	negative: '#D24646',
 	negativeHover: '#F26969',
@@ -105,14 +106,14 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt3: {
-				background: '#EC7F00',
+				background: DEFAULT.alt5,
 				border: DEFAULT.neutral5,
-				hover: '#EC7F00',
-				label: 'white',
+				hover: DEFAULT.alt5,
+				label: DEFAULT.neutral1,
 				active: {
-					background: '#EC7F00',
-					hover: '#EC7F00',
-					label: 'white',
+					background: DEFAULT.alt5,
+					hover: DEFAULT.alt5,
+					label: DEFAULT.neutral1,
 				},
 				disabled: {
 					background: DEFAULT.neutral13,

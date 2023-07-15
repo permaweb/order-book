@@ -20,7 +20,7 @@ export default function ReduxAssetsUpdate(props: {
 	cursorObject: CursorEnum;
 	currentTableCursor: string | null;
 	children: React.ReactNode;
-	addr?: string;
+	address?: string;
 	collectionId?: string;
 }) {
 	const dispatch = useDispatch();
@@ -111,14 +111,13 @@ export default function ReduxAssetsUpdate(props: {
 								});
 								break;
 							case 'user':
-								if (props.addr) {
-									contractIds = await orderBook.api.getAssetIdsByUser({ walletAddress: props.addr });
+								if (props.address) {
+									contractIds = await orderBook.api.getAssetIdsByUser({ walletAddress: props.address });
 								}
 								break;
 							case 'collection':
 								if (props.collectionId) {
 									let collection = await orderBook.api.getCollection({ collectionId: props.collectionId });
-									console.log(collection);
 									if (collection) contractIds = collection.assets;
 								}
 								break;
@@ -146,7 +145,7 @@ export default function ReduxAssetsUpdate(props: {
 				}
 			})();
 		}
-	}, [orderBook, stamps, props.addr]);
+	}, [orderBook, stamps, props.address]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -197,7 +196,6 @@ export default function ReduxAssetsUpdate(props: {
 								dispatch(assetActions.setAssets({ accountData: fetchedAssets }));
 								break;
 							case 'collection':
-								console.log(fetchedAssets);
 								dispatch(assetActions.setAssets({ collectionData: fetchedAssets }));
 								break;
 						}
