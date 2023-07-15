@@ -29,8 +29,8 @@ export const Header = styled.div`
 export const Header1 = styled.div`
 	height: 40px;
 	p {
-		font-size: 28px;
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-size: 20px;
+		font-weight: ${(props) => props.theme.typography.weight.extraLight};
 	}
 `;
 
