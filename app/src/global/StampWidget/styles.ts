@@ -23,6 +23,9 @@ export const Wrapper = styled.button`
 		background: ${(props) => props.theme.colors.button.primary.disabled.background};
 		cursor: default;
 	}
+	&:disabled svg {
+		scale: 100%;
+	}
 	p {
 		margin: 0 12.5px 0 0;
 		font-size: ${(props) => props.theme.typography.size.small} !important;
