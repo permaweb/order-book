@@ -52,7 +52,13 @@ export default function TxAddress(props: IProps) {
 					handleClose={() => setShowModal(false)}
 					useMax
 				>
-					{txResponse ? <S.TxData><pre>{txResponse}</pre></S.TxData> : <p>{`${language.loading}...`}</p>}
+					{txResponse ? (
+						<S.TxData>
+							<pre>{txResponse}</pre>
+						</S.TxData>
+					) : (
+						<p>{`${language.loading}...`}</p>
+					)}
 				</Modal>
 			)}
 		</>

@@ -23,35 +23,32 @@ import * as S from './styles';
 import { IProps } from './types';
 
 function OwnerInfo({ owner }) {
-  const [hasError, setHasError] = React.useState(false);
+	const [hasError, setHasError] = React.useState(false);
 
-  const handleError = () => {
-    setHasError(true);
-  }
+	const handleError = () => {
+		setHasError(true);
+	};
 
-  const avatar = !hasError && owner.avatar ? (
-    <S.Avatar>
-      <img 
-        src={getTxEndpoint(owner.avatar)}
-        onError={handleError}
-      />
-    </S.Avatar>
-  ) : (
-    <S.Avatar>
-      <ReactSVG src={ASSETS.user} />
-    </S.Avatar>
-  );
+	const avatar =
+		!hasError && owner.avatar ? (
+			<S.Avatar>
+				<img src={getTxEndpoint(owner.avatar)} onError={handleError} />
+			</S.Avatar>
+		) : (
+			<S.Avatar>
+				<ReactSVG src={ASSETS.user} />
+			</S.Avatar>
+		);
 
-  return (
-    <>
-      <S.DCLineHeader>
-        {avatar}
-        {owner.handle ? <p>{owner.handle}</p> : <TxAddress address={owner.address} wrap={false} />}
-      </S.DCLineHeader>
-    </>
-  );
+	return (
+		<>
+			<S.DCLineHeader>
+				{avatar}
+				{owner.handle ? <p>{owner.handle}</p> : <TxAddress address={owner.address} wrap={false} />}
+			</S.DCLineHeader>
+		</>
+	);
 }
-
 
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
@@ -413,7 +410,7 @@ async function getOwners(
 					let avatar = profile ? profile.avatar : null;
 					if (avatar === 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') avatar = null;
 					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
-					
+
 					handle =
 						!handle && addressObject[i].creator === orProvider.orderBook.env.orderBookContract
 							? language.orderBook

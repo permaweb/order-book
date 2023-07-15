@@ -12,8 +12,8 @@ import { ResponseType, ValidationType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
-//import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 
+//import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -362,7 +362,11 @@ export default function AssetSell(props: IProps) {
 				>
 					<S.ModalTitle>
 						{sellResponse && sellResponse.status && <p>{sellResponse.message}</p>}
-						{sellResponse && !sellResponse.status && <S.ErrorMessage><p>{sellResponse.message}</p></S.ErrorMessage>}
+						{sellResponse && !sellResponse.status && (
+							<S.ErrorMessage>
+								<p>{sellResponse.message}</p>
+							</S.ErrorMessage>
+						)}
 						{!sellResponse && <p>{props.asset.data.title}</p>}
 					</S.ModalTitle>
 					{showConfirmation && (

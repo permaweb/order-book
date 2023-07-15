@@ -97,12 +97,7 @@ export default function AssetData(props: IProps) {
 						return getUnsupportedWrapper();
 					}
 					if (assetRender.contentType.includes('image')) {
-						return (
-							<S.Image
-								src={assetRender.url}
-								onError={handleError}
-							/>
-						);
+						return <S.Image src={assetRender.url} onError={handleError} />;
 					}
 					if (assetRender.contentType.includes('audio')) {
 						return (

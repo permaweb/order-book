@@ -146,6 +146,6 @@ export const DRE_NODES: DREObjectType[] = [
 	// },
 	{
 		label: 'SW-2',
-		source: 'https://cache-2.permaweb.tools/contract'
-	}
+		source: 'https://cache-2.permaweb.tools/contract',
+	},
 ];

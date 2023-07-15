@@ -12,8 +12,8 @@ import { ResponseType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
+
 //import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
- 
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -236,7 +236,11 @@ export default function AssetBuy(props: IProps) {
 				>
 					<S.ModalTitle>
 						{buyResponse && buyResponse.status && <p>{buyResponse.message}</p>}
-						{buyResponse && !buyResponse.status && <S.ErrorMessage><p>{buyResponse.message}</p></S.ErrorMessage>}
+						{buyResponse && !buyResponse.status && (
+							<S.ErrorMessage>
+								<p>{buyResponse.message}</p>
+							</S.ErrorMessage>
+						)}
 						{!buyResponse && <p>{props.asset.data.title}</p>}
 					</S.ModalTitle>
 					{showConfirmation && (
