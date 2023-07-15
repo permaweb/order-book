@@ -22,6 +22,37 @@ import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
 
+function OwnerInfo({ owner }) {
+  const [hasError, setHasError] = React.useState(false);
+
+  const handleError = () => {
+    setHasError(true);
+  }
+
+  const avatar = !hasError && owner.avatar ? (
+    <S.Avatar>
+      <img 
+        src={getTxEndpoint(owner.avatar)}
+        onError={handleError}
+      />
+    </S.Avatar>
+  ) : (
+    <S.Avatar>
+      <ReactSVG src={ASSETS.user} />
+    </S.Avatar>
+  );
+
+  return (
+    <>
+      <S.DCLineHeader>
+        {avatar}
+        {owner.handle ? <p>{owner.handle}</p> : <TxAddress address={owner.address} wrap={false} />}
+      </S.DCLineHeader>
+    </>
+  );
+}
+
+
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
 
@@ -142,26 +173,6 @@ export default function AssetDetail(props: IProps) {
 		}
 	}
 
-	function getOwnerInfo(owner: any) {
-		const avatar = owner.avatar ? (
-			<S.Avatar>
-				<img src={getTxEndpoint(owner.avatar!.substring(5))} />
-			</S.Avatar>
-		) : (
-			<S.Avatar>
-				<ReactSVG src={ASSETS.user} />
-			</S.Avatar>
-		);
-		return (
-			<>
-				<S.DCLineHeader>
-					{avatar}
-					{owner.handle ? <p>{owner.handle}</p> : <TxAddress address={owner.address} wrap={false} />}
-				</S.DCLineHeader>
-			</>
-		);
-	}
-
 	function getData() {
 		if (asset) {
 			return (
@@ -212,7 +223,7 @@ export default function AssetDetail(props: IProps) {
 											{asset.data.license && asset.data.license !== STORAGE.none && (
 												<S.DCLine>
 													<S.DCLineHeader>{language.license}</S.DCLineHeader>
-													<TxAddress address={asset.data.license} wrap={false} />
+													<TxAddress address={asset.data.license} wrap={false} view viewIcon={ASSETS.details} />
 												</S.DCLine>
 											)}
 										</S.DrawerContent>
@@ -273,7 +284,7 @@ export default function AssetDetail(props: IProps) {
 											{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														{getOwnerInfo(owner)}
+														<OwnerInfo owner={owner} />
 														<S.DCLineFlex>
 															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -300,7 +311,7 @@ export default function AssetDetail(props: IProps) {
 											{currentOwners.map((owner: OwnerType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														{getOwnerInfo(owner)}
+														<OwnerInfo owner={owner} />
 														<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 													</S.DCLine>
 												);
@@ -321,7 +332,7 @@ export default function AssetDetail(props: IProps) {
 								{currentOwners.map((owner: OwnerType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											{getOwnerInfo(owner)}
+											<OwnerInfo owner={owner} />
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>
 									);
@@ -342,7 +353,7 @@ export default function AssetDetail(props: IProps) {
 								{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											{getOwnerInfo(owner)}
+											<OwnerInfo owner={owner} />
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -398,7 +409,11 @@ async function getOwners(
 				if (addressObject[i].creator) {
 					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
 					let handle = profile ? profile.handle : null;
+
 					let avatar = profile ? profile.avatar : null;
+					if (avatar === 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') avatar = null;
+					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
+					
 					handle =
 						!handle && addressObject[i].creator === orProvider.orderBook.env.orderBookContract
 							? language.orderBook
@@ -424,6 +439,7 @@ async function getOwners(
 
 					let avatar = profile ? profile.avatar : null;
 					if (avatar === 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') avatar = null;
+					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
 
 					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : handle;
 					return {

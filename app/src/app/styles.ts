@@ -90,7 +90,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: ${(props) => props.theme.typography.weight.light};
   }
   
-  p, span, button, a, b, li, input, textarea {
+  p, span, button, a, b, li, input, textarea, pre {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
