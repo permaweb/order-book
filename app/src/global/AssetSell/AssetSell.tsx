@@ -12,6 +12,7 @@ import { ResponseType, ValidationType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
+//import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -199,6 +200,7 @@ export default function AssetSell(props: IProps) {
 					assetId: props.asset.data.id,
 					qty: quantity,
 					price: unitPrice * 1e6,
+					//wallet: signer,
 					wallet: 'use_wallet',
 					walletAddress: arProvider.walletAddress,
 				});

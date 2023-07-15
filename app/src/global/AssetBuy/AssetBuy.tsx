@@ -12,7 +12,8 @@ import { ResponseType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
-
+//import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
+ 
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -102,6 +103,7 @@ export default function AssetBuy(props: IProps) {
 				await orProvider.orderBook.buy({
 					assetId: props.asset.data.id,
 					spend: calcTotalPrice(),
+					//wallet: signer,
 					wallet: 'use_wallet',
 					walletAddress: arProvider.walletAddress,
 				});
