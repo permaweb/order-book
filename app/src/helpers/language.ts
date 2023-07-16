@@ -1,8 +1,7 @@
 export const language = {
 	assetNotTradeable: `This asset is not tradeable`,
-	assets: 'Atmoic Assets',
+	assets: 'Atomic Assets',
 	account: `Account`,
-	addToCart: 'Add To Cart',
 	activeSaleOrders: `Active Sale Orders`,
 	atomicAsset: `Atomic Asset`,
 	appName: `BazAR`,

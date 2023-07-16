@@ -16,6 +16,7 @@ import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
 import { formatAddress, formatCount, formatDate, formatPrice } from 'helpers/utils';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import { AssetDetailAction } from './AssetDetailAction';
@@ -53,6 +54,7 @@ function OwnerInfo({ owner }) {
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
 
+	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
@@ -67,6 +69,7 @@ export default function AssetDetail(props: IProps) {
 
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
+	const [updateBalance, _setUpdateBalance] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		setAsset(null);
@@ -110,6 +113,7 @@ export default function AssetDetail(props: IProps) {
 			setAsset(null);
 			setLoading(true);
 			setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
+			arProvider.setUpdateBalance(!updateBalance);
 			setLoading(false);
 		}
 	}

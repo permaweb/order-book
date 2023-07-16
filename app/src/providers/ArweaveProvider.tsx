@@ -52,6 +52,7 @@ interface ArweaveContextState {
 	setWalletModalVisible: (open: boolean) => void;
 	arProfile: any;
 	currencyBalances: CurrencyBalancesType | null;
+	setUpdateBalance: (updateBalance: boolean) => void;
 }
 
 interface ArweaveProviderProps {
@@ -78,6 +79,7 @@ const DEFAULT_CONTEXT = {
 	},
 	arProfile: null,
 	currencyBalances: null,
+	setUpdateBalance(_updateBalance: boolean) {}
 };
 
 const ARContext = React.createContext<ArweaveContextState>(DEFAULT_CONTEXT);
@@ -108,6 +110,8 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	const [availableBalance, setAvailableBalance] = React.useState<number | null>(null);
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
 	const [currencyBalances, setCurrencyBalances] = React.useState<CurrencyBalancesType | null>(null);
+
+	const [updateBalance, setUpdateBalance] = React.useState<boolean>(false);
 
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
@@ -225,7 +229,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				}
 			}
 		})();
-	}, [walletAddress, orderBook]);
+	}, [walletAddress, orderBook, updateBalance]);
 
 	return (
 		<>
@@ -245,6 +249,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					setWalletModalVisible,
 					arProfile,
 					currencyBalances,
+					setUpdateBalance: setUpdateBalance
 				}}
 			>
 				{props.children}

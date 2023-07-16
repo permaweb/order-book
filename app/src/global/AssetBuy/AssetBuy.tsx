@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactSVG } from 'react-svg';
 
-import { OrderBookPairOrderType } from 'permaweb-orderbook';
+import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Slider } from 'components/atoms/Slider';
@@ -13,7 +13,7 @@ import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
 
-//import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
+// import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -54,6 +54,10 @@ export default function AssetBuy(props: IProps) {
 			setTradeable(props.asset.state.claimable ? true : false);
 		}
 	}, [props.asset]);
+
+	React.useEffect(() => {
+		if (totalSalesBalance === 1) setAssetQuantity(1);
+	}, [totalSalesBalance]);
 
 	function getActionDisabled() {
 		if (!arProvider.walletAddress) return true;
@@ -103,7 +107,7 @@ export default function AssetBuy(props: IProps) {
 				await orProvider.orderBook.buy({
 					assetId: props.asset.data.id,
 					spend: calcTotalPrice(),
-					//wallet: signer,
+					// wallet: signer,
 					wallet: 'use_wallet',
 					walletAddress: arProvider.walletAddress,
 				});
@@ -134,9 +138,60 @@ export default function AssetBuy(props: IProps) {
 			<S.Price>
 				<p>{(calcTotalPrice() / 1e6).toFixed(4)}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
-					<ReactSVG src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : ''} />
+					<ReactSVG
+						src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : CURRENCY_ICONS[CURRENCY_DICT.U]}
+					/>
 				)}
 			</S.Price>
+		);
+	}
+
+	function getSpendWrapper() {
+		return (
+			<S.SpendWrapper>
+				{totalSalesBalance > 1 && (
+					<>
+						<Slider
+							value={assetQuantity}
+							maxValue={totalSalesBalance}
+							handleChange={handleSpendAmountChange}
+							label={language.assetPercentageInfo}
+							disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
+						/>
+						<S.MaxQty>
+							<Button
+								type={'primary'}
+								label={language.max}
+								handlePress={() => setAssetQuantity(totalSalesBalance)}
+								disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
+								noMinWidth
+							/>
+						</S.MaxQty>
+
+						<S.SpendInfoWrapper>
+							<S.SpendInfoContainer>
+								<span>{language.totalBuyQuantity}</span>
+								<p>{assetQuantity}</p>
+							</S.SpendInfoContainer>
+							<S.SpendInfoContainer>
+								<span>{language.totalBuyPercentage}</span>
+								<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
+							</S.SpendInfoContainer>
+						</S.SpendInfoWrapper>
+					</>
+				)}
+				<S.PriceInfoWrapper>
+					<S.SpendInfoContainer>
+						<span>{language.totalPrice}</span>
+						{getPrice()}
+					</S.SpendInfoContainer>
+					{arProvider.currencyBalances && arProvider.currencyBalances['U'] < calcTotalPrice() && (
+						<S.Warning>
+							<p>{language.currencyBalanceWarning}</p>
+						</S.Warning>
+					)}
+				</S.PriceInfoWrapper>
+			</S.SpendWrapper>
 		);
 	}
 
@@ -155,6 +210,7 @@ export default function AssetBuy(props: IProps) {
 					<S.DCLineHeader>{`${language.totalAssetBalance}:`}</S.DCLineHeader>
 					<S.DCLineDetail>{totalBalance}</S.DCLineDetail>
 				</S.DCLine>
+
 				{tradeable ? (
 					<S.DCWrapper>
 						<S.DCLine>
@@ -171,45 +227,9 @@ export default function AssetBuy(props: IProps) {
 						<p>{language.assetNotTradeable}</p>
 					</S.TWarning>
 				)}
-				<S.SpendWrapper>
-					<Slider
-						value={assetQuantity}
-						maxValue={totalSalesBalance}
-						handleChange={handleSpendAmountChange}
-						label={language.assetPercentageInfo}
-						disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
-					/>
-					<S.MaxQty>
-						<Button
-							type={'primary'}
-							label={language.max}
-							handlePress={() => setAssetQuantity(totalSalesBalance)}
-							disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
-							noMinWidth
-						/>
-					</S.MaxQty>
-					<S.SpendInfoWrapper>
-						<S.SpendInfoContainer>
-							<span>{language.totalBuyQuantity}</span>
-							<p>{assetQuantity}</p>
-						</S.SpendInfoContainer>
-						<S.SpendInfoContainer>
-							<span>{language.totalBuyPercentage}</span>
-							<p>{`${((assetQuantity / totalBalance) * 100).toFixed(2)}%`}</p>
-						</S.SpendInfoContainer>
-					</S.SpendInfoWrapper>
-					<S.PriceInfoWrapper>
-						<S.SpendInfoContainer>
-							<span>{language.totalPrice}</span>
-							{getPrice()}
-						</S.SpendInfoContainer>
-						{arProvider.currencyBalances && arProvider.currencyBalances['U'] < calcTotalPrice() && (
-							<S.Warning>
-								<p>{language.currencyBalanceWarning}</p>
-							</S.Warning>
-						)}
-					</S.PriceInfoWrapper>
-				</S.SpendWrapper>
+
+				{getSpendWrapper()}
+
 				<S.BuyAction>
 					<S.BuyActionEnd>
 						<Button
@@ -231,7 +251,7 @@ export default function AssetBuy(props: IProps) {
 			</S.Wrapper>
 			{(showConfirmation || buyResponse) && (
 				<Modal
-					header={language.addToCart}
+					header={language.confirmPurchase}
 					handleClose={() => handleModalClose(buyResponse && buyResponse.status ? true : false)}
 				>
 					<S.ModalTitle>

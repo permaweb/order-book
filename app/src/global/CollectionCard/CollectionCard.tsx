@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { getTxEndpoint } from 'permaweb-orderbook';
+
 import { Button } from 'components/atoms/Button';
 import { Loader } from 'components/atoms/Loader';
 import { StampWidget } from 'global/StampWidget';
@@ -12,6 +14,16 @@ import { IProps } from './types';
 
 export default function CollectionCard(props: IProps) {
 	const navigate = useNavigate();
+
+	function getBanner() {
+		if (props.collection.banner) {
+			if (props.collection.banner.length === 43 && !props.collection.banner.includes('https://'))
+				return getTxEndpoint(props.collection.banner);
+			else return props.collection.banner;
+		} else {
+			return 'https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40';
+		}
+	}
 
 	function getData() {
 		if (props.collection) {
@@ -38,7 +50,7 @@ export default function CollectionCard(props: IProps) {
 							<StampWidget assetId={props.collection.id} title={props.collection.title} stamps={null}></StampWidget>
 						</S.StampWidget>
 					</S.InfoWrapper>
-					<S.ImageWrapper backgroundImage={props.collection.banner}></S.ImageWrapper>
+					<S.ImageWrapper backgroundImage={getBanner()}></S.ImageWrapper>
 				</S.CollectionCard>
 			);
 		} else return <Loader placeholder />;

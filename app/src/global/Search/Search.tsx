@@ -53,14 +53,17 @@ export default function Search() {
 	const [currentPage, setCurrentPage] = React.useState(1);
 	const resultsPerPage = 10;
 
+	const isCancelled = React.useRef<boolean>(false);
+
 	function handleChange(value: string) {
 		clearTimeout(timer);
 		setValue(value);
 	}
 
 	async function handleSearch(e: any) {
+		isCancelled.current = false;
 		if ((e.type === 'keydown' && e.key === 'Enter') || e.type === 'click' || e === 'timer') {
-			if (orProvider.orderBook) {
+			if (orProvider.orderBook && value) {
 				setLoading(true);
 				const searchResults = await orProvider.orderBook.api.search({
 					ids: null,
@@ -71,17 +74,21 @@ export default function Search() {
 					walletAddress: null,
 					term: value,
 				});
-				setResults(searchResults.assets);
-				setLoading(false);
+				if (!isCancelled.current) {
+					setResults(searchResults.assets);
+					setLoading(false);
+				}
 			}
 		}
 	}
 
 	function handleClear() {
+		isCancelled.current = true;
 		setValue('');
 		setResults([]);
 		setSearchOpen(false);
 		setCurrentPage(1);
+		setLoading(false);
 	}
 
 	function handleNextPage() {
