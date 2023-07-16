@@ -1,6 +1,6 @@
 export const language = {
 	assetNotTradeable: `This asset is not tradeable`,
-	assets: 'Single Assets',
+	assets: 'Atmoic Assets',
 	account: `Account`,
 	addToCart: 'Add To Cart',
 	activeSaleOrders: `Active Sale Orders`,
