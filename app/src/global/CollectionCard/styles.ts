@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
 	border-radius: ${STYLING.dimensions.borderRadius};
 	overflow: hidden;
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		min-height: 450px;
 		height: auto;
 	}
 `;
@@ -19,6 +20,7 @@ export const CollectionCard = styled.div`
 	background: ${(props) => props.theme.colors.container.primary.background};
 	display: flex;
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		min-height: 450px;
 		height: auto;
 		flex-direction: column-reverse;
 	}
@@ -60,8 +62,10 @@ export const ImageWrapper = styled.div<{ backgroundImage: string }>`
 	background-position: center center;
 	background-repeat: no-repeat;
 	border-radius: ${STYLING.dimensions.borderRadius};
+	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		height: 450px;
 		width: 100%;
+		border-left: none;
 	}
 `;

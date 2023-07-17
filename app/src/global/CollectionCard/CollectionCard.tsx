@@ -17,11 +17,11 @@ export default function CollectionCard(props: IProps) {
 
 	function getBanner() {
 		if (props.collection.banner) {
-			if (props.collection.banner.length === 43 && !props.collection.banner.includes('https://'))
+			if (props.collection.banner.length === 43)
 				return getTxEndpoint(props.collection.banner);
 			else return props.collection.banner;
 		} else {
-			return 'https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40';
+			return ASSETS.defaultCollection;
 		}
 	}
 

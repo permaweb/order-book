@@ -1,11 +1,9 @@
 node_modules
 wallet.json
 wallet2.json
-<<<<<<< HEAD
-**dist**
-=======
 eye-blob.json
 dist
->>>>>>> 12badc6f8ea763fc85329d5f74e682b1b10b3df4
 cache
 logs
+**dist**
+.DS_Store

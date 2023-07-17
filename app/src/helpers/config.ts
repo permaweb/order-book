@@ -13,6 +13,7 @@ import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
 import copySVG from 'assets/copy.svg';
+import defaultCollectionPNG from 'assets/default-collection.png';
 import detailsSVG from 'assets/details.svg';
 import infoSVG from 'assets/info.svg';
 import logoSVG from 'assets/logo.svg';
@@ -50,6 +51,7 @@ export const ASSETS = {
 	checkmark: checkmarkSVG,
 	close: closeSVG,
 	copy: copySVG,
+	defaultCollection: defaultCollectionPNG,
 	details: detailsSVG,
 	info: infoSVG,
 	logo: logoSVG,
