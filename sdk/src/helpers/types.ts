@@ -36,6 +36,12 @@ export type BuyArgs = {
 	walletAddress: string | null;
 };
 
+export type CancelArgs = {
+	orderId: string;
+	wallet: any;
+	walletAddress: string | null;
+};
+
 export type EnvType = {
 	orderBookContract: string;
 	currency: string;
@@ -158,6 +164,7 @@ export type OrderBookType = {
 	init: (args: InitArgs) => OrderBookType;
 	sell: (args: SellArgs) => Promise<any>;
 	buy: (args: BuyArgs) => Promise<any>;
+	cancel: (args: CancelArgs) => Promise<any>;
 	api: ApiClientType;
 };
 
