@@ -98,6 +98,7 @@ export const language = {
 	transactionId: `Transaction ID`,
 	unitPrice: `Unit Price`,
 	unitPriceAboveZero: `Unit price must be above 0`,
+	totalPriceAboveZero: `Unit price must be above 0`,
 	viewDetails: `View Details`,
 	viewCollection: `View Collection`,
 	walletNotConnected: `Connect a wallet to continue`,

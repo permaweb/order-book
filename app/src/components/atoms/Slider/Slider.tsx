@@ -37,7 +37,7 @@ export default function Slider(props: IProps) {
 				ref={rangeRef}
 				className={'custom-range'}
 				type={'range'}
-				min={'0'}
+				min={props.minValue ? props.minValue.toString() : '0'}
 				max={props.maxValue.toString()}
 				step={'1'}
 				value={props.value.toString()}

@@ -4,4 +4,5 @@ export interface IProps {
 	handleChange: (e: any) => void;
 	label?: string;
 	disabled: boolean;
+	minValue?: number;
 }
