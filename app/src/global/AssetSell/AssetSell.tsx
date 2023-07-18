@@ -16,6 +16,7 @@ import { WalletConnect } from 'wallet/WalletConnect';
 // import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 import * as S from './styles';
 import { IProps } from './types';
+import { Slider } from 'components/atoms/Slider';
 
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
@@ -196,14 +197,15 @@ export default function AssetSell(props: IProps) {
 				// let signer = new InjectedArweaveSigner(window.arweaveWallet);
 				// signer.getAddress = window.arweaveWallet.getActiveAddress;
 				// signer.setPublicKey();
-				await orProvider.orderBook?.sell({
-					assetId: props.asset.data.id,
-					qty: quantity,
-					price: unitPrice * 1e6,
-					// wallet: signer,
-					wallet: 'use_wallet',
-					walletAddress: arProvider.walletAddress,
-				});
+				// await orProvider.orderBook?.sell({
+				// 	assetId: props.asset.data.id,
+				// 	qty: quantity,
+				// 	price: unitPrice * 1e6,
+				// 	// wallet: signer,
+				// 	wallet: 'use_wallet',
+				// 	walletAddress: arProvider.walletAddress,
+				// });
+				console.log(quantity);
 				setLoading(false);
 				setShowConfirmation(false);
 				setSellResponse({
@@ -257,20 +259,29 @@ export default function AssetSell(props: IProps) {
 			return (
 				<>
 					<S.FormContainer>
-						<FormField
-							type={'number'}
-							label={getMaxQuantityLabel()}
-							value={quantity}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
-							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
-							invalid={invalidQuantity}
-							tooltip={language.saleQuantityTooltip}
-						/>
+						{ totalSalesBalance > 1 &&
+							<Slider
+								value={quantity}
+								maxValue={totalSalesBalance}
+								handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
+								label={language.assetPercentageInfo}
+								disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable || totalSalesBalance <= 0}
+							/>
+						}
 					</S.FormContainer>
 					<S.FormContainer>
 						<FormField
 							type={'number'}
-							label={language.unitPrice}
+							label={language.totalPrice}
+							value={isNaN(unitPrice) ? '' : unitPrice}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
+							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
+							invalid={invalidUnitPrice}
+							tooltip={language.saleUnitPriceTooltip}
+						/>
+						<FormField
+							type={'number'}
+							label={language.totalPrice}
 							value={isNaN(unitPrice) ? '' : unitPrice}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
 							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
