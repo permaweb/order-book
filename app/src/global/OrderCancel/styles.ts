@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
 export const FlexActions = styled.div`
 	display: flex;
 	align-items: center;
-	margin: 40px 0 0 0;
+	margin: 60px 0 0 0;
 	button {
 		margin: 0 20px 0 0;
 	}

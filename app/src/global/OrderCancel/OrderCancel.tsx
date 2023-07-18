@@ -1,6 +1,8 @@
 import React from 'react';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
+import { OrderBookPairOrderType } from 'permaweb-orderbook';
+
 import { Button } from 'components/atoms/Button';
 import { Modal } from 'components/molecules/Modal';
 import { language } from 'helpers/language';
@@ -32,25 +34,35 @@ export default function OrderCancel(props: IProps) {
 	}
 
 	function getOrderId() {
-		return '';
+		const order = props.asset.orders.find(
+			(order: OrderBookPairOrderType) => order.creator === arProvider.walletAddress
+		);
+		if (order) return order.id;
+		return null;
 	}
 
 	async function cancelOrder() {
-		if (getOwnerOrder() && orProvider.orderBook && arProvider.walletAddress) {
+		if (getOwnerOrder() && getOrderId() && orProvider.orderBook && arProvider.walletAddress) {
 			setLoading(true);
 			try {
-				let signer = new InjectedArweaveSigner(window.arweaveWallet);
+                let signer = new InjectedArweaveSigner(window.arweaveWallet);
 				signer.getAddress = window.arweaveWallet.getActiveAddress;
-				signer.setPublicKey();
-				await orProvider.orderBook.cancel({
-					orderId: getOrderId(),
-					wallet: signer,
-					walletAddress: arProvider.walletAddress,
-				});
-				setCancelResponse({
-					status: true,
-					message: language.orderCancelled,
-				});
+				await signer.setPublicKey();
+                const orderId = getOrderId();
+
+				try {
+					await orProvider.orderBook.cancel({
+						orderId: orderId,
+						wallet: signer,
+						walletAddress: arProvider.walletAddress,
+					});
+					setCancelResponse({
+						status: true,
+						message: language.orderCancelled,
+					});
+				} catch (e: any) {
+					console.error(e);
+				}
 			} catch (e: any) {
 				setCancelResponse({
 					status: false,
