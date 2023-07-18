@@ -4,16 +4,15 @@ import { IconButton } from 'components/atoms/IconButton';
 import { Portal } from 'components/atoms/Portal';
 import { ASSETS, DOM } from 'helpers/config';
 import { language } from 'helpers/language';
-import * as windowUtils from 'helpers/window';
 
 import * as S from './styles';
 import { IProps } from './types';
 
 export default function Modal(props: IProps) {
 	React.useEffect(() => {
-		windowUtils.hideDocumentBody();
+		hideDocumentBody();
 		return () => {
-			windowUtils.showDocumentBody();
+			showDocumentBody();
 		};
 	}, []);
 
@@ -67,3 +66,18 @@ export default function Modal(props: IProps) {
 		</Portal>
 	);
 }
+
+let modalOpenCounter = 0;
+
+const showDocumentBody = () => {
+  modalOpenCounter -= 1;
+  if (modalOpenCounter === 0) {
+    document.body.style.overflow = 'auto';
+  }
+};
+
+const hideDocumentBody = () => {
+  modalOpenCounter += 1;
+  document.body.style.overflow = 'hidden';
+};
+

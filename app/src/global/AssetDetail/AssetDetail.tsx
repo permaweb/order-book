@@ -11,6 +11,7 @@ import { PieChart } from 'components/atoms/PieChart';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'global/AssetData';
+import { OrderCancel } from 'global/OrderCancel';
 import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
@@ -23,7 +24,9 @@ import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
 
-function OwnerInfo({ owner }) {
+function OwnerInfo({ owner, asset, isSaleOrder }) {
+	const arProvider = useArweaveProvider();
+
 	const [hasError, setHasError] = React.useState(false);
 
 	const handleError = () => {
@@ -41,11 +44,29 @@ function OwnerInfo({ owner }) {
 			</S.Avatar>
 		);
 
+	function getOwnerOrder() {
+		if (!arProvider.walletAddress || !isSaleOrder) return false;
+		if (asset && asset.orders && asset.orders.length) {
+			for (let i = 0; i < asset.orders.length; i++) {
+				if (owner.address === arProvider.walletAddress && asset.orders[i].creator === arProvider.walletAddress) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	return (
 		<>
 			<S.DCLineHeader>
 				{avatar}
 				{owner.handle ? <S.NoWrap>{owner.handle}</S.NoWrap> : <TxAddress address={owner.address} wrap={false} />}
+				{getOwnerOrder() && (
+					<>
+						&nbsp;
+						<OrderCancel asset={asset} />
+					</>
+				)}
 			</S.DCLineHeader>
 		</>
 	);
@@ -285,7 +306,7 @@ export default function AssetDetail(props: IProps) {
 											{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														<OwnerInfo owner={owner} />
+														<OwnerInfo owner={owner} asset={asset} isSaleOrder={true} />
 														<S.DCLineFlex>
 															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -312,7 +333,7 @@ export default function AssetDetail(props: IProps) {
 											{currentOwners.map((owner: OwnerType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														<OwnerInfo owner={owner} />
+														<OwnerInfo owner={owner} asset={asset} isSaleOrder={false} />
 														<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 													</S.DCLine>
 												);
@@ -333,7 +354,7 @@ export default function AssetDetail(props: IProps) {
 								{currentOwners.map((owner: OwnerType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											<OwnerInfo owner={owner} />
+											<OwnerInfo owner={owner} asset={asset} isSaleOrder={false} />
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>
 									);
@@ -354,7 +375,7 @@ export default function AssetDetail(props: IProps) {
 								{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											<OwnerInfo owner={owner} />
+											<OwnerInfo owner={owner} asset={asset} isSaleOrder={true} />
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>

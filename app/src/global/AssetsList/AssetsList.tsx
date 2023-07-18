@@ -6,7 +6,6 @@ import { AssetType } from 'permaweb-orderbook';
 import { Loader } from 'components/atoms/Loader';
 import { AssetData } from 'global/AssetData';
 import { AssetOrders } from 'global/AssetOrders';
-import { OrderCancel } from 'global/OrderCancel';
 import { StampWidget } from 'global/StampWidget';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
@@ -32,8 +31,6 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 					</S.AWrapper>
 					<S.ATitle>
 						<Link to={redirect}>{props.asset.data.title}</Link>
-						&nbsp;
-						<OrderCancel asset={props.asset} />
 					</S.ATitle>
 				</S.AFlex>
 				<S.SFlex>
