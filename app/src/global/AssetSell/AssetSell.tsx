@@ -55,6 +55,9 @@ export default function AssetSell(props: IProps) {
 			if (arProvider.walletAddress) {
 				let salesBalance = props.asset.state.balances[arProvider.walletAddress];
 				setTotalSalesBalance(salesBalance ? salesBalance : 0);
+				if(salesBalance && salesBalance == 1) {
+					setQuantity(1);
+				}
 			}
 		}
 	}, [props.asset]);
@@ -241,11 +244,13 @@ export default function AssetSell(props: IProps) {
 		}
 	}
 
-	function handlePriceInput(e: React.ChangeEvent<HTMLInputElement>) {
+	function handleUnitPriceInput(e: React.ChangeEvent<HTMLInputElement>) {
 		if (e.target.value === '') {
 			setUnitPrice(NaN);
+			setTotalPrice(NaN);
 		} else {
 			if (!isNaN(Number(e.target.value))) setUnitPrice(parseFloat(e.target.value));
+			if (!isNaN(Number(e.target.value))) setTotalPrice(parseFloat(e.target.value) * quantity);
 		}
 	}
 
@@ -263,21 +268,10 @@ export default function AssetSell(props: IProps) {
 					<S.FormContainer>
 						<FormField
 							type={'number'}
-							label={language.totalPrice}
-							value={isNaN(unitPrice) ? '' : unitPrice}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
-							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
-							invalid={invalidUnitPrice}
-							tooltip={language.saleTotalPriceTooltip}
-						/>
-					</S.FormContainer>
-					<S.FormContainer>
-						<FormField
-							type={'number'}
 							label={language.unitPrice}
 							value={isNaN(unitPrice) ? '' : unitPrice}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
-							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleUnitPriceInput(e)}
+							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable || quantity < 1}
 							invalid={invalidUnitPrice}
 							tooltip={language.saleUnitPriceTooltip}
 						/>
