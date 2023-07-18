@@ -14,7 +14,7 @@ import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
 
-// import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -196,17 +196,17 @@ export default function AssetSell(props: IProps) {
 			setLoading(true);
 
 			try {
-				// let signer = new InjectedArweaveSigner(window.arweaveWallet);
-				// signer.getAddress = window.arweaveWallet.getActiveAddress;
-				// signer.setPublicKey();
-				// await orProvider.orderBook?.sell({
-				// 	assetId: props.asset.data.id,
-				// 	qty: quantity,
-				// 	price: unitPrice * 1e6,
-				// 	// wallet: signer,
-				// 	wallet: 'use_wallet',
-				// 	walletAddress: arProvider.walletAddress,
-				// });
+				let signer = new InjectedArweaveSigner(window.arweaveWallet);
+				signer.getAddress = window.arweaveWallet.getActiveAddress;
+				signer.setPublicKey();
+				await orProvider.orderBook?.sell({
+					assetId: props.asset.data.id,
+					qty: quantity,
+					price: unitPrice * 1e6,
+					wallet: signer,
+					// wallet: 'use_wallet',
+					walletAddress: arProvider.walletAddress,
+				});
 				console.log(quantity);
 				setLoading(false);
 				setShowConfirmation(false);

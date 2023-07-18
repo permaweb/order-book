@@ -11,11 +11,7 @@
 		"build:publish": "npm run build && npm publish",
 		"check-packages": "node src/workers/check-packages.mjs"
 	},
-	"dependencies": {
-		"arweave": "1.13.7",
-		"esbuild-node-loader": "0.8.0",
-		"mime": "^3.0.0"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/mime": "^3.0.1",
 		"@types/mime-types": "^2.1.1",

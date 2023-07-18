@@ -11,6 +11,7 @@ import {
 	ApiClientType,
 	ArweaveClientType,
 	BuyArgs,
+	CancelArgs,
 	EnvType,
 	InitArgs,
 	OrderBookType,
@@ -212,6 +213,25 @@ const client: OrderBookType = {
 
 		return orderTx;
 	},
+
+	cancel: async function (args: CancelArgs) {
+		let env: EnvType = this.env;
+		let arClient: ArweaveClientType = this.env.arClient;
+
+		let cancelInput = {
+			function: 'cancelOrder',
+			orderId: args.orderId,
+		};
+
+		let allowTx = await arClient.writeContract({
+			contract: env.orderBookContract,
+			wallet: args.wallet,
+			input: cancelInput,
+			options: { strict: true }
+		});
+
+		return allowTx;
+	}
 };
 
 export { client as OrderBook };
