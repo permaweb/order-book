@@ -1,5 +1,6 @@
 import React from 'react';
 import { ReactSVG } from 'react-svg';
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
@@ -14,7 +15,6 @@ import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
 
-import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 import * as S from './styles';
 import { IProps } from './types';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReactSVG } from 'react-svg';
-import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
