@@ -50,7 +50,7 @@ export default function Landing() {
 
 	return (
 		<>
-			<div className={'background-wrapper'}>
+			{/* <div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
 					<CollectionsCarousel collections={collections} />
 				</div>
@@ -63,7 +63,7 @@ export default function Landing() {
 						loading={false}
 					/>
 				</div>
-			</div>
+			</div> */}
 			<AssetsTable
 				assets={tableAssets}
 				apiFetch={'contract'}

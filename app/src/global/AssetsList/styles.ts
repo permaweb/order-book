@@ -140,10 +140,12 @@ export const AFlex = styled.div`
 `;
 
 export const ATitle = styled.div`
-	max-width: 165px;
+	max-width: 260px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	display: flex;
+	align-items: center;
 	p,
 	a {
 		width: fit-content;
