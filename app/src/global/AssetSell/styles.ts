@@ -53,6 +53,15 @@ export const FormWrapper = styled.div`
 	gap: 20px;
 `;
 
+export const SliderWrapper = styled.div`
+	margin: 0 0 20px 0;
+`;
+
+export const MaxQty = styled.div`
+	width: fit-content;
+	margin: 20px 0 0 auto;
+`;
+
 export const FormContainer = styled.div`
 	width: 50%;
 	max-width: ${STYLING.dimensions.formWidthMin};

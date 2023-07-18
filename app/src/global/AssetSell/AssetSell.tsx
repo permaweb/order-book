@@ -5,6 +5,7 @@ import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
+import { Slider } from 'components/atoms/Slider';
 import { Modal } from 'components/molecules/Modal';
 import { CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
@@ -16,13 +17,14 @@ import { WalletConnect } from 'wallet/WalletConnect';
 // import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature'
 import * as S from './styles';
 import { IProps } from './types';
-import { Slider } from 'components/atoms/Slider';
 
 export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
+	const [totalPrice, setTotalPrice] = React.useState<number>(0);
 	const [unitPrice, setUnitPrice] = React.useState<number>(0);
+
 	const [quantity, setQuantity] = React.useState<number>(0);
 
 	const [initialLoad, setInitialLoad] = React.useState<boolean>(true);
@@ -247,28 +249,17 @@ export default function AssetSell(props: IProps) {
 		}
 	}
 
-	function getMaxQuantityLabel() {
-		let quantityLabel: string = language.quantity;
-		if (!connectedDisabledSale && arProvider.walletAddress)
-			quantityLabel += ` (Max: ${props.asset.state.balances[arProvider.walletAddress]})`;
-		return quantityLabel;
-	}
+	// function getMaxQuantityLabel() {
+	// 	let quantityLabel: string = language.quantity;
+	// 	if (!connectedDisabledSale && arProvider.walletAddress)
+	// 		quantityLabel += ` (Max: ${props.asset.state.balances[arProvider.walletAddress]})`;
+	// 	return quantityLabel;
+	// }
 
 	function getFields() {
 		if (props.asset) {
 			return (
 				<>
-					<S.FormContainer>
-						{ totalSalesBalance > 1 &&
-							<Slider
-								value={quantity}
-								maxValue={totalSalesBalance}
-								handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
-								label={language.assetPercentageInfo}
-								disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable || totalSalesBalance <= 0}
-							/>
-						}
-					</S.FormContainer>
 					<S.FormContainer>
 						<FormField
 							type={'number'}
@@ -277,11 +268,13 @@ export default function AssetSell(props: IProps) {
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
 							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
 							invalid={invalidUnitPrice}
-							tooltip={language.saleUnitPriceTooltip}
+							tooltip={language.saleTotalPriceTooltip}
 						/>
+					</S.FormContainer>
+					<S.FormContainer>
 						<FormField
 							type={'number'}
-							label={language.totalPrice}
+							label={language.unitPrice}
 							value={isNaN(unitPrice) ? '' : unitPrice}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handlePriceInput(e)}
 							disabled={loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable}
@@ -323,6 +316,28 @@ export default function AssetSell(props: IProps) {
 					</S.Warning>
 				)}
 				<S.Form onSubmit={async (e) => await sellAsset(e)}>
+					{totalSalesBalance > 1 && (
+						<S.SliderWrapper>
+							<Slider
+								value={quantity}
+								maxValue={totalSalesBalance}
+								handleChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
+								label={language.assetQuantityInfo}
+								disabled={
+									loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable || totalSalesBalance <= 0
+								}
+							/>
+							<S.MaxQty>
+								<Button
+									type={'primary'}
+									label={language.max}
+									handlePress={() => setQuantity(totalSalesBalance)}
+									disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
+									noMinWidth
+								/>
+							</S.MaxQty>
+						</S.SliderWrapper>
+					)}
 					<S.FormWrapper>{getFields()}</S.FormWrapper>
 					<S.SpendWrapper>
 						<S.SpendInfoWrapper>

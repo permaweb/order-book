@@ -45,7 +45,7 @@ function OwnerInfo({ owner }) {
 		<>
 			<S.DCLineHeader>
 				{avatar}
-				{owner.handle ? <p>{owner.handle}</p> : <TxAddress address={owner.address} wrap={false} />}
+				{owner.handle ? <S.NoWrap>{owner.handle}</S.NoWrap> : <TxAddress address={owner.address} wrap={false} />}
 			</S.DCLineHeader>
 		</>
 	);

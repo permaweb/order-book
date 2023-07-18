@@ -124,6 +124,16 @@ export const DCLineHeader = styled.div`
 	}
 `;
 
+export const NoWrap = styled.p`
+	overflow-x: hidden;
+	word-wrap: normal !important;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		max-width: 75px;
+	}
+`;
+
 export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
@@ -193,6 +203,9 @@ export const OwnerLine = styled.div`
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.light};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	button {
 		font-size: ${(props) => props.theme.typography.size.small};

@@ -17,8 +17,7 @@ export default function CollectionCard(props: IProps) {
 
 	function getBanner() {
 		if (props.collection.banner) {
-			if (props.collection.banner.length === 43)
-				return getTxEndpoint(props.collection.banner);
+			if (props.collection.banner.length === 43) return getTxEndpoint(props.collection.banner);
 			else return props.collection.banner;
 		} else {
 			return ASSETS.defaultCollection;

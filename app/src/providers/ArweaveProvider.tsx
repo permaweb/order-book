@@ -79,7 +79,7 @@ const DEFAULT_CONTEXT = {
 	},
 	arProfile: null,
 	currencyBalances: null,
-	setUpdateBalance(_updateBalance: boolean) {}
+	setUpdateBalance(_updateBalance: boolean) {},
 };
 
 const ARContext = React.createContext<ArweaveContextState>(DEFAULT_CONTEXT);
@@ -249,7 +249,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					setWalletModalVisible,
 					arProfile,
 					currencyBalances,
-					setUpdateBalance: setUpdateBalance
+					setUpdateBalance: setUpdateBalance,
 				}}
 			>
 				{props.children}
