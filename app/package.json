@@ -14,7 +14,7 @@
 		"test:coverage": "CI=true npm test -- --env=jsdom --coverage",
 		"build": "NODE_ENV=production webpack",
 		"deploy": "npm run build && ts-node src/workers/deploy.ts",
-		"check-packages": "node ../workers/check-packages.mjs"
+		"check-packages": "node src/workers/check-packages.mjs"
 	},
 	"dependencies": {
 		"@bundlr-network/client": "^0.11.9",
