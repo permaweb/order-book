@@ -9,7 +9,7 @@
 		"test": "uvu -r tsm test",
 		"build": "tsc",
 		"build:publish": "npm run build && npm publish",
-		"check-packages": "node ../workers/check-packages.mjs"
+		"check-packages": "node src/workers/check-packages.mjs"
 	},
 	"dependencies": {},
 	"devDependencies": {

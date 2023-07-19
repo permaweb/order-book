@@ -8,6 +8,8 @@ for (let i = 0; i < Object.keys(packageData.dependencies).length; i++) {
 	const dep = Object.keys(packageData.dependencies)[i];
 	if (packageData.dependencies[dep].includes('file')) {
 		console.error('Local package link found in dependencies - aborting commit');
+		console.log('About to exit...');
 		process.exit(1);
 	}
 }
+console.log('Finished checking packages');
