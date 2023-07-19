@@ -1,18 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { CollectionType, CursorEnum } from 'permaweb-orderbook';
+import { CollectionType } from 'permaweb-orderbook';
 
 import { Paginator } from 'components/molecules/Paginator';
 import { StampWidget } from 'global/StampWidget';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
-import { RootState } from 'store';
 
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: stamp counts
 function CollectionRow(props: { collection: CollectionType; index: number }) {
 	const redirect = `${urls.collection}${props.collection.id}`;
 
@@ -44,14 +43,11 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 }
 
 export default function CollectionsTable(props: IProps) {
-	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
-
 	const scrollRef = React.useRef(null);
 
 	const [currentPage, setCurrentPage] = React.useState(1);
 	const [recordsPerPage] = React.useState(props.recordsPerPage);
 
-	const [currentTableCursor, setCurrentTableCursor] = React.useState<string | null>(null);
 	const [currentRecords, setCurrentRecords] = React.useState<CollectionType[] | null>(null);
 	const [nPages, setNPages] = React.useState<number | null>(null);
 
@@ -64,31 +60,6 @@ export default function CollectionsTable(props: IProps) {
 			setNPages(props.collections ? Math.ceil(props.collections.length / recordsPerPage) : null);
 		}
 	}, [props.collections]);
-
-	// React.useEffect(() => {
-	// 	if (cursorsReducer[CursorEnum.idGQL][props.reduxCursor].length) {
-	// 		setCurrentTableCursor(cursorsReducer[CursorEnum.idGQL][props.reduxCursor][0].index);
-	// 	}
-	// }, [cursorsReducer[CursorEnum.idGQL]]);
-
-	function getPaginatorAction(action: 'next' | 'prev') {
-		if (currentTableCursor && cursorsReducer[CursorEnum.idGQL][props.reduxCursor].length) {
-			const reducer = cursorsReducer[CursorEnum.idGQL][props.reduxCursor];
-			const currentIndex = reducer.findIndex(
-				(element: { index: string; ids: string[] }) => element.index === currentTableCursor
-			);
-			switch (action) {
-				case 'next':
-					return reducer.length > currentIndex + 1 ? reducer[currentIndex + 1].index : null;
-				case 'prev':
-					return currentIndex > 0 ? reducer[currentIndex - 1].index : null;
-				default:
-					return null;
-			}
-		} else {
-			return null;
-		}
-	}
 
 	function getPaginator(useIcons: boolean) {
 		if (currentRecords && nPages) {
@@ -103,12 +74,11 @@ export default function CollectionsTable(props: IProps) {
 						setCurrentPage={setCurrentPage}
 						showPageNumbers={props.showPageNumbers}
 						handleCursorFetch={(cursor: string | null) => {
-							// handlePageFetch();
-							setCurrentTableCursor(cursor);
+							props.handlePageFetch(cursor);
 						}}
 						cursors={{
-							next: getPaginatorAction('next'),
-							previous: getPaginatorAction('prev'),
+							next: props.cursors.next,
+							previous: props.cursors.previous,
 						}}
 						useIcons={useIcons}
 					/>
@@ -136,6 +106,7 @@ export default function CollectionsTable(props: IProps) {
 						</S.StampCount>
 					</S.SHeaderFlex>
 				</S.HSection1>
+				{getPaginator(true)}
 				<>
 					{props.collections.map((collection: CollectionType, index: number) => {
 						return <CollectionRow key={index} collection={collection} index={index + 1} />;

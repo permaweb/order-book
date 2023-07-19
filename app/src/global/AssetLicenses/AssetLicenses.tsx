@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
-import { UDL_LICENSE_VALUE } from 'permaweb-orderbook';
+import { STORAGE, UDL_LICENSE_VALUE } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
@@ -12,6 +12,9 @@ import { formatDisplayString } from 'helpers/utils';
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: remove UDL License key:value
+// TODO: udl fee logos
+// TODO: access badge logos
 export default function AssetLicenses(props: IProps) {
 	return props.asset && (props.asset.data.udl || props.asset.data.license) ? (
 		<S.Wrapper>
@@ -31,14 +34,14 @@ export default function AssetLicenses(props: IProps) {
 									</Link>
 								</S.HeaderFlex>
 								{Object.keys(props.asset.data.udl).map((key: string, index: number) => {
-									return (
+									return props.asset.data.udl[key].value !== STORAGE.none ? (
 										<S.DCLine key={index}>
 											<S.DCLineHeader>
 												<p>{props.asset.data.udl[key].key}</p>
 											</S.DCLineHeader>
 											<S.DCLineDetail>{formatDisplayString(props.asset.data.udl[key].value)}</S.DCLineDetail>
 										</S.DCLine>
-									);
+									) : null;
 								})}
 							</>
 						)}

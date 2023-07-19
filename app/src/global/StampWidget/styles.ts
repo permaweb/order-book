@@ -16,15 +16,9 @@ export const Wrapper = styled.button`
 		background: ${(props) => props.theme.colors.container.primary.hover};
 		cursor: pointer;
 	}
-	&:hover svg {
-		scale: 110%;
-	}
 	&:disabled {
 		background: ${(props) => props.theme.colors.button.primary.disabled.background};
 		cursor: default;
-	}
-	&:disabled svg {
-		scale: 100%;
 	}
 	p {
 		margin: 0 12.5px 0 0;
@@ -34,9 +28,9 @@ export const Wrapper = styled.button`
 	}
 	svg {
 		transition: all 300ms;
-		margin: 2.5px 0 0 0;
-		height: 25px !important;
-		width: 25px !important;
+		margin: 3.5px 0 0 0;
+		height: 22.5px !important;
+		width: 22.5px !important;
 	}
 `;
 

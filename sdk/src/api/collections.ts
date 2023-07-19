@@ -3,6 +3,7 @@ import {
 	ArweaveClientType,
 	CollectionAssetType,
 	CollectionManifestType,
+	CollectionsResponseType,
 	CollectionType,
 	CursorEnum,
 	DEFAULT_COLLECTION_BANNER,
@@ -59,7 +60,10 @@ async function buildCollection(node: any, items: string[] | null, arClient: Arwe
 	return collection;
 }
 
-export async function getCollections(args: { arClient: ArweaveClientType }): Promise<CollectionType[]> {
+export async function getCollections(args: {
+	arClient: ArweaveClientType;
+	cursor: string | null;
+}): Promise<CollectionsResponseType> {
 	let gqlData = await getGQLData({
 		ids: null,
 		tagFilters: [
@@ -69,7 +73,7 @@ export async function getCollections(args: { arClient: ArweaveClientType }): Pro
 			},
 		],
 		uploader: null,
-		cursor: null,
+		cursor: args.cursor,
 		reduxCursor: null,
 		cursorObject: CursorEnum.GQL,
 		arClient: args.arClient,
@@ -86,7 +90,11 @@ export async function getCollections(args: { arClient: ArweaveClientType }): Pro
 
 		collections.push(await buildCollection(node, null, args.arClient, false));
 	}
-	return collections;
+	return {
+		previousCursor: null,
+		nextCursor: gqlData.nextCursor,
+		collections: collections,
+	};
 }
 
 export async function getCollection(args: GetCollectionArgs): Promise<CollectionAssetType | null> {

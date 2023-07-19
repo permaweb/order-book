@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Stamps from '@permaweb/stampjs';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
@@ -28,7 +27,7 @@ export default function Landing() {
 			(async function () {
 				let collectionsFetch = await orProvider.orderBook.api.getCollections();
 				let collections = await collectionsRank(
-					collectionsFetch,
+					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost
 				);

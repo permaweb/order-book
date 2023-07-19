@@ -116,7 +116,7 @@ export type ApiClientType = {
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
-	getCollections: () => Promise<CollectionType[]>;
+	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
 	getCollection: (args: { collectionId: string }) => Promise<CollectionAssetType>;
 };
 
@@ -252,7 +252,7 @@ export type AssetsResponseType = {
 export type CollectionsResponseType = {
 	nextCursor: string | null;
 	previousCursor: string | null;
-	collections: CollectionsResponseType[];
+	collections: CollectionType[];
 };
 
 export type AGQLResponseType = { data: GQLResponseType[]; nextCursor: string | null };
