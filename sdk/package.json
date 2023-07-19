@@ -9,15 +9,15 @@
 		"test": "uvu -r tsm test",
 		"build": "tsc",
 		"build:publish": "npm run build && npm publish",
-		"check-packages": "node src/workers/check-packages.mjs"
+		"check-packages": "node ../workers/check-packages.mjs"
 	},
 	"dependencies": {},
 	"devDependencies": {
 		"@types/mime": "^3.0.1",
 		"@types/mime-types": "^2.1.1",
 		"@types/node": "^18.16.1",
-		"@typescript-eslint/eslint-plugin": "^5.54.0",
-		"@typescript-eslint/parser": "^5.54.0",
+		"@typescript-eslint/eslint-plugin": "^5.57.1",
+		"@typescript-eslint/parser": "^5.57.1",
 		"eslint": "^8.35.0",
 		"eslint-plugin-import": "^2.27.5",
 		"eslint-plugin-simple-import-sort": "^10.0.0",

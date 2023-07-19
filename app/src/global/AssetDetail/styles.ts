@@ -97,7 +97,7 @@ export const DrawerHeaderFlex = styled.div`
 export const DCHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.base};
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	line-height: 1.65;
 	word-wrap: break-word;
@@ -118,7 +118,7 @@ export const DCLineHeader = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		word-wrap: break-word;
 	}
@@ -185,7 +185,20 @@ export const ACHeader = styled(AssetCDetail)`
 	padding: 20px;
 	h2 {
 		line-height: 1.5;
-		margin: 0 0 20px 0;
+	}
+`;
+
+export const ACLink = styled.div`
+	margin: 5px 0 20px 0;
+	a {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.light};
+		text-decoration: underline;
+		&:hover {
+			color: ${(props) => props.theme.colors.font.primary.alt8};
+		}
 	}
 `;
 

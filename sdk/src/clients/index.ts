@@ -50,14 +50,12 @@ const client: OrderBookType = {
 	},
 
 	sell: async function (args: SellArgs) {
-		
 		let env: EnvType = this.env;
 		let arClient: ArweaveClientType = this.env.arClient;
 
 		let assetState = await arClient.read(args.assetId);
 		let orderBookState = await arClient.read(env.orderBookContract);
 
-		
 		await validateAsset({
 			asset: args.assetId,
 			assetState: assetState,
@@ -77,12 +75,12 @@ const client: OrderBookType = {
 				function: 'addPair',
 				pair: [args.assetId, env.currencyContract],
 			};
-      
+
 			await arClient.writeContract({
 				contract: env.orderBookContract,
 				wallet: args.wallet,
 				input: addPairInput,
-				options: { strict: true }
+				options: { strict: true },
 			});
 		}
 
@@ -96,9 +94,9 @@ const client: OrderBookType = {
 			contract: args.assetId,
 			wallet: args.wallet,
 			input: allowInput,
-			options: { strict: true , tags: [{name: "Indexed-By", value: "ucm"}]}
+			options: { strict: true, tags: [{ name: 'Indexed-By', value: 'ucm' }] },
 		});
-    
+
 		let orderInput = {
 			function: 'createOrder',
 			pair: [args.assetId, env.currencyContract],
@@ -111,18 +109,17 @@ const client: OrderBookType = {
 			contract: env.orderBookContract,
 			wallet: args.wallet,
 			input: orderInput,
-			options: { strict: true }
+			options: { strict: true },
 		});
-    
+
 		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
 			0,
 			env.arClient.options.remoteStateSyncSource.lastIndexOf('/')
 		);
 
-		
 		let contractWithErrors = await fetch(getContractEndpoint(env.orderBookContract, dreNode));
 		let contractJson = await contractWithErrors.json();
-		
+
 		if (orderTx.originalTxId in contractJson.errorMessages) {
 			let cancelClaimInput = {
 				function: 'cancelClaim',
@@ -135,12 +132,11 @@ const client: OrderBookType = {
 				contract: env.orderBookContract,
 				wallet: args.wallet,
 				input: cancelClaimInput,
-				options: { strict: true }
+				options: { strict: true },
 			});
 
 			throw new Error(`Order Failed, transaction - ${getTransactionLink(orderTx.originalTxId)}`);
 		}
-		
 
 		return orderTx;
 	},
@@ -169,7 +165,7 @@ const client: OrderBookType = {
 			contract: env.currencyContract,
 			wallet: args.wallet,
 			input: allowInput,
-			options: { strict: true }
+			options: { strict: true },
 		});
 
 		let orderInput = {
@@ -183,7 +179,7 @@ const client: OrderBookType = {
 			contract: env.orderBookContract,
 			wallet: args.wallet,
 			input: orderInput,
-			options: { strict: true }
+			options: { strict: true },
 		});
 
 		let dreNode = env.arClient.options.remoteStateSyncSource.substring(
@@ -205,7 +201,7 @@ const client: OrderBookType = {
 				contract: env.orderBookContract,
 				wallet: args.wallet,
 				input: cancelClaimInput,
-				options: { strict: true }
+				options: { strict: true },
 			});
 
 			throw new Error(`Order Failed, transaction - ${getTransactionLink(orderTx.originalTxId)}`);
@@ -227,11 +223,11 @@ const client: OrderBookType = {
 			contract: env.orderBookContract,
 			wallet: args.wallet,
 			input: cancelInput,
-			options: { strict: true }
+			options: { strict: true },
 		});
 
 		return allowTx;
-	}
+	},
 };
 
 export { client as OrderBook };

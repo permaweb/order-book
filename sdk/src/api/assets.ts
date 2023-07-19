@@ -9,11 +9,14 @@ import {
 	getBalancesEndpoint,
 	GetCollectionArgs,
 	getTagValue,
+	GQLResponseType,
 	ORDERBOOK_CONTRACT,
 	OrderBookPairOrderType,
 	OrderBookPairType,
 	STORAGE,
 	TAGS,
+	UDL_LICENSE_VALUE,
+	UDLType,
 	UserBalancesType,
 } from '../helpers';
 
@@ -179,6 +182,9 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 				},
 			};
 
+			const udl = getUDL(gqlData.assets[i]);
+			if (udl) asset.data.udl = udl;
+
 			if (pairs) {
 				const assetIndex = pairs.findIndex((asset: OrderBookPairType) => asset.pair[0] === gqlData.assets[i].node.id);
 				if (assetIndex !== -1) {
@@ -191,4 +197,26 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		}
 	}
 	return validatedAssets;
+}
+
+function getUDL(gqlData: GQLResponseType): UDLType | null {
+	const license = getTagValue(gqlData.node.tags, TAGS.keys.udl.license);
+	if (!license || license === STORAGE.none || !(license.toLowerCase() === UDL_LICENSE_VALUE.toLowerCase())) return null;
+
+	return {
+		license: { key: TAGS.keys.udl.license, value: license },
+		access: { key: TAGS.keys.udl.access, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.access) },
+		accessFee: { key: TAGS.keys.udl.accessFee, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.accessFee) },
+		derivation: { key: TAGS.keys.udl.derivation, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivation) },
+		derivationFee: {
+			key: TAGS.keys.udl.derivationFee,
+			value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivationFee),
+		},
+		commercial: { key: TAGS.keys.udl.commercial, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.commercial) },
+		commercialFee: {
+			key: TAGS.keys.udl.commercialFee,
+			value: getTagValue(gqlData.node.tags, TAGS.keys.udl.commercialFee),
+		},
+		paymentMode: { key: TAGS.keys.udl.paymentMode, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.paymentMode) },
+	};
 }

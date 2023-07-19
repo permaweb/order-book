@@ -32,7 +32,7 @@ export const Label = styled.div`
 		padding: 0 0 2.5px 0;
 	}
 	svg {
-		width: 15px;
+		width: 15px !important;
 		fill: ${(props) => props.theme.colors.accordion.color};
 	}
 `;

@@ -19,6 +19,7 @@ export const CollectionCard = styled.div`
 	width: 100%;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	display: flex;
+	position: relative;
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		min-height: 450px;
 		height: auto;
@@ -63,6 +64,32 @@ export const ImageWrapper = styled.div<{ backgroundImage: string }>`
 	background-repeat: no-repeat;
 	border-radius: ${STYLING.dimensions.borderRadius};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		height: 450px;
+		width: 100%;
+		border-left: none;
+	}
+`;
+
+export const ImageLink = styled.div`
+	height: 100%;
+	width: 800px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1;
+	background: ${(props) => props.theme.colors.semiTransparentAlt3};
+	border-radius: ${STYLING.dimensions.borderRadius};
+	opacity: 0;
+	transition: ease 200ms;
+	&:hover {
+		opacity: 1;
+	}
+	a {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		height: 450px;
 		width: 100%;

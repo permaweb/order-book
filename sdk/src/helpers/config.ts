@@ -35,6 +35,16 @@ export const TAGS = {
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
+		udl: {
+			license: 'License',
+			access: 'Access',
+			accessFee: 'Access-Fee',
+			derivation: 'Derivation',
+			derivationFee: 'Derivation-Fee',
+			commercial: 'Commercial',
+			commercialFee: 'Commercial-Fee',
+			paymentMode: 'Payment-Mode',
+		},
 	},
 	values: {
 		profileVersions: {
@@ -44,6 +54,9 @@ export const TAGS = {
 	},
 };
 
+export const DEFAULT_COLLECTION_BANNER =
+	'https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40';
+export const DEFAULT_COLLECTION_THUMB =
+	'https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA';
 
-export const DEFAULT_COLLECTION_BANNER = "https://e73ghewv225e3v7fkxi4qrrtgr4lq7f2z3rusb63mu6plaxynogq.arweave.net/J_ZjktXWuk3X5VXRyEYzNHi4fLrO40kH22U89YL4a40";
-export const DEFAULT_COLLECTION_THUMB = "https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA";
+export const UDL_LICENSE_VALUE = 'udlicense';

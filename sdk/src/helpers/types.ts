@@ -10,9 +10,21 @@ export type AssetType = {
 		renderWith: string | null;
 		dateCreated: number;
 		blockHeight: number;
+		udl?: UDLType;
 	};
 	orders?: OrderBookPairOrderType[];
 	stamps?: { total: number; vouched: number };
+};
+
+export type UDLType = {
+	license: { key: string; value: string };
+	access: { key: string; value: string };
+	accessFee: { key: string; value: string };
+	derivation: { key: string; value: string };
+	derivationFee: { key: string; value: string };
+	commercial: { key: string; value: string };
+	commercialFee: { key: string; value: string };
+	paymentMode: { key: string; value: string };
 };
 
 export type AssetDetailType = AssetType & {
@@ -105,7 +117,7 @@ export type ApiClientType = {
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
 	getCollections: () => Promise<CollectionType[]>;
-	getCollection: (args: {collectionId: string}) => Promise<CollectionWithAssetsType>;
+	getCollection: (args: { collectionId: string }) => Promise<CollectionWithAssetsType>;
 };
 
 export type WriteContractArgs = {
@@ -248,24 +260,24 @@ export type ProfileType = {
 };
 
 export type CollectionType = {
-	id: string,
-	banner: string,
-	thumbnail: string,
-	name: string,
-	title: string,
-	description: string,
-	type: string,
+	id: string;
+	banner: string;
+	thumbnail: string;
+	name: string;
+	title: string;
+	description: string;
+	type: string;
 	author: {
-		address: string,
-		handle: string | null
-	}
+		address: string;
+		handle: string | null;
+	};
 };
 
 export type CollectionWithAssetsType = CollectionType & {
 	assets: string[];
-}
+};
 
 export type CollectionManifestType = {
 	type: string;
 	items: string[];
-}
+};

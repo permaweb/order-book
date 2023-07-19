@@ -68,7 +68,7 @@ const apiClient: ApiClientType = {
 		return await search({ ...args, arClient: this.arClient });
 	},
 
-	getCollection: async function (args: {collectionId: string}): Promise<CollectionWithAssetsType> {
+	getCollection: async function (args: { collectionId: string }): Promise<CollectionWithAssetsType> {
 		return await getCollection({ ...args, arClient: this.arClient });
 	},
 

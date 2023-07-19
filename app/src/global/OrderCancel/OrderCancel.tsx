@@ -13,6 +13,7 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
+// TODO: invalid order id
 export default function OrderCancel(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
@@ -45,10 +46,10 @@ export default function OrderCancel(props: IProps) {
 		if (getOwnerOrder() && getOrderId() && orProvider.orderBook && arProvider.walletAddress) {
 			setLoading(true);
 			try {
-                let signer = new InjectedArweaveSigner(window.arweaveWallet);
+				let signer = new InjectedArweaveSigner(window.arweaveWallet);
 				signer.getAddress = window.arweaveWallet.getActiveAddress;
 				await signer.setPublicKey();
-                const orderId = getOrderId();
+				const orderId = getOrderId();
 
 				try {
 					await orProvider.orderBook.cancel({

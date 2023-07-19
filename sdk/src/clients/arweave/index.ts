@@ -9,7 +9,7 @@ const arClient: ArweaveClientType = {
 		internalWrites: true,
 		remoteStateSyncEnabled: true,
 		remoteStateSyncSource: null,
-		unsafeClient: 'skip'
+		unsafeClient: 'skip',
 	},
 
 	init: function (args: ArweaveClientInitArgs) {

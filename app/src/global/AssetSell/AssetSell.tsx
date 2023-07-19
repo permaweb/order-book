@@ -55,7 +55,7 @@ export default function AssetSell(props: IProps) {
 			if (arProvider.walletAddress) {
 				let salesBalance = props.asset.state.balances[arProvider.walletAddress];
 				setTotalSalesBalance(salesBalance ? salesBalance : 0);
-				if(salesBalance && salesBalance == 1) {
+				if (salesBalance && salesBalance == 1) {
 					setQuantity(1);
 				}
 			}

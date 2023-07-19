@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
 import { AssetDetailType, getTxEndpoint, OrderBookPairOrderType, STORAGE } from 'permaweb-orderbook';
@@ -11,9 +11,10 @@ import { PieChart } from 'components/atoms/PieChart';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'global/AssetData';
+import { AssetLicenses } from 'global/AssetLicenses';
 import { OrderCancel } from 'global/OrderCancel';
 import { StampWidget } from 'global/StampWidget';
-import { ASSETS } from 'helpers/config';
+import { ASSETS, REDIRECTS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
 import { formatAddress, formatCount, formatDate, formatPrice } from 'helpers/utils';
@@ -207,6 +208,9 @@ export default function AssetDetail(props: IProps) {
 						</S.C1>
 						<S.AssetInfoWrapper>
 							<S.DrawerWrapper>
+								<AssetLicenses asset={asset} />
+							</S.DrawerWrapper>
+							<S.DrawerWrapper>
 								<Drawer
 									title={language.overview}
 									icon={ASSETS.overview}
@@ -225,27 +229,29 @@ export default function AssetDetail(props: IProps) {
 									content={
 										<S.DrawerContent>
 											<S.DCLine>
-												<S.DCLineHeader>{language.transactionId}</S.DCLineHeader>
+												<S.DCLineHeader>
+													<p>{language.transactionId}</p>
+												</S.DCLineHeader>
 												<TxAddress address={asset.data.id} wrap={false} />
 											</S.DCLine>
 											<S.DCLine>
-												<S.DCLineHeader>{language.blockHeight}</S.DCLineHeader>
+												<S.DCLineHeader>
+													<p>{language.blockHeight}</p>
+												</S.DCLineHeader>
 												<S.DCLineDetailMedium>{formatCount(asset.data.blockHeight.toString())}</S.DCLineDetailMedium>
 											</S.DCLine>
 											<S.DCLine>
-												<S.DCLineHeader>{language.dateCreated}</S.DCLineHeader>
+												<S.DCLineHeader>
+													<p>{language.dateCreated}</p>
+												</S.DCLineHeader>
 												<S.DCLineDetailMedium>{formatDate(asset.data.dateCreated * 1000, 'iso')}</S.DCLineDetailMedium>
 											</S.DCLine>
 											{asset.data.implementation && asset.data.implementation !== STORAGE.none && (
 												<S.DCLine>
-													<S.DCLineHeader>{language.standard}</S.DCLineHeader>
+													<S.DCLineHeader>
+														<p>{language.standard}</p>
+													</S.DCLineHeader>
 													<S.DCLineDetailMedium>{asset.data.implementation}</S.DCLineDetailMedium>
-												</S.DCLine>
-											)}
-											{asset.data.license && asset.data.license !== STORAGE.none && (
-												<S.DCLine>
-													<S.DCLineHeader>{language.license}</S.DCLineHeader>
-													<TxAddress address={asset.data.license} wrap={false} view viewIcon={ASSETS.details} />
 												</S.DCLine>
 											)}
 										</S.DrawerContent>
@@ -258,6 +264,11 @@ export default function AssetDetail(props: IProps) {
 						<div className={'border-wrapper-alt'}>
 							<S.ACHeader>
 								<h2>{asset.data.title}</h2>
+								<S.ACLink>
+									<Link target={'_blank'} to={REDIRECTS.viewblock(asset.data.id)}>
+										{language.viewblock}
+									</Link>
+								</S.ACLink>
 								<S.StampWidget>
 									<StampWidget assetId={asset.data.id} title={asset.data.title} stamps={null} getCount />
 								</S.StampWidget>

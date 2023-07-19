@@ -79,3 +79,9 @@ export function formatPrice(price: number) {
 		return updatedPrice.toExponential(2).replace(/\.?0+e/, 'e');
 	}
 }
+
+export function formatDisplayString(input: string): string {
+    return input.split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}

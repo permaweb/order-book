@@ -16,6 +16,7 @@ import copySVG from 'assets/copy.svg';
 import defaultCollectionPNG from 'assets/default-collection.png';
 import detailsSVG from 'assets/details.svg';
 import infoSVG from 'assets/info.svg';
+import licenseSVG from 'assets/license.svg';
 import logoSVG from 'assets/logo.svg';
 import menuSVG from 'assets/menu.svg';
 import ordersSVG from 'assets/orders.svg';
@@ -31,6 +32,7 @@ import superStampSVG from 'assets/stamp-super.svg';
 import vouchedStampSVG from 'assets/stamp-vouched.svg';
 import stampsSVG from 'assets/stamps.svg';
 import uSVG from 'assets/u.svg';
+import udlSVG from 'assets/udl.svg';
 import unsupportedSVG from 'assets/unsupported.svg';
 import userSVG from 'assets/user.svg';
 import walletSVG from 'assets/wallet.svg';
@@ -54,6 +56,7 @@ export const ASSETS = {
 	defaultCollection: defaultCollectionPNG,
 	details: detailsSVG,
 	info: infoSVG,
+	license: licenseSVG,
 	logo: logoSVG,
 	menu: menuSVG,
 	orders: ordersSVG,
@@ -71,6 +74,7 @@ export const ASSETS = {
 		vouched: vouchedStampSVG,
 	},
 	u: uSVG,
+	udl: udlSVG,
 	unsupported: unsupportedSVG,
 	user: userSVG,
 	wallet: walletSVG,
@@ -104,6 +108,8 @@ export const STORAGE = {
 
 export const REDIRECTS = {
 	arProfile: `https://arprofile.arweave.dev/`,
+	udl: `https://udlicense.arweave.dev`,
+	viewblock: (tx: string) => `https://viewblock.io/arweave/tx/${tx}`
 };
 
 export const TAB_OPTIONS = {

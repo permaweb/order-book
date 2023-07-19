@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { getTxEndpoint } from 'permaweb-orderbook';
 
@@ -26,17 +26,18 @@ export default function CollectionCard(props: IProps) {
 
 	function getData() {
 		if (props.collection) {
+			const redirect = `${urls.collection}${props.collection.id}`;
 			return (
 				<S.CollectionCard key={props.collection.id}>
 					<S.InfoWrapper>
 						<h2>{props.collection.title}</h2>
 						<p>{props.collection.author.handle}</p>
-						{!props.hideButton && (
+						{!props.hideRedirect && (
 							<S.ButtonWrapper>
 								<Button
 									type={'primary'}
 									label={language.viewCollection}
-									handlePress={() => navigate(`${urls.collection}${props.collection.id}`)}
+									handlePress={() => navigate(redirect)}
 									disabled={false}
 									loading={false}
 									icon={ASSETS.details}
@@ -49,6 +50,11 @@ export default function CollectionCard(props: IProps) {
 							<StampWidget assetId={props.collection.id} title={props.collection.title} stamps={null}></StampWidget>
 						</S.StampWidget>
 					</S.InfoWrapper>
+					{!props.hideRedirect && (
+						<S.ImageLink>
+							<Link to={redirect} />
+						</S.ImageLink>
+					)}
 					<S.ImageWrapper backgroundImage={getBanner()}></S.ImageWrapper>
 				</S.CollectionCard>
 			);

@@ -90,6 +90,9 @@ export const CloseTextContainer = styled.div<{ useMax: boolean | undefined }>`
 	left: 50%;
 	transform: translate(-50%, 0);
 	padding: 0 20px;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		padding: 0 40px;
+	}
 `;
 
 export const CloseTextContainerAlt = styled.div`

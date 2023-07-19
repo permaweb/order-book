@@ -70,14 +70,13 @@ export default function Modal(props: IProps) {
 let modalOpenCounter = 0;
 
 const showDocumentBody = () => {
-  modalOpenCounter -= 1;
-  if (modalOpenCounter === 0) {
-    document.body.style.overflow = 'auto';
-  }
+	modalOpenCounter -= 1;
+	if (modalOpenCounter === 0) {
+		document.body.style.overflow = 'auto';
+	}
 };
 
 const hideDocumentBody = () => {
-  modalOpenCounter += 1;
-  document.body.style.overflow = 'hidden';
+	modalOpenCounter += 1;
+	document.body.style.overflow = 'hidden';
 };
-
