@@ -1,4 +1,4 @@
-import { CURSORS, STORAGE, TAGS } from '../helpers/config';
+import { STORAGE, TAGS } from '../helpers/config';
 import {
 	AGQLResponseType,
 	AssetArgsClientType,
@@ -6,7 +6,7 @@ import {
 	CursorEnum,
 	GQLResponseType,
 } from '../helpers/types';
-import { checkGqlCursor, getTagValue } from '../helpers/utils';
+import { getTagValue } from '../helpers/utils';
 
 import { getGQLData } from '.';
 

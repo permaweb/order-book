@@ -15,9 +15,8 @@ import {
 	AssetArgsType,
 	AssetDetailType,
 	AssetType,
+	CollectionAssetType,
 	CollectionType,
-	CollectionWithAssetsType,
-	GetCollectionArgs,
 	ProfileType,
 	SearchArgs,
 	SearchReturnType,
@@ -68,7 +67,7 @@ const apiClient: ApiClientType = {
 		return await search({ ...args, arClient: this.arClient });
 	},
 
-	getCollection: async function (args: { collectionId: string }): Promise<CollectionWithAssetsType> {
+	getCollection: async function (args: { collectionId: string }): Promise<CollectionAssetType> {
 		return await getCollection({ ...args, arClient: this.arClient });
 	},
 

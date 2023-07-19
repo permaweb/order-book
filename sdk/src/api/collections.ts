@@ -1,9 +1,10 @@
-import { getGQLData, getGqlDataByIds } from '../gql';
+import { getGQLData } from '../gql';
 import {
 	ArweaveClientType,
+	CollectionAssetType,
 	CollectionManifestType,
 	CollectionType,
-	CollectionWithAssetsType,
+	CursorEnum,
 	DEFAULT_COLLECTION_BANNER,
 	DEFAULT_COLLECTION_THUMB,
 	GetCollectionArgs,
@@ -70,7 +71,7 @@ export async function getCollections(args: { arClient: ArweaveClientType }): Pro
 		uploader: null,
 		cursor: null,
 		reduxCursor: null,
-		cursorObject: null,
+		cursorObject: CursorEnum.GQL,
 		arClient: args.arClient,
 	});
 	let collections: CollectionType[] = [];
@@ -88,7 +89,7 @@ export async function getCollections(args: { arClient: ArweaveClientType }): Pro
 	return collections;
 }
 
-export async function getCollection(args: GetCollectionArgs): Promise<CollectionWithAssetsType | null> {
+export async function getCollection(args: GetCollectionArgs): Promise<CollectionAssetType | null> {
 	try {
 		let collectionFetch = await fetch(getTxEndpoint(args.collectionId));
 		let collection: CollectionManifestType = await collectionFetch.json();

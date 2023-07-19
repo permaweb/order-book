@@ -1,11 +1,4 @@
-import {
-	getContractEndpoint,
-	getSyncEndpoint,
-	getTransactionLink,
-	validateAsset,
-	validateBuy,
-	validateSell,
-} from '../helpers';
+import { getContractEndpoint, getTransactionLink, validateAsset, validateBuy, validateSell } from '../helpers';
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
 import {
 	ApiClientType,

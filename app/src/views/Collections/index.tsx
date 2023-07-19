@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { CollectionType } from 'permaweb-orderbook';
+import { CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
 import { CollectionsTable } from 'global/CollectionsTable';
+import { REDUX_TABLES } from 'helpers/redux';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 export default function Collections() {
@@ -22,7 +23,14 @@ export default function Collections() {
 
 	function getData() {
 		if (collections) {
-			return <CollectionsTable collections={collections} />;
+			return (
+				<CollectionsTable
+					collections={collections}
+					recordsPerPage={PAGINATOR}
+					reduxCursor={REDUX_TABLES.collectionAssets}
+					showPageNumbers={false}
+				/>
+			);
 		} else {
 			return <Loader />;
 		}
