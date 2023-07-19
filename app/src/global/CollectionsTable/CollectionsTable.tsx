@@ -13,7 +13,6 @@ import { RootState } from 'store';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: get stamp counts
 function CollectionRow(props: { collection: CollectionType; index: number }) {
 	const redirect = `${urls.collection}${props.collection.id}`;
 

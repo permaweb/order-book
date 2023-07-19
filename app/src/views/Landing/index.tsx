@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Stamps from '@permaweb/stampjs';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
@@ -9,6 +10,7 @@ import { CollectionsCarousel } from 'global/CollectionsCarousel';
 import { FEATURE_COUNT } from 'helpers/config';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
+import { collectionsRank } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 
@@ -24,8 +26,13 @@ export default function Landing() {
 	React.useEffect(() => {
 		if (orProvider.orderBook) {
 			(async function () {
-				const collectionsFetch = await orProvider.orderBook.api.getCollections();
-				setCollections(collectionsFetch);
+				let collectionsFetch = await orProvider.orderBook.api.getCollections();
+				let collections = await collectionsRank(
+					collectionsFetch,
+					orProvider.orderBook.env.arClient.warpDefault,
+					orProvider.orderBook.env.arClient.arweavePost
+				);
+				setCollections(collections);
 			})();
 		}
 	}, [orProvider.orderBook]);

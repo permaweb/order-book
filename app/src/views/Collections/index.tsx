@@ -5,6 +5,7 @@ import { CollectionType, PAGINATOR } from 'permaweb-orderbook';
 import { Loader } from 'components/atoms/Loader';
 import { CollectionsTable } from 'global/CollectionsTable';
 import { REDUX_TABLES } from 'helpers/redux';
+import { collectionsRank } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 export default function Collections() {
@@ -15,8 +16,13 @@ export default function Collections() {
 	React.useEffect(() => {
 		if (orProvider.orderBook) {
 			(async function () {
-				const collectionsFetch = await orProvider.orderBook.api.getCollections();
-				setCollections(collectionsFetch);
+				let collectionsFetch = await orProvider.orderBook.api.getCollections();
+				let collections = await collectionsRank(
+					collectionsFetch,
+					orProvider.orderBook.env.arClient.warpDefault,
+					orProvider.orderBook.env.arClient.arweavePost
+				);
+				setCollections(collections);
 			})();
 		}
 	}, [orProvider.orderBook]);
