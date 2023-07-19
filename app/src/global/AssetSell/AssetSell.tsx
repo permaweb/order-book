@@ -22,9 +22,7 @@ export default function AssetSell(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
-	const [totalPrice, setTotalPrice] = React.useState<number>(0);
 	const [unitPrice, setUnitPrice] = React.useState<number>(0);
-
 	const [quantity, setQuantity] = React.useState<number>(0);
 
 	const [initialLoad, setInitialLoad] = React.useState<boolean>(true);
@@ -207,10 +205,8 @@ export default function AssetSell(props: IProps) {
 					qty: quantity,
 					price: unitPrice * 1e6,
 					wallet: signer,
-					// wallet: 'use_wallet',
 					walletAddress: arProvider.walletAddress,
 				});
-				console.log(quantity);
 				setLoading(false);
 				setShowConfirmation(false);
 				setSellResponse({
@@ -247,10 +243,8 @@ export default function AssetSell(props: IProps) {
 	function handleUnitPriceInput(e: React.ChangeEvent<HTMLInputElement>) {
 		if (e.target.value === '') {
 			setUnitPrice(NaN);
-			setTotalPrice(NaN);
 		} else {
 			if (!isNaN(Number(e.target.value))) setUnitPrice(parseFloat(e.target.value));
-			if (!isNaN(Number(e.target.value))) setTotalPrice(parseFloat(e.target.value) * quantity);
 		}
 	}
 

@@ -17,6 +17,7 @@ export const language = {
 	cancel: `Cancel`,
 	cancelOrder: `Cancel Order`,
 	cancelOrderConfirmation: `Confirm Order Cancellation`,
+	cancelOrderConfirmationInfo: `This will remove the active listing that you have created on this asset. Users will no longer see this order in the active orders list.`,
 	cannotCancelOrder: `Unable to cancel this order`,
 	close: `Close`,
 	collections: `Collections`,

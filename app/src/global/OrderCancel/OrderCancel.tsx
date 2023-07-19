@@ -21,6 +21,7 @@ export default function OrderCancel(props: IProps) {
 	const [showModal, setShowModal] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [cancelResponse, setCancelResponse] = React.useState<ResponseType | null>(null);
+	const [cancelConfirmed, setCancelConfirmed] = React.useState<boolean>(false);
 
 	function getOwnerOrder() {
 		if (!arProvider.walletAddress) return false;
@@ -61,6 +62,7 @@ export default function OrderCancel(props: IProps) {
 						status: true,
 						message: language.orderCancelled,
 					});
+					setCancelConfirmed(true);
 				} catch (e: any) {
 					console.error(e);
 				}
@@ -76,22 +78,30 @@ export default function OrderCancel(props: IProps) {
 		}
 	}
 
+	function handleClose() {
+		if (cancelConfirmed) props.updateAsset();
+		setShowModal(false);
+	}
+
 	return (
 		<>
 			<S.Wrapper>
 				<button onClick={() => setShowModal(true)}>{`(${language.cancelOrder})`}</button>
 			</S.Wrapper>
 			{showModal && (
-				<Modal header={language.cancelOrder} handleClose={() => setShowModal(false)}>
-					<h2>{language.cancelOrderConfirmation}</h2>
+				<Modal header={language.cancelOrder} handleClose={handleClose}>
+					<S.ModalHeader>
+						<h2>{language.cancelOrderConfirmation}</h2>
+						<p>{language.cancelOrderConfirmationInfo}</p>
+					</S.ModalHeader>
 					<S.FlexActions>
+						<Button type={'primary'} label={language.close} handlePress={handleClose} disabled={loading} />
 						<Button
-							type={'primary'}
-							label={language.close}
-							handlePress={() => setShowModal(false)}
-							disabled={loading}
+							type={'alt1'}
+							label={language.confirm}
+							handlePress={cancelOrder}
+							disabled={loading || cancelConfirmed}
 						/>
-						<Button type={'alt1'} label={language.confirm} handlePress={cancelOrder} disabled={loading} />
 					</S.FlexActions>
 					{(cancelResponse || loading) && (
 						<S.Message loading={loading ? 'true' : 'false'}>

@@ -25,7 +25,7 @@ import { AssetDetailAction } from './AssetDetailAction';
 import * as S from './styles';
 import { IProps } from './types';
 
-function OwnerInfo({ owner, asset, isSaleOrder }) {
+function OwnerInfo({ owner, asset, isSaleOrder, updateAsset }) {
 	const arProvider = useArweaveProvider();
 
 	const [hasError, setHasError] = React.useState(false);
@@ -65,7 +65,7 @@ function OwnerInfo({ owner, asset, isSaleOrder }) {
 				{getOwnerOrder() && (
 					<>
 						&nbsp;
-						<OrderCancel asset={asset} />
+						<OrderCancel asset={asset} updateAsset={updateAsset} />
 					</>
 				)}
 			</S.DCLineHeader>
@@ -317,7 +317,7 @@ export default function AssetDetail(props: IProps) {
 											{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														<OwnerInfo owner={owner} asset={asset} isSaleOrder={true} />
+														<OwnerInfo owner={owner} asset={asset} isSaleOrder={true} updateAsset={updateAsset} />
 														<S.DCLineFlex>
 															<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 															<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -344,7 +344,7 @@ export default function AssetDetail(props: IProps) {
 											{currentOwners.map((owner: OwnerType, index: number) => {
 												return (
 													<S.DCLine key={index}>
-														<OwnerInfo owner={owner} asset={asset} isSaleOrder={false} />
+														<OwnerInfo owner={owner} asset={asset} isSaleOrder={false} updateAsset={updateAsset} />
 														<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 													</S.DCLine>
 												);
@@ -365,7 +365,7 @@ export default function AssetDetail(props: IProps) {
 								{currentOwners.map((owner: OwnerType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											<OwnerInfo owner={owner} asset={asset} isSaleOrder={false} />
+											<OwnerInfo owner={owner} asset={asset} isSaleOrder={false} updateAsset={updateAsset} />
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>
 									);
@@ -386,7 +386,7 @@ export default function AssetDetail(props: IProps) {
 								{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											<OwnerInfo owner={owner} asset={asset} isSaleOrder={true} />
+											<OwnerInfo owner={owner} asset={asset} isSaleOrder={true} updateAsset={updateAsset} />
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>

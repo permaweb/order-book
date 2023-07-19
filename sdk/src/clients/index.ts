@@ -216,7 +216,7 @@ const client: OrderBookType = {
 
 		let cancelInput = {
 			function: 'cancelOrder',
-			orderId: args.orderId,
+			orderID: args.orderId,
 		};
 
 		let allowTx = await arClient.writeContract({

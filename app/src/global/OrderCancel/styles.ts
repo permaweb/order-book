@@ -9,10 +9,17 @@ export const Wrapper = styled.div`
 	}
 `;
 
+export const ModalHeader = styled.div`
+	p {
+		margin: 20px 0 40px 0;
+		line-height: 1.5;
+	}
+`;
+
 export const FlexActions = styled.div`
 	display: flex;
 	align-items: center;
-	margin: 60px 0 0 0;
+	margin: 20px 0 0 0;
 	button {
 		margin: 0 20px 0 0;
 	}

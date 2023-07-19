@@ -108,7 +108,6 @@ export default function AssetBuy(props: IProps) {
 					assetId: props.asset.data.id,
 					spend: calcTotalPrice(),
 					wallet: signer,
-					// wallet: 'use_wallet',
 					walletAddress: arProvider.walletAddress,
 				});
 
