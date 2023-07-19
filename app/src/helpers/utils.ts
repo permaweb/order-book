@@ -1,3 +1,5 @@
+import Stamps from '@permaweb/stampjs';
+import { CollectionType } from 'permaweb-orderbook';
 import { STORAGE } from './config';
 import { DateType } from './types';
 
@@ -85,4 +87,34 @@ export function formatDisplayString(input: string): string {
 		.split('-')
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
+}
+
+
+export async function collectionsRank(collectionsFetch: CollectionType[], warp: any, arweave:any) {
+	let stamps = Stamps.init({
+		warp: warp,
+		arweave: arweave,
+	});
+	const collectionIds: string[] = collectionsFetch.map((a: CollectionType) => a.id);
+	const counts = await stamps.counts(collectionIds);
+
+	// Add stamp counts to assets
+	let collections = collectionsFetch.map((collection: CollectionType) => {
+		return { ...collection, stamps: counts[collection.id] };
+	});
+
+	// Rank by stamps
+	collections.sort((a: CollectionType, b: CollectionType) => {
+		const totalA = counts[a.id]?.total || 0;
+		const totalB = counts[b.id]?.total || 0;
+
+		if (totalB !== totalA) {
+			return totalB - totalA;
+		}
+
+		// If 'total' is the same, sort by 'id' in descending order.
+		return b.id.localeCompare(a.id);
+	});
+
+	return collections;
 }
