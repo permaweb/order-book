@@ -9,6 +9,7 @@ const Account = getLazyImport('Account');
 const Asset = getLazyImport('Asset');
 const Landing = getLazyImport('Landing');
 const Collection = getLazyImport('Collection');
+const Collections = getLazyImport('Collections');
 const NotFound = getLazyImport('NotFound');
 
 export default function _Routes() {
@@ -44,6 +45,14 @@ export default function _Routes() {
 					element={
 						<View>
 							<Collection />
+						</View>
+					}
+				/>
+				<Route
+					path={urls.collections}
+					element={
+						<View>
+							<Collections />
 						</View>
 					}
 				/>

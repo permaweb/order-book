@@ -12,6 +12,7 @@ import bazarCartSVG from 'assets/bazar-cart.svg';
 import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
+import collectionsSVG from 'assets/collections.svg';
 import copySVG from 'assets/copy.svg';
 import defaultCollectionPNG from 'assets/default-collection.png';
 import detailsSVG from 'assets/details.svg';
@@ -52,6 +53,7 @@ export const ASSETS = {
 	buy: buySVG,
 	checkmark: checkmarkSVG,
 	close: closeSVG,
+	collections: collectionsSVG,
 	copy: copySVG,
 	defaultCollection: defaultCollectionPNG,
 	details: detailsSVG,
@@ -126,7 +128,6 @@ export const ACTION_TABS = [
 	},
 ];
 
-// TODO: DRE 5
 export const DRE_NODES: DREObjectType[] = [
 	// {
 	// 	label: 'DRE-1',
@@ -144,16 +145,16 @@ export const DRE_NODES: DREObjectType[] = [
 	// 	label: 'DRE-4',
 	// 	source: 'https://dre-4.warp.cc/contract',
 	// },
-	// {
-	// 	label: 'DRE-5',
-	// 	source: 'https://dre-5.warp.cc/contract',
-	// },
-	// {
-	// 	label: 'DRE-6',
-	// 	source: 'https://dre-6.warp.cc/contract',
-	// },
 	{
-		label: 'SW-2',
-		source: 'https://cache-2.permaweb.tools/contract',
+		label: 'DRE-5',
+		source: 'https://dre-5.warp.cc/contract',
 	},
+	{
+		label: 'DRE-6',
+		source: 'https://dre-6.warp.cc/contract',
+	},
+	// {
+	// 	label: 'SW-2',
+	// 	source: 'https://cache-2.permaweb.tools/contract',
+	// },
 ];

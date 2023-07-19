@@ -73,7 +73,7 @@ export const Indicator = styled.button<{ selected: boolean }>`
 
 export const NextAction = styled.div`
 	position: absolute;
-	top: -37.5px;
+	top: -50px;
 	right: 0;
 	height: fit-content;
 	width: fit-content;

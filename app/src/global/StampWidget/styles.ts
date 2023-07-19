@@ -4,7 +4,7 @@ import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.button`
 	height: 37.5px;
-	width: fit-content;
+	width: fit-content !important;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};

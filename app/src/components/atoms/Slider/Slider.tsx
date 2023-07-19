@@ -6,11 +6,10 @@ import { IProps } from './types';
 export default function Slider(props: IProps) {
 	const rangeRef = useRef<HTMLInputElement>(null);
 
-	// TODO: working for firefox but throwing a warnign in firefox and chrome
 	useEffect(() => {
 		const rangeElement = rangeRef.current;
 
-		const handleWheel = (e) => {
+		const handleWheel = (e: any) => {
 			e.preventDefault();
 		};
 

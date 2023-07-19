@@ -52,7 +52,7 @@ export default function Settings() {
 					handlePress={() => setDropdownOpen(!dropdownOpen)}
 					dimensions={{
 						wrapper: 45,
-						icon: 20,
+						icon: 24,
 					}}
 				/>
 				{dropdownOpen && (

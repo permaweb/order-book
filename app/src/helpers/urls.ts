@@ -3,3 +3,4 @@ export const account = `${base}account/`;
 export const notFound = `${base}not-found/`;
 export const asset = `${base}asset/`;
 export const collection = `${base}collection/`;
+export const collections = `${base}collections/`;

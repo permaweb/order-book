@@ -10,21 +10,24 @@ import {
 	getTagValue,
 	getTxEndpoint,
 	STORAGE,
+	TAGS,
 } from '../helpers';
 
 import { getProfile } from './profile';
 
 async function buildCollection(node: any, items: string[] | null, arClient: ArweaveClientType) {
 	let banner =
-		getTagValue(node.tags, 'Banner') !== STORAGE.none ? getTagValue(node.tags, 'Banner') : DEFAULT_COLLECTION_BANNER;
+		getTagValue(node.tags, TAGS.keys.banner) !== STORAGE.none
+			? getTagValue(node.tags, TAGS.keys.banner)
+			: DEFAULT_COLLECTION_BANNER;
 	let thumbnail =
-		getTagValue(node.tags, 'Thumbnail') !== STORAGE.none
-			? getTagValue(node.tags, 'Thumbnail')
+		getTagValue(node.tags, TAGS.keys.thumbnail) !== STORAGE.none
+			? getTagValue(node.tags, TAGS.keys.thumbnail)
 			: DEFAULT_COLLECTION_THUMB;
-	let name = getTagValue(node.tags, 'Name');
-	let title = getTagValue(node.tags, 'Title');
-	let description = getTagValue(node.tags, 'Description');
-	let type = getTagValue(node.tags, 'Type');
+	let name = getTagValue(node.tags, TAGS.keys.name);
+	let title = getTagValue(node.tags, TAGS.keys.ans110.title);
+	let description = getTagValue(node.tags, TAGS.keys.ans110.description);
+	let type = getTagValue(node.tags, TAGS.keys.ans110.type);
 
 	let profile = await getProfile({
 		walletAddress: node.owner.address,
@@ -58,8 +61,8 @@ export async function getCollections(args: { arClient: ArweaveClientType }): Pro
 		ids: null,
 		tagFilters: [
 			{
-				name: 'Data-Protocol',
-				values: ['Collection'],
+				name: TAGS.keys.dataProtocol,
+				values: [TAGS.values.collection],
 			},
 		],
 		uploader: null,
@@ -71,12 +74,11 @@ export async function getCollections(args: { arClient: ArweaveClientType }): Pro
 	let collections: CollectionType[] = [];
 	for (let i = 0; i < gqlData.data.length; i++) {
 		let node = gqlData.data[i].node;
-		let name = getTagValue(node.tags, 'Name');
-		let title = getTagValue(node.tags, 'Title');
-		let description = getTagValue(node.tags, 'Description');
-		let type = getTagValue(node.tags, 'Type');
+		let name = getTagValue(node.tags, TAGS.keys.name);
+		let title = getTagValue(node.tags, TAGS.keys.ans110.title);
+		let description = getTagValue(node.tags, TAGS.keys.ans110.description);
+		let type = getTagValue(node.tags, TAGS.keys.ans110.type);
 
-		// dont return non compliant collections
 		if ([name, title, description, type].includes(STORAGE.none)) continue;
 
 		collections.push(await buildCollection(node, null, args.arClient));

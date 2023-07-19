@@ -1,7 +1,7 @@
 {
 	"name": "permaweb-orderbook",
-	"version": "1.2.4",
-	"description": "Orderbook sdk",
+	"version": "1.2.5",
+	"description": "Orderbook SDK",
 	"author": "VinceJuliano",
 	"license": "ISC",
 	"scripts": {

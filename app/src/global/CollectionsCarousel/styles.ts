@@ -11,3 +11,15 @@ export const CardLoader = styled.div`
 	border-radius: ${STYLING.dimensions.borderRadius};
 	overflow: hidden;
 `;
+
+export const CarouselWrapper = styled.div``;
+
+export const CollectionsRedirect = styled.div`
+	button {
+		margin: 40px auto 0 auto;
+		@media (max-width: ${STYLING.cutoffs.secondary}) {
+			min-width: 0;
+			width: 100%;
+		}
+	}
+`;

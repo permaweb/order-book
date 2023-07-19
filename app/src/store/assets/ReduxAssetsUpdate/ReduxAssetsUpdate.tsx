@@ -125,6 +125,13 @@ export default function ReduxAssetsUpdate(props: {
 
 						let groupIndex = new Map(currentReducer[props.reduxCursor].map((group: any) => [group.index, group.ids]));
 
+						if (contractIds.length <= 0) {
+							updatedReducer.push({
+								index: `${props.reduxCursor}-${props.cursorObject}-0`,
+								ids: [],
+							});
+						}
+
 						for (let i = 0; i < contractIds.length; i += PAGINATOR) {
 							const cursorIds = [...contractIds].slice(i, i + PAGINATOR);
 							const newIndex = `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`;
@@ -140,6 +147,7 @@ export default function ReduxAssetsUpdate(props: {
 								});
 							}
 						}
+
 						dispatch(cursorActions.setCursors({ [props.cursorObject]: { [props.reduxCursor]: updatedReducer } }));
 					}
 				}

@@ -13,7 +13,6 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: invalid order id
 export default function OrderCancel(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
