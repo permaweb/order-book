@@ -15,7 +15,7 @@ import {
 
 import { getProfile } from './profile';
 
-async function buildCollection(node: any, items: string[] | null, arClient: ArweaveClientType) {
+async function buildCollection(node: any, items: string[] | null, arClient: ArweaveClientType, withProfile: boolean) {
 	let banner =
 		getTagValue(node.tags, TAGS.keys.banner) !== STORAGE.none
 			? getTagValue(node.tags, TAGS.keys.banner)
@@ -29,10 +29,10 @@ async function buildCollection(node: any, items: string[] | null, arClient: Arwe
 	let description = getTagValue(node.tags, TAGS.keys.ans110.description);
 	let type = getTagValue(node.tags, TAGS.keys.ans110.type);
 
-	let profile = await getProfile({
+	let profile = withProfile ? await getProfile({
 		walletAddress: node.owner.address,
 		arClient: arClient,
-	});
+	}) : null;
 
 	let collection = {
 		id: node.id,
@@ -81,7 +81,7 @@ export async function getCollections(args: { arClient: ArweaveClientType }): Pro
 
 		if ([name, title, description, type].includes(STORAGE.none)) continue;
 
-		collections.push(await buildCollection(node, null, args.arClient));
+		collections.push(await buildCollection(node, null, args.arClient, false));
 	}
 	return collections;
 }
@@ -104,7 +104,7 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 
 		let node = collectionGql.data[0].node;
 
-		return await buildCollection(node, collection.items, args.arClient);
+		return await buildCollection(node, collection.items, args.arClient, true);
 	} catch (error: any) {
 		console.error(error);
 	}

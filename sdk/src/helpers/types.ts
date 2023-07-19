@@ -269,7 +269,7 @@ export type CollectionType = {
 	type: string;
 	author: {
 		address: string;
-		handle: string | null;
+		handle?: string | null;
 	};
 };
 
