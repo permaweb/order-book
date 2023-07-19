@@ -109,7 +109,7 @@ export const STORAGE = {
 export const REDIRECTS = {
 	arProfile: `https://arprofile.arweave.dev/`,
 	udl: `https://udlicense.arweave.dev`,
-	viewblock: (tx: string) => `https://viewblock.io/arweave/tx/${tx}`
+	viewblock: (tx: string) => `https://viewblock.io/arweave/tx/${tx}`,
 };
 
 export const TAB_OPTIONS = {

@@ -42,7 +42,7 @@ export default function AssetLicenses(props: IProps) {
 								})}
 							</>
 						)}
-						{(props.asset.data.license && (props.asset.data.license.toLowerCase() !== UDL_LICENSE_VALUE.toLowerCase())) && (
+						{props.asset.data.license && props.asset.data.license.toLowerCase() !== UDL_LICENSE_VALUE.toLowerCase() && (
 							<S.DCLine>
 								<S.DCLineHeader>
 									<p>{language.license}</p>

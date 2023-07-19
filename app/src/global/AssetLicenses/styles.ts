@@ -22,9 +22,9 @@ export const DrawerContent = styled.div<{ transparent?: boolean }>`
 `;
 
 export const HeaderFlex = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	flex-wrap: wrap;
 	gap: 10px;
 	a {
@@ -40,20 +40,20 @@ export const HeaderFlex = styled.div`
 `;
 
 export const Logo = styled.div`
-    height: 80px;
-    width: 200px;
-    max-width: 75%;
-    background: ${(props) => props.theme.colors.container.alt1.background};
-    border: 1px solid ${(props) => props.theme.colors.border.alt1};
-    border-radius: ${STYLING.dimensions.borderRadiusField};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0 10px 0;
-    svg {
-        height: 75px;
-        width: 150px;
-    }
+	height: 80px;
+	width: 200px;
+	max-width: 75%;
+	background: ${(props) => props.theme.colors.container.alt1.background};
+	border: 1px solid ${(props) => props.theme.colors.border.alt1};
+	border-radius: ${STYLING.dimensions.borderRadiusField};
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 0 10px 0;
+	svg {
+		height: 75px;
+		width: 150px;
+	}
 `;
 
 export const DCLine = styled.div`
