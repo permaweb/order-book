@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-(cd app && npm run format) && (cd sdk && npm run format)
 (cd app && npm run check-packages) && (cd sdk && npm run check-packages)
+(cd app && npm run format) && (cd sdk && npm run format)
 git add -u
