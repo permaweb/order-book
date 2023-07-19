@@ -4,7 +4,7 @@ export const CURRENCY_DICT = {
 	U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw',
 };
 
-export const PAGINATOR = 100;
+export const PAGINATOR = 10;
 
 export const STORAGE = {
 	none: 'N/A',

@@ -32,6 +32,7 @@ export const language = {
 	copied: `Copied`,
 	copyAddress: `Copy Address`,
 	createProfile: `Create Profile`,
+	createdBy: `Created by`,
 	currencyBalanceWarning: `Not enough balance to purchase this asset`,
 	currentOwners: `Current Owners`,
 	currentAssetOwners: `Current Asset Owners`,

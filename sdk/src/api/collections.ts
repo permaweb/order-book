@@ -29,10 +29,12 @@ async function buildCollection(node: any, items: string[] | null, arClient: Arwe
 	let description = getTagValue(node.tags, TAGS.keys.ans110.description);
 	let type = getTagValue(node.tags, TAGS.keys.ans110.type);
 
-	let profile = withProfile ? await getProfile({
-		walletAddress: node.owner.address,
-		arClient: arClient,
-	}) : null;
+	let profile = withProfile
+		? await getProfile({
+				walletAddress: node.owner.address,
+				arClient: arClient,
+		  })
+		: null;
 
 	let collection = {
 		id: node.id,
