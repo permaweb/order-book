@@ -38,13 +38,14 @@ export const TAGS = {
 		renderWith: 'Render-With',
 		thumbnail: 'Thumbnail',
 		udl: {
-			license: 'License',
 			access: 'Access',
 			accessFee: 'Access-Fee',
-			derivation: 'Derivation',
-			derivationFee: 'Derivation-Fee',
 			commercial: 'Commercial',
 			commercialFee: 'Commercial-Fee',
+			currency: 'Currency',
+			derivation: 'Derivation',
+			derivationFee: 'Derivation-Fee',
+			license: 'License',
 			paymentMode: 'Payment-Mode',
 		},
 	},
@@ -63,3 +64,8 @@ export const DEFAULT_COLLECTION_THUMB =
 	'https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA';
 
 export const UDL_LICENSE_VALUE = 'udlicense';
+
+export const UDL_ICONS = {
+	ar: 'AR',
+	u: 'U',
+};

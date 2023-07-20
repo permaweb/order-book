@@ -145,16 +145,21 @@ export const DRE_NODES: DREObjectType[] = [
 	// 	label: 'DRE-4',
 	// 	source: 'https://dre-4.warp.cc/contract',
 	// },
-	// {
-	// 	label: 'DRE-5',
-	// 	source: 'https://dre-5.warp.cc/contract',
-	// },
-	// {
-	// 	label: 'DRE-6',
-	// 	source: 'https://dre-6.warp.cc/contract',
-	// },
 	{
-		label: 'SW-2',
-		source: 'https://cache-2.permaweb.tools/contract',
+		label: 'DRE-5',
+		source: 'https://dre-5.warp.cc/contract',
 	},
+	{
+		label: 'DRE-6',
+		source: 'https://dre-6.warp.cc/contract',
+	},
+	// {
+	// 	label: 'SW-2',
+	// 	source: 'https://cache-2.permaweb.tools/contract',
+	// },
 ];
+
+export const UDL_ICONS_MAP = {
+	AR: ASSETS.arLogo,
+	U: ASSETS.u,
+};

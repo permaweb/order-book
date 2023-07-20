@@ -21,11 +21,6 @@
   },
   "homepage": "https://github.com/permaweb/order-book#readme",
   "devDependencies": {
-    "husky": "^8.0.0",
-    "warp-contracts": "1.4.10",
-    "warp-contracts-plugin-deploy": "1.0.8"
-  },
-  "dependencies": {
-    "permaweb-orderbook": "^1.2.2"
+    "husky": "^8.0.0"
   }
 }

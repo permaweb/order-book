@@ -31,7 +31,7 @@ export default function CollectionCard(props: IProps) {
 				<S.CollectionCard key={props.collection.id}>
 					<S.InfoWrapper>
 						<h2>{props.collection.title}</h2>
-						{props.collection.author.handle && <p>{`${language.createdBy}: ${props.collection.author.handle}`}</p>}
+						{props.collection.author.handle && <p>{`${language.createdBy} ${props.collection.author.handle}`}</p>}
 						{!props.hideRedirect && (
 							<S.ButtonWrapper>
 								<Button
