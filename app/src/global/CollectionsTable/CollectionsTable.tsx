@@ -11,7 +11,6 @@ import * as urls from 'helpers/urls';
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: stamp counts
 function CollectionRow(props: { collection: CollectionType; index: number }) {
 	const redirect = `${urls.collection}${props.collection.id}`;
 
@@ -34,7 +33,11 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 				</S.AFlex>
 				<S.SFlex>
 					<S.SCValue>
-						<StampWidget assetId={props.collection.name} title={props.collection.name} stamps={null} />
+						<StampWidget
+							assetId={props.collection.name}
+							title={props.collection.name}
+							stamps={props.collection.stamps ? props.collection.stamps : null}
+						/>
 					</S.SCValue>
 				</S.SFlex>
 			</S.PCWrapper>

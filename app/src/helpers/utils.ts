@@ -91,7 +91,7 @@ export function formatDisplayString(input: string): string {
 		.join(' ');
 }
 
-export async function collectionsRank(collectionsFetch: CollectionType[], warp: any, arweave: any) {
+export async function rankCollections(collectionsFetch: CollectionType[], warp: any, arweave: any) {
 	let stamps = Stamps.init({
 		warp: warp,
 		arweave: arweave,

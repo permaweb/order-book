@@ -44,7 +44,7 @@ export default function Collection() {
 		<>
 			<div className={'background-wrapper'}>
 				<div className={'view-wrapper max-cutoff'}>
-					<CollectionCard collection={collection} hideRedirect />
+					<CollectionCard collection={collection} hideRedirect getStampCount />
 				</div>
 				<AssetsTable
 					collectionId={id}

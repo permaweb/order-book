@@ -47,7 +47,12 @@ export default function CollectionCard(props: IProps) {
 							</S.ButtonWrapper>
 						)}
 						<S.StampWidget>
-							<StampWidget assetId={props.collection.id} title={props.collection.title} stamps={null}></StampWidget>
+							<StampWidget
+								assetId={props.collection.id}
+								title={props.collection.title}
+								stamps={props.collection.stamps ? props.collection.stamps : null}
+								getCount={props.getStampCount ? props.getStampCount : false}
+							></StampWidget>
 						</S.StampWidget>
 					</S.InfoWrapper>
 					{!props.hideRedirect && (

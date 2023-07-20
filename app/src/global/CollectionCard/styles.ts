@@ -68,6 +68,7 @@ export const ImageWrapper = styled.div<{ backgroundImage: string }>`
 		height: 450px;
 		width: 100%;
 		border-left: none;
+		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
 `;
 

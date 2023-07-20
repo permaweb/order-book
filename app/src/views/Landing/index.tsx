@@ -9,7 +9,7 @@ import { CollectionsCarousel } from 'global/CollectionsCarousel';
 import { FEATURE_COUNT } from 'helpers/config';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
-import { collectionsRank } from 'helpers/utils';
+import { rankCollections } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 
@@ -25,8 +25,8 @@ export default function Landing() {
 	React.useEffect(() => {
 		if (orProvider.orderBook) {
 			(async function () {
-				let collectionsFetch = await orProvider.orderBook.api.getCollections();
-				let collections = await collectionsRank(
+				let collectionsFetch = await orProvider.orderBook.api.getCollections({ cursor: null });
+				let collections = await rankCollections(
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost
