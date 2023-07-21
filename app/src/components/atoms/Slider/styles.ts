@@ -84,7 +84,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		-webkit-appearance: none;
 		appearance: none;
 		height: 26.5px;
-		width: 8.5px;
+		width: 9.5px;
 		background: ${(props) =>
 			props.disabled
 				? props.theme.colors.button.primary.disabled.background
@@ -99,7 +99,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		-webkit-appearance: none;
 		appearance: none;
 		height: 26.5px;
-		width: 8.5px;
+		width: 9.5px;
 		background: ${(props) =>
 			props.disabled
 				? props.theme.colors.button.primary.disabled.background
@@ -107,14 +107,14 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: 2.5px;
 		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-		margin-top: -6.5px;
+		margin-top: -7.5px;
 	}
 
 	&.custom-range::-moz-range-thumb {
 		-webkit-appearance: none;
 		appearance: none;
-		height: 26.5px;
-		width: 8.5px;
+		height: 25.5px;
+		width: 7.5px;
 		background: ${(props) =>
 			props.disabled
 				? props.theme.colors.button.primary.disabled.background
@@ -122,7 +122,7 @@ export const RangeBar = styled.input.attrs({ type: 'range' })<{ value: any; max:
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: 2.5px;
 		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-		margin-top: -6.5px;
+		margin-top: -4.5px;
 	}
 
 	&::-webkit-slider-runnable-track:before {

@@ -5,7 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 
 import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
 
-import { FEATURE_COUNT } from 'helpers/config';
+import { CURRENCIES, FEATURE_COUNT } from 'helpers/config';
 import { ApiFetchType } from 'helpers/types';
 import { rankData } from 'helpers/utils';
 import { RootState } from 'store';
@@ -22,8 +22,10 @@ export default function ReduxAssetsUpdate(props: {
 	children: React.ReactNode;
 	address?: string;
 	collectionId?: string;
+	getFeaturedData: boolean;
 }) {
 	const dispatch = useDispatch();
+
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
@@ -61,7 +63,7 @@ export default function ReduxAssetsUpdate(props: {
 
 		setOrderBook(
 			OrderBook.init({
-				currency: 'U',
+				currency: CURRENCIES.default,
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,
@@ -159,12 +161,23 @@ export default function ReduxAssetsUpdate(props: {
 
 						switch (props.apiFetch) {
 							case 'contract':
-								const finalFeaturedAssets: AssetType[] = rankedAssets.slice(0, FEATURE_COUNT);
-								let finalTableAssets: AssetType[] = [];
-								if (rankedAssets.length >= FEATURE_COUNT) {
-									finalTableAssets = rankedAssets.slice(FEATURE_COUNT);
+								let assetReducer = {};
+
+								let finalFeaturedAssets: AssetType[];
+								if (props.getFeaturedData) {
+									finalFeaturedAssets = rankedAssets.slice(0, FEATURE_COUNT);
+									assetReducer['featuredData'] = finalFeaturedAssets;
 								}
-								dispatch(assetActions.setAssets({ contractData: finalTableAssets, featuredData: finalFeaturedAssets }));
+
+								let finalTableAssets: AssetType[] = [];
+								if (rankedAssets.length >= FEATURE_COUNT && props.getFeaturedData) {
+									finalTableAssets = rankedAssets.slice(FEATURE_COUNT);
+								} else {
+									finalTableAssets = rankedAssets;
+								}
+								assetReducer['contractData'] = finalTableAssets;
+
+								dispatch(assetActions.setAssets(assetReducer));
 								break;
 							case 'user':
 								dispatch(assetActions.setAssets({ accountData: rankedAssets }));

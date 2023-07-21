@@ -56,20 +56,18 @@ export default function Landing() {
 	}, [assetsReducer.contractData]);
 
 	return (
-		<>
-			<div className={'background-wrapper'}>
-				<div className={'view-wrapper max-cutoff'}>
-					<CollectionsCarousel collections={collections} />
-				</div>
-				<div className={'view-wrapper max-cutoff'}>
-					<AssetsGrid
-						title={language.assets}
-						assets={featuredAssets}
-						autoLoad={true}
-						loaderCount={FEATURE_COUNT}
-						loading={loading}
-					/>
-				</div>
+		<div className={'background-wrapper'}>
+			<div className={'view-wrapper max-cutoff'}>
+				<CollectionsCarousel collections={collections} />
+			</div>
+			<div className={'view-wrapper max-cutoff'}>
+				<AssetsGrid
+					title={language.assets}
+					assets={featuredAssets}
+					autoLoad={true}
+					loaderCount={FEATURE_COUNT}
+					loading={false}
+				/>
 			</div>
 			<AssetsTable
 				assets={tableAssets}
@@ -80,7 +78,8 @@ export default function Landing() {
 				tableType={'list'}
 				showNoResults={true}
 				loading={loading}
+				getFeaturedData={!featuredAssets}
 			/>
-		</>
+		</div>
 	);
 }

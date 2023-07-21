@@ -96,6 +96,10 @@ export const CURRENCY_ICONS = {
 	[CURRENCY_DICT.U]: ASSETS.u,
 };
 
+export const CURRENCIES = {
+	default: 'U' as 'U',
+};
+
 export const AR_WALLETS = [{ name: 'arconnect', logo: ASSETS.wallets.arconnect }];
 
 export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH', 'SIGNATURE'];

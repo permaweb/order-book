@@ -5,6 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 
 import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
+import { CURRENCIES } from 'helpers/config';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { RootState } from 'store';
 
@@ -67,7 +68,7 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 
 		setOrderBook(
 			OrderBook.init({
-				currency: 'U',
+				currency: CURRENCIES.default,
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,

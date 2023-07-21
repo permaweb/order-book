@@ -14,4 +14,5 @@ export interface IProps {
 	loading: boolean;
 	address?: string;
 	collectionId?: string;
+	getFeaturedData: boolean;
 }

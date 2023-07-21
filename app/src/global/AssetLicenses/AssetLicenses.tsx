@@ -13,7 +13,8 @@ import * as S from './styles';
 import { IProps } from './types';
 
 export default function AssetLicenses(props: IProps) {
-	return props.asset && (props.asset.data.udl || props.asset.data.license) ? (
+	return props.asset &&
+		(props.asset.data.udl || (props.asset.data.license && props.asset.data.license !== STORAGE.none)) ? (
 		<S.Wrapper>
 			<Drawer
 				title={language.assetRights}
@@ -56,14 +57,16 @@ export default function AssetLicenses(props: IProps) {
 								})}
 							</>
 						)}
-						{props.asset.data.license && props.asset.data.license.toLowerCase() !== UDL_LICENSE_VALUE.toLowerCase() && (
-							<S.DCLine>
-								<S.DCLineHeader>
-									<p>{language.license}</p>
-								</S.DCLineHeader>
-								<TxAddress address={props.asset.data.license} wrap={false} view viewIcon={ASSETS.details} />
-							</S.DCLine>
-						)}
+						{props.asset.data.license &&
+							props.asset.data.license !== STORAGE.none &&
+							props.asset.data.license.toLowerCase() !== UDL_LICENSE_VALUE.toLowerCase() && (
+								<S.DCLine>
+									<S.DCLineHeader>
+										<p>{language.license}</p>
+									</S.DCLineHeader>
+									<TxAddress address={props.asset.data.license} wrap={false} view viewIcon={ASSETS.details} />
+								</S.DCLine>
+							)}
 					</S.DrawerContent>
 				}
 			/>

@@ -35,7 +35,7 @@ export const HSection1 = styled.div`
 	a {
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.light};
-		color: ${(props) => props.theme.colors.font.primary.alt6};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;

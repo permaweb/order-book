@@ -121,6 +121,7 @@ export default function AssetsTable(props: IProps) {
 			cursorObject={CursorEnum.idGQL}
 			currentTableCursor={currentTableCursor}
 			collectionId={props.collectionId}
+			getFeaturedData={props.getFeaturedData}
 		>
 			<div className={'view-wrapper max-cutoff'}>
 				<S.Wrapper>
