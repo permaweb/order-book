@@ -66,6 +66,7 @@ export default function Collection() {
 					tableType={'grid'}
 					showNoResults={true}
 					loading={loading}
+					getFeaturedData={false}
 				/>
 			</div>
 		</>

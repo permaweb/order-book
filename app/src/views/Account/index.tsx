@@ -50,6 +50,7 @@ export default function Account() {
 				tableType={'grid'}
 				showNoResults={true}
 				loading={loading}
+				getFeaturedData={false}
 			/>
 		</>
 	);
