@@ -9,7 +9,6 @@ import { dreReducer } from './dre/reducers';
 
 declare const window: any;
 
-// TODO: collections reducer
 const persistConfig = {
 	key: 'root',
 	storage,

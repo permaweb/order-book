@@ -51,6 +51,7 @@ export default function CollectionCard(props: IProps) {
 								assetId={props.collection.id}
 								title={props.collection.title}
 								stamps={props.collection.stamps ? props.collection.stamps : null}
+								hasStampedMessage={language.collectionStamped}
 								getCount={props.getStampCount ? props.getStampCount : false}
 							></StampWidget>
 						</S.StampWidget>

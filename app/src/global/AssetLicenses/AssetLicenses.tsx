@@ -27,7 +27,6 @@ export default function AssetLicenses(props: IProps) {
 										<ReactSVG src={ASSETS.udl} />
 									</S.Logo>
 									<S.HeaderLink>
-										<p>{language.infoOn}</p>
 										<Link target={'_blank'} to={REDIRECTS.udl}>
 											License Information
 										</Link>

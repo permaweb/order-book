@@ -122,21 +122,7 @@ export default function AssetsGrid(props: IProps) {
 	}, [props.assets]);
 
 	function getData() {
-		if (assets && !props.loading) {
-			if (assets.length > 0) {
-				return assets.map((asset: AssetType, index: number) => {
-					return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;
-				});
-			} else {
-				return (
-					<div className={'view-wrapper max-cutoff'}>
-						<S.NoAssetsContainer>
-							<p>{language.noAssets}</p>
-						</S.NoAssetsContainer>
-					</div>
-				);
-			}
-		} else {
+		if (!assets || props.loading) {
 			const keys = Array.from({ length: props.loaderCount }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
@@ -149,6 +135,24 @@ export default function AssetsGrid(props: IProps) {
 				</S.PICWrapper>
 			));
 			return <>{elements}</>;
+		} else {
+			if (assets) {
+				if (assets.length > 0) {
+					return assets.map((asset: AssetType, index: number) => {
+						return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;
+					});
+				} else {
+					return (
+						<div className={'view-wrapper max-cutoff'}>
+							<S.NoAssetsContainer>
+								<p>{language.noAssets}</p>
+							</S.NoAssetsContainer>
+						</div>
+					);
+				}
+			} else {
+				return null;
+			}
 		}
 	}
 

@@ -1,6 +1,7 @@
 import Stamps from '@permaweb/stampjs';
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
-import { CollectionType } from 'permaweb-orderbook';
+import { AssetType, CollectionType } from 'permaweb-orderbook';
 
 import { STORAGE } from './config';
 import { DateType } from './types';
@@ -91,31 +92,46 @@ export function formatDisplayString(input: string): string {
 		.join(' ');
 }
 
-export async function rankCollections(collectionsFetch: CollectionType[], warp: any, arweave: any) {
-	let stamps = Stamps.init({
+export async function rankData(
+	dataFetch: CollectionType[] | AssetType[] | string[],
+	warp: any,
+	arweave: any,
+	wallet: any
+) {
+	const stamps = Stamps.init({
 		warp: warp,
 		arweave: arweave,
+		wallet: new InjectedArweaveSigner(wallet),
 	});
-	const collectionIds: string[] = collectionsFetch.map((a: CollectionType) => a.id);
-	const counts = await stamps.counts(collectionIds);
 
-	// Add stamp counts to assets
-	let collections = collectionsFetch.map((collection: CollectionType) => {
-		return { ...collection, stamps: counts[collection.id] };
+	const dataIds: string[] = dataFetch.map((a: any) => getDataId(a));
+	const counts = await stamps.counts(dataIds);
+
+	// Add stamp counts to data
+	const updatedData = dataFetch.map((dataElement: any) => {
+		return typeof dataElement === 'string' ? dataElement : { ...dataElement, stamps: counts[getDataId(dataElement)] };
 	});
 
 	// Rank by stamps
-	collections.sort((a: CollectionType, b: CollectionType) => {
-		const totalA = counts[a.id]?.total || 0;
-		const totalB = counts[b.id]?.total || 0;
+	updatedData.sort((a: any, b: any) => {
+		const totalA = counts[getDataId(a)]?.total || 0;
+		const totalB = counts[getDataId(b)]?.total || 0;
 
 		if (totalB !== totalA) {
 			return totalB - totalA;
 		}
 
 		// If 'total' is the same, sort by 'id' in descending order.
-		return b.id.localeCompare(a.id);
+		return getDataId(b).localeCompare(getDataId(a));
 	});
 
-	return collections;
+	return updatedData;
+}
+
+function getDataId(dataElement: any) {
+	if (typeof dataElement === 'string') return dataElement;
+	else {
+		if (dataElement.data) return dataElement.data.id;
+		else return dataElement.id;
+	}
 }

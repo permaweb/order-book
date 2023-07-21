@@ -284,6 +284,7 @@ export type CollectionType = {
 		address: string;
 		handle?: string | null;
 	};
+	stamps?: { total: number; vouched: number };
 };
 
 export type CollectionAssetType = CollectionType & {

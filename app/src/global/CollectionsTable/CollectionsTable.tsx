@@ -37,6 +37,7 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 							assetId={props.collection.name}
 							title={props.collection.name}
 							stamps={props.collection.stamps ? props.collection.stamps : null}
+							hasStampedMessage={language.collectionStamped}
 						/>
 					</S.SCValue>
 				</S.SFlex>

@@ -60,57 +60,7 @@ export default function AssetsList(props: IProps) {
 	}, [props.assets]);
 
 	function getData() {
-		if (assets) {
-			if (assets.length > 0) {
-				return (
-					<>
-						<S.HeaderWrapper>
-							<S.HSection1>
-								<S.Rank>
-									<p>{language.rank}</p>
-								</S.Rank>
-								<S.AtomicAsset>
-									<p>{language.atomicAsset}</p>
-								</S.AtomicAsset>
-								<S.SHeaderFlex>
-									<S.Listing>
-										<p>{language.listing}</p>
-									</S.Listing>
-									<S.StampCount>
-										<p>{language.stampCount}</p>
-									</S.StampCount>
-								</S.SHeaderFlex>
-							</S.HSection1>
-							<S.HSection2>
-								<p>{language.rank}</p>
-								<S.AtomicAsset>
-									<p>{language.atomicAsset}</p>
-								</S.AtomicAsset>
-								<S.SHeaderFlex>
-									<S.Listing>
-										<p>{language.listing}</p>
-									</S.Listing>
-									<S.StampCount>
-										<p>{language.stampCount}</p>
-									</S.StampCount>
-								</S.SHeaderFlex>
-							</S.HSection2>
-						</S.HeaderWrapper>
-						<S.C1>
-							{assets.map((asset: AssetType, index: number) => {
-								return <AssetRow key={asset.data.id} asset={asset} index={index + 1} />;
-							})}
-						</S.C1>
-					</>
-				);
-			} else {
-				return (
-					<S.NoAssetsContainer>
-						<p>{language.noAssets}</p>
-					</S.NoAssetsContainer>
-				);
-			}
-		} else {
+		if (!assets || props.loading) {
 			const keys = Array.from({ length: 6 }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
@@ -120,6 +70,60 @@ export default function AssetsList(props: IProps) {
 				</S.PICWrapper>
 			));
 			return <S.C1>{elements}</S.C1>;
+		} else {
+			if (assets) {
+				if (assets.length > 0) {
+					return (
+						<>
+							<S.HeaderWrapper>
+								<S.HSection1>
+									<S.Rank>
+										<p>{language.rank}</p>
+									</S.Rank>
+									<S.AtomicAsset>
+										<p>{language.atomicAsset}</p>
+									</S.AtomicAsset>
+									<S.SHeaderFlex>
+										<S.Listing>
+											<p>{language.listing}</p>
+										</S.Listing>
+										<S.StampCount>
+											<p>{language.stampCount}</p>
+										</S.StampCount>
+									</S.SHeaderFlex>
+								</S.HSection1>
+								<S.HSection2>
+									<p>{language.rank}</p>
+									<S.AtomicAsset>
+										<p>{language.atomicAsset}</p>
+									</S.AtomicAsset>
+									<S.SHeaderFlex>
+										<S.Listing>
+											<p>{language.listing}</p>
+										</S.Listing>
+										<S.StampCount>
+											<p>{language.stampCount}</p>
+										</S.StampCount>
+									</S.SHeaderFlex>
+								</S.HSection2>
+							</S.HeaderWrapper>
+							<S.C1>
+								{assets.map((asset: AssetType, index: number) => {
+									return <AssetRow key={asset.data.id} asset={asset} index={index + 1} />;
+								})}
+							</S.C1>
+						</>
+					);
+				} else {
+					return (
+						<S.NoAssetsContainer>
+							<p>{language.noAssets}</p>
+						</S.NoAssetsContainer>
+					);
+				}
+			} else {
+				return null;
+			}
 		}
 	}
 

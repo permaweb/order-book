@@ -9,7 +9,7 @@ import { CollectionsCarousel } from 'global/CollectionsCarousel';
 import { FEATURE_COUNT } from 'helpers/config';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
-import { rankCollections } from 'helpers/utils';
+import { rankData } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 
@@ -26,10 +26,11 @@ export default function Landing() {
 		if (orProvider.orderBook) {
 			(async function () {
 				let collectionsFetch = await orProvider.orderBook.api.getCollections({ cursor: null });
-				let collections = await rankCollections(
+				let collections = await rankData(
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
-					orProvider.orderBook.env.arClient.arweavePost
+					orProvider.orderBook.env.arClient.arweavePost,
+					window.arweaveWallet
 				);
 				setCollections(collections);
 			})();
@@ -66,7 +67,7 @@ export default function Landing() {
 						assets={featuredAssets}
 						autoLoad={true}
 						loaderCount={FEATURE_COUNT}
-						loading={false}
+						loading={loading}
 					/>
 				</div>
 			</div>

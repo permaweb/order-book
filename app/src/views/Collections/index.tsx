@@ -5,7 +5,7 @@ import { CollectionType, PAGINATOR } from 'permaweb-orderbook';
 import { Loader } from 'components/atoms/Loader';
 import { CollectionsTable } from 'global/CollectionsTable';
 import { REDUX_TABLES } from 'helpers/redux';
-import { rankCollections } from 'helpers/utils';
+import { rankData } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 export default function Collections() {
@@ -27,10 +27,11 @@ export default function Collections() {
 				let collectionsFetch = await orProvider.orderBook.api.getCollections({
 					cursor: cursor,
 				});
-				let collections = await rankCollections(
+				let collections = await rankData(
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
-					orProvider.orderBook.env.arClient.arweavePost
+					orProvider.orderBook.env.arClient.arweavePost,
+					window.arweaveWallet
 				);
 				setCursorState(handleCursors(cursor, collectionsFetch.nextCursor, cursorState.list));
 				setCollections(collections);
