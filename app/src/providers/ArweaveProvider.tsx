@@ -7,7 +7,7 @@ import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 import { OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
-import { AR_WALLETS, WALLET_PERMISSIONS } from 'helpers/config';
+import { AR_WALLETS, CURRENCIES, WALLET_PERMISSIONS } from 'helpers/config';
 import { getArweaveBalanceEndpoint, getCurrencyBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { STYLING } from 'helpers/styling';
@@ -193,7 +193,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 
 		setOrderBook(
 			OrderBook.init({
-				currency: 'U',
+				currency: CURRENCIES.default,
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
 				warp: warp,

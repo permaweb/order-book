@@ -16,15 +16,22 @@ export type AssetType = {
 	stamps?: { total: number; vouched: number };
 };
 
+export type LicenseValueType = {
+	key: string;
+	value: string;
+	icon?: string;
+	endText?: string;
+};
+
 export type UDLType = {
-	license: { key: string; value: string };
-	access: { key: string; value: string };
-	accessFee: { key: string; value: string };
-	derivation: { key: string; value: string };
-	derivationFee: { key: string; value: string };
-	commercial: { key: string; value: string };
-	commercialFee: { key: string; value: string };
-	paymentMode: { key: string; value: string };
+	license: LicenseValueType;
+	access: LicenseValueType;
+	accessFee: LicenseValueType;
+	derivation: LicenseValueType;
+	derivationFee: LicenseValueType;
+	commercial: LicenseValueType;
+	commercialFee: LicenseValueType;
+	paymentMode: LicenseValueType;
 };
 
 export type AssetDetailType = AssetType & {
@@ -116,7 +123,7 @@ export type ApiClientType = {
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
-	getCollections: () => Promise<CollectionType[]>;
+	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
 	getCollection: (args: { collectionId: string }) => Promise<CollectionAssetType>;
 };
 
@@ -252,7 +259,7 @@ export type AssetsResponseType = {
 export type CollectionsResponseType = {
 	nextCursor: string | null;
 	previousCursor: string | null;
-	collections: CollectionsResponseType[];
+	collections: CollectionType[];
 };
 
 export type AGQLResponseType = { data: GQLResponseType[]; nextCursor: string | null };
@@ -277,6 +284,7 @@ export type CollectionType = {
 		address: string;
 		handle?: string | null;
 	};
+	stamps?: { total: number; vouched: number };
 };
 
 export type CollectionAssetType = CollectionType & {

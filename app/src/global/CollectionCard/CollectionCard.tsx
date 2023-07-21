@@ -31,7 +31,7 @@ export default function CollectionCard(props: IProps) {
 				<S.CollectionCard key={props.collection.id}>
 					<S.InfoWrapper>
 						<h2>{props.collection.title}</h2>
-						{props.collection.author.handle && <p>{`${language.createdBy}: ${props.collection.author.handle}`}</p>}
+						{props.collection.author.handle && <p>{`${language.createdBy} ${props.collection.author.handle}`}</p>}
 						{!props.hideRedirect && (
 							<S.ButtonWrapper>
 								<Button
@@ -47,7 +47,13 @@ export default function CollectionCard(props: IProps) {
 							</S.ButtonWrapper>
 						)}
 						<S.StampWidget>
-							<StampWidget assetId={props.collection.id} title={props.collection.title} stamps={null}></StampWidget>
+							<StampWidget
+								assetId={props.collection.id}
+								title={props.collection.title}
+								stamps={props.collection.stamps ? props.collection.stamps : null}
+								hasStampedMessage={language.collectionStamped}
+								getCount={props.getStampCount ? props.getStampCount : false}
+							></StampWidget>
 						</S.StampWidget>
 					</S.InfoWrapper>
 					{!props.hideRedirect && (

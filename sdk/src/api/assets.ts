@@ -13,6 +13,7 @@ import {
 	OrderBookPairType,
 	STORAGE,
 	TAGS,
+	UDL_ICONS,
 	UDL_LICENSE_VALUE,
 	UDLType,
 	UserBalancesType,
@@ -201,20 +202,42 @@ function getUDL(gqlData: GQLResponseType): UDLType | null {
 	const license = getTagValue(gqlData.node.tags, TAGS.keys.udl.license);
 	if (!license || license === STORAGE.none || !(license.toLowerCase() === UDL_LICENSE_VALUE.toLowerCase())) return null;
 
+	let currencyIcon: string;
+	let currencyEndText: string;
+	const currencyType = getTagValue(gqlData.node.tags, TAGS.keys.udl.currency);
+	if (!currencyType || currencyType === STORAGE.none) currencyIcon = UDL_ICONS.u;
+	else currencyEndText = currencyType;
+
+	let accessFee = { key: TAGS.keys.udl.accessFee, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.accessFee) };
+	let derivationFee = {
+		key: TAGS.keys.udl.derivationFee,
+		value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivationFee),
+	};
+	let commercialFee = {
+		key: TAGS.keys.udl.commercialFee,
+		value: getTagValue(gqlData.node.tags, TAGS.keys.udl.commercialFee),
+	};
+
+	if (currencyIcon) {
+		accessFee['icon'] = currencyIcon;
+		derivationFee['icon'] = currencyIcon;
+		commercialFee['icon'] = currencyIcon;
+	}
+
+	if (currencyEndText) {
+		accessFee['endText'] = currencyEndText;
+		derivationFee['endText'] = currencyEndText;
+		commercialFee['endText'] = currencyEndText;
+	}
+
 	return {
 		license: { key: TAGS.keys.udl.license, value: license },
 		access: { key: TAGS.keys.udl.access, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.access) },
-		accessFee: { key: TAGS.keys.udl.accessFee, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.accessFee) },
-		derivation: { key: TAGS.keys.udl.derivation, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivation) },
-		derivationFee: {
-			key: TAGS.keys.udl.derivationFee,
-			value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivationFee),
-		},
+		accessFee: accessFee,
 		commercial: { key: TAGS.keys.udl.commercial, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.commercial) },
-		commercialFee: {
-			key: TAGS.keys.udl.commercialFee,
-			value: getTagValue(gqlData.node.tags, TAGS.keys.udl.commercialFee),
-		},
+		commercialFee: commercialFee,
+		derivation: { key: TAGS.keys.udl.derivation, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivation) },
+		derivationFee: derivationFee,
 		paymentMode: { key: TAGS.keys.udl.paymentMode, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.paymentMode) },
 	};
 }

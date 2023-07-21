@@ -96,6 +96,10 @@ export const CURRENCY_ICONS = {
 	[CURRENCY_DICT.U]: ASSETS.u,
 };
 
+export const CURRENCIES = {
+	default: 'U' as 'U',
+};
+
 export const AR_WALLETS = [{ name: 'arconnect', logo: ASSETS.wallets.arconnect }];
 
 export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH', 'SIGNATURE'];
@@ -158,3 +162,8 @@ export const DRE_NODES: DREObjectType[] = [
 	// 	source: 'https://cache-2.permaweb.tools/contract',
 	// },
 ];
+
+export const UDL_ICONS_MAP = {
+	AR: ASSETS.arLogo,
+	U: ASSETS.u,
+};

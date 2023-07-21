@@ -56,12 +56,29 @@ export const Logo = styled.div`
 	}
 `;
 
+export const HeaderLink = styled.div`
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+		word-wrap: break-word;
+		margin: 0 0 5px 0;
+	}
+`;
+
 export const DCLine = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	position: relative;
+`;
+
+export const DCLineFlex = styled.div`
+	display: flex;
+	align-items: center;
 `;
 
 export const DCLineHeader = styled.div`
@@ -96,4 +113,13 @@ export const DCLineDetail = styled.p`
 	word-wrap: break-word;
 	display: flex;
 	align-items: center;
+`;
+
+export const DCLineIcon = styled.div`
+	padding: 1.5px 0 0 0;
+	margin: 0 0 0 7.5px;
+	svg {
+		height: 17.5px;
+		width: 17.5px;
+	}
 `;

@@ -55,7 +55,7 @@ export const Currency = styled.div`
 	align-items: center;
 	p {
 		font-size: ${(props) => props.theme.typography.size.small} !important;
-		font-weight: ${(props) => props.theme.typography.weight.light} !important;
+		font-weight: ${(props) => props.theme.typography.weight.extraLight} !important;
 		color: ${(props) => props.theme.colors.font.primary.neutral} !important;
 	}
 	svg {

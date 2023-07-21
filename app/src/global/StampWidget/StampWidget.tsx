@@ -1,6 +1,7 @@
 import React from 'react';
 import { ReactSVG } from 'react-svg';
 import Stamps from '@permaweb/stampjs';
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
@@ -110,10 +111,11 @@ export default function StampWidget(props: IProps) {
 				Stamps.init({
 					warp: orProvider.orderBook.env.arClient.warpDefault,
 					arweave: orProvider.orderBook.env.arClient.arweavePost,
+					wallet: new InjectedArweaveSigner(arProvider.walletAddress),
 				})
 			);
 		}
-	}, [orProvider.orderBook, showModal]);
+	}, [orProvider.orderBook, arProvider.walletAddress, showModal]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -179,7 +181,11 @@ export default function StampWidget(props: IProps) {
 
 					setStampNotification({
 						status: stampSuccess,
-						message: stampSuccess ? language.assetStamped : language.errorOccurred,
+						message: stampSuccess
+							? props.hasStampedMessage
+								? props.hasStampedMessage
+								: language.assetStamped
+							: language.errorOccurred,
 					});
 				}
 				setLoading(false);
@@ -265,7 +271,13 @@ export default function StampWidget(props: IProps) {
 					)}
 					{(hasStamped || loading) && (
 						<S.Message loading={loading ? 'true' : 'false'}>
-							<p>{hasStamped ? language.assetStamped : `${language.loading}...`}</p>
+							<p>
+								{hasStamped
+									? props.hasStampedMessage
+										? props.hasStampedMessage
+										: language.assetStamped
+									: `${language.loading}...`}
+							</p>
 						</S.Message>
 					)}
 					{stampNotification && stampNotification.message && (
