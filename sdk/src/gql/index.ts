@@ -18,6 +18,7 @@ export async function getGQLData(args: {
 	cursorObject: CursorObjectKeyType;
 	useArweavePost?: boolean;
 	arClient: ArweaveClientType;
+	minBlock?: number;
 }): Promise<AGQLResponseType> {
 	const data: GQLResponseType[] = [];
 	let nextCursor: string | null = null;
@@ -31,6 +32,13 @@ export async function getGQLData(args: {
 	let owners = args.uploader ? JSON.stringify([args.uploader]) : null;
 	let cursor = args.cursor ? `"${args.cursor}"` : null;
 
+	let block = '';
+	if(args.minBlock){
+		block = `block: {
+			min: ${args.minBlock}
+		}`;
+	}
+
 	const query = {
 		query: `
                 query {
@@ -40,9 +48,7 @@ export async function getGQLData(args: {
                         owners: ${owners},
                         first: ${PAGINATOR}, 
                         after: ${cursor},
-						block: {
-							min: 1224710
-						}
+						${block}
                     ){
                     edges {
                         cursor
