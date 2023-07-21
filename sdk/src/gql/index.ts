@@ -39,7 +39,10 @@ export async function getGQLData(args: {
                         tags: ${tags},
                         owners: ${owners},
                         first: ${PAGINATOR}, 
-                        after: ${cursor}
+                        after: ${cursor},
+						block: {
+							min: 1224710
+						}
                     ){
                     edges {
                         cursor
