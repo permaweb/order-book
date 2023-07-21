@@ -89,7 +89,7 @@ export default function ReduxAssetsUpdate(props: {
 				if (props.reduxCursor && props.cursorObject && cursorsReducer[props.cursorObject]) {
 					const currentReducer = cursorsReducer[props.cursorObject];
 					if (currentReducer[props.reduxCursor]) {
-						const updatedReducer = currentReducer[props.reduxCursor];
+						const updatedReducer = props.collectionId ? [] : currentReducer[props.reduxCursor];
 						let contractIds: string[] = [];
 
 						switch (props.apiFetch) {
@@ -148,12 +148,14 @@ export default function ReduxAssetsUpdate(props: {
 							}
 						}
 
+						console.log(updatedReducer.length);
+
 						dispatch(cursorActions.setCursors({ [props.cursorObject]: { [props.reduxCursor]: updatedReducer } }));
 					}
 				}
 			})();
 		}
-	}, [orderBook, stamps, props.address]);
+	}, [orderBook, stamps, props.address, props.collectionId]);
 
 	React.useEffect(() => {
 		(async function () {

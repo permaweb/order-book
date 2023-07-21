@@ -19,6 +19,7 @@ function DRESwitch() {
 
 	function handlePress(node: DREObjectType) {
 		dispatch(dreActions.setNode(node));
+		window.location.reload();
 	}
 
 	return (
