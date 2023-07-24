@@ -1,7 +1,9 @@
 import React from 'react';
+import { ReactSVG } from 'react-svg';
 import PropTypes from 'prop-types';
 
 import { Button } from 'components/atoms/Button';
+import { TabType } from 'helpers/types';
 
 import * as S from './styles';
 
@@ -9,7 +11,9 @@ class Tab extends React.Component<any, any> {
 	static propTypes = {
 		activeTab: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
+		icon: PropTypes.string.isRequired,
 		onClick: PropTypes.func.isRequired,
+		type: PropTypes.string.isRequired,
 	};
 
 	handlePress = () => {
@@ -20,18 +24,45 @@ class Tab extends React.Component<any, any> {
 	render() {
 		const {
 			handlePress,
-			props: { activeTab, label },
+			props: { activeTab, label, icon, type },
 		} = this;
 
-		return (
-			<S.Tab>
-				<Button type={'primary'} label={label} active={activeTab === label} handlePress={handlePress} />
-			</S.Tab>
-		);
+		function getTab() {
+			switch (type) {
+				case 'primary':
+					return (
+						<S.Tab>
+							<Button
+								type={'primary'}
+								label={label}
+								active={activeTab === label}
+								handlePress={handlePress}
+								icon={icon}
+								iconLeftAlign
+							/>
+						</S.Tab>
+					);
+				case 'alt1':
+					return (
+						<S.AltTab>
+							<S.AltTabAction active={activeTab === label} onClick={handlePress} icon={icon !== null}>
+								{icon && (
+									<S.Icon>
+										<ReactSVG src={icon} />
+									</S.Icon>
+								)}
+								{label}
+							</S.AltTabAction>
+						</S.AltTab>
+					);
+			}
+		}
+
+		return getTab();
 	}
 }
 
-export default class Tabs extends React.Component<{ children: any; onTabPropClick: any }, any> {
+export default class Tabs extends React.Component<{ children: any; onTabPropClick: any; type: TabType }, any> {
 	constructor(props: any) {
 		super(props);
 		this.state = {
@@ -63,6 +94,7 @@ export default class Tabs extends React.Component<{ children: any; onTabPropClic
 						key={this.props.children!.props.label}
 						label={this.props.children!.props.label}
 						onClick={onClickTabItem}
+						type={this.props.type}
 					/>
 				</S.List>
 				<S.Content>{this.props.children!.props.children}</S.Content>
@@ -71,9 +103,17 @@ export default class Tabs extends React.Component<{ children: any; onTabPropClic
 			<S.Container>
 				<S.List>
 					{children!.map((child: any) => {
-						const { label } = child.props;
-
-						return <Tab activeTab={activeTab} key={label} label={label} onClick={onClickTabItem} />;
+						const { label, icon } = child.props;
+						return (
+							<Tab
+								activeTab={activeTab}
+								key={label}
+								icon={icon}
+								label={label}
+								onClick={onClickTabItem}
+								type={this.props.type}
+							/>
+						);
 					})}
 				</S.List>
 				<S.Content>

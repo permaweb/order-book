@@ -234,6 +234,10 @@ export const OwnerLine = styled.div`
 `;
 
 export const ACChartWrapper = styled.div`
+	margin: 0 0 20px 0;
+`;
+
+export const ACChartContainer = styled.div`
 	width: 100%;
 	padding: 20px;
 	p {
@@ -274,28 +278,5 @@ export const Warning = styled.div`
 	}
 	button {
 		margin: 20px 0 0 0;
-	}
-`;
-
-export const Avatar = styled.div`
-	height: 22px;
-	width: 22px;
-	margin: 0 8.5px 0 0;
-	border-radius: 50%;
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	overflow: hidden;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	img {
-		height: 100%;
-		width: 100%;
-	}
-	svg {
-		height: 16.5px;
-		width: 16.5px;
-		padding: 3.5px 0 0 0px;
-		margin: 0 0 2.5px 0;
-		stroke: ${(props) => props.theme.colors.icon.alt1.fill};
 	}
 `;

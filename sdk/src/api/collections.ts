@@ -77,7 +77,7 @@ export async function getCollections(args: {
 		reduxCursor: null,
 		cursorObject: CursorEnum.GQL,
 		arClient: args.arClient,
-		minBlock: 1224710
+		minBlock: 1224710,
 	});
 	let collections: CollectionType[] = [];
 	for (let i = 0; i < gqlData.data.length; i++) {

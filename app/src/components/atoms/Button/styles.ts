@@ -85,7 +85,7 @@ export const IconPrimary = styled.div<{
 	svg {
 		height: 20px;
 		width: 20px;
-		margin: ${(props) => (props.leftAlign ? '0 12.5px 0 0' : '0 7.5px 2.5px 0px')};
+		margin: ${(props) => (props.leftAlign ? '0 12.5px 0 0' : '0 7.5px 0 0')};
 		padding: 3.5px 0 0 0;
 		fill: ${(props) =>
 			props.disabled
@@ -97,7 +97,6 @@ export const IconPrimary = styled.div<{
 `;
 
 export const Alt1 = styled(Primary)`
-	transition: all 250ms;
 	background: ${(props) =>
 		props.active ? props.theme.colors.button.alt1.active.background : props.theme.colors.button.alt1.background};
 	border: 1px solid
@@ -156,40 +155,6 @@ export const Alt2 = styled(Primary)`
 			props.active ? props.theme.colors.button.alt2.active.hover : props.theme.colors.button.alt2.hover};
 	}
 
-	&:hover span {
-		color: #ff7f37;
-	}
-
-	&:focus span {
-		color: #ff7f37;
-	}
-
-	&:hover svg {
-		fill: #ff7f37;
-		animation: gelatine 0.5s;
-		animation-iteration-count: 2;
-	}
-	&:focus svg {
-		fill: #ff7f37;
-		animation: gelatine 0.5s;
-		animation-iteration-count: 2;
-	}
-	@keyframes gelatine {
-		from,
-		to {
-			transform: scale(1, 1);
-		}
-		25% {
-			transform: scale(0.9, 1.1);
-		}
-		50% {
-			transform: scale(1.1, 0.9);
-		}
-		75% {
-			transform: scale(0.95, 1.05);
-		}
-	}
-
 	&:focus {
 		border: 1px solid
 			${(props) => (props.active ? props.theme.colors.button.alt2.active.hover : props.theme.colors.button.alt2.border)};
@@ -236,38 +201,6 @@ export const Alt3 = styled(Primary)`
 			${(props) => (props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.border)};
 		background: ${(props) =>
 			props.active ? props.theme.colors.button.alt3.active.hover : props.theme.colors.button.alt3.hover};
-		scale: 100.5%;
-		box-shadow: 0px 2px white;
-	}
-
-	svg {
-		fill: #ffffff;
-	}
-
-	&:hover span {
-		color: white;
-	}
-
-	&:hover svg {
-		fill: #ffffff;
-
-		animation: gelatine 0.5s;
-		animation-iteration-count: 2;
-	}
-	@keyframes gelatine {
-		from,
-		to {
-			transform: scale(1, 1);
-		}
-		25% {
-			transform: scale(0.9, 1.4);
-		}
-		50% {
-			transform: scale(1.1, 0.9);
-		}
-		75% {
-			transform: scale(0.95, 1.05);
-		}
 	}
 
 	&:focus {
@@ -286,7 +219,6 @@ export const Alt3 = styled(Primary)`
 	}
 
 	span {
-		color: #ffffff;
 		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 `;

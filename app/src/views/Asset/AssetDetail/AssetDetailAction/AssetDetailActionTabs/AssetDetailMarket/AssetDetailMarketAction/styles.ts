@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
 	width: 100%;
 `;
 
-export const TabWrapper = styled.div<{ label: string }>``;
+export const TabWrapper = styled.div<{ label: string; icon?: string }>``;
 
 export const TabContent = styled.div`
 	margin: 40px 0 0 0;

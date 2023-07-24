@@ -1,10 +1,11 @@
 import Stamps from '@permaweb/stampjs';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
-import { AssetType, CollectionType } from 'permaweb-orderbook';
+import { AssetDetailType, AssetType, CollectionType } from 'permaweb-orderbook';
 
-import { STORAGE } from './config';
-import { DateType } from './types';
+import { AR_PROFILE, STORAGE } from './config';
+import { language } from './language';
+import { DateType, OwnerListingType, OwnerType } from './types';
 
 export function formatAddress(address: string | null, wrap: boolean) {
 	if (!address) {
@@ -134,4 +135,73 @@ function getDataId(dataElement: any) {
 		if (dataElement.data) return dataElement.data.id;
 		else return dataElement.id;
 	}
+}
+
+export async function getOwners(
+	addressObject: any,
+	orProvider: any,
+	asset: AssetDetailType | null
+): Promise<OwnerType[] | OwnerListingType[]> {
+	if (asset && asset.state) {
+		const balances = Object.keys(asset.state.balances).map((balance: any) => {
+			return asset.state.balances[balance];
+		});
+		const totalBalance = balances.reduce((a: number, b: number) => a + b, 0);
+
+		if (Array.isArray(addressObject)) {
+			const owners: OwnerListingType[] = [];
+
+			for (let i = 0; i < addressObject.length; i++) {
+				if (addressObject[i].creator) {
+					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
+					let handle = profile ? profile.handle : null;
+
+					let avatar = profile ? profile.avatar : null;
+					if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
+					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
+
+					handle =
+						!handle && addressObject[i].creator === orProvider.orderBook.env.orderBookContract
+							? language.orderBook
+							: handle;
+					owners.push({
+						address: addressObject[i].creator,
+						handle: handle,
+						avatar: avatar,
+						sellQuantity: addressObject[i].quantity,
+						sellPercentage: addressObject[i].quantity / totalBalance,
+						sellUnitPrice: addressObject[i].price,
+					});
+				}
+			}
+
+			return owners;
+		} else {
+			let owners: OwnerType[] = await Promise.all(
+				Object.keys(addressObject).map(async (address: string) => {
+					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
+					const ownerPercentage = addressObject[address] / totalBalance;
+					let handle = profile ? profile.handle : null;
+
+					let avatar = profile ? profile.avatar : null;
+					if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
+					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
+
+					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : handle;
+					return {
+						address: address,
+						handle: handle,
+						avatar: avatar,
+						balance: addressObject[address],
+						ownerPercentage: ownerPercentage,
+					};
+				})
+			);
+
+			owners = owners.filter((owner: OwnerType) => owner.balance > 0);
+
+			return owners;
+		}
+	}
+	return [];
 }

@@ -17,6 +17,7 @@ const DEFAULT = {
 	neutral14: '#FFFFFF',
 	neutral15: '#F8F5F3',
 	neutral16: '#FFF9F6',
+	neutral17: '#EDEDED',
 	primary: '#444C62',
 	primary2: '#3B4154',
 	primary3: '#333848',
@@ -184,6 +185,9 @@ export const defaultTheme: DefaultTheme = {
 			alt11: {
 				background: DEFAULT.neutral10,
 			},
+			alt12: {
+				background: DEFAULT.neutral17,
+			},
 		},
 		font: {
 			primary: {
@@ -321,7 +325,7 @@ export const defaultTheme: DefaultTheme = {
 			},
 		},
 		tabs: {
-			active: DEFAULT.alt1,
+			active: DEFAULT.neutral7,
 			inactive: DEFAULT.neutral3,
 			hover: DEFAULT.neutral3,
 			alt1: {

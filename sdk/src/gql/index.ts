@@ -33,7 +33,7 @@ export async function getGQLData(args: {
 	let cursor = args.cursor ? `"${args.cursor}"` : null;
 
 	let block = '';
-	if(args.minBlock){
+	if (args.minBlock) {
 		block = `block: {
 			min: ${args.minBlock}
 		}`;

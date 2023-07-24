@@ -1,5 +1,6 @@
 import { CURRENCY_DICT } from 'permaweb-orderbook';
 
+import activitySVG from 'assets/activity.svg';
 import arLogoSVG from 'assets/ar-logo.svg';
 import arconnectWalletPNG from 'assets/arconnect-wallet-logo.png';
 import arrowDownSVG from 'assets/arrow-down.svg';
@@ -13,12 +14,14 @@ import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
 import collectionsSVG from 'assets/collections.svg';
+import commentsSVG from 'assets/comments.svg';
 import copySVG from 'assets/copy.svg';
 import defaultCollectionPNG from 'assets/default-collection.png';
 import detailsSVG from 'assets/details.svg';
 import infoSVG from 'assets/info.svg';
 import licenseSVG from 'assets/license.svg';
 import logoSVG from 'assets/logo.svg';
+import marketSVG from 'assets/market.svg';
 import menuSVG from 'assets/menu.svg';
 import ordersSVG from 'assets/orders.svg';
 import overviewSVG from 'assets/overview.svg';
@@ -42,6 +45,7 @@ import { language } from './language';
 import { DREObjectType } from './types';
 
 export const ASSETS = {
+	activity: activitySVG,
 	arLogo: arLogoSVG,
 	arrowDown: arrowDownSVG,
 	arrowLeft: arrowLeftSVG,
@@ -54,12 +58,14 @@ export const ASSETS = {
 	checkmark: checkmarkSVG,
 	close: closeSVG,
 	collections: collectionsSVG,
+	comments: commentsSVG,
 	copy: copySVG,
 	defaultCollection: defaultCollectionPNG,
 	details: detailsSVG,
 	info: infoSVG,
 	license: licenseSVG,
 	logo: logoSVG,
+	market: marketSVG,
 	menu: menuSVG,
 	orders: ordersSVG,
 	overview: overviewSVG,
@@ -118,37 +124,44 @@ export const REDIRECTS = {
 	viewblock: (tx: string) => `https://viewblock.io/arweave/tx/${tx}`,
 };
 
-export const TAB_OPTIONS = {
+export const DETAIL_ACTION_TAB_OPTIONS = {
+	activity: language.activity,
+	comments: language.comments,
+	market: language.market,
+};
+
+export const DETAIL_ACTION_TABS = [
+	{
+		label: DETAIL_ACTION_TAB_OPTIONS.market,
+		icon: ASSETS.market,
+	},
+	{
+		label: DETAIL_ACTION_TAB_OPTIONS.activity,
+		icon: ASSETS.activity,
+	},
+	{
+		label: DETAIL_ACTION_TAB_OPTIONS.comments,
+		icon: ASSETS.comments,
+	},
+];
+
+export const DETAIL_MARKET_TAB_OPTIONS = {
 	buy: language.buy,
 	sell: language.sell,
 };
 
-export const ACTION_TABS = [
+export const DETAIL_MARKET_ACTION_TABS = [
 	{
-		label: TAB_OPTIONS.buy,
+		label: DETAIL_MARKET_TAB_OPTIONS.buy,
+		icon: ASSETS.buy,
 	},
 	{
-		label: TAB_OPTIONS.sell,
+		label: DETAIL_MARKET_TAB_OPTIONS.sell,
+		icon: ASSETS.sell,
 	},
 ];
 
 export const DRE_NODES: DREObjectType[] = [
-	// {
-	// 	label: 'DRE-1',
-	// 	source: 'https://dre-1.warp.cc/contract',
-	// },
-	// {
-	// 	label: 'DRE-2',
-	// 	source: 'https://dre-2.warp.cc/contract',
-	// },
-	// {
-	// 	label: 'DRE-3',
-	// 	source: 'https://dre-3.warp.cc/contract',
-	// },
-	// {
-	// 	label: 'DRE-4',
-	// 	source: 'https://dre-4.warp.cc/contract',
-	// },
 	{
 		label: 'DRE-5',
 		source: 'https://dre-5.warp.cc/contract',
@@ -157,13 +170,13 @@ export const DRE_NODES: DREObjectType[] = [
 		label: 'DRE-6',
 		source: 'https://dre-6.warp.cc/contract',
 	},
-	// {
-	// 	label: 'SW-2',
-	// 	source: 'https://cache-2.permaweb.tools/contract',
-	// },
 ];
 
 export const UDL_ICONS_MAP = {
 	AR: ASSETS.arLogo,
 	U: ASSETS.u,
+};
+
+export const AR_PROFILE = {
+	defaultAvatar: 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA',
 };

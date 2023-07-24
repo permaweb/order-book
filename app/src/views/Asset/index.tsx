@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import { AssetDetail } from 'global/AssetDetail';
+import { AssetDetail } from './AssetDetail';
 
 export default function Asset() {
 	const { id } = useParams();

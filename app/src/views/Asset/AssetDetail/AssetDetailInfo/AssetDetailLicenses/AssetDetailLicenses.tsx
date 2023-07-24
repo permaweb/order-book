@@ -9,10 +9,11 @@ import { ASSETS, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
 import { language } from 'helpers/language';
 import { formatDisplayString } from 'helpers/utils';
 
-import * as S from './styles';
-import { IProps } from './types';
+import { IAProps } from '../../types';
 
-export default function AssetLicenses(props: IProps) {
+import * as S from './styles';
+
+export default function AssetDetailLicenses(props: IAProps) {
 	return props.asset &&
 		(props.asset.data.udl || (props.asset.data.license && props.asset.data.license !== STORAGE.none)) ? (
 		<S.Wrapper>
