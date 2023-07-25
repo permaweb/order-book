@@ -38,10 +38,6 @@ export default function Header() {
 		showDocumentBody();
 	}
 
-	function getWalletDisplay() {
-		return !/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-	}
-
 	function navList() {
 		return (
 			<S.NC>
@@ -50,7 +46,7 @@ export default function Header() {
 					<Settings />
 				</S.SettingsWrapper>
 				<S.SC>
-					<S.Connect show={getWalletDisplay()}>
+					<S.Connect show={true}>
 						<WalletConnect callback={() => setOpen(!open)} />
 					</S.Connect>
 				</S.SC>
