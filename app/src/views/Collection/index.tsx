@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
@@ -9,25 +9,17 @@ import { CollectionCard } from 'global/CollectionCard';
 import { REDUX_TABLES } from 'helpers/redux';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
-import * as assetActions from 'store/assets/actions';
-// import * as cursorActions from 'store/cursors/actions';
 
 export default function Collection() {
 	const { id } = useParams();
-	const dispatch = useDispatch();
 
 	const orProvider = useOrderBookProvider();
 
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
 	const [assets, setAssets] = React.useState<AssetType[] | null>(null);
-	const [loading, setLoading] = React.useState<boolean>(false);
 	const [collection, setCollection] = React.useState<CollectionType | null>(null);
-
-	React.useEffect(() => {
-		dispatch(assetActions.setAssets({ collectionData: null }));
-		// dispatch(cursorActions.setCursors({ idGQL: { [REDUX_TABLES.collectionAssets]: [] } }));
-	}, [id]);
+	const [loading, setLoading] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		(async function () {

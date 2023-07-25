@@ -5,7 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 
 import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
 
-import { CURRENCIES, FEATURE_COUNT } from 'helpers/config';
+import { API_CONFIG, CURRENCIES, FEATURE_COUNT } from 'helpers/config';
 import { ApiFetchType } from 'helpers/types';
 import { rankData } from 'helpers/utils';
 import { RootState } from 'store';
@@ -32,28 +32,20 @@ export default function ReduxAssetsUpdate(props: {
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
 	React.useEffect(() => {
-		const GET_ENDPOINT = 'arweave-search.goldsky.com';
-		const POST_ENDPOINT = 'arweave.net';
-
-		const PORT = 443;
-		const PROTOCOL = 'https';
-		const TIMEOUT = 40000;
-		const LOGGING = false;
-
 		let arweaveGet = Arweave.init({
-			host: GET_ENDPOINT,
-			port: PORT,
-			protocol: PROTOCOL,
-			timeout: TIMEOUT,
-			logging: LOGGING,
+			host: API_CONFIG.arweaveGet,
+			port: API_CONFIG.port,
+			protocol: API_CONFIG.protocol,
+			timeout: API_CONFIG.timeout,
+			logging: API_CONFIG.logging,
 		});
 
 		let arweavePost = Arweave.init({
-			host: POST_ENDPOINT,
-			port: PORT,
-			protocol: PROTOCOL,
-			timeout: TIMEOUT,
-			logging: LOGGING,
+			host: API_CONFIG.arweavePost,
+			port: API_CONFIG.port,
+			protocol: API_CONFIG.protocol,
+			timeout: API_CONFIG.timeout,
+			logging: API_CONFIG.logging,
 		});
 
 		let warp = WarpFactory.forMainnet({

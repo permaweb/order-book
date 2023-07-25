@@ -5,7 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 
 import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
-import { CURRENCIES } from 'helpers/config';
+import { API_CONFIG, CURRENCIES } from 'helpers/config';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { RootState } from 'store';
 
@@ -37,28 +37,20 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	React.useEffect(() => {
-		const GET_ENDPOINT = 'arweave-search.goldsky.com';
-		const POST_ENDPOINT = 'arweave.net';
-
-		const PORT = 443;
-		const PROTOCOL = 'https';
-		const TIMEOUT = 40000;
-		const LOGGING = false;
-
 		let arweaveGet = Arweave.init({
-			host: GET_ENDPOINT,
-			port: PORT,
-			protocol: PROTOCOL,
-			timeout: TIMEOUT,
-			logging: LOGGING,
+			host: API_CONFIG.arweaveGet,
+			port: API_CONFIG.port,
+			protocol: API_CONFIG.protocol,
+			timeout: API_CONFIG.timeout,
+			logging: API_CONFIG.logging,
 		});
 
 		let arweavePost = Arweave.init({
-			host: POST_ENDPOINT,
-			port: PORT,
-			protocol: PROTOCOL,
-			timeout: TIMEOUT,
-			logging: LOGGING,
+			host: API_CONFIG.arweavePost,
+			port: API_CONFIG.port,
+			protocol: API_CONFIG.protocol,
+			timeout: API_CONFIG.timeout,
+			logging: API_CONFIG.logging,
 		});
 
 		let warp = WarpFactory.forMainnet({

@@ -29,6 +29,7 @@ export const language = {
 	confirmListing: `Confirm Listing`,
 	confirmPurchase: `Confirm Purchase`,
 	connect: `Connect`,
+	connectorNotFound: `This connector was not found`,
 	connectWalletToStamp: `Connect a wallet to STAMP`,
 	connectedDisabledSale: `You must be the owner of this asset to list it for sale`,
 	contentTypeNotSupported: `Content Type Not Supported`,

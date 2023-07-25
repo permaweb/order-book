@@ -72,3 +72,8 @@ export type DREObjectType = { label: string; source: string };
 export type StepType = 'prev' | 'next';
 
 export type TabType = 'primary' | 'alt1';
+
+export enum WalletEnum {
+	arConnect = 'arconnect',
+	arweaveApp = 'arweave.app',
+}

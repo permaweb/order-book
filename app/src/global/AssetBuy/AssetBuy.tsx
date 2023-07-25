@@ -101,9 +101,9 @@ export default function AssetBuy(props: IProps) {
 			setLoading(true);
 
 			try {
-				let signer = new InjectedArweaveSigner(window.arweaveWallet);
+				const signer = new InjectedArweaveSigner(await arProvider.handleConnect(arProvider.walletType));
 				signer.getAddress = window.arweaveWallet.getActiveAddress;
-				signer.setPublicKey();
+				await signer.setPublicKey();
 				await orProvider.orderBook.buy({
 					assetId: props.asset.data.id,
 					spend: calcTotalPrice(),

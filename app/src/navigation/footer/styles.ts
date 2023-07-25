@@ -22,16 +22,6 @@ export const Container = styled.div`
 	bottom: 0;
 `;
 
-export const SocialContainer = styled.div`
-	display: flex;
-	a {
-		margin: 0 0 0 10px;
-		color: ${(props) => props.theme.colors.font.primary.alt1};
-		font-size: 13px;
-		text-decoration-thickness: 1px;
-	}
-`;
-
 export const Content = styled.p`
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	font-weight: ${(props) => props.theme.typography.weight.light};

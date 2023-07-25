@@ -46,29 +46,24 @@ export default function OrderCancel(props: IProps) {
 		if (getOwnerOrder() && getOrderId() && orProvider.orderBook && arProvider.walletAddress) {
 			setLoading(true);
 			try {
-				let signer = new InjectedArweaveSigner(window.arweaveWallet);
+				const signer = new InjectedArweaveSigner(await arProvider.handleConnect(arProvider.walletType));
 				signer.getAddress = window.arweaveWallet.getActiveAddress;
 				await signer.setPublicKey();
 				const orderId = getOrderId();
-
-				try {
-					await orProvider.orderBook.cancel({
-						orderId: orderId,
-						wallet: signer,
-						walletAddress: arProvider.walletAddress,
-					});
-					setCancelResponse({
-						status: true,
-						message: language.orderCancelled,
-					});
-					setCancelConfirmed(true);
-				} catch (e: any) {
-					console.error(e);
-				}
+				await orProvider.orderBook.cancel({
+					orderId: orderId,
+					wallet: signer,
+					walletAddress: arProvider.walletAddress,
+				});
+				setCancelResponse({
+					status: true,
+					message: language.orderCancelled,
+				});
+				setCancelConfirmed(true);
 			} catch (e: any) {
 				setCancelResponse({
 					status: false,
-					message: e.message,
+					message: e.message ? e.message : language.errorOccurred,
 				});
 			}
 			setLoading(false);

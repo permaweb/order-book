@@ -46,22 +46,6 @@ export default function WalletConnect(props: { callback?: () => void }) {
 		}
 	}, [showWallet, arProvider.walletAddress, arProvider.arProfile]);
 
-	// function getWalletLabel() {
-	// 	if (!showWallet) {
-	// 		return `${language.fetching} ...`;
-	// 	} else {
-	// 		if (arProvider.walletAddress) {
-	// 			if (arProvider.arProfile) {
-	// 				return arProvider.arProfile.handle;
-	// 			} else {
-	// 				return formatAddress(arProvider.walletAddress, false);
-	// 			}
-	// 		} else {
-	// 			return language.connect;
-	// 		}
-	// 	}
-	// }
-
 	function handlePress() {
 		if (arProvider.walletAddress) {
 			setShowDropdown(true);

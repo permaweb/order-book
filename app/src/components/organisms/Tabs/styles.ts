@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const List = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	gap: 15px;
+	gap: 20px;
 `;
 
 export const Content = styled.div`

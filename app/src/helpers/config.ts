@@ -21,6 +21,7 @@ import detailsSVG from 'assets/details.svg';
 import infoSVG from 'assets/info.svg';
 import licenseSVG from 'assets/license.svg';
 import logoSVG from 'assets/logo.svg';
+import logoAltPNG from 'assets/logoAlt.png';
 import marketSVG from 'assets/market.svg';
 import menuSVG from 'assets/menu.svg';
 import ordersSVG from 'assets/orders.svg';
@@ -42,7 +43,7 @@ import userSVG from 'assets/user.svg';
 import walletSVG from 'assets/wallet.svg';
 
 import { language } from './language';
-import { DREObjectType } from './types';
+import { DREObjectType, WalletEnum } from './types';
 
 export const ASSETS = {
 	activity: activitySVG,
@@ -65,6 +66,7 @@ export const ASSETS = {
 	info: infoSVG,
 	license: licenseSVG,
 	logo: logoSVG,
+	logoAlt: logoAltPNG,
 	market: marketSVG,
 	menu: menuSVG,
 	orders: ordersSVG,
@@ -88,6 +90,7 @@ export const ASSETS = {
 	wallet: walletSVG,
 	wallets: {
 		arconnect: arconnectWalletPNG,
+		arweaveApp: arLogoSVG,
 	},
 };
 
@@ -106,7 +109,19 @@ export const CURRENCIES = {
 	default: 'U' as 'U',
 };
 
-export const AR_WALLETS = [{ name: 'arconnect', logo: ASSETS.wallets.arconnect }];
+export const AR_WALLETS = [
+	{ type: WalletEnum.arConnect, logo: ASSETS.wallets.arconnect },
+	{ type: WalletEnum.arweaveApp, logo: ASSETS.wallets.arweaveApp },
+];
+
+export const API_CONFIG = {
+	arweaveGet: 'arweave-search.goldsky.com',
+	arweavePost: 'arweave.net',
+	protocol: 'https',
+	port: 443,
+	timeout: 40000,
+	logging: false,
+};
 
 export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH', 'SIGNATURE'];
 
@@ -135,14 +150,14 @@ export const DETAIL_ACTION_TABS = [
 		label: DETAIL_ACTION_TAB_OPTIONS.market,
 		icon: ASSETS.market,
 	},
-	{
-		label: DETAIL_ACTION_TAB_OPTIONS.activity,
-		icon: ASSETS.activity,
-	},
-	{
-		label: DETAIL_ACTION_TAB_OPTIONS.comments,
-		icon: ASSETS.comments,
-	},
+	// {
+	// 	label: DETAIL_ACTION_TAB_OPTIONS.activity,
+	// 	icon: ASSETS.activity,
+	// },
+	// {
+	// 	label: DETAIL_ACTION_TAB_OPTIONS.comments,
+	// 	icon: ASSETS.comments,
+	// },
 ];
 
 export const DETAIL_MARKET_TAB_OPTIONS = {

@@ -58,7 +58,7 @@ export default function AssetSell(props: IProps) {
 				}
 			}
 		}
-	}, [props.asset]);
+	}, [props.asset, arProvider.walletAddress]);
 
 	React.useEffect(() => {
 		if (arProvider && arProvider.walletAddress && props.asset && props.asset.state) {
@@ -100,7 +100,7 @@ export default function AssetSell(props: IProps) {
 				}
 			}
 		}
-	}, [quantity]);
+	}, [quantity, arProvider.walletAddress]);
 
 	React.useEffect(() => {
 		if (!initialLoad) {
@@ -145,7 +145,7 @@ export default function AssetSell(props: IProps) {
 				}
 			}
 		}
-	}, [unitPrice]);
+	}, [unitPrice, arProvider.walletAddress]);
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.state) {
@@ -197,9 +197,9 @@ export default function AssetSell(props: IProps) {
 			setLoading(true);
 
 			try {
-				let signer = new InjectedArweaveSigner(window.arweaveWallet);
+				const signer = new InjectedArweaveSigner(await arProvider.handleConnect(arProvider.walletType));
 				signer.getAddress = window.arweaveWallet.getActiveAddress;
-				signer.setPublicKey();
+				await signer.setPublicKey();
 				await orProvider.orderBook?.sell({
 					assetId: props.asset.data.id,
 					qty: quantity,

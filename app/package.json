@@ -20,6 +20,7 @@
 		"@bundlr-network/client": "^0.11.9",
 		"@permaweb/stampjs": "0.3.1",
 		"@types/react-router-dom": "^5.3.3",
+		"arweave-wallet-connector": "^1.0.2",
 		"html-react-parser": "^3.0.4",
 		"permaweb-orderbook": "1.2.93",
 		"react": "^18.2.0",
