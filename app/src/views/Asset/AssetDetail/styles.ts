@@ -239,7 +239,7 @@ export const ACChartWrapper = styled.div`
 
 export const ACChartContainer = styled.div`
 	width: 100%;
-	padding: 20px;
+	padding: 20px 20px 40px 20px;
 	p {
 		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);
