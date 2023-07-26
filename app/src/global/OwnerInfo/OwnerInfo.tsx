@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
 import { TxAddress } from 'components/atoms/TxAddress';
 import { OrderCancel } from 'global/OrderCancel';
 import { ASSETS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
+import * as urls from 'helpers/urls';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 import * as S from './styles';
@@ -20,13 +22,9 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, updateAsset }) {
 
 	const avatar =
 		!hasError && owner.avatar ? (
-			<S.Avatar>
-				<img src={getTxEndpoint(owner.avatar)} onError={handleError} />
-			</S.Avatar>
+			<img src={getTxEndpoint(owner.avatar)} onError={handleError} />
 		) : (
-			<S.Avatar>
-				<ReactSVG src={ASSETS.user} />
-			</S.Avatar>
+			<ReactSVG src={ASSETS.user} />
 		);
 
 	function getOwnerOrder() {
@@ -44,7 +42,12 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, updateAsset }) {
 	return (
 		<>
 			<S.DCLineHeader>
-				{avatar}
+				<S.AvatarWrapper>
+					<S.ALink>
+						<Link to={`${urls.account}${owner.address}`} />
+					</S.ALink>
+					<S.Avatar>{avatar}</S.Avatar>
+				</S.AvatarWrapper>
 				{owner.handle ? <S.NoWrap>{owner.handle}</S.NoWrap> : <TxAddress address={owner.address} wrap={false} />}
 				{getOwnerOrder() && (
 					<S.OrderCancel hasHandle={owner.handle !== null}>

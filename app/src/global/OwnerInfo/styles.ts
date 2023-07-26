@@ -25,6 +25,31 @@ export const NoWrap = styled.p`
 	}
 `;
 
+export const AvatarWrapper = styled.div`
+	position: relative;
+`;
+
+export const ALink = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	height: 22.5px;
+	width: 22.5px;
+	border-radius: 50%;
+	background: ${(props) => props.theme.colors.semiTransparentAlt3};
+	opacity: 0;
+	transition: ease 200ms;
+	&:hover {
+		opacity: 1;
+	}
+	a {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+`;
+
 export const Avatar = styled.div`
 	height: 22.5px;
 	width: 22.5px;
