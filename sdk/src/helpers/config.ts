@@ -1,4 +1,4 @@
-export const ORDERBOOK_CONTRACT = 'iAGHqY1TNC8AmLkTHi3bo-WDExJUbCbmPTYy1bHiHwE';
+export const ORDERBOOK_CONTRACT = 'XW_z0WhM5PsVD-nmyNm1pCK1za9uysu1vco1HS8DpIo';
 
 export const CURRENCY_DICT = {
 	U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw',

@@ -22,21 +22,31 @@ export default function CollectionsCarousel(props: IProps) {
 
 	function getData() {
 		if (props.collections) {
-			return (
-				<S.CarouselWrapper>
-					<Carousel title={language.collections} data={getCollections()} />
-					<S.CollectionsRedirect>
-						<Button
-							type={'primary'}
-							label={language.viewAllCollections}
-							handlePress={() => navigate(urls.collections)}
-							icon={ASSETS.collections}
-							height={60}
-							width={350}
-						/>
-					</S.CollectionsRedirect>
-				</S.CarouselWrapper>
-			);
+			if (props.collections.length > 0) {
+				return (
+					<S.CarouselWrapper>
+						<Carousel title={language.collections} data={getCollections()} />
+						<S.CollectionsRedirect>
+							<Button
+								type={'primary'}
+								label={language.viewAllCollections}
+								handlePress={() => navigate(urls.collections)}
+								icon={ASSETS.collections}
+								height={60}
+								width={350}
+							/>
+						</S.CollectionsRedirect>
+					</S.CarouselWrapper>
+				);
+			} else {
+				return (
+					<div className={'max-cutoff'}>
+						<S.NoCollectionsContainer>
+							<p>{language.noCollections}</p>
+						</S.NoCollectionsContainer>
+					</div>
+				);
+			}
 		} else {
 			return (
 				<S.CardLoader>
