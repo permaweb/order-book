@@ -17,6 +17,7 @@ import * as S from './styles';
 
 interface ArweaveContextState {
 	wallets: { type: string; logo: string }[];
+	wallet: any;
 	walletAddress: string | null;
 	walletType: WalletEnum | null;
 	availableBalance: number | null;
@@ -39,6 +40,7 @@ interface CurrencyBalancesType {
 
 const DEFAULT_CONTEXT = {
 	wallets: [],
+	wallet: null,
 	walletAddress: null,
 	walletType: null,
 	availableBalance: null,
@@ -80,8 +82,11 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 	const [walletModalVisible, setWalletModalVisible] = React.useState<boolean>(false);
+
+	const [wallet, setWallet] = React.useState<any>(null);
 	const [walletAddress, setWalletAddress] = React.useState<string | null>(null);
 	const [walletType, setWalletType] = React.useState<WalletEnum | null>(null);
+
 	const [availableBalance, setAvailableBalance] = React.useState<number | null>(null);
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
 	const [currencyBalances, setCurrencyBalances] = React.useState<CurrencyBalancesType | null>(null);
@@ -91,7 +96,6 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	async function handleArConnect() {
-		let walletObj: any = null;
 		if (!walletAddress) {
 			if (window.arweaveWallet) {
 				await global.window?.arweaveWallet
@@ -102,45 +106,40 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					.catch((e: any) => {
 						alert(e);
 					});
+				setWallet(window.arweaveWallet);
 				setWalletType(WalletEnum.arConnect);
 			} else {
 				alert(language.connectorNotFound);
 			}
 		}
-		walletObj = window.arweaveWallet;
-		return walletObj;
 	}
 
 	async function handleArweaveApp() {
-		let walletObj: any = null;
 		const wallet = new ArweaveWebWallet({
 			name: language.appName,
 			logo: ASSETS.logoAlt,
 		});
 		wallet.setUrl(WalletEnum.arweaveApp);
-		try {
-			await wallet.connect();
-			setWalletType(WalletEnum.arweaveApp);
-			walletObj = wallet;
-			return walletObj;
-		} catch {}
+		await wallet.connect();
+		setWallet(wallet);
+		setWalletType(WalletEnum.arweaveApp);
 	}
 
 	async function handleConnect(walletType: WalletEnum.arConnect | WalletEnum.arweaveApp) {
 		let walletObj: any = null;
 		switch (walletType) {
 			case WalletEnum.arConnect:
-				walletObj = handleArConnect();
+				handleArConnect();
 				break;
 			case WalletEnum.arweaveApp:
-				walletObj = handleArweaveApp();
+				handleArweaveApp();
 				break;
 			default:
-				if (window.arweaveWallet) {
-					walletObj = handleArConnect();
+				if (window.arweaveWallet || walletType === WalletEnum.arConnect) {
+					handleArConnect();
 					break;
 				} else {
-					walletObj = handleArweaveApp();
+					handleArweaveApp();
 					break;
 				}
 		}
@@ -251,6 +250,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 			)}
 			<ARContext.Provider
 				value={{
+					wallet,
 					walletAddress,
 					walletType,
 					availableBalance,

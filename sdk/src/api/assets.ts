@@ -178,6 +178,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 					renderWith: renderWith ? renderWith : null,
 					dateCreated: gqlData.assets[i].node.block.timestamp,
 					blockHeight: gqlData.assets[i].node.block.height,
+					creator: gqlData.assets[i].node.owner.address,
 				},
 			};
 

@@ -62,6 +62,9 @@ export async function getGQLData(args: {
                                 size
                                 type
                             }
+							owner {
+								address
+							}
 							block {
 								height
 								timestamp

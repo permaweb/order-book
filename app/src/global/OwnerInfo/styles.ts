@@ -21,7 +21,7 @@ export const NoWrap = styled.p`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		max-width: 75px;
+		max-width: 100px;
 	}
 `;
 
@@ -46,4 +46,8 @@ export const Avatar = styled.div`
 		margin: 0 0 2.5px 0;
 		stroke: ${(props) => props.theme.colors.icon.alt1.fill};
 	}
+`;
+
+export const OrderCancel = styled.div<{ hasHandle: boolean }>`
+	margin: ${(props) => (props.hasHandle ? '0 0 0 5px' : '0 0 0 12.5px')};
 `;

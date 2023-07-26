@@ -11,7 +11,7 @@ import { getTagValue } from '../helpers/utils';
 import { getGQLData } from '.';
 
 export async function getGqlDataByIds(args: AssetArgsClientType): Promise<AssetsResponseType> {
-	const artifacts: AGQLResponseType = await getGQLData({
+	const gqlData: AGQLResponseType = await getGQLData({
 		ids: args.ids,
 		tagFilters: null,
 		uploader: args.uploader,
@@ -21,7 +21,7 @@ export async function getGqlDataByIds(args: AssetArgsClientType): Promise<Assets
 		arClient: args.arClient,
 	});
 
-	return getAssetsResponseObject(artifacts);
+	return getAssetsResponseObject(gqlData);
 }
 
 export function getAssetsResponseObject(gqlResponse: AGQLResponseType): AssetsResponseType {

@@ -130,7 +130,7 @@ export const NoWrap = styled.p`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		max-width: 75px;
+		max-width: 100px;
 	}
 `;
 
@@ -143,10 +143,24 @@ export const DCLineDetail = styled.p`
 	word-wrap: break-word;
 	display: flex;
 	align-items: center;
+
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		max-width: 100px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
 `;
 
 export const DCLineDetailMedium = styled(DCLineDetail)`
 	font-weight: ${(props) => props.theme.typography.weight.light};
+`;
+
+export const DCLineNoMax = styled(DCLineDetailMedium)`
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		max-width: none;
+		white-space: normal;
+	}
 `;
 
 export const DCSalePercentage = styled(DCLineDetail)`
@@ -202,12 +216,10 @@ export const ACLink = styled.div`
 	}
 `;
 
-export const StampWidget = styled.div`
-	margin: 0 0 20px 0;
-`;
+export const StampWidget = styled.div``;
 
 export const OwnerLine = styled.div`
-	margin: 10px 0 0 0;
+	margin: 20px 0 0 0;
 	display: flex;
 	align-items: center;
 	span {
@@ -233,13 +245,17 @@ export const OwnerLine = styled.div`
 	}
 `;
 
+export const OwnerLineAlt = styled(OwnerLine)`
+	margin: 10px 0 0 0;
+`;
+
 export const ACChartWrapper = styled.div`
 	margin: 0 0 20px 0;
 `;
 
 export const ACChartContainer = styled.div`
 	width: 100%;
-	padding: 20px 20px 40px 20px;
+	padding: 20px 20px 0 20px;
 	p {
 		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);

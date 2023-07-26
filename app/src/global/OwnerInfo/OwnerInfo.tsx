@@ -47,10 +47,9 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, updateAsset }) {
 				{avatar}
 				{owner.handle ? <S.NoWrap>{owner.handle}</S.NoWrap> : <TxAddress address={owner.address} wrap={false} />}
 				{getOwnerOrder() && (
-					<>
-						&nbsp;
+					<S.OrderCancel hasHandle={owner.handle !== null}>
 						<OrderCancel asset={asset} updateAsset={updateAsset} />
-					</>
+					</S.OrderCancel>
 				)}
 			</S.DCLineHeader>
 		</>

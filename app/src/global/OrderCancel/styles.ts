@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
 	button {
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.button.warning.color};
 		&:hover {
 			color: ${(props) => props.theme.colors.button.warning.hover};
@@ -9,10 +10,20 @@ export const Wrapper = styled.div`
 	}
 `;
 
+export const IconWrapper = styled.div`
+	button {
+		width: 12.5px !important;
+		margin: 1.5px 0 0 3.5px;
+	}
+`;
+
 export const ModalHeader = styled.div`
+	h2,
+	p {
+		line-height: 1.5;
+	}
 	p {
 		margin: 20px 0 40px 0;
-		line-height: 1.5;
 	}
 `;
 

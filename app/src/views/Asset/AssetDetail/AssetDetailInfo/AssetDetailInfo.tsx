@@ -26,7 +26,7 @@ export default function AssetDetailInfo(props: IAProps) {
 						content={
 							<S.DrawerContent>
 								<S.DCHeader>{props.asset.data.title}</S.DCHeader>
-								<S.DCLineDetailMedium>{props.asset.data.description}</S.DCLineDetailMedium>
+								<S.DCLineNoMax>{props.asset.data.description}</S.DCLineNoMax>
 							</S.DrawerContent>
 						}
 					/>

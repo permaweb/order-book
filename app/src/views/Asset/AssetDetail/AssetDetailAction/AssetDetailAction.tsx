@@ -60,7 +60,7 @@ export default function AssetDetailAction(props: IAMProps) {
 							</S.OwnerLine>
 						)}
 						{currentSaleOwners && currentSaleOwners.length > 0 && (
-							<S.OwnerLine>
+							<S.OwnerLineAlt>
 								<span>{language.currentlyBeingSoldBy}</span>
 								<button
 									onClick={() => {
@@ -69,7 +69,7 @@ export default function AssetDetailAction(props: IAMProps) {
 								>{`${currentSaleOwners.length} ${
 									currentSaleOwners.length > 1 ? language.owners : language.owner
 								}`}</button>
-							</S.OwnerLine>
+							</S.OwnerLineAlt>
 						)}
 					</S.ACHeader>
 				</div>

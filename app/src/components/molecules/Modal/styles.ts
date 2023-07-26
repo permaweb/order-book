@@ -23,7 +23,7 @@ export const Container = styled.div<{
 }>`
 	max-height: calc(100vh - 100px);
 	width: ${(props) => (props.useMax ? STYLING.cutoffs.max : '600px')};
-	max-width: 90vw;
+	max-width: ${(props) => (props.noHeader ? '100%' : '90vw')};
 	background: ${(props) =>
 		props.noHeader ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => (props.noHeader ? props.theme.colors.transparent : props.theme.colors.border.primary)};
@@ -90,9 +90,6 @@ export const CloseTextContainer = styled.div<{ useMax: boolean | undefined }>`
 	left: 50%;
 	transform: translate(-50%, 0);
 	padding: 0 20px;
-	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		padding: 0 40px;
-	}
 `;
 
 export const CloseTextContainerAlt = styled.div`

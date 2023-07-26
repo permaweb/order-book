@@ -70,7 +70,7 @@ export default function PieChart(props: IProps) {
 					plugins: {
 						legend: {
 							display: desktop ? true : false,
-							position: 'right',
+							position: desktop ? 'right' : 'bottom',
 							labels: {
 								boxHeight: 20,
 								boxWidth: 20,

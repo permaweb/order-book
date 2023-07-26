@@ -9,7 +9,7 @@ import { Slider } from 'components/atoms/Slider';
 import { Modal } from 'components/molecules/Modal';
 import { CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
-import { ResponseType } from 'helpers/types';
+import { ResponseType, WalletEnum } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
@@ -99,30 +99,52 @@ export default function AssetBuy(props: IProps) {
 	async function buyAsset() {
 		if (props.asset && orProvider.orderBook) {
 			setLoading(true);
-
 			try {
-				const signer = new InjectedArweaveSigner(await arProvider.handleConnect(arProvider.walletType));
-				signer.getAddress = window.arweaveWallet.getActiveAddress;
-				await signer.setPublicKey();
-				await orProvider.orderBook.buy({
-					assetId: props.asset.data.id,
-					spend: calcTotalPrice(),
-					wallet: signer,
-					walletAddress: arProvider.walletAddress,
-				});
+				if (arProvider.wallet && window.arweaveWallet) {
+					const signer = new InjectedArweaveSigner(arProvider.wallet);
+					signer.getAddress = window.arweaveWallet.getActiveAddress;
+					await signer.setPublicKey();
 
-				setLoading(false);
-				setShowConfirmation(false);
-				setBuyResponse({
-					status: true,
-					message: `${language.purchaseSuccess}!`,
-				});
+					await orProvider.orderBook.buy({
+						assetId: props.asset.data.id,
+						spend: calcTotalPrice(),
+						wallet: signer,
+						walletAddress: arProvider.walletAddress,
+					});
+					setLoading(false);
+					setShowConfirmation(false);
+					setBuyResponse({
+						status: true,
+						message: `${language.purchaseSuccess}!`,
+					});
+				} else {
+					let message = '';
+					if (arProvider.walletType === WalletEnum.arweaveApp && !arProvider.wallet['_address']) {
+						message = language.arweaveAppConnectionError;
+					} else {
+						message = language.errorOccurred;
+					}
+					setLoading(false);
+					setShowConfirmation(false);
+					setBuyResponse({
+						status: false,
+						message: message,
+					});
+				}
 			} catch (e: any) {
+				let message = '';
+				if (e.message) {
+					message = e.message;
+				} else if (arProvider.walletType === WalletEnum.arweaveApp && !arProvider.wallet['_address']) {
+					message = language.arweaveAppConnectionError;
+				} else {
+					message = language.errorOccurred;
+				}
 				setLoading(false);
 				setShowConfirmation(false);
 				setBuyResponse({
 					status: false,
-					message: e.message,
+					message: message,
 				});
 			}
 		}

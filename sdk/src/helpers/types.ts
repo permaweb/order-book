@@ -10,6 +10,7 @@ export type AssetType = {
 		renderWith: string | null;
 		dateCreated: number;
 		blockHeight: number;
+		creator: string;
 		udl?: UDLType;
 	};
 	orders?: OrderBookPairOrderType[];
