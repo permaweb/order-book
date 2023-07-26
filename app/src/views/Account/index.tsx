@@ -1,22 +1,25 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsTable } from 'global/AssetsTable';
 import { REDUX_TABLES } from 'helpers/redux';
-import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
+import * as assetActions from 'store/assets/actions';
+import * as cursorActions from 'store/cursors/actions';
 
 import { AccountHeader } from './AccountHeader';
 
 export default function Account() {
 	const { id } = useParams();
+	const dispatch = useDispatch();
+
 	const orProvider = useOrderBookProvider();
 
-	const arProvider = useArweaveProvider();
+	const [idParam, setIdParam] = React.useState<string | null>(null);
 
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
@@ -25,23 +28,42 @@ export default function Account() {
 	const [profile, setProfile] = React.useState<any>();
 
 	React.useEffect(() => {
-		orProvider.orderBook.api.getProfile({ walletAddress: id }).then(setProfile);
+		if (id) setIdParam(id);
 	}, [id]);
 
 	React.useEffect(() => {
-		if (assetsReducer.accountData) {
-			setAssets(assetsReducer.accountData);
+		dispatch(
+			assetActions.setAssets({
+				accountData: { address: null, data: null },
+			})
+		);
+		dispatch(
+			cursorActions.setCursors({
+				[REDUX_TABLES.userAssets]: [],
+			})
+		);
+	}, [idParam]);
+
+	React.useEffect(() => {
+		if (idParam && orProvider.orderBook) {
+			orProvider.orderBook.api.getProfile({ walletAddress: idParam }).then(setProfile);
+		}
+	}, [idParam, orProvider.orderBook]);
+
+	React.useEffect(() => {
+		if (assetsReducer.accountData && assetsReducer.accountData.data) {
+			setAssets(assetsReducer.accountData.data);
 			setLoading(false);
 		} else {
 			setLoading(true);
 		}
-	}, [arProvider.walletAddress, assetsReducer.accountData]);
+	}, [assetsReducer.accountData]);
 
 	return (
 		<>
 			<AccountHeader profile={profile} />
 			<AssetsTable
-				address={id}
+				address={idParam}
 				assets={assets}
 				apiFetch={'user'}
 				reduxCursor={REDUX_TABLES.userAssets}

@@ -48,7 +48,9 @@ export default function AssetsTable(props: IProps) {
 				dispatch(assetActions.setAssets({ contractData: null }));
 				break;
 			case 'user':
-				dispatch(assetActions.setAssets({ accountData: null }));
+				dispatch(
+					assetActions.setAssets({ accountData: { address: props.address ? props.address : null, data: null } })
+				);
 				break;
 			case 'collection':
 				dispatch(assetActions.setAssets({ collectionData: null }));

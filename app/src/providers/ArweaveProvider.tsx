@@ -163,6 +163,11 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 			let walletAddress: string | null = null;
 			try {
 				walletAddress = await global.window.arweaveWallet.getActiveAddress();
+
+				if (walletType !== WalletEnum.arweaveApp) {
+					setWalletType(WalletEnum.arConnect);
+					setWallet(window.arweaveWallet);
+				}
 			} catch {}
 			if (walletAddress) {
 				setWalletAddress(walletAddress as any);
@@ -177,7 +182,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 		return () => {
 			window.removeEventListener('arweaveWalletLoaded', handleWallet);
 		};
-	});
+	}, [walletType]);
 
 	React.useEffect(() => {
 		let arweaveGet = Arweave.init({
@@ -223,7 +228,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				}
 
 				try {
-					let dreNode = dreReducer.source.substring(0, dreReducer.source.lastIndexOf('/'));
+					const dreNode = dreReducer.source.substring(0, dreReducer.source.lastIndexOf('/'));
 					const rawBalance = await fetch(
 						getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract, dreNode)
 					);
@@ -233,6 +238,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 						U: numBalance,
 					});
 				} catch (e: any) {
+					console.error(e);
 					setCurrencyBalances({
 						U: 0,
 					});

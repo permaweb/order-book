@@ -50,6 +50,7 @@ export default function AssetDetail(props: IProps) {
 			setAsset(null);
 			setLoading(true);
 			setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
+			await new Promise((r) => setTimeout(r, 2000));
 			arProvider.setUpdateBalance(!updateBalance);
 			setLoading(false);
 		}

@@ -174,6 +174,14 @@ export const DCLineFlex = styled.div`
 	max-width: 57.5%;
 `;
 
+export const DCOwnerFlex = styled.div`
+	display: flex;
+	align-items: center;
+	p {
+		margin: 0 10px 0 0;
+	}
+`;
+
 export const C2 = styled.div`
 	width: calc(100% - ${C1_DIMENSION});
 	padding: 0 0 0 40px;

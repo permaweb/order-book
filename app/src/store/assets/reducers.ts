@@ -6,7 +6,7 @@ import { AssetsType } from './types';
 export const initStateAssets: AssetsType = {
 	contractData: null,
 	featuredData: null,
-	accountData: null,
+	accountData: { address: null, data: null },
 	collectionData: null,
 };
 
@@ -16,7 +16,10 @@ export function assetsReducer(state: AssetsType = initStateAssets, action: Redux
 			return Object.assign({}, state, {
 				contractData: action.payload.contractData,
 				featuredData: action.payload.featuredData,
-				accountData: action.payload.accountData,
+				accountData: {
+					address: action.payload.accountData ? action.payload.accountData.address : state.accountData.address,
+					data: action.payload.accountData ? action.payload.accountData.data : state.accountData.data,
+				},
 				collectionData: action.payload.collectionData,
 			});
 		default:

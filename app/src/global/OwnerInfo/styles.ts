@@ -73,6 +73,6 @@ export const Avatar = styled.div`
 	}
 `;
 
-export const OrderCancel = styled.div<{ hasHandle: boolean }>`
-	margin: ${(props) => (props.hasHandle ? '0 0 0 5px' : '0 0 0 12.5px')};
+export const OrderCancel = styled.div`
+	margin: 0 0 0 5px;
 `;

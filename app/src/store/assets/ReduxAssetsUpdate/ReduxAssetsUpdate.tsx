@@ -26,6 +26,7 @@ export default function ReduxAssetsUpdate(props: {
 }) {
 	const dispatch = useDispatch();
 
+	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
@@ -70,8 +71,15 @@ export default function ReduxAssetsUpdate(props: {
 				if (props.reduxCursor && props.cursorObject && cursorsReducer[props.cursorObject]) {
 					const currentReducer = cursorsReducer[props.cursorObject];
 					if (currentReducer[props.reduxCursor]) {
-						const updatedReducer = props.collectionId ? [] : currentReducer[props.reduxCursor];
 						let contractIds: string[] = [];
+
+						let updatedReducer: any[];
+						if (
+							props.collectionId ||
+							(assetsReducer.accountData.address && props.address !== assetsReducer.accountData.address)
+						) {
+							updatedReducer = [];
+						} else updatedReducer = currentReducer[props.reduxCursor];
 
 						switch (props.apiFetch) {
 							case 'contract':
@@ -106,9 +114,9 @@ export default function ReduxAssetsUpdate(props: {
 							});
 						}
 
-						for (let i = 0; i < rankedContractIds.length; i += PAGINATOR) {
+						for (let i = 0, j = 0; i < rankedContractIds.length; i += PAGINATOR, j++) {
 							const cursorIds = [...rankedContractIds].slice(i, i + PAGINATOR);
-							const newIndex = `${props.reduxCursor}-${props.cursorObject}-${currentReducer[props.reduxCursor].length}`;
+							const newIndex = `${props.reduxCursor}-${props.cursorObject}-${j}`;
 
 							if (
 								![...groupIndex.values()].some((ids: any) =>
@@ -131,12 +139,12 @@ export default function ReduxAssetsUpdate(props: {
 
 	React.useEffect(() => {
 		(async function () {
-			const reducer = cursorsReducer[props.cursorObject][props.reduxCursor];
-			if (reducer && reducer.length && orderBook && props.currentTableCursor && orderBook) {
-				for (let i = 0; i < reducer.length; i++) {
-					if (props.currentTableCursor === reducer[i].index) {
+			const cursorReducer = cursorsReducer[props.cursorObject][props.reduxCursor];
+			if (cursorReducer && cursorReducer.length && orderBook && props.currentTableCursor && orderBook) {
+				for (let i = 0; i < cursorReducer.length; i++) {
+					if (props.currentTableCursor === cursorReducer[i].index) {
 						const fetchedAssets = await orderBook.api.getAssetsByIds({
-							ids: reducer[i].ids,
+							ids: cursorReducer[i].ids,
 							owner: null,
 							uploader: null,
 							cursor: null,
@@ -172,7 +180,7 @@ export default function ReduxAssetsUpdate(props: {
 								dispatch(assetActions.setAssets(assetReducer));
 								break;
 							case 'user':
-								dispatch(assetActions.setAssets({ accountData: rankedAssets }));
+								dispatch(assetActions.setAssets({ accountData: { address: props.address, data: rankedAssets } }));
 								break;
 							case 'collection':
 								dispatch(assetActions.setAssets({ collectionData: rankedAssets }));
@@ -182,7 +190,12 @@ export default function ReduxAssetsUpdate(props: {
 				}
 			}
 		})();
-	}, [cursorsReducer, props.currentTableCursor, orderBook]);
+	}, [
+		cursorsReducer[props.cursorObject][props.reduxCursor],
+		assetsReducer.accountData.address,
+		props.currentTableCursor,
+		orderBook,
+	]);
 
 	return <>{props.children}</>;
 }

@@ -1,7 +1,7 @@
 import { ReactSVG } from 'react-svg';
 
 import { ButtonLink } from 'components/atoms/ButtonLink';
-import { ASSETS, REDIRECTS } from 'helpers/config';
+import { AR_PROFILE, ASSETS, REDIRECTS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { formatAddress } from 'helpers/utils';
@@ -11,11 +11,17 @@ import { IProps } from './types';
 
 export default function AccountHeader(props: IProps) {
 	function getProfileImage() {
-		if (props.profile && props.profile.avatar !== 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA') {
-			if (props.profile.avatar) return <S.Avatar src={getTxEndpoint(props.profile.avatar!.substring(5))} />;
-			else return <ReactSVG src={ASSETS.user} />;
+		if (props.profile) {
+			let avatar = props.profile.avatar ? props.profile.avatar : null;
+			if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
+			if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
+			if (avatar) {
+				return <S.Avatar src={getTxEndpoint(avatar)} />;
+			} else {
+				return <ReactSVG src={ASSETS.user} />;
+			}
 		} else {
-			return <ReactSVG src={ASSETS.user} />;
+			return null;
 		}
 	}
 

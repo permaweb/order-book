@@ -1,9 +1,16 @@
+import React from 'react';
+
+import { AssetDetailType } from 'permaweb-orderbook';
+
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'global/AssetData';
+import { OwnerInfo } from 'global/OwnerInfo';
 import { ASSETS, STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
-import { formatCount, formatDate } from 'helpers/utils';
+import { OwnerListingType, OwnerType } from 'helpers/types';
+import { formatCount, formatDate, getOwners } from 'helpers/utils';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from '../styles';
 import { IAProps } from '../types';
@@ -11,6 +18,21 @@ import { IAProps } from '../types';
 import { AssetDetailLicenses } from './AssetDetailLicenses';
 
 export default function AssetDetailInfo(props: IAProps) {
+	const orProvider = useOrderBookProvider();
+
+	const [creator, setCreator] = React.useState<OwnerType | OwnerListingType | null>(null);
+
+	React.useEffect(() => {
+		(async function () {
+			if (props.asset && orProvider.orderBook) {
+				const creator = (
+					await getOwners([{ creator: props.asset.data.creator }], orProvider, props.asset as AssetDetailType)
+				)[0];
+				setCreator(creator);
+			}
+		})();
+	}, [props.asset, orProvider.orderBook]);
+
 	return props.asset ? (
 		<S.C1Wrapper>
 			<S.C1>
@@ -26,6 +48,12 @@ export default function AssetDetailInfo(props: IAProps) {
 						content={
 							<S.DrawerContent>
 								<S.DCHeader>{props.asset.data.title}</S.DCHeader>
+								{creator ? (
+									<S.DCOwnerFlex>
+										<p>{language.createdBy}</p>
+										<OwnerInfo owner={creator} asset={props.asset} isSaleOrder={false} updateAsset={() => {}} />
+									</S.DCOwnerFlex>
+								) : null}
 								<S.DCLineNoMax>{props.asset.data.description}</S.DCLineNoMax>
 							</S.DrawerContent>
 						}
