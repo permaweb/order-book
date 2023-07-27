@@ -13,13 +13,13 @@ export const Wrapper = styled.div`
 	animation: ${open};
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ relative: boolean }>`
 	height: 50px;
 	width: 50px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	position: ${(props) => (props.relative ? 'relative' : 'fixed')};
+	top: ${(props) => (props.relative ? 'auto' : '50%')};
+	left: ${(props) => (props.relative ? 'auto' : '50%')};
+	transform: ${(props) => (props.relative ? 'translate(0, 0)' : 'translate(-50%, -50%)')};
 	z-index: 3;
 `;
 

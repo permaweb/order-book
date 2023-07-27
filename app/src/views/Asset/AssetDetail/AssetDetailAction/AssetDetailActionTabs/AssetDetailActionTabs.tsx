@@ -20,7 +20,7 @@ export default function AssetDetailActions(props: IAMProps) {
 			case DETAIL_ACTION_TAB_OPTIONS.activity:
 				return <AssetDetailActivity />;
 			case DETAIL_ACTION_TAB_OPTIONS.comments:
-				return <AssetDetailComments />;
+				return <AssetDetailComments asset={props.asset} />;
 			default:
 				return null;
 		}

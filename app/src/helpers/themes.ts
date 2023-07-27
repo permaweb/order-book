@@ -354,12 +354,12 @@ export const defaultTheme: DefaultTheme = {
 			xxSmall: '13px',
 		},
 		weight: {
-			thin: '100',
+			thin: '400',
 			extraLight: '200',
 			light: '300',
 			regular: '400',
-			medium: '600',
-			bold: '700',
+			medium: '500',
+			bold: '600',
 		},
 	},
 };

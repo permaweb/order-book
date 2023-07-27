@@ -23,6 +23,7 @@ export default function AssetBuy(props: IProps) {
 
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
+	const [remainingBalance, setRemainingBalance] = React.useState<string | null>(null);
 
 	const [assetQuantity, setAssetQuantity] = React.useState<number>(0);
 	const [tradeable, setTradeable] = React.useState<boolean>(false);
@@ -58,6 +59,12 @@ export default function AssetBuy(props: IProps) {
 	React.useEffect(() => {
 		if (totalSalesBalance === 1) setAssetQuantity(1);
 	}, [totalSalesBalance]);
+
+	React.useEffect(() => {
+		if (buyResponse && arProvider.currencyBalances && arProvider.currencyBalances['U']) {
+			setRemainingBalance(((arProvider.currencyBalances['U'] - calcTotalPrice()) / 1e6).toFixed(4));
+		}
+	}, [buyResponse, arProvider.currencyBalances]);
 
 	function getActionDisabled() {
 		if (!arProvider.walletAddress) return true;
@@ -150,14 +157,14 @@ export default function AssetBuy(props: IProps) {
 		}
 	}
 
-	function getPrice() {
+	function getAmount(price: string) {
 		const currencies = props.asset.orders.map((order: OrderBookPairOrderType) => {
 			return order.currency;
 		});
 
 		return (
 			<S.Price>
-				<p>{(calcTotalPrice() / 1e6).toFixed(4)}</p>
+				<p>{price}</p>
 				{currencies.every((currency: string) => currency === currencies[0]) && (
 					<ReactSVG
 						src={CURRENCY_ICONS[currencies[0]] ? CURRENCY_ICONS[currencies[0]] : CURRENCY_ICONS[CURRENCY_DICT.U]}
@@ -204,7 +211,7 @@ export default function AssetBuy(props: IProps) {
 				<S.PriceInfoWrapper>
 					<S.SpendInfoContainer>
 						<span>{language.totalPrice}</span>
-						{getPrice()}
+						{getAmount((calcTotalPrice() / 1e6).toFixed(4))}
 					</S.SpendInfoContainer>
 					{arProvider.currencyBalances && arProvider.currencyBalances['U'] < calcTotalPrice() && (
 						<S.Warning>
@@ -276,7 +283,19 @@ export default function AssetBuy(props: IProps) {
 					handleClose={() => handleModalClose(buyResponse && buyResponse.status ? true : false)}
 				>
 					<S.ModalTitle>
-						{buyResponse && buyResponse.status && <p>{buyResponse.message}</p>}
+						{buyResponse && buyResponse.status && (
+							<>
+								<p>{buyResponse.message}</p>
+								{remainingBalance && (
+									<S.RemainingBalanceWrapper>
+										<S.RemainingBalanceInfo>
+											<p>{`${language.remainingBalance}: `}</p>
+										</S.RemainingBalanceInfo>
+										{getAmount(remainingBalance)}
+									</S.RemainingBalanceWrapper>
+								)}
+							</>
+						)}
 						{buyResponse && !buyResponse.status && (
 							<S.ErrorMessage>
 								<p>{buyResponse.message}</p>
@@ -294,7 +313,7 @@ export default function AssetBuy(props: IProps) {
 									</S.SpendInfoContainer>
 									<S.SpendInfoContainer>
 										<span>{language.totalPrice}</span>
-										{getPrice()}
+										{getAmount((calcTotalPrice() / 1e6).toFixed(4))}
 									</S.SpendInfoContainer>
 								</S.SpendInfoWrapper>
 								<S.SpendInfoWrapper>

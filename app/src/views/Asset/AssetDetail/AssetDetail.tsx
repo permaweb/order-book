@@ -24,7 +24,11 @@ export default function AssetDetail(props: IProps) {
 	const [errorFetchingAsset, setErrorFetchingAsset] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
 
-	const [updateBalance, _setUpdateBalance] = React.useState<boolean>(false);
+	const [localUpdate, setLocalUpdate] = React.useState(false);
+
+	React.useEffect(() => {
+		arProvider.setUpdateBalance(localUpdate);
+	}, [localUpdate]);
 
 	React.useEffect(() => {
 		setAsset(null);
@@ -49,9 +53,9 @@ export default function AssetDetail(props: IProps) {
 		if (orProvider.orderBook) {
 			setAsset(null);
 			setLoading(true);
-			setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
-			await new Promise((r) => setTimeout(r, 2000));
-			arProvider.setUpdateBalance(!updateBalance);
+			const updatedAsset = (await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType;
+			setAsset(updatedAsset);
+			setLocalUpdate((prev) => !prev);
 			setLoading(false);
 		}
 	}

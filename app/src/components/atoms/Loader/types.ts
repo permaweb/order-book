@@ -3,4 +3,5 @@ export interface IProps {
 	xSm?: boolean;
 	disabled?: boolean;
 	placeholder?: boolean;
+	relative?: boolean;
 }

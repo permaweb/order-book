@@ -115,7 +115,7 @@ export const AR_WALLETS = [
 ];
 
 export const API_CONFIG = {
-	arweaveGet: 'arweave.net',
+	arweaveGet: 'arweave-search.goldsky.com',
 	arweavePost: 'arweave.net',
 	protocol: 'https',
 	port: 443,
@@ -146,6 +146,10 @@ export const DETAIL_ACTION_TAB_OPTIONS = {
 };
 
 export const DETAIL_ACTION_TABS = [
+	// {
+	// 	label: DETAIL_ACTION_TAB_OPTIONS.comments,
+	// 	icon: ASSETS.comments,
+	// },
 	{
 		label: DETAIL_ACTION_TAB_OPTIONS.market,
 		icon: ASSETS.market,
@@ -153,10 +157,6 @@ export const DETAIL_ACTION_TABS = [
 	// {
 	// 	label: DETAIL_ACTION_TAB_OPTIONS.activity,
 	// 	icon: ASSETS.activity,
-	// },
-	// {
-	// 	label: DETAIL_ACTION_TAB_OPTIONS.comments,
-	// 	icon: ASSETS.comments,
 	// },
 ];
 

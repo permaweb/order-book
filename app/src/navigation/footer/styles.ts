@@ -24,6 +24,6 @@ export const Container = styled.div`
 
 export const Content = styled.p`
 	color: ${(props) => props.theme.colors.font.primary.alt1};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	font-size: 13px;
 `;

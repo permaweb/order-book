@@ -92,7 +92,7 @@ export const SABalanceContainer = styled.div`
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	svg {
-		fill: ${(props) => props.theme.colors.font.primary.active.base} !important;
+		fill: ${(props) => props.theme.colors.font.primary.alt1} !important;
 		width: 12.5px !important;
 		margin: 2.5px 10px 0 0 !important;
 	}
@@ -100,8 +100,8 @@ export const SABalanceContainer = styled.div`
 		max-width: 85%;
 		font-family: ${(props) => props.theme.typography.family.primary} !important;
 		font-size: ${(props) => props.theme.typography.size.xSmall} !important;
-		font-weight: ${(props) => props.theme.typography.weight.light} !important;
-		color: ${(props) => props.theme.colors.font.primary.active.base} !important;
+		font-weight: ${(props) => props.theme.typography.weight.regular} !important;
+		color: ${(props) => props.theme.colors.font.primary.alt1} !important;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		height: auto !important;
@@ -142,7 +142,7 @@ export const Message = styled.div<{ loading: 'true' | 'false' }>`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 10px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;

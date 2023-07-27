@@ -45,7 +45,7 @@ export const Input = styled.input<{
 	height: ${(props) => (props.sm ? STYLING.dimensions.formHeightSm : STYLING.dimensions.formHeightMax)};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	font-size: ${(props) => (props.sm ? props.theme.typography.size.small : '19px')};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	margin: 7.5px 0 0 0;
 	border: 1px solid
 		${(props) => (props.invalid ? props.theme.colors.form.invalid.outline : props.theme.colors.form.border)};
@@ -90,7 +90,7 @@ export const EndTextContainer = styled.div<{
 export const EndText = styled.span<{ sm: boolean | undefined }>`
 	color: ${(props) => props.theme.colors.font.primary.alt4};
 	font-size: ${(props) => (props.sm ? props.theme.typography.size.small : '19px')};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	width: 100%;
 `;
 
@@ -104,7 +104,7 @@ export const ErrorContainer = styled.div`
 
 export const Error = styled.span`
 	font-size: ${(props) => props.theme.typography.size.xxSmall};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	border-left: 3.5px solid ${(props) => props.theme.colors.font.primary.invalid};
 	padding-left: 5px;
 `;

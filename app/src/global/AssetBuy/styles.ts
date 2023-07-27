@@ -28,7 +28,7 @@ export const DCLineHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 `;
 
@@ -37,7 +37,7 @@ export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 `;
 
@@ -63,7 +63,7 @@ export const Warning = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.warning};
 	}
 `;
@@ -79,7 +79,7 @@ export const SpendInfoContainer = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
@@ -87,7 +87,7 @@ export const SpendInfoContainer = styled.div`
 		font-size: ${(props) => props.theme.typography.size.lg};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 	}
 `;
@@ -100,7 +100,7 @@ export const Price = styled.div`
 		margin: 0;
 	}
 	svg {
-		margin: 0 0 0 15px;
+		margin: 0 0 0 10px;
 	}
 `;
 
@@ -135,8 +135,20 @@ export const ModalTitle = styled.div`
 		font-size: ${(props) => props.theme.typography.size.lg};
 		line-height: calc(${(props) => props.theme.typography.size.lg} + 6px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
+	}
+`;
+
+export const RemainingBalanceWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	margin: 20px 0 0 0;
+`;
+
+export const RemainingBalanceInfo = styled.div`
+	p {
+		margin: 12.5px 10px 0 0;
 	}
 `;
 
@@ -147,7 +159,7 @@ export const WalletConnectionWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		text-align: right;
 	}

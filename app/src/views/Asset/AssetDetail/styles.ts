@@ -80,7 +80,7 @@ export const DrawerHeader = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		word-wrap: break-word;
 	}
@@ -138,7 +138,7 @@ export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
 	display: flex;
@@ -153,7 +153,7 @@ export const DCLineDetail = styled.p`
 `;
 
 export const DCLineDetailMedium = styled(DCLineDetail)`
-	font-weight: ${(props) => props.theme.typography.weight.light};
+	font-weight: ${(props) => props.theme.typography.weight.regular};
 `;
 
 export const DCLineNoMax = styled(DCLineDetailMedium)`
@@ -216,7 +216,7 @@ export const ACLink = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		text-decoration: underline;
 		&:hover {
 			color: ${(props) => props.theme.colors.font.primary.alt8};
@@ -234,7 +234,7 @@ export const OwnerLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		overflow-x: hidden;
 		text-overflow: ellipsis;
@@ -244,7 +244,7 @@ export const OwnerLine = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		text-decoration: underline;
 		margin: 0 0 0 5px;
 		&:hover {
@@ -268,7 +268,7 @@ export const ACChartContainer = styled.div`
 		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		margin: 0 0 -60px 0;
 		width: fit-content;
@@ -297,7 +297,7 @@ export const Warning = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.warning};
 	}
 	button {

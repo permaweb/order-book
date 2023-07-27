@@ -296,3 +296,10 @@ export type CollectionManifestType = {
 	type: string;
 	items: string[];
 };
+
+export type CommentType = {
+	tx: string;
+	rootTx: string;
+	owner: string;
+	text: string;
+};

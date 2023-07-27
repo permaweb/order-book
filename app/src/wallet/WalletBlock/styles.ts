@@ -22,7 +22,7 @@ export const Wrapper = styled.div`
 	animation: ${open} ${fadeIn2};
 	p {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 	}
 	> * {
 		height: fit-content;

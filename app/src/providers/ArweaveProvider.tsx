@@ -4,11 +4,11 @@ import Arweave from 'arweave';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 
-import { OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
+import { CURRENCY_DICT, OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
 import { API_CONFIG, AR_WALLETS, ASSETS, CURRENCIES, WALLET_PERMISSIONS } from 'helpers/config';
-import { getArweaveBalanceEndpoint, getCurrencyBalanceEndpoint } from 'helpers/endpoints';
+import { getArweaveBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { WalletEnum } from 'helpers/types';
 import { RootState } from 'store';
@@ -226,21 +226,18 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				} else {
 					setArProfile(null);
 				}
+			}
+		})();
+	}, [walletAddress, orderBook]);
 
-				try {
-					const dreNode = dreReducer.source.substring(0, dreReducer.source.lastIndexOf('/'));
-					const rawBalance = await fetch(
-						getCurrencyBalanceEndpoint(walletAddress, orderBook.env.currencyContract, dreNode)
-					);
-					const jsonBalance = await rawBalance.json();
-					const numBalance = jsonBalance.result && jsonBalance.result[0] ? jsonBalance.result[0] : 0;
+	React.useEffect(() => {
+		(async function () {
+			if (walletAddress && orderBook) {
+				const currencyState = await orderBook.api.arClient.read(CURRENCY_DICT['U']);
+				const balance = currencyState.balances[walletAddress];
+				if (balance) {
 					setCurrencyBalances({
-						U: numBalance,
-					});
-				} catch (e: any) {
-					console.error(e);
-					setCurrencyBalances({
-						U: 0,
+						U: balance,
 					});
 				}
 			}

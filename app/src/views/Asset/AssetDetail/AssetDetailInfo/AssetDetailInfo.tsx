@@ -48,12 +48,12 @@ export default function AssetDetailInfo(props: IAProps) {
 						content={
 							<S.DrawerContent>
 								<S.DCHeader>{props.asset.data.title}</S.DCHeader>
-								{creator ? (
+								{creator && (
 									<S.DCOwnerFlex>
 										<p>{language.createdBy}</p>
 										<OwnerInfo owner={creator} asset={props.asset} isSaleOrder={false} updateAsset={() => {}} />
 									</S.DCOwnerFlex>
-								) : null}
+								)}
 								<S.DCLineNoMax>{props.asset.data.description}</S.DCLineNoMax>
 							</S.DrawerContent>
 						}

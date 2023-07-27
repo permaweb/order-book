@@ -25,7 +25,7 @@ function getWidth(noMinWidth: boolean | undefined, width: number | undefined) {
 export const Wrapper = styled.div`
 	a {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
 		&:hover {
 			text-decoration: none;
 		}

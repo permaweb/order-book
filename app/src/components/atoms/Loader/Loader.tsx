@@ -21,7 +21,7 @@ export default function Loader(props: IProps) {
 
 	function getLoader(size: number, height: number, width: number) {
 		return (
-			<S.Container>
+			<S.Container relative={props.relative ? props.relative : false}>
 				<S.Spinner size={size} height={height} width={width}>
 					<S.Blade />
 					<S.Blade />

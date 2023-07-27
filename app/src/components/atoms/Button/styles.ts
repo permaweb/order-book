@@ -70,10 +70,9 @@ export const Primary = styled.button<{
 		text-overflow: ellipsis;
 		overflow: hidden;
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.primary.active.label : props.theme.colors.button.primary.label};
-		font-weight: ${(props) => props.theme.typography.weight.light};
 	}
 `;
 
@@ -126,7 +125,7 @@ export const Alt1 = styled(Primary)`
 	span {
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.alt1.active.label : props.theme.colors.button.alt1.label};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 `;
 
@@ -173,7 +172,7 @@ export const Alt2 = styled(Primary)`
 		transition: all 250ms;
 		color: ${(props) =>
 			props.active ? props.theme.colors.button.alt1.active.label : props.theme.colors.button.alt1.label};
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 `;
 
@@ -219,7 +218,7 @@ export const Alt3 = styled(Primary)`
 	}
 
 	span {
-		font-weight: ${(props) => props.theme.typography.weight.light};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 `;
 
