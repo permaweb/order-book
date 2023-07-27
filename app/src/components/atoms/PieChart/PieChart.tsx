@@ -76,7 +76,7 @@ export default function PieChart(props: IProps) {
 								boxWidth: 20,
 								font: {
 									size: 13,
-									weight: 'regular',
+									weight: 'medium',
 								},
 							},
 							onClick: () => {},

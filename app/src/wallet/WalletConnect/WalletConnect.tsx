@@ -109,7 +109,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 				{showDropdown && (
 					<S.WalletDropdown>
 						<li onClick={handleViewAccount}>{language.account}</li>
-						<li onClick={copyAddress}>{copied ? language.copied : language.copyAddress}</li>
+						<li onClick={copyAddress}>{copied ? `${language.copied}!` : language.copyAddress}</li>
 						<li onClick={handleDisconnect}>{language.disconnect}</li>
 					</S.WalletDropdown>
 				)}

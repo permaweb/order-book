@@ -234,14 +234,14 @@ export const defaultTheme: DefaultTheme = {
 				fill: DEFAULT.neutral1,
 				hover: DEFAULT.neutral6,
 				alt1: {
-					fill: DEFAULT.neutral7,
+					fill: DEFAULT.neutral4,
 				},
 				alt2: {
 					fill: DEFAULT.primary2,
 				},
 			},
 			alt1: {
-				fill: DEFAULT.primary,
+				fill: DEFAULT.neutral4,
 			},
 			alt2: {
 				fill: DEFAULT.neutral,
