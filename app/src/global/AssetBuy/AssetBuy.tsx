@@ -7,7 +7,7 @@ import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 import { Button } from 'components/atoms/Button';
 import { Slider } from 'components/atoms/Slider';
 import { Modal } from 'components/molecules/Modal';
-import { CURRENCY_ICONS } from 'helpers/config';
+import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType, WalletEnum } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -262,10 +262,11 @@ export default function AssetBuy(props: IProps) {
 					<S.BuyActionEnd>
 						<Button
 							type={'alt1'}
-							label={language.confirmPurchase.toUpperCase()}
+							label={language.buy.toUpperCase()}
 							handlePress={() => setShowConfirmation(true)}
 							height={60}
 							width={350}
+							icon={ASSETS.buy}
 							disabled={getActionDisabled()}
 						/>
 					</S.BuyActionEnd>
@@ -326,7 +327,7 @@ export default function AssetBuy(props: IProps) {
 							<S.BuyAction>
 								<Button
 									type={'alt1'}
-									label={language.buyNow.toUpperCase()}
+									label={language.confirmPurchase.toUpperCase()}
 									handlePress={buyAsset}
 									height={60}
 									fullWidth

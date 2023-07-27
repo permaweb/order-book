@@ -115,6 +115,11 @@ export const BuyAction = styled.div`
 export const BuyActionEnd = styled(BuyAction)`
 	width: fit-content;
 	margin: 0 0 0 auto;
+
+	svg {
+		height: 22.5px;
+		width: 22.5px;
+	}
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		margin: 0;
 		width: 100%;

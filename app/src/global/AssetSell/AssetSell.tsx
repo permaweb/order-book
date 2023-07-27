@@ -8,7 +8,7 @@ import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
 import { Slider } from 'components/atoms/Slider';
 import { Modal } from 'components/molecules/Modal';
-import { CURRENCY_ICONS } from 'helpers/config';
+import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType, ValidationType, WalletEnum } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -271,13 +271,6 @@ export default function AssetSell(props: IProps) {
 		}
 	}
 
-	// function getMaxQuantityLabel() {
-	// 	let quantityLabel: string = language.quantity;
-	// 	if (!connectedDisabledSale && arProvider.walletAddress)
-	// 		quantityLabel += ` (Max: ${props.asset.state.balances[arProvider.walletAddress]})`;
-	// 	return quantityLabel;
-	// }
-
 	function getFields() {
 		if (props.asset) {
 			return (
@@ -372,13 +365,14 @@ export default function AssetSell(props: IProps) {
 						<S.SellActionEnd>
 							<Button
 								type={'alt1'}
-								label={language.confirmListing.toUpperCase()}
+								label={language.sell.toUpperCase()}
 								handlePress={(e: any) => {
 									e.preventDefault();
 									setShowConfirmation(true);
 								}}
 								height={60}
 								width={350}
+								icon={ASSETS.sell}
 								disabled={getActionDisabled()}
 								formSubmit
 							/>
@@ -429,7 +423,7 @@ export default function AssetSell(props: IProps) {
 							<S.SellAction>
 								<Button
 									type={'alt1'}
-									label={language.listNow.toUpperCase()}
+									label={language.confirmListing.toUpperCase()}
 									handlePress={async (e) => await sellAsset(e)}
 									height={60}
 									fullWidth
