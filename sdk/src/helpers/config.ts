@@ -64,7 +64,7 @@ export const TAGS = {
 		ansVersion: 'ANS-110',
 		assetContractSrc: 'Of9pi--Gj7hCTawhgxOwbuWnFI1h24TTgO5pw8ENJNQ',
 		collection: 'Collection',
-		comment: 'Comment',
+		comment: 'comment',
 		contentTypes: {
 			textPlain: 'text/plain',
 		},

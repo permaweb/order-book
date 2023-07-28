@@ -49,7 +49,7 @@ export async function getComments(args: {
 	}
 
 	return {
-		comments: [],
+		comments: comments,
 		nextCursor: gqlData.nextCursor,
 		previousCursor: null,
 	};
