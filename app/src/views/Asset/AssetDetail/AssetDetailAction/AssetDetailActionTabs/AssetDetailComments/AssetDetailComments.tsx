@@ -7,7 +7,7 @@ import { OwnerInfo } from 'global/OwnerInfo';
 import { COMMENT_SPEC } from 'helpers/config';
 // import { StampWidget } from 'global/StampWidget';
 import { language } from 'helpers/language';
-import { OwnerListingType, OwnerType, ResponseType } from 'helpers/types';
+import { OwnerListingType, OwnerType, ResponseType, WalletEnum } from 'helpers/types';
 import { getOwners } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
@@ -61,41 +61,44 @@ function CommentCreate(props: IAMProps) {
 			e.stopPropagation();
 			setLoading(true);
 
-			try {
-				await orProvider.orderBook.api.arClient.bundlr.ready();
-				const contractId = await orProvider.orderBook.api.createAsset({
-					content: comment,
-					contentType: CONTENT_TYPES.textPlain,
-					title: `${props.asset.data.title} comment - ${arProvider.walletAddress}`,
-					description: comment,
-					type: COMMENT_SPEC.protcolId,
-					topics: [COMMENT_SPEC.protcolId],
-					owner: arProvider.walletAddress,
-					ticker: COMMENT_SPEC.ticker,
-					dataProtocol: COMMENT_SPEC.protcolId,
-					dataSource: props.asset.data.id,
-					renderWith: [COMMENT_SPEC.renderWith],
-				});
-
-				console.log(contractId);
-
+			if (arProvider.walletType === WalletEnum.arweaveApp) {
+				alert(language.arweaveAppNotSupportedError);
 				setLoading(false);
-				setCommentResponse({
-					status: true,
-					message: `${language.replied}!`,
-				});
-			} catch (e: any) {
-				console.error(e);
-				setLoading(false);
-				setCommentResponse({
-					status: true,
-					message: language.errorOccurred,
-				});
+			} else {
+				try {
+					await orProvider.orderBook.api.arClient.bundlr.ready();
+					const contractId = await orProvider.orderBook.api.createAsset({
+						content: comment,
+						contentType: CONTENT_TYPES.textPlain,
+						title: `${props.asset.data.title} comment - ${arProvider.walletAddress}`,
+						description: comment,
+						type: COMMENT_SPEC.protcolId,
+						topics: [COMMENT_SPEC.protcolId],
+						owner: arProvider.walletAddress,
+						ticker: COMMENT_SPEC.ticker,
+						dataProtocol: COMMENT_SPEC.protcolId,
+						dataSource: props.asset.data.id,
+						renderWith: [COMMENT_SPEC.renderWith],
+					});
+					console.log(`Contract: ${contractId}`);
+					setLoading(false);
+					setCommentResponse({
+						status: true,
+						message: `${language.replied}!`,
+					});
+				} catch (e: any) {
+					console.error(e);
+					setLoading(false);
+					setCommentResponse({
+						status: true,
+						message: language.errorOccurred,
+					});
+				}
 			}
 
 			setTimeout(() => {
 				setCommentResponse(null), setComment('');
-			}, 2000);
+			}, 1500);
 			props.handleUpdate();
 		}
 	}
@@ -103,35 +106,37 @@ function CommentCreate(props: IAMProps) {
 	function getCommentCreate() {
 		if (arProvider.walletAddress) {
 			return (
-				<S.CommentCreate>
-					{owner && (
-						<S.CommentHeader>
-							<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} handleUpdate={() => {}} />
-						</S.CommentHeader>
-					)}
-					<S.CommentCreateForm>
-						<S.CommentCreateTextArea
-							ref={textareaRef}
-							value={comment}
-							onWheel={(e: any) => e.target.blur()}
-							onChange={(e: any) => setComment(e.target.value)}
-							disabled={loading || commentResponse !== null}
-							invalid={false}
-							placeholder={`${language.leaveComment}!`}
-						/>
-						<S.CommentCreateSubmit>
-							<Button
-								type={'alt1'}
-								label={commentResponse ? commentResponse.message : language.reply}
-								handlePress={(e: any) => handleSubmit(e)}
-								disabled={!comment || loading || commentResponse !== null}
-								loading={loading}
-								formSubmit
-								noMinWidth
+				<>
+					<S.CommentCreate>
+						{owner && (
+							<S.CommentHeader>
+								<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} handleUpdate={() => {}} />
+							</S.CommentHeader>
+						)}
+						<S.CommentCreateForm>
+							<S.CommentCreateTextArea
+								ref={textareaRef}
+								value={comment}
+								onWheel={(e: any) => e.target.blur()}
+								onChange={(e: any) => setComment(e.target.value)}
+								disabled={loading || commentResponse !== null}
+								invalid={false}
+								placeholder={`${language.leaveComment}!`}
 							/>
-						</S.CommentCreateSubmit>
-					</S.CommentCreateForm>
-				</S.CommentCreate>
+							<S.CommentCreateSubmit>
+								<Button
+									type={'alt1'}
+									label={commentResponse ? commentResponse.message : language.reply}
+									handlePress={(e: any) => handleSubmit(e)}
+									disabled={!comment || loading || commentResponse !== null}
+									loading={loading}
+									formSubmit
+									noMinWidth
+								/>
+							</S.CommentCreateSubmit>
+						</S.CommentCreateForm>
+					</S.CommentCreate>
+				</>
 			);
 		} else {
 			return (
@@ -148,22 +153,22 @@ function CommentCreate(props: IAMProps) {
 	return <S.CommentCreateWrapper>{getCommentCreate()}</S.CommentCreateWrapper>;
 }
 
-function CommentData(props: {id: string}) {
+function CommentData(props: { id: string }) {
 	const orProvider = useOrderBookProvider();
 
 	const [comment, setComment] = React.useState<CommentDetailType | null>(null);
 
 	React.useEffect(() => {
 		(async function () {
-			if(props.id) {
-				let comment = await orProvider.orderBook.api.getComment({id: props.id});
+			if (props.id) {
+				let comment = await orProvider.orderBook.api.getComment({ id: props.id });
 				setComment(comment);
 			}
 		})();
 	}, [props.id]);
 
-	if(comment) {
-		return(
+	if (comment) {
+		return (
 			<S.CommentDetail>
 				<p>{comment.text}</p>
 			</S.CommentDetail>
@@ -173,7 +178,7 @@ function CommentData(props: {id: string}) {
 			<S.CommentDetail>
 				<p>Loading...</p>
 			</S.CommentDetail>
-		)
+		);
 	}
 }
 
@@ -190,9 +195,8 @@ export default function AssetDetailComments(props: IAProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if(props.asset) {
-				let comments = await orProvider.orderBook.api.getComments({id: props.asset.data.id});
-				console.log(comments);
+			if (props.asset) {
+				const comments = await orProvider.orderBook.api.getComments({ id: props.asset.data.id });
 				setComments(comments.comments);
 			}
 		})();
@@ -235,7 +239,7 @@ export default function AssetDetailComments(props: IAProps) {
 										owner={comment.ownerDetail}
 										asset={props.asset}
 										isSaleOrder={false}
-										handleUpdate={() => {}}
+										handleUpdate={() => setLocalUpdate(true)}
 									/>
 									{/* <S.StampWidget>
 										<StampWidget
@@ -246,7 +250,7 @@ export default function AssetDetailComments(props: IAProps) {
 										/>
 									</S.StampWidget> */}
 								</S.CommentHeader>
-								<CommentData id={comment.tx}/>
+								<CommentData id={comment.tx} />
 							</S.CommentLine>
 						);
 					})}
@@ -263,7 +267,13 @@ export default function AssetDetailComments(props: IAProps) {
 
 	return (
 		<S.Wrapper className={'border-wrapper'}>
-			<CommentCreate asset={props.asset} handleUpdate={() => setLocalUpdate((prev) => !prev)} />
+			<CommentCreate
+				asset={props.asset}
+				handleUpdate={() => {
+					setFinalComments(null);
+					setLocalUpdate((prev) => !prev);
+				}}
+			/>
 			{getComments()}
 		</S.Wrapper>
 	);

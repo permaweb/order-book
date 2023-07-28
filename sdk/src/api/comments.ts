@@ -36,6 +36,7 @@ export async function getComments(args: {
 		reduxCursor: null,
 		cursorObject: CursorEnum.GQL,
 		arClient: args.arClient,
+		useArweavePost: true,
 	});
 
 	let comments: CommentType[] = [];
@@ -43,7 +44,7 @@ export async function getComments(args: {
 		let node = gqlData.data[i].node;
 		comments.push({
 			tx: node.id,
-			rootTx: getTagValue(node.tags, TAGS.keys.rootSource),
+			dataSource: getTagValue(node.tags, TAGS.keys.dataSource),
 			owner: node.owner.address,
 		});
 	}

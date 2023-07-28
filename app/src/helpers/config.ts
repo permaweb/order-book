@@ -145,12 +145,12 @@ export const DETAIL_ACTION_TAB_OPTIONS = {
 
 export const DETAIL_ACTION_TABS = [
 	{
-		label: DETAIL_ACTION_TAB_OPTIONS.comments,
-		icon: ASSETS.comments,
-	},
-	{
 		label: DETAIL_ACTION_TAB_OPTIONS.market,
 		icon: ASSETS.market,
+	},
+	{
+		label: DETAIL_ACTION_TAB_OPTIONS.comments,
+		icon: ASSETS.comments,
 	},
 	// {
 	// 	label: DETAIL_ACTION_TAB_OPTIONS.activity,

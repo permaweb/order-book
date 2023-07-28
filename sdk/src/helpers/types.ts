@@ -323,7 +323,7 @@ export type CollectionManifestType = {
 
 export type CommentType = {
 	tx: string;
-	rootTx: string;
+	dataSource: string;
 	owner: string;
 };
 

@@ -90,7 +90,7 @@ const apiClient: ApiClientType = {
 		return await getComments({ ...args, arClient: this.arClient });
 	},
 
-	getComment: async function (args: { id: string;}): Promise<CommentDetailType> {
+	getComment: async function (args: { id: string }): Promise<CommentDetailType> {
 		return await getComment({ ...args, arClient: this.arClient });
 	},
 };

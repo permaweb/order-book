@@ -4,6 +4,7 @@ import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
+// import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { API_CONFIG, CURRENCIES } from 'helpers/config';
@@ -32,10 +33,21 @@ export function useOrderBookProvider(): OrderBookContextState {
 
 export function OrderBookProvider(props: OrderBookProviderProps) {
 	const arProvider = useArweaveProvider();
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType | null>(null);
+	// const [signer, setSigner] = React.useState<any>(null);
 
-	const dreReducer = useSelector((state: RootState) => state.dreReducer);
+	// React.useEffect(() => {
+	// 	(async function () {
+	// 		if (arProvider.wallet && window.arweaveWallet) {
+	// 			const signer = new InjectedArweaveSigner(arProvider.wallet);
+	// 			signer.getAddress = window.arweaveWallet.getActiveAddress;
+	// 			await signer.setPublicKey();
+	// 			setSigner(signer);
+	// 		}
+	// 	})();
+	// }, [arProvider.wallet]);
 
 	React.useEffect(() => {
 		const arweaveGet = Arweave.init({
@@ -64,7 +76,7 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 				currency: CURRENCIES.default,
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
-				bundlrKey: arProvider.wallet ? window.arweaveWallet : null,
+				bundlrKey: window.arweaveWallet ? window.arweaveWallet : null,
 				warp: warp,
 				warpDreNode: dreReducer.source,
 			})

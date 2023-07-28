@@ -1,5 +1,6 @@
 export const language = {
 	arweaveAppConnectionError: `Connection error with Arweave.app. The connector window must remain open after the initial connection.`,
+	arweaveAppNotSupportedError: `Arweave.app is currently not supported for this action.`,
 	assetNotTradeable: `This asset is not tradeable`,
 	assets: 'Atomic Assets',
 	account: `Account`,
