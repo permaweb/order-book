@@ -326,6 +326,10 @@ export type CommentType = {
 	owner: string;
 };
 
+export type CommentDetailType = {
+	text: string;
+}
+
 export type CommentsResponseType = {
 	comments: CommentType[];
 	nextCursor: string | null;
