@@ -1,7 +1,7 @@
 import Stamps from '@permaweb/stampjs';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
-import { AssetDetailType, AssetType, CollectionType } from 'permaweb-orderbook';
+import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permaweb-orderbook';
 
 import { AR_PROFILE, STORAGE } from './config';
 import { language } from './language';
@@ -94,7 +94,7 @@ export function formatDisplayString(input: string): string {
 }
 
 export async function rankData(
-	dataFetch: CollectionType[] | AssetType[] | string[],
+	dataFetch: CollectionType[] | AssetType[] | CommentType[] | string[],
 	warp: any,
 	arweave: any,
 	wallet: any

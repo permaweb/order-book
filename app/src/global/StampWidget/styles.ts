@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 import { STYLING } from 'helpers/styling';
 
-export const Wrapper = styled.button`
-	height: 37.5px;
+export const Wrapper = styled.button<{ sm: boolean }>`
+	height: ${(props) => (props.sm ? 'fit-content' : '37.5px')};
 	width: fit-content !important;
-	background: ${(props) => props.theme.colors.container.primary.background};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	background: ${(props) =>
+		props.sm ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
+	border: 0.85px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
-	padding: 6.5px 10px;
+	padding: ${(props) => (props.sm ? '2.5px 6.5px' : '6.5px 10px')};
 	display: flex;
 	align-items: center;
 	cursor: pointer;
@@ -21,16 +22,17 @@ export const Wrapper = styled.button`
 		cursor: default;
 	}
 	p {
-		margin: 0 12.5px 0 0;
-		font-size: ${(props) => props.theme.typography.size.small} !important;
+		margin: ${(props) => (props.sm ? '0 7.5px 0 0' : '0 12.5px 0 0')};
+		font-size: ${(props) =>
+			props.sm ? props.theme.typography.size.xxSmall : props.theme.typography.size.small} !important;
 		font-family: ${(props) => props.theme.typography.family.alt1} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt8} !important;
 	}
 	svg {
 		transition: all 300ms;
 		margin: 3.5px 0 0 0;
-		height: 22.5px !important;
-		width: 22.5px !important;
+		height: ${(props) => (props.sm ? '15px' : '22.5px')} !important;
+		width: ${(props) => (props.sm ? '15px' : '22.5px')} !important;
 	}
 `;
 

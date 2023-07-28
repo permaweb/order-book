@@ -322,9 +322,10 @@ export type CollectionManifestType = {
 };
 
 export type CommentType = {
-	tx: string;
+	id: string;
 	dataSource: string;
 	owner: string;
+	stamps?: { total: number; vouched: number };
 };
 
 export type CommentDetailType = {

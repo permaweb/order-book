@@ -4,4 +4,5 @@ export interface IProps {
 	stamps: { total: number; vouched: number } | null;
 	hasStampedMessage?: string;
 	getCount?: boolean;
+	sm?: boolean;
 }

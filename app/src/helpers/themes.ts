@@ -58,6 +58,7 @@ export const defaultTheme: DefaultTheme = {
 			alt2: DEFAULT.primary4,
 			alt3: DEFAULT.neutral6,
 			alt4: DEFAULT.neutral4,
+			alt5: DEFAULT.neutral17,
 		},
 		button: {
 			primary: {

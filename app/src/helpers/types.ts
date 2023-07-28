@@ -1,3 +1,5 @@
+import { CommentType } from 'permaweb-orderbook';
+
 export type URLViewType = {
 	label: string;
 	disabled: boolean;
@@ -77,3 +79,5 @@ export enum WalletEnum {
 	arConnect = 'arconnect',
 	arweaveApp = 'arweave.app',
 }
+
+export type FinalCommentType = CommentType & { ownerDetail: OwnerType | OwnerListingType };

@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 	position: relative;
 	> * {
 		&:not(:last-child) {
-			margin: 0 0 25px 0;
+			margin: 0 0 20px 0;
 		}
 		&:last-child {
 			margin: 0;
@@ -17,6 +17,8 @@ export const Wrapper = styled.div`
 
 export const CommentLine = styled.div`
 	width: 100%;
+	padding: 20px 0 0 0;
+	border-top: 1px solid ${(props) => props.theme.colors.border.alt5};
 `;
 
 export const CommentHeader = styled.div`
@@ -26,10 +28,7 @@ export const CommentHeader = styled.div`
 `;
 
 export const StampWidget = styled.div`
-	margin: 0 20px 0 0;
-	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		margin: 0;
-	}
+	margin: 27.5px 0 0 0;
 `;
 
 export const CommentDivider = styled.div`
@@ -65,6 +64,7 @@ export const LoadingWrapper = styled.div`
 
 export const CommentCreateWrapper = styled.div`
 	width: 100%;
+	margin: 0 0 20px 0 !important;
 `;
 
 export const CommentCreate = styled.div``;

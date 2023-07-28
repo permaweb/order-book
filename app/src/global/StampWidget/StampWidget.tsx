@@ -216,6 +216,7 @@ export default function StampWidget(props: IProps) {
 				onClick={handleModalOpen}
 				disabled={false}
 				title={arProvider.walletAddress ? '' : language.connectWalletToStamp}
+				sm={props.sm ? props.sm : false}
 			>
 				<p>{getTotalCount()}</p>
 				<ReactSVG src={ASSETS.stamps} />

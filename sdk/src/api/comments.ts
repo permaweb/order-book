@@ -43,7 +43,7 @@ export async function getComments(args: {
 	for (let i = 0; i < gqlData.data.length; i++) {
 		let node = gqlData.data[i].node;
 		comments.push({
-			tx: node.id,
+			id: node.id,
 			dataSource: getTagValue(node.tags, TAGS.keys.dataSource),
 			owner: node.owner.address,
 		});
