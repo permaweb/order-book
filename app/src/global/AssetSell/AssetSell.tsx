@@ -247,9 +247,9 @@ export default function AssetSell(props: IProps) {
 		}
 	}
 
-	function handleModalClose(updateAsset: boolean) {
-		if (updateAsset) {
-			props.updateAsset();
+	function handleModalClose(handleUpdate: boolean) {
+		if (handleUpdate) {
+			props.handleUpdate();
 		}
 		setShowConfirmation(false);
 		setSellResponse(null);

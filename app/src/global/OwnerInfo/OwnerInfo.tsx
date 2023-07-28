@@ -11,7 +11,7 @@ import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 import * as S from './styles';
 
-export default function OwnerInfo({ owner, asset, isSaleOrder, updateAsset }) {
+export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate }) {
 	const arProvider = useArweaveProvider();
 	const redirect = `${urls.account}${owner.address}`;
 
@@ -54,7 +54,7 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, updateAsset }) {
 				</Link>
 				{getOwnerOrder() && (
 					<S.OrderCancel>
-						<OrderCancel asset={asset} updateAsset={updateAsset} />
+						<OrderCancel asset={asset} handleUpdate={handleUpdate} />
 					</S.OrderCancel>
 				)}
 			</S.DCLineHeader>

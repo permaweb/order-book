@@ -49,7 +49,7 @@ export default function AssetDetail(props: IProps) {
 		})();
 	}, [orProvider.orderBook, props.assetId]);
 
-	async function updateAsset() {
+	async function handleUpdate() {
 		if (orProvider.orderBook) {
 			setAsset(null);
 			setLoading(true);
@@ -65,7 +65,7 @@ export default function AssetDetail(props: IProps) {
 			return (
 				<>
 					<AssetDetailInfo asset={asset} />
-					<AssetDetailAction asset={asset} updateAsset={updateAsset} />{' '}
+					<AssetDetailAction asset={asset} handleUpdate={handleUpdate} />{' '}
 				</>
 			);
 		} else {

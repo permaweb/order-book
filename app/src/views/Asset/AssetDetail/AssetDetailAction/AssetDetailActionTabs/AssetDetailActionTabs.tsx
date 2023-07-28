@@ -16,7 +16,7 @@ export default function AssetDetailActions(props: IAMProps) {
 	function getTab() {
 		switch (currentTab) {
 			case DETAIL_ACTION_TAB_OPTIONS.market:
-				return <AssetDetailMarket asset={props.asset} updateAsset={props.updateAsset} />;
+				return <AssetDetailMarket asset={props.asset} handleUpdate={props.handleUpdate} />;
 			case DETAIL_ACTION_TAB_OPTIONS.activity:
 				return <AssetDetailActivity />;
 			case DETAIL_ACTION_TAB_OPTIONS.comments:

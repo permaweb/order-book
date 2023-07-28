@@ -9,7 +9,6 @@ import arrowNextSVG from 'assets/arrow-next.svg';
 import arrowPreviousSVG from 'assets/arrow-previous.svg';
 import arrowUpSVG from 'assets/arrow-up.svg';
 import audioSVG from 'assets/audio.svg';
-import bazarCartSVG from 'assets/bazar-cart.svg';
 import buySVG from 'assets/buy.svg';
 import checkmarkSVG from 'assets/checkmark.svg';
 import closeSVG from 'assets/close.svg';
@@ -54,7 +53,6 @@ export const ASSETS = {
 	arrowPrevious: arrowPreviousSVG,
 	arrowUp: arrowUpSVG,
 	audio: audioSVG,
-	bazarCart: bazarCartSVG,
 	buy: buySVG,
 	checkmark: checkmarkSVG,
 	close: closeSVG,
@@ -146,10 +144,10 @@ export const DETAIL_ACTION_TAB_OPTIONS = {
 };
 
 export const DETAIL_ACTION_TABS = [
-	// {
-	// 	label: DETAIL_ACTION_TAB_OPTIONS.comments,
-	// 	icon: ASSETS.comments,
-	// },
+	{
+		label: DETAIL_ACTION_TAB_OPTIONS.comments,
+		icon: ASSETS.comments,
+	},
 	{
 		label: DETAIL_ACTION_TAB_OPTIONS.market,
 		icon: ASSETS.market,

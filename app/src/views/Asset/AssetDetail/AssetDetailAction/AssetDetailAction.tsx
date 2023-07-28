@@ -73,7 +73,7 @@ export default function AssetDetailAction(props: IAMProps) {
 						)}
 					</S.ACHeader>
 				</div>
-				<AssetDetailActionTabs asset={props.asset} updateAsset={props.updateAsset} />
+				<AssetDetailActionTabs asset={props.asset} handleUpdate={props.handleUpdate} />
 			</S.C2>
 
 			{showCurrentOwnersModal && currentOwners && (
@@ -86,7 +86,7 @@ export default function AssetDetailAction(props: IAMProps) {
 						{currentOwners.map((owner: OwnerType, index: number) => {
 							return (
 								<S.DCLine key={index}>
-									<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} updateAsset={props.updateAsset} />
+									<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} handleUpdate={props.handleUpdate} />
 									<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 								</S.DCLine>
 							);
@@ -107,7 +107,7 @@ export default function AssetDetailAction(props: IAMProps) {
 						{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 							return (
 								<S.DCLine key={index}>
-									<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={true} updateAsset={props.updateAsset} />
+									<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={true} handleUpdate={props.handleUpdate} />
 									<S.DCLineFlex>
 										<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 										<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>

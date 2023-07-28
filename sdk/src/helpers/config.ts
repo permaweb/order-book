@@ -31,12 +31,19 @@ export const TAGS = {
 			license: 'License',
 		},
 		banner: 'Banner',
+		contractSrc: 'Contract-Src',
 		dataProtocol: 'Data-Protocol',
+		dataSource: 'Data-Source',
+		dateCreated: 'Date-Created',
+		indexedBy: 'Indexed-By',
+		initialOwner: 'Initial-Owner',
+		initState: 'Init-State',
 		name: 'Name',
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
 		thumbnail: 'Thumbnail',
+		topic: (topic: string) => `topic:${topic}`,
 		udl: {
 			access: 'Access',
 			accessFee: 'Access-Fee',
@@ -50,12 +57,19 @@ export const TAGS = {
 		},
 	},
 	values: {
+		ansVersion: 'ANS-110',
+		assetContractSrc: 'Of9pi--Gj7hCTawhgxOwbuWnFI1h24TTgO5pw8ENJNQ',
 		collection: 'Collection',
+		indexer: 'ucm',
 		profileVersions: {
 			'0.2': 'Account-0.2',
 			'0.3': 'Account-0.3',
 		},
 	},
+};
+
+export const CONTENT_TYPES = {
+	json: 'application/json',
 };
 
 export const DEFAULT_COLLECTION_BANNER =

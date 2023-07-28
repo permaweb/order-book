@@ -3,21 +3,20 @@ import React from 'react';
 import { AssetDetailType, CommentType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
-import { Loader } from 'components/atoms/Loader';
 import { OwnerInfo } from 'global/OwnerInfo';
 // import { StampWidget } from 'global/StampWidget';
 import { language } from 'helpers/language';
-import { OwnerListingType, OwnerType } from 'helpers/types';
+import { OwnerListingType, OwnerType, ResponseType } from 'helpers/types';
 import { getOwners } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
 
-import { IAProps } from '../../../types';
+import { IAMProps, IAProps } from '../../../types';
 
 import * as S from './styles';
 
-function CommentCreate(props: IAProps) {
+function CommentCreate(props: IAMProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
 
@@ -25,6 +24,9 @@ function CommentCreate(props: IAProps) {
 
 	const [owner, setOwner] = React.useState<OwnerType | OwnerListingType | null>(null);
 	const [comment, setComment] = React.useState<string>('');
+
+	const [loading, setLoading] = React.useState<boolean>(false);
+	const [commentResponse, setCommentResponse] = React.useState<ResponseType | null>(null);
 
 	React.useEffect(() => {
 		(async function () {
@@ -44,10 +46,8 @@ function CommentCreate(props: IAProps) {
 				textarea.style.height = 'auto';
 				textarea.style.height = `${textarea.scrollHeight + 10}px`;
 			};
-
 			setHeight();
 			textarea.addEventListener('input', setHeight);
-
 			return () => {
 				textarea.removeEventListener('input', setHeight);
 			};
@@ -58,7 +58,18 @@ function CommentCreate(props: IAProps) {
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 		e.stopPropagation();
+		setLoading(true);
 		console.log(comment);
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		setLoading(false);
+		setCommentResponse({
+			status: true,
+			message: `${language.replied}!`,
+		});
+		setTimeout(() => {
+			setCommentResponse(null), setComment('');
+		}, 2000);
+		props.handleUpdate();
 	}
 
 	function getCommentCreate() {
@@ -67,7 +78,7 @@ function CommentCreate(props: IAProps) {
 				<S.CommentCreate>
 					{owner && (
 						<S.CommentHeader>
-							<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} updateAsset={() => {}} />
+							<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} handleUpdate={() => {}} />
 						</S.CommentHeader>
 					)}
 					<S.CommentCreateForm>
@@ -76,16 +87,17 @@ function CommentCreate(props: IAProps) {
 							value={comment}
 							onWheel={(e: any) => e.target.blur()}
 							onChange={(e: any) => setComment(e.target.value)}
-							disabled={false}
+							disabled={loading || commentResponse !== null}
 							invalid={false}
 							placeholder={`${language.leaveComment}!`}
 						/>
 						<S.CommentCreateSubmit>
 							<Button
 								type={'alt1'}
-								label={language.reply}
+								label={commentResponse ? commentResponse.message : language.reply}
 								handlePress={(e: any) => handleSubmit(e)}
-								disabled={!comment}
+								disabled={!comment || loading || commentResponse !== null}
+								loading={loading}
 								formSubmit
 								noMinWidth
 							/>
@@ -117,12 +129,13 @@ export default function AssetDetailComments(props: IAProps) {
 	const [owners, setOwners] = React.useState<OwnerType[] | OwnerListingType[] | null>(null);
 
 	const [finalComments, setFinalComments] = React.useState<FinalCommentType[] | null>(null);
+	const [localUpdate, setLocalUpdate] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		(async function () {
 			setComments(COMMENTS);
 		})();
-	}, [props.asset]);
+	}, [props.asset, localUpdate]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -161,7 +174,7 @@ export default function AssetDetailComments(props: IAProps) {
 										owner={comment.ownerDetail}
 										asset={props.asset}
 										isSaleOrder={false}
-										updateAsset={() => {}}
+										handleUpdate={() => {}}
 									/>
 									{/* <S.StampWidget>
 										<StampWidget
@@ -182,16 +195,16 @@ export default function AssetDetailComments(props: IAProps) {
 			);
 		} else {
 			return (
-				<S.LoadingContainer>
-					<Loader sm relative />
-				</S.LoadingContainer>
+				<S.LoadingWrapper>
+					<p>{`${language.loading}...`}</p>
+				</S.LoadingWrapper>
 			);
 		}
 	}
 
 	return (
 		<S.Wrapper className={'border-wrapper'}>
-			<CommentCreate asset={props.asset} />
+			<CommentCreate asset={props.asset} handleUpdate={() => setLocalUpdate((prev) => !prev)} />
 			{getComments()}
 		</S.Wrapper>
 	);

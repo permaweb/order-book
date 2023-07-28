@@ -1,28 +1,145 @@
 import { getGqlDataByIds } from '../gql';
 import {
 	AssetArgsClientType,
+	AssetCreateArgsClientType,
 	AssetDetailType,
 	AssetsResponseType,
 	AssetType,
 	BalanceType,
+	CONTENT_TYPES,
 	getBalancesEndpoint,
 	getTagValue,
 	GQLResponseType,
+	log,
+	logValue,
 	ORDERBOOK_CONTRACT,
 	OrderBookPairOrderType,
 	OrderBookPairType,
 	STORAGE,
 	TAGS,
+	TagType,
 	UDL_ICONS,
 	UDL_LICENSE_VALUE,
 	UDLType,
 	UserBalancesType,
 } from '../helpers';
 
+export async function createAsset(args: AssetCreateArgsClientType): Promise<string | null> {
+	const contractTags = createContractTags(args);
+	const assetId = await deployToBundlr({
+		arClient: args.arClient,
+		content: args.content,
+		contentType: args.contentType,
+		contractTags: contractTags,
+	});
+
+	const contractId = await deployToWarp({ arClient: args.arClient, assetId: assetId });
+	if (contractId) {
+		logValue(`Deployed Contract`, contractId, 0);
+		return contractId;
+	} else {
+		return null;
+	}
+}
+
+function createContractTags(args: AssetCreateArgsClientType): TagType[] {
+	const dateTime = new Date().getTime().toString();
+
+	let initStateJson: any = {
+		balances: {
+			[args.owner]: 1,
+		},
+		title: args.title,
+		description: args.description,
+		ticker: args.ticker,
+		dateCreated: dateTime,
+		claimable: [],
+	};
+
+	if (args.dataProtocol) initStateJson.dataProtocol = args.dataProtocol;
+	if (args.dataSource) initStateJson.dataSource = args.dataSource;
+	if (args.renderWith) initStateJson.renderWith = args.renderWith.map((renderWith: string) => renderWith);
+
+	initStateJson = JSON.stringify(initStateJson);
+
+	const contractTags: TagType[] = [
+		{ name: TAGS.keys.contractSrc, value: TAGS.values.assetContractSrc },
+		{ name: TAGS.keys.ans110.title, value: args.title },
+		{ name: TAGS.keys.ans110.description, value: args.description },
+		{ name: TAGS.keys.ans110.type, value: args.type },
+		{ name: TAGS.keys.ans110.implements, value: TAGS.values.ansVersion },
+		{ name: TAGS.keys.dateCreated, value: dateTime },
+		{ name: TAGS.keys.indexedBy, value: TAGS.values.indexer },
+		{ name: TAGS.keys.initState, value: initStateJson },
+		{ name: TAGS.keys.initialOwner, value: args.owner },
+	];
+
+	args.topics.forEach((topic: string) => contractTags.push({ name: TAGS.keys.topic(topic), value: topic }));
+
+	if (args.dataProtocol) contractTags.push({ name: TAGS.keys.dataProtocol, value: args.dataProtocol });
+	if (args.dataSource) contractTags.push({ name: TAGS.keys.dataSource, value: args.dataSource });
+	if (args.renderWith)
+		args.renderWith.forEach((renderWith: string) =>
+			contractTags.push({ name: TAGS.keys.renderWith, value: renderWith })
+		);
+
+	return contractTags;
+}
+
+async function deployToWarp(args: { arClient: any; assetId: string }) {
+	try {
+		const { contractTxId } = await args.arClient.warpDefault.register(args.assetId, 'node2');
+		return contractTxId;
+	} catch (e: any) {
+		logValue(`Error deploying to Warp - Asset ID`, args.assetId, 1);
+
+		const errorString = e.toString();
+		if (errorString.indexOf('500') > -1) {
+			return null;
+		}
+
+		if (errorString.indexOf('502') > -1 || errorString.indexOf('504') > -1 || errorString.indexOf('FetchError') > -1) {
+			let retries = 5;
+			for (let i = 0; i < retries; i++) {
+				await new Promise((r) => setTimeout(r, 2000));
+				try {
+					log(`Retrying Warp ...`, null);
+					const { contractTxId } = await args.arClient.warpDefault.register(args.assetId, 'node2');
+					log(`Retry succeeded`, 0);
+					return contractTxId;
+				} catch (e2: any) {
+					logValue(`Error deploying to Warp - Asset ID`, args.assetId, 1);
+					continue;
+				}
+			}
+		}
+	}
+
+	throw new Error(`Warp retries failed ...`);
+}
+
+async function deployToBundlr(args: { arClient: any; content: any; contentType: string; contractTags: any }) {
+	let finalContent: any;
+	switch (args.contentType) {
+		case CONTENT_TYPES.json as any:
+			finalContent = JSON.stringify(args.content);
+			break;
+		default:
+			finalContent = args.content;
+			break;
+	}
+	try {
+		const transaction = args.arClient.bundlr.createTransaction(finalContent, { tags: args.contractTags });
+		await transaction.sign();
+		return (await transaction.upload()).id;
+	} catch (e: any) {
+		throw new Error(`Error uploading to bundlr ...\n ${e}`);
+	}
+}
+
 export async function getAssetsByContract(args: AssetArgsClientType): Promise<AssetType[]> {
 	try {
 		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
-
 		const ids = assets.map((asset: OrderBookPairType) => {
 			return asset.pair[0];
 		});
@@ -39,9 +156,8 @@ export async function getAssetsByContract(args: AssetArgsClientType): Promise<As
 
 		return getValidatedAssets(gqlData, assets);
 	} catch (error: any) {
-		console.error(error);
+		throw new Error(error);
 	}
-	return [];
 }
 
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {

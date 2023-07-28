@@ -48,9 +48,19 @@ export const CommentDetail = styled.div`
 	}
 `;
 
-export const LoadingContainer = styled.div`
+export const LoadingWrapper = styled.div`
 	width: fit-content;
-	margin: 0 auto !important;
+	p {
+		font-size: ${(props) => props.theme.typography.size.xSmall};
+		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+		max-width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
 `;
 
 export const CommentCreateWrapper = styled.div`

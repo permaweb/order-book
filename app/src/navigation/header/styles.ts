@@ -91,7 +91,7 @@ export const LogoContainer = styled.div`
 	a {
 		&:hover {
 			text-decoration: none;
-			opacity: 0.85;
+			opacity: 0.75;
 		}
 		&:focus {
 			text-decoration: none;
@@ -114,6 +114,7 @@ export const LogoContent = styled.div`
 	justify-content: space-evenly;
 	padding: 2.5px 0 0 0;
 	svg {
+		height: auto;
 		width: 125px;
 	}
 `;

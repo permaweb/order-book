@@ -41,7 +41,7 @@ export const BalanceWrapper = styled.div`
 	p {
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 	svg {
 		padding: 1.5px 0 0 0;

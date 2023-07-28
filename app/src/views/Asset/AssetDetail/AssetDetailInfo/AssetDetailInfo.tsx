@@ -51,7 +51,7 @@ export default function AssetDetailInfo(props: IAProps) {
 								{creator && (
 									<S.DCOwnerFlex>
 										<p>{language.createdBy}</p>
-										<OwnerInfo owner={creator} asset={props.asset} isSaleOrder={false} updateAsset={() => {}} />
+										<OwnerInfo owner={creator} asset={props.asset} isSaleOrder={false} handleUpdate={() => {}} />
 									</S.DCOwnerFlex>
 								)}
 								<S.DCLineNoMax>{props.asset.data.description}</S.DCLineNoMax>

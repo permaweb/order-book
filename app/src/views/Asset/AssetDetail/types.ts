@@ -9,6 +9,6 @@ export interface IAProps {
 }
 
 export interface IAMProps {
-	asset: AssetDetailType;
-	updateAsset: () => Promise<void>;
+	asset: AssetType | AssetDetailType;
+	handleUpdate: (() => Promise<void>) | (() => void);
 }

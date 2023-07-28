@@ -160,7 +160,7 @@ export default function Search() {
 					</S.SearchIcon>
 					<S.SearchInput
 						type={'text'}
-						placeholder={language.searchAssetsCollections}
+						placeholder={language.searchAssets}
 						value={value}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e.target.value)}
 						onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => await handleSearch(e)}

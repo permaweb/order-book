@@ -69,7 +69,7 @@ export default function ButtonLink(props: IProps) {
 					height={props.height}
 					data-testid={props.testingCtx}
 				>
-					{props.loading ? `${language.loading} ...` : getLabel()}
+					{props.loading ? `${language.loading}...` : getLabel()}
 				</StyledButton>
 			</Link>
 		</S.Wrapper>

@@ -103,7 +103,7 @@ export default function AssetDetailMarket(props: IAMProps) {
 		<>
 			{getChart()}
 			<S.AssetCAction className={'border-wrapper-alt'}>
-				<AssetDetailMarketAction asset={props.asset} updateAsset={props.updateAsset} />
+				<AssetDetailMarketAction asset={props.asset} handleUpdate={props.handleUpdate} />
 			</S.AssetCAction>
 			{currentSaleOwners && currentSaleOwners.length > 0 && (
 				<S.DrawerWrapper>
@@ -122,7 +122,12 @@ export default function AssetDetailMarket(props: IAMProps) {
 								{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 									return (
 										<S.DCLine key={index}>
-											<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={true} updateAsset={props.updateAsset} />
+											<OwnerInfo
+												owner={owner}
+												asset={props.asset}
+												isSaleOrder={true}
+												handleUpdate={props.handleUpdate}
+											/>
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
@@ -153,7 +158,7 @@ export default function AssetDetailMarket(props: IAMProps) {
 												owner={owner}
 												asset={props.asset}
 												isSaleOrder={false}
-												updateAsset={props.updateAsset}
+												handleUpdate={props.handleUpdate}
 											/>
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>

@@ -95,6 +95,24 @@ export type AssetArgsClientType = AssetArgsType & {
 	arClient: any;
 };
 
+export type AssetCreateArgsType = {
+	content: any;
+	contentType: string;
+	title: string;
+	description: string;
+	type: string;
+	topics: string[];
+	owner: string;
+	ticker: string;
+	dataProtocol: string | null;
+	dataSource: string | null;
+	renderWith: string[] | null;
+};
+
+export type AssetCreateArgsClientType = AssetCreateArgsType & {
+	arClient: any;
+};
+
 export type GetCollectionsArgs = {
 	arClient: any;
 };
@@ -116,6 +134,7 @@ export type ApiClientType = {
 	arClient: ArweaveClientType;
 	orderBookContract: string;
 	init: (args: ApiClientInitArgs) => ApiClientType;
+	createAsset: (args: { arClient: any }) => Promise<string>;
 	getAssetsByContract: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetIdsByContract: () => Promise<string[]>;
 	getAssetsByUser: (args: AssetArgsType) => Promise<AssetType[]>;
@@ -303,3 +322,5 @@ export type CommentType = {
 	owner: string;
 	text: string;
 };
+
+export type TagType = { name: string; value: string };

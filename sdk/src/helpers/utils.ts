@@ -51,3 +51,15 @@ export function isSingleQtyAsset(assetState: any) {
 	}
 	return true;
 }
+
+export function log(message: any, status: 0 | 1 | null): void {
+	const now = new Date();
+	const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+	console.log(`${formattedDate} - ${message} - log status ${status}`);
+}
+
+export function logValue(message: any, value: any, status: 0 | 1 | null): void {
+	const now = new Date();
+	const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+	console.log(`${formattedDate} - ${message} - ['${value}'] - log status ${status}`);
+}

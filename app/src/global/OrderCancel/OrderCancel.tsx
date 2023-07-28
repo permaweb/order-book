@@ -113,7 +113,7 @@ export default function OrderCancel(props: IProps) {
 	}
 
 	function handleClose() {
-		if (cancelConfirmed) props.updateAsset();
+		if (cancelConfirmed) props.handleUpdate();
 		setShowModal(false);
 	}
 
