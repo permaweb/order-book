@@ -24,7 +24,9 @@ export async function search(args: SearchArgs & { arClient: ArweaveClientType })
 		// id search
 		let result: AGQLResponseType = await getGQLData({
 			ids: [args.term],
-			tagFilters: null,
+			tagFilters: [
+				{name: "Indexed-By", values: ["ucm"]}
+			],
 			uploader: args.uploader,
 			cursor: args.cursor,
 			reduxCursor: args.reduxCursor,
@@ -46,6 +48,10 @@ export async function search(args: SearchArgs & { arClient: ArweaveClientType })
 						values: [`${args.term}`],
 						match: `FUZZY_OR`,
 					},
+					{
+						name: "Indexed-By", 
+						values: ["ucm"]
+					}
 				];
 
 				let result: AGQLResponseType = await getGQLData({
