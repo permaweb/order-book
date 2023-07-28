@@ -31,6 +31,7 @@ export const TAGS = {
 			license: 'License',
 		},
 		banner: 'Banner',
+		contentType: 'Content-Type',
 		contractSrc: 'Contract-Src',
 		dataProtocol: 'Data-Protocol',
 		dataSource: 'Data-Source',
@@ -42,6 +43,8 @@ export const TAGS = {
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
+		smartweaveAppName: 'App-Name',
+		smartweaveAppVersion: 'App-Version',
 		thumbnail: 'Thumbnail',
 		topic: (topic: string) => `topic:${topic}`,
 		udl: {
@@ -65,6 +68,8 @@ export const TAGS = {
 			'0.2': 'Account-0.2',
 			'0.3': 'Account-0.3',
 		},
+		smartweaveAppName: 'SmartWeaveContract',
+		smartweaveAppVersion: '0.3.0',
 	},
 };
 

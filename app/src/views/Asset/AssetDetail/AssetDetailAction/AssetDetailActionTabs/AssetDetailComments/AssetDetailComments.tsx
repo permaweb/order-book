@@ -61,8 +61,6 @@ function CommentCreate(props: IAMProps) {
 			e.stopPropagation();
 			setLoading(true);
 
-			console.log(orProvider.orderBook.api.arClient.warpDefault);
-
 			try {
 				await orProvider.orderBook.api.arClient.bundlr.ready();
 				const contractId = await orProvider.orderBook.api.createAsset({
