@@ -193,3 +193,9 @@ export const UDL_ICONS_MAP = {
 export const AR_PROFILE = {
 	defaultAvatar: 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA',
 };
+
+export const COMMENT_SPEC = {
+	protcolId: 'comment',
+	renderWith: 'comment-renderers',
+	ticker: 'ATOMIC ASSET - COMMENT',
+};

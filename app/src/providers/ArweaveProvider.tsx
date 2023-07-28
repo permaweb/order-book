@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Arweave from 'arweave';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
+import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
 import { CURRENCY_DICT, OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
@@ -201,16 +202,17 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 			logging: API_CONFIG.logging,
 		});
 
-		let warp = WarpFactory.forMainnet({
+		const warp = WarpFactory.forMainnet({
 			...defaultCacheOptions,
 			inMemory: true,
-		});
+		}).use(new DeployPlugin());
 
 		setOrderBook(
 			OrderBook.init({
 				currency: CURRENCIES.default,
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
+				bundlrKey: null,
 				warp: warp,
 				warpDreNode: dreReducer.source,
 			})

@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
+import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
 import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
@@ -37,7 +38,7 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	React.useEffect(() => {
-		let arweaveGet = Arweave.init({
+		const arweaveGet = Arweave.init({
 			host: API_CONFIG.arweaveGet,
 			port: API_CONFIG.port,
 			protocol: API_CONFIG.protocol,
@@ -45,7 +46,7 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 			logging: API_CONFIG.logging,
 		});
 
-		let arweavePost = Arweave.init({
+		const arweavePost = Arweave.init({
 			host: API_CONFIG.arweavePost,
 			port: API_CONFIG.port,
 			protocol: API_CONFIG.protocol,
@@ -53,21 +54,22 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 			logging: API_CONFIG.logging,
 		});
 
-		let warp = WarpFactory.forMainnet({
+		const warp = WarpFactory.forMainnet({
 			...defaultCacheOptions,
 			inMemory: true,
-		});
+		}).use(new DeployPlugin());
 
 		setOrderBook(
 			OrderBook.init({
 				currency: CURRENCIES.default,
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
+				bundlrKey: arProvider.wallet ? window.arweaveWallet : null,
 				warp: warp,
 				warpDreNode: dreReducer.source,
 			})
 		);
-	}, [arProvider.walletAddress, dreReducer.source]);
+	}, [arProvider.wallet, arProvider.walletAddress, dreReducer.source]);
 
 	return (
 		<OrderBookContext.Provider

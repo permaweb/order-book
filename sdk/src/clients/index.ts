@@ -27,6 +27,7 @@ const client: OrderBookType = {
 			arClient: ArweaveClient.init({
 				arweaveGet: args.arweaveGet,
 				arweavePost: args.arweavePost,
+				bundlrKey: args.bundlrKey,
 				warp: args.warp,
 				warpDreNode: args.warpDreNode,
 			}),

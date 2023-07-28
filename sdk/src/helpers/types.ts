@@ -73,6 +73,7 @@ export type InitArgs = {
 	currency: 'U';
 	arweaveGet: any;
 	arweavePost: any;
+	bundlrKey: any;
 	warp: any;
 	warpDreNode: string;
 };
@@ -134,7 +135,7 @@ export type ApiClientType = {
 	arClient: ArweaveClientType;
 	orderBookContract: string;
 	init: (args: ApiClientInitArgs) => ApiClientType;
-	createAsset: (args: { arClient: any }) => Promise<string>;
+	createAsset: (args: AssetCreateArgsType) => Promise<string>;
 	getAssetsByContract: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetIdsByContract: () => Promise<string[]>;
 	getAssetsByUser: (args: AssetArgsType) => Promise<AssetType[]>;
@@ -184,6 +185,7 @@ export type TransactionFlowArgs = {
 export type ArweaveClientInitArgs = {
 	arweaveGet: any;
 	arweavePost: any;
+	bundlrKey: any;
 	warp: any;
 	warpDreNode: string;
 };
@@ -192,6 +194,7 @@ export type ArweaveClientType = {
 	init: (args: ArweaveClientInitArgs) => ArweaveClientType;
 	arweaveGet: any;
 	arweavePost: any;
+	bundlr: any;
 	warpDefault: any;
 	writeContract: (args: WriteContractArgs) => Promise<any>;
 	read: (id: string) => Promise<any>;

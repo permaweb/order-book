@@ -32,7 +32,6 @@ export async function createAsset(args: AssetCreateArgsClientType): Promise<stri
 		contentType: args.contentType,
 		contractTags: contractTags,
 	});
-
 	const contractId = await deployToWarp({ arClient: args.arClient, assetId: assetId });
 	if (contractId) {
 		logValue(`Deployed Contract`, contractId, 0);
