@@ -1,3 +1,5 @@
+import * as S from './styles';
+
 export default function AssetDetailActivity() {
-	return <p>Asset Detail Activity</p>;
+	return <S.Wrapper className={'border-wrapper'}></S.Wrapper>;
 }

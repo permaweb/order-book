@@ -86,7 +86,6 @@ export const language = {
 	rank: `Rank`,
 	reply: `Reply`,
 	replied: `Replied`,
-	remainingBalance: `Remaining Balance`,
 	saleQuantityTooltip: `This value represents the total quantity of the asset you currently own that you would like to list for sale`,
 	saleTotalPriceTooltip: `This value represents the total price of the asset you want to list it for`,
 	saleUnitPriceTooltip: `This value represents the cost for 1 unit of the asset in U`,

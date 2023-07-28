@@ -145,18 +145,6 @@ export const ModalTitle = styled.div`
 	}
 `;
 
-export const RemainingBalanceWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	margin: 20px 0 0 0;
-`;
-
-export const RemainingBalanceInfo = styled.div`
-	p {
-		margin: 12.5px 10px 0 0;
-	}
-`;
-
 export const WalletConnectionWrapper = styled.div`
 	width: fit-content;
 	margin: 20px 0 0 auto;

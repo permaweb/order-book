@@ -23,7 +23,6 @@ export default function AssetBuy(props: IProps) {
 
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
-	const [remainingBalance, setRemainingBalance] = React.useState<string | null>(null);
 
 	const [assetQuantity, setAssetQuantity] = React.useState<number>(0);
 	const [tradeable, setTradeable] = React.useState<boolean>(false);
@@ -59,12 +58,6 @@ export default function AssetBuy(props: IProps) {
 	React.useEffect(() => {
 		if (totalSalesBalance === 1) setAssetQuantity(1);
 	}, [totalSalesBalance]);
-
-	React.useEffect(() => {
-		if (buyResponse && arProvider.currencyBalances && arProvider.currencyBalances['U']) {
-			setRemainingBalance(((arProvider.currencyBalances['U'] - calcTotalPrice()) / 1e6).toFixed(4));
-		}
-	}, [buyResponse, arProvider.currencyBalances]);
 
 	function getActionDisabled() {
 		if (!arProvider.walletAddress) return true;
@@ -287,14 +280,6 @@ export default function AssetBuy(props: IProps) {
 						{buyResponse && buyResponse.status && (
 							<>
 								<p>{buyResponse.message}</p>
-								{remainingBalance && (
-									<S.RemainingBalanceWrapper>
-										<S.RemainingBalanceInfo>
-											<p>{`${language.remainingBalance}: `}</p>
-										</S.RemainingBalanceInfo>
-										{getAmount(remainingBalance)}
-									</S.RemainingBalanceWrapper>
-								)}
 							</>
 						)}
 						{buyResponse && !buyResponse.status && (
