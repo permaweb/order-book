@@ -16,7 +16,7 @@ import {
 	ApiClientInitArgs,
 	ApiClientType,
 	AssetArgsType,
-	AssetCreateArgsClientType,
+	AssetCreateArgsType,
 	AssetDetailType,
 	AssetType,
 	CollectionAssetType,
@@ -37,7 +37,7 @@ const apiClient: ApiClientType = {
 		return this;
 	},
 
-	createAsset: async function (args: AssetCreateArgsClientType): Promise<string> {
+	createAsset: async function (args: AssetCreateArgsType): Promise<string> {
 		return await createAsset({ ...args, arClient: this.arClient });
 	},
 

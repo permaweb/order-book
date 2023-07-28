@@ -1,8 +1,11 @@
-import { ArweaveClientInitArgs, ArweaveClientType, WriteContractArgs } from '../../helpers';
+import Bundlr from '@bundlr-network/client';
+
+import { ArweaveClientInitArgs, ArweaveClientType, BUNDLR_CONFIG, WriteContractArgs } from '../../helpers';
 
 const arClient: ArweaveClientType = {
 	arweaveGet: null,
 	arweavePost: null,
+	bundlr: null,
 	warpDefault: null,
 	options: {
 		allowBigInt: true,
@@ -14,11 +17,13 @@ const arClient: ArweaveClientType = {
 
 	init: function (args: ArweaveClientInitArgs) {
 		this.arweaveGet = args.arweaveGet;
-
 		this.arweavePost = args.arweavePost;
 
-		this.warpDefault = args.warp;
+		if (args.bundlrKey) {
+			this.bundlr = new Bundlr(BUNDLR_CONFIG.node, BUNDLR_CONFIG.currency, args.bundlrKey);
+		}
 
+		this.warpDefault = args.warp;
 		this.options.remoteStateSyncSource = args.warpDreNode;
 
 		return this;

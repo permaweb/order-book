@@ -76,6 +76,7 @@ export const TAGS = {
 
 export const CONTENT_TYPES = {
 	json: 'application/json',
+	textPlain: 'text/plain',
 };
 
 export const DEFAULT_COLLECTION_BANNER =
@@ -88,4 +89,9 @@ export const UDL_LICENSE_VALUE = 'udlicense';
 export const UDL_ICONS = {
 	ar: 'AR',
 	u: 'U',
+};
+
+export const BUNDLR_CONFIG = {
+	currency: 'arweave',
+	node: 'https://node2.bundlr.network',
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
+import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
 import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
 
@@ -49,16 +50,17 @@ export default function ReduxAssetsUpdate(props: {
 			logging: API_CONFIG.logging,
 		});
 
-		let warp = WarpFactory.forMainnet({
+		const warp = WarpFactory.forMainnet({
 			...defaultCacheOptions,
 			inMemory: true,
-		});
+		}).use(new DeployPlugin());
 
 		setOrderBook(
 			OrderBook.init({
 				currency: CURRENCIES.default,
 				arweaveGet: arweaveGet,
 				arweavePost: arweavePost,
+				bundlrKey: null,
 				warp: warp,
 				warpDreNode: dreReducer.source,
 			})

@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { AssetDetailType, CommentType } from 'permaweb-orderbook';
+import { AssetDetailType, CommentType, CONTENT_TYPES } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { OwnerInfo } from 'global/OwnerInfo';
+import { COMMENT_SPEC } from 'helpers/config';
 // import { StampWidget } from 'global/StampWidget';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType, ResponseType } from 'helpers/types';
@@ -54,22 +55,51 @@ function CommentCreate(props: IAMProps) {
 		}
 	}, []);
 
-	// TODO: create comment in sdk
 	async function handleSubmit(e: any) {
-		e.preventDefault();
-		e.stopPropagation();
-		setLoading(true);
-		console.log(comment);
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		setLoading(false);
-		setCommentResponse({
-			status: true,
-			message: `${language.replied}!`,
-		});
-		setTimeout(() => {
-			setCommentResponse(null), setComment('');
-		}, 2000);
-		props.handleUpdate();
+		if (arProvider.walletAddress && orProvider.orderBook) {
+			e.preventDefault();
+			e.stopPropagation();
+			setLoading(true);
+
+			console.log(orProvider.orderBook.api.arClient.warpDefault);
+
+			try {
+				await orProvider.orderBook.api.arClient.bundlr.ready();
+				const contractId = await orProvider.orderBook.api.createAsset({
+					content: comment,
+					contentType: CONTENT_TYPES.textPlain,
+					title: `${props.asset.data.title} comment - ${arProvider.walletAddress}`,
+					description: comment,
+					type: COMMENT_SPEC.protcolId,
+					topics: [COMMENT_SPEC.protcolId],
+					owner: arProvider.walletAddress,
+					ticker: COMMENT_SPEC.ticker,
+					dataProtocol: COMMENT_SPEC.protcolId,
+					dataSource: props.asset.data.id,
+					renderWith: [COMMENT_SPEC.renderWith],
+				});
+
+				console.log(contractId);
+
+				setLoading(false);
+				setCommentResponse({
+					status: true,
+					message: `${language.replied}!`,
+				});
+			} catch (e: any) {
+				console.error(e);
+				setLoading(false);
+				setCommentResponse({
+					status: true,
+					message: language.errorOccurred,
+				});
+			}
+
+			setTimeout(() => {
+				setCommentResponse(null), setComment('');
+			}, 2000);
+			props.handleUpdate();
+		}
 	}
 
 	function getCommentCreate() {
