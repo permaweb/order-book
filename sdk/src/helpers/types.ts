@@ -145,6 +145,7 @@ export type ApiClientType = {
 	search: (args: {}) => Promise<SearchReturnType>;
 	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
 	getCollection: (args: { collectionId: string }) => Promise<CollectionAssetType>;
+	getComments: (args: {id: string}) => Promise<CommentsResponseType>;
 };
 
 export type WriteContractArgs = {
@@ -320,7 +321,12 @@ export type CommentType = {
 	tx: string;
 	rootTx: string;
 	owner: string;
-	text: string;
 };
+
+export type CommentsResponseType = {
+	comments: CommentType[];
+	nextCursor: string | null;
+	previousCursor: string | null;
+}
 
 export type TagType = { name: string; value: string };

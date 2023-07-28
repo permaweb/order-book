@@ -8,8 +8,10 @@ import {
 	getAssetsByUser,
 	getProfile,
 	search,
+	getCollection,
+	getCollections,
+	getComments
 } from '../../api';
-import { getCollection, getCollections } from '../../api/collections';
 import {
 	ApiClientInitArgs,
 	ApiClientType,
@@ -19,6 +21,7 @@ import {
 	AssetType,
 	CollectionAssetType,
 	CollectionsResponseType,
+	CommentsResponseType,
 	ProfileType,
 	SearchArgs,
 	SearchReturnType,
@@ -80,6 +83,10 @@ const apiClient: ApiClientType = {
 	getCollections: async function (args: { cursor: string | null }): Promise<CollectionsResponseType> {
 		return await getCollections({ ...args, arClient: this.arClient });
 	},
+
+	getComments: async function (args: { id: string, cursor: string }): Promise<CommentsResponseType> {
+		return await getComments({...args, arClient: this.arClient});
+	}
 };
 
 export { apiClient as ApiClient };
