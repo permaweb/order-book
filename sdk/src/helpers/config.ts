@@ -31,7 +31,7 @@ export const TAGS = {
 			license: 'License',
 		},
 		banner: 'Banner',
-		contentType: 'Content-Type',
+		contentType: "Content-Type",
 		contractSrc: 'Contract-Src',
 		dataProtocol: 'Data-Protocol',
 		dataSource: 'Data-Source',
@@ -43,6 +43,7 @@ export const TAGS = {
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
+		rootSource: 'Root-Source',
 		smartweaveAppName: 'App-Name',
 		smartweaveAppVersion: 'App-Version',
 		thumbnail: 'Thumbnail',
@@ -63,6 +64,10 @@ export const TAGS = {
 		ansVersion: 'ANS-110',
 		assetContractSrc: 'Of9pi--Gj7hCTawhgxOwbuWnFI1h24TTgO5pw8ENJNQ',
 		collection: 'Collection',
+		comment: 'Comment',
+		contentTypes: {
+			textPlain: "text/plain",
+		},
 		indexer: 'ucm',
 		profileVersions: {
 			'0.2': 'Account-0.2',
