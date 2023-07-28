@@ -6,11 +6,11 @@ import {
 	getAssetsByContract,
 	getAssetsByIds,
 	getAssetsByUser,
-	getProfile,
-	search,
 	getCollection,
 	getCollections,
-	getComments
+	getComments,
+	getProfile,
+	search,
 } from '../../api';
 import {
 	ApiClientInitArgs,
@@ -84,9 +84,9 @@ const apiClient: ApiClientType = {
 		return await getCollections({ ...args, arClient: this.arClient });
 	},
 
-	getComments: async function (args: { id: string, cursor: string }): Promise<CommentsResponseType> {
-		return await getComments({...args, arClient: this.arClient});
-	}
+	getComments: async function (args: { id: string; cursor: string }): Promise<CommentsResponseType> {
+		return await getComments({ ...args, arClient: this.arClient });
+	},
 };
 
 export { apiClient as ApiClient };

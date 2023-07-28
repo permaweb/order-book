@@ -31,7 +31,7 @@ export const TAGS = {
 			license: 'License',
 		},
 		banner: 'Banner',
-		contentType: "Content-Type",
+		contentType: 'Content-Type',
 		contractSrc: 'Contract-Src',
 		dataProtocol: 'Data-Protocol',
 		dataSource: 'Data-Source',
@@ -66,7 +66,7 @@ export const TAGS = {
 		collection: 'Collection',
 		comment: 'Comment',
 		contentTypes: {
-			textPlain: "text/plain",
+			textPlain: 'text/plain',
 		},
 		indexer: 'ucm',
 		profileVersions: {
