@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AssetDetailType, CommentType, CONTENT_TYPES } from 'permaweb-orderbook';
+import { AssetDetailType, CommentDetailType, CommentType, CONTENT_TYPES } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { OwnerInfo } from 'global/OwnerInfo';
@@ -148,6 +148,35 @@ function CommentCreate(props: IAMProps) {
 	return <S.CommentCreateWrapper>{getCommentCreate()}</S.CommentCreateWrapper>;
 }
 
+function CommentData(props: {id: string}) {
+	const orProvider = useOrderBookProvider();
+
+	const [comment, setComment] = React.useState<CommentDetailType | null>(null);
+
+	React.useEffect(() => {
+		(async function () {
+			if(props.id) {
+				let comment = await orProvider.orderBook.api.getComment({id: props.id});
+				setComment(comment);
+			}
+		})();
+	}, [props.id]);
+
+	if(comment) {
+		return(
+			<S.CommentDetail>
+				<p>{comment.text}</p>
+			</S.CommentDetail>
+		);
+	} else {
+		return (
+			<S.CommentDetail>
+				<p>Loading...</p>
+			</S.CommentDetail>
+		)
+	}
+}
+
 export default function AssetDetailComments(props: IAProps) {
 	type FinalCommentType = CommentType & { ownerDetail: OwnerType | OwnerListingType };
 
@@ -161,7 +190,11 @@ export default function AssetDetailComments(props: IAProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			setComments(COMMENTS);
+			if(props.asset) {
+				let comments = await orProvider.orderBook.api.getComments({id: props.asset.data.id});
+				console.log(comments);
+				setComments(comments.comments);
+			}
 		})();
 	}, [props.asset, localUpdate]);
 
@@ -213,9 +246,7 @@ export default function AssetDetailComments(props: IAProps) {
 										/>
 									</S.StampWidget> */}
 								</S.CommentHeader>
-								<S.CommentDetail>
-									<p>{comment.text}</p>
-								</S.CommentDetail>
+								<CommentData id={comment.tx}/>
 							</S.CommentLine>
 						);
 					})}
@@ -237,126 +268,3 @@ export default function AssetDetailComments(props: IAProps) {
 		</S.Wrapper>
 	);
 }
-
-const COMMENTS = [
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'uf_FqRvLqjnFMc8ZzGkF4qWKuNmUIQcYP0tPlCGORQk',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'hv4NIWngChaX8TkmyTdRS9CW1gquds3u9NlVoU9W9KM',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vLRHFqCw1uHu75xqB4fCDW-QxpkpJxBtFD9g4QYUbfw',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque.',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'uf_FqRvLqjnFMc8ZzGkF4qWKuNmUIQcYP0tPlCGORQk',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'hv4NIWngChaX8TkmyTdRS9CW1gquds3u9NlVoU9W9KM',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vLRHFqCw1uHu75xqB4fCDW-QxpkpJxBtFD9g4QYUbfw',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque.',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'uf_FqRvLqjnFMc8ZzGkF4qWKuNmUIQcYP0tPlCGORQk',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'hv4NIWngChaX8TkmyTdRS9CW1gquds3u9NlVoU9W9KM',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vLRHFqCw1uHu75xqB4fCDW-QxpkpJxBtFD9g4QYUbfw',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque.',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'uf_FqRvLqjnFMc8ZzGkF4qWKuNmUIQcYP0tPlCGORQk',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'hv4NIWngChaX8TkmyTdRS9CW1gquds3u9NlVoU9W9KM',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vLRHFqCw1uHu75xqB4fCDW-QxpkpJxBtFD9g4QYUbfw',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque.',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'uf_FqRvLqjnFMc8ZzGkF4qWKuNmUIQcYP0tPlCGORQk',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'hv4NIWngChaX8TkmyTdRS9CW1gquds3u9NlVoU9W9KM',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vLRHFqCw1uHu75xqB4fCDW-QxpkpJxBtFD9g4QYUbfw',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque.',
-	},
-	{
-		tx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		rootTx: 'yCseB5x0cYyO9cQfYj4O83zUeAC9Y_x2K3v_9sn8_jU',
-		owner: 'vh-NTHVvlKZqRxc8LyyTNok65yQ55a_PJ1zWLb9G2JI',
-		text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper ipsum nec velit euismod, non auctor justo scelerisque. Nulla facilisi. Sed quis neque eget eros fringilla congue. Vivamus dapibus lacus in velit malesuada',
-	},
-];

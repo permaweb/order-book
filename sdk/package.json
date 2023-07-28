@@ -12,7 +12,9 @@
 		"postinstall": "npm install ./bundlr-network-client-v0.11.2.tgz",
 		"check-packages": "node src/workers/check-packages.mjs"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@bundlr-network/client": "file:bundlr-network-client-v0.11.2.tgz"
+	},
 	"devDependencies": {
 		"@types/mime": "^3.0.1",
 		"@types/mime-types": "^2.1.1",
