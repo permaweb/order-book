@@ -63,14 +63,17 @@ function createContractTags(args: AssetCreateArgsClientType): TagType[] {
 
 	const contractTags: TagType[] = [
 		{ name: TAGS.keys.contractSrc, value: TAGS.values.assetContractSrc },
+		{ name: TAGS.keys.smartweaveAppName, value: TAGS.values.smartweaveAppName },
+		{ name: TAGS.keys.smartweaveAppVersion, value: TAGS.values.smartweaveAppVersion },
+		{ name: TAGS.keys.contentType, value: args.contentType },
+		{ name: TAGS.keys.initState, value: initStateJson },
+		{ name: TAGS.keys.initialOwner, value: args.owner },
 		{ name: TAGS.keys.ans110.title, value: args.title },
 		{ name: TAGS.keys.ans110.description, value: args.description },
 		{ name: TAGS.keys.ans110.type, value: args.type },
 		{ name: TAGS.keys.ans110.implements, value: TAGS.values.ansVersion },
 		{ name: TAGS.keys.dateCreated, value: dateTime },
 		{ name: TAGS.keys.indexedBy, value: TAGS.values.indexer },
-		{ name: TAGS.keys.initState, value: initStateJson },
-		{ name: TAGS.keys.initialOwner, value: args.owner },
 	];
 
 	args.topics.forEach((topic: string) => contractTags.push({ name: TAGS.keys.topic(topic), value: topic }));

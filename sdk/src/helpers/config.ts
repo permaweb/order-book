@@ -44,6 +44,8 @@ export const TAGS = {
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
 		rootSource: 'Root-Source',
+		smartweaveAppName: 'App-Name',
+		smartweaveAppVersion: 'App-Version',
 		thumbnail: 'Thumbnail',
 		topic: (topic: string) => `topic:${topic}`,
 		udl: {
@@ -71,6 +73,8 @@ export const TAGS = {
 			'0.2': 'Account-0.2',
 			'0.3': 'Account-0.3',
 		},
+		smartweaveAppName: 'SmartWeaveContract',
+		smartweaveAppVersion: '0.3.0',
 	},
 };
 
