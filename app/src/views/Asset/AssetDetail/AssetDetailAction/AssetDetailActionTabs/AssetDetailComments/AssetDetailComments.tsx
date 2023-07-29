@@ -280,7 +280,7 @@ export default function AssetDetailComments(props: IAProps) {
 
 	function getComments() {
 		if (finalComments) {
-			return (
+			return finalComments.length > 0 ? (
 				<S.CommentsWrapper>
 					{finalComments.map((comment: any, index: number) => {
 						return (
@@ -320,7 +320,7 @@ export default function AssetDetailComments(props: IAProps) {
 						);
 					})}
 				</S.CommentsWrapper>
-			);
+			) : null;
 		} else {
 			return (
 				<S.LoadingWrapper>
