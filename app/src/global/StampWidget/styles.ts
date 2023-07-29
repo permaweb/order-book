@@ -7,8 +7,8 @@ export const Wrapper = styled.button<{ sm: boolean }>`
 	width: fit-content !important;
 	background: ${(props) =>
 		props.sm ? props.theme.colors.transparent : props.theme.colors.container.primary.background};
-	border: 0.85px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadius};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadiusField};
 	padding: ${(props) => (props.sm ? '2.5px 6.5px' : '6.5px 10px')};
 	display: flex;
 	align-items: center;

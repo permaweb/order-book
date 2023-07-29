@@ -113,7 +113,7 @@ export const AR_WALLETS = [
 ];
 
 export const API_CONFIG = {
-	arweaveGet: 'arweave-search.goldsky.com',
+	arweaveGet: 'arweave.net',
 	arweavePost: 'arweave.net',
 	protocol: 'https',
 	port: 443,
@@ -144,10 +144,10 @@ export const DETAIL_ACTION_TAB_OPTIONS = {
 };
 
 export const DETAIL_ACTION_TABS = [
-	{
-		label: DETAIL_ACTION_TAB_OPTIONS.market,
-		icon: ASSETS.market,
-	},
+	// {
+	// 	label: DETAIL_ACTION_TAB_OPTIONS.market,
+	// 	icon: ASSETS.market,
+	// },
 	{
 		label: DETAIL_ACTION_TAB_OPTIONS.comments,
 		icon: ASSETS.comments,

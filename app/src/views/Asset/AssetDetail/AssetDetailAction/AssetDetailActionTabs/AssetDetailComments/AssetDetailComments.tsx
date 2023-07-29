@@ -1,13 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { AssetDetailType, CommentDetailType, CommentType, CONTENT_TYPES } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
+import { IconButton } from 'components/atoms/IconButton';
 import { OwnerInfo } from 'global/OwnerInfo';
 import { StampWidget } from 'global/StampWidget';
-import { COMMENT_SPEC } from 'helpers/config';
+import { ASSETS, COMMENT_SPEC } from 'helpers/config';
 import { language } from 'helpers/language';
 import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, SequenceType, WalletEnum } from 'helpers/types';
+import * as urls from 'helpers/urls';
 import { getOwners, rankData } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
@@ -72,7 +75,7 @@ function CommentCreate(props: IAMProps) {
 					const contractId = await orProvider.orderBook.api.createAsset({
 						content: comment,
 						contentType: CONTENT_TYPES.textPlain,
-						title: `${props.asset.data.title} comment - ${arProvider.walletAddress}`,
+						title: `${props.asset.data.title} Comment`,
 						description: comment,
 						type: COMMENT_SPEC.protcolId,
 						topics: [COMMENT_SPEC.protcolId],
@@ -181,6 +184,8 @@ function CommentData(props: { id: string }) {
 }
 
 export default function AssetDetailComments(props: IAProps) {
+	const navigate = useNavigate();
+
 	const orProvider = useOrderBookProvider();
 
 	const wrapperRef = React.useRef(null);
@@ -290,7 +295,7 @@ export default function AssetDetailComments(props: IAProps) {
 									/>
 								</S.CommentHeader>
 								<CommentData id={comment.id} />
-								<S.StampWidget>
+								<S.ActionsContainer>
 									<StampWidget
 										assetId={comment.id}
 										title={language.stampComment}
@@ -298,7 +303,19 @@ export default function AssetDetailComments(props: IAProps) {
 										hasStampedMessage={language.commentStamped}
 										sm
 									/>
-								</S.StampWidget>
+									<S.Action>
+										<IconButton
+											type={'alt1'}
+											src={ASSETS.details}
+											handlePress={() => navigate(`${urls.asset}${comment.id}`)}
+											tooltip={language.viewDetails}
+											dimensions={{
+												wrapper: 28.75,
+												icon: 15,
+											}}
+										/>
+									</S.Action>
+								</S.ActionsContainer>
 							</S.CommentLine>
 						);
 					})}

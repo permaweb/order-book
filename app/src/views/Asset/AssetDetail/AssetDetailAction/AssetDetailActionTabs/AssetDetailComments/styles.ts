@@ -28,8 +28,14 @@ export const CommentHeader = styled.div`
 	justify-content: space-between;
 `;
 
-export const StampWidget = styled.div`
+export const ActionsContainer = styled.div`
 	margin: 27.5px 0 0 0;
+	display: flex;
+	align-items: center;
+`;
+
+export const Action = styled.div`
+	margin: 0 0 0 10px;
 `;
 
 export const CommentDivider = styled.div`
