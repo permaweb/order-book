@@ -281,7 +281,7 @@ export default function AssetDetailComments(props: IAProps) {
 	function getComments() {
 		if (finalComments) {
 			return (
-				<>
+				<S.CommentsWrapper>
 					{finalComments.map((comment: any, index: number) => {
 						return (
 							<S.CommentLine key={index}>
@@ -319,7 +319,7 @@ export default function AssetDetailComments(props: IAProps) {
 							</S.CommentLine>
 						);
 					})}
-				</>
+				</S.CommentsWrapper>
 			);
 		} else {
 			return (

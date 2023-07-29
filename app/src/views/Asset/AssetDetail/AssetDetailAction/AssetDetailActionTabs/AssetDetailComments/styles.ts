@@ -6,6 +6,10 @@ export const Wrapper = styled.div`
 	padding: 20px;
 	position: relative;
 	overflow: auto;
+`;
+
+export const CommentsWrapper = styled.div`
+	margin: 20px 0 0 0;
 	> * {
 		&:not(:last-child) {
 			margin: 0 0 20px 0;
@@ -71,7 +75,7 @@ export const LoadingWrapper = styled.div`
 
 export const CommentCreateWrapper = styled.div`
 	width: 100%;
-	margin: 0 0 20px 0 !important;
+	margin: 0 !important;
 `;
 
 export const CommentCreate = styled.div``;
