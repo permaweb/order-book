@@ -25,6 +25,14 @@ export const NoWrap = styled.p`
 	}
 `;
 
+export const OLoader = styled.div`
+	height: 15px;
+	width: 60px;
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadiusField};
+	overflow: hidden;
+`;
+
 export const AvatarWrapper = styled.div`
 	position: relative;
 `;

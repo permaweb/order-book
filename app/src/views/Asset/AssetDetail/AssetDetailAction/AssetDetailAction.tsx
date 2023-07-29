@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { AssetDetailType } from 'permaweb-orderbook';
+
 import { Modal } from 'components/molecules/Modal';
 import { OwnerInfo } from 'global/OwnerInfo';
 import { StampWidget } from 'global/StampWidget';
@@ -24,30 +26,36 @@ export default function AssetDetailAction(props: IAMProps) {
 	const [showCurrentOwnersModal, setShowCurrentOwnersModal] = React.useState<boolean>(false);
 	const [showCurrentSalesModal, setShowCurrentSalesModal] = React.useState<boolean>(false);
 
+	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
+
+	React.useEffect(() => {
+		if (props.asset) setAsset(props.asset as AssetDetailType);
+	}, [props.asset]);
+
 	React.useEffect(() => {
 		(async function () {
-			if (props.asset && props.asset.state && orProvider) {
-				setCurrentOwners((await getOwners(props.asset.state.balances, orProvider, props.asset)) as any);
-				if (props.asset.orders) {
-					setCurrentSaleOwners((await getOwners(props.asset.orders, orProvider, props.asset)) as any);
+			if (asset && asset.state && orProvider) {
+				setCurrentOwners((await getOwners(asset.state.balances, orProvider, asset)) as any);
+				if (asset.orders) {
+					setCurrentSaleOwners((await getOwners(asset.orders, orProvider, asset)) as any);
 				}
 			}
 		})();
-	}, [props.asset]);
+	}, [asset]);
 
-	return props.asset ? (
+	return asset ? (
 		<>
 			<S.C2>
 				<div className={'border-wrapper-alt'}>
 					<S.ACHeader>
-						<h2>{props.asset.data.title}</h2>
+						<h2>{asset.data.title}</h2>
 						<S.ACLink>
-							<Link target={'_blank'} to={REDIRECTS.viewblock(props.asset.data.id)}>
+							<Link target={'_blank'} to={REDIRECTS.viewblock(asset.data.id)}>
 								{language.viewblock}
 							</Link>
 						</S.ACLink>
 						<S.StampWidget>
-							<StampWidget assetId={props.asset.data.id} title={props.asset.data.title} stamps={null} getCount />
+							<StampWidget assetId={asset.data.id} title={asset.data.title} stamps={null} getCount />
 						</S.StampWidget>
 						{currentOwners && currentOwners.length > 0 && (
 							<S.OwnerLine>
@@ -73,7 +81,7 @@ export default function AssetDetailAction(props: IAMProps) {
 						)}
 					</S.ACHeader>
 				</div>
-				<AssetDetailActionTabs asset={props.asset} handleUpdate={props.handleUpdate} />
+				<AssetDetailActionTabs asset={asset} handleUpdate={props.handleUpdate} />
 			</S.C2>
 
 			{showCurrentOwnersModal && currentOwners && (
@@ -86,7 +94,13 @@ export default function AssetDetailAction(props: IAMProps) {
 						{currentOwners.map((owner: OwnerType, index: number) => {
 							return (
 								<S.DCLine key={index}>
-									<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} handleUpdate={props.handleUpdate} />
+									<OwnerInfo
+										owner={owner}
+										asset={asset}
+										isSaleOrder={false}
+										handleUpdate={props.handleUpdate}
+										loading={false}
+									/>
 									<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 								</S.DCLine>
 							);
@@ -107,7 +121,13 @@ export default function AssetDetailAction(props: IAMProps) {
 						{currentSaleOwners.map((owner: OwnerListingType, index: number) => {
 							return (
 								<S.DCLine key={index}>
-									<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={true} handleUpdate={props.handleUpdate} />
+									<OwnerInfo
+										owner={owner}
+										asset={asset}
+										isSaleOrder={true}
+										handleUpdate={props.handleUpdate}
+										loading={false}
+									/>
 									<S.DCLineFlex>
 										<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
 										<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>

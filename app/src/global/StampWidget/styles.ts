@@ -31,8 +31,8 @@ export const Wrapper = styled.button<{ sm: boolean }>`
 	svg {
 		transition: all 300ms;
 		margin: 3.5px 0 0 0;
-		height: ${(props) => (props.sm ? '15px' : '22.5px')} !important;
-		width: ${(props) => (props.sm ? '15px' : '22.5px')} !important;
+		height: ${(props) => (props.sm ? '15px' : '21.5px')} !important;
+		width: ${(props) => (props.sm ? '15px' : '23.5px')} !important;
 	}
 `;
 

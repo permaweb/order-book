@@ -81,3 +81,8 @@ export enum WalletEnum {
 }
 
 export type FinalCommentType = CommentType & { ownerDetail: OwnerType | OwnerListingType };
+
+export type SequenceType = {
+	start: number;
+	end: number;
+};

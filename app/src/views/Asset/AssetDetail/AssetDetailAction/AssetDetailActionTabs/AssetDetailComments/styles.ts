@@ -5,6 +5,7 @@ import { STYLING } from 'helpers/styling';
 export const Wrapper = styled.div`
 	padding: 20px;
 	position: relative;
+	overflow: auto;
 	> * {
 		&:not(:last-child) {
 			margin: 0 0 20px 0;
@@ -116,4 +117,16 @@ export const WalletConnectionWrapper = styled.div`
 
 export const WalletConnect = styled.div`
 	width: fit-content;
+`;
+
+export const ActionContainer = styled.div`
+	height: 42.5px;
+	width: 100%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	button {
+		margin: 0 auto;
+	}
 `;

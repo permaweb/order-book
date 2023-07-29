@@ -7,7 +7,7 @@ import { OwnerInfo } from 'global/OwnerInfo';
 import { StampWidget } from 'global/StampWidget';
 import { COMMENT_SPEC } from 'helpers/config';
 import { language } from 'helpers/language';
-import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, WalletEnum } from 'helpers/types';
+import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, SequenceType, WalletEnum } from 'helpers/types';
 import { getOwners, rankData } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
@@ -16,6 +16,8 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import { IAMProps, IAProps } from '../../../types';
 
 import * as S from './styles';
+
+const SEQUENCE_ITERATION = 5;
 
 function CommentCreate(props: IAMProps) {
 	const arProvider = useArweaveProvider();
@@ -109,7 +111,13 @@ function CommentCreate(props: IAMProps) {
 				<S.CommentCreate>
 					{owner && (
 						<S.CommentHeader>
-							<OwnerInfo owner={owner} asset={props.asset} isSaleOrder={false} handleUpdate={() => {}} />
+							<OwnerInfo
+								owner={owner}
+								asset={props.asset}
+								isSaleOrder={false}
+								handleUpdate={() => {}}
+								loading={false}
+							/>
 						</S.CommentHeader>
 					)}
 					<S.CommentCreateForm>
@@ -159,7 +167,7 @@ function CommentData(props: { id: string }) {
 	React.useEffect(() => {
 		(async function () {
 			if (props.id) {
-				let comment = await orProvider.orderBook.api.getComment({ id: props.id });
+				const comment = await orProvider.orderBook.api.getComment({ id: props.id });
 				setComment(comment);
 			}
 		})();
@@ -167,7 +175,7 @@ function CommentData(props: { id: string }) {
 
 	return (
 		<S.CommentDetail>
-			<p>{comment ? comment.text : `${language.loading}...`}</p>
+			<p>{comment ? comment.text : null}</p>
 		</S.CommentDetail>
 	);
 }
@@ -175,11 +183,38 @@ function CommentData(props: { id: string }) {
 export default function AssetDetailComments(props: IAProps) {
 	const orProvider = useOrderBookProvider();
 
+	const wrapperRef = React.useRef(null);
+
 	const [comments, setComments] = React.useState<CommentType[] | null>(null);
+	const [currentComments, setCurrentComments] = React.useState<CommentType[] | null>(null);
+	const [finalComments, setFinalComments] = React.useState<FinalCommentType[] | null>(null);
+
 	const [owners, setOwners] = React.useState<OwnerType[] | OwnerListingType[] | null>(null);
 
-	const [finalComments, setFinalComments] = React.useState<FinalCommentType[] | null>(null);
 	const [localUpdate, setLocalUpdate] = React.useState<boolean>(false);
+
+	const [sequence, setSequence] = React.useState<SequenceType>({
+		start: SEQUENCE_ITERATION - (SEQUENCE_ITERATION - 1) - 1,
+		end: SEQUENCE_ITERATION - 1,
+	});
+
+	const handleScroll = React.useCallback(() => {
+		const element = wrapperRef.current;
+		const rect = element?.getBoundingClientRect();
+
+		if (rect && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
+			if (comments && sequence.end < comments.length) {
+				updateSequence();
+			}
+		}
+	}, [sequence, finalComments, updateSequence]);
+
+	function updateSequence() {
+		setSequence({
+			start: sequence.start + SEQUENCE_ITERATION,
+			end: sequence.end + SEQUENCE_ITERATION,
+		});
+	}
 
 	React.useEffect(() => {
 		(async function () {
@@ -197,10 +232,20 @@ export default function AssetDetailComments(props: IAProps) {
 	}, [props.asset, localUpdate]);
 
 	React.useEffect(() => {
+		if (comments) {
+			let existingData: any = finalComments ? [...finalComments] : [];
+			const currentData: any = [...comments].splice(sequence.start, sequence.end + 1);
+			setCurrentComments(
+				[...existingData, ...currentData].filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
+			);
+		}
+	}, [comments, sequence]);
+
+	React.useEffect(() => {
 		(async function () {
-			if (comments) {
+			if (currentComments) {
 				const owners = await getOwners(
-					comments.map((comment: CommentType) => {
+					currentComments.map((comment: CommentType) => {
 						return { creator: comment.owner };
 					}),
 					orProvider,
@@ -209,17 +254,24 @@ export default function AssetDetailComments(props: IAProps) {
 				setOwners(owners);
 			}
 		})();
-	}, [comments]);
+	}, [currentComments]);
 
 	React.useEffect(() => {
-		if (comments && owners) {
-			const mergedData: FinalCommentType[] = comments.map((comment) => {
+		if (currentComments && owners) {
+			const mergedData: FinalCommentType[] = currentComments.map((comment) => {
 				const ownerDetail = (owners as OwnerType[]).find((owner: OwnerType) => owner.address === comment.owner);
 				return { ...comment, ownerDetail };
 			});
 			setFinalComments(mergedData);
 		}
-	}, [comments, owners]);
+	}, [currentComments, owners]);
+
+	React.useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, [handleScroll]);
 
 	function getComments() {
 		if (finalComments) {
@@ -234,6 +286,7 @@ export default function AssetDetailComments(props: IAProps) {
 										asset={props.asset}
 										isSaleOrder={false}
 										handleUpdate={() => setLocalUpdate((prev) => !prev)}
+										loading={!comment.ownerDetail}
 									/>
 								</S.CommentHeader>
 								<CommentData id={comment.id} />
@@ -261,7 +314,7 @@ export default function AssetDetailComments(props: IAProps) {
 	}
 
 	return (
-		<S.Wrapper className={'border-wrapper'}>
+		<S.Wrapper ref={wrapperRef} className={'border-wrapper'}>
 			<CommentCreate
 				asset={props.asset}
 				handleUpdate={() => {

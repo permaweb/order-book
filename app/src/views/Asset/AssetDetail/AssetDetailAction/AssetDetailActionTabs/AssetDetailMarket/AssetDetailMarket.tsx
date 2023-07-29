@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { OrderBookPairOrderType } from 'permaweb-orderbook';
+import { AssetDetailType, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { PieChart } from 'components/atoms/PieChart';
@@ -25,34 +25,40 @@ export default function AssetDetailMarket(props: IAMProps) {
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
 
+	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
+
 	React.useEffect(() => {
-		if (props.asset && props.asset.state) {
-			const balances = Object.keys(props.asset.state.balances).map((balance: any) => {
-				return props.asset.state.balances[balance];
-			});
-			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
-		}
+		if (props.asset) setAsset(props.asset as AssetDetailType);
 	}, [props.asset]);
 
 	React.useEffect(() => {
-		if (props.asset && props.asset.orders) {
-			const saleBalances = props.asset.orders.map((order: OrderBookPairOrderType) => {
+		if (asset && asset.state) {
+			const balances = Object.keys(asset.state.balances).map((balance: any) => {
+				return asset.state.balances[balance];
+			});
+			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
+		}
+	}, [asset]);
+
+	React.useEffect(() => {
+		if (asset && asset.orders) {
+			const saleBalances = asset.orders.map((order: OrderBookPairOrderType) => {
 				return order.quantity;
 			});
 			setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
 		}
-	}, [props.asset]);
+	}, [asset]);
 
 	React.useEffect(() => {
 		(async function () {
-			if (props.asset && props.asset.state && orProvider) {
-				setCurrentOwners((await getOwners(props.asset.state.balances, orProvider, props.asset)) as any);
-				if (props.asset.orders) {
-					setCurrentSaleOwners((await getOwners(props.asset.orders, orProvider, props.asset)) as any);
+			if (asset && asset.state && orProvider) {
+				setCurrentOwners((await getOwners(asset.state.balances, orProvider, asset)) as any);
+				if (asset.orders) {
+					setCurrentSaleOwners((await getOwners(asset.orders, orProvider, asset)) as any);
 				}
 			}
 		})();
-	}, [props.asset]);
+	}, [asset]);
 
 	function getChart() {
 		if (currentOwners && currentOwners.length > 1) {
@@ -99,11 +105,14 @@ export default function AssetDetailMarket(props: IAMProps) {
 		}
 	}
 
-	return props.asset ? (
+	return asset ? (
 		<>
 			{getChart()}
 			<S.AssetCAction className={'border-wrapper-alt'}>
-				<AssetDetailMarketAction asset={props.asset} handleUpdate={props.handleUpdate} />
+				<AssetDetailMarketAction
+					asset={asset as AssetDetailType}
+					handleUpdate={props.handleUpdate as () => Promise<void>}
+				/>
 			</S.AssetCAction>
 			{currentSaleOwners && currentSaleOwners.length > 0 && (
 				<S.DrawerWrapper>
@@ -124,9 +133,10 @@ export default function AssetDetailMarket(props: IAMProps) {
 										<S.DCLine key={index}>
 											<OwnerInfo
 												owner={owner}
-												asset={props.asset}
+												asset={asset}
 												isSaleOrder={true}
 												handleUpdate={props.handleUpdate}
+												loading={false}
 											/>
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
@@ -156,9 +166,10 @@ export default function AssetDetailMarket(props: IAMProps) {
 										<S.DCLine key={index}>
 											<OwnerInfo
 												owner={owner}
-												asset={props.asset}
+												asset={asset}
 												isSaleOrder={false}
 												handleUpdate={props.handleUpdate}
+												loading={false}
 											/>
 											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 										</S.DCLine>

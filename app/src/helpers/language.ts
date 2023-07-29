@@ -95,6 +95,7 @@ export const language = {
 	sell: `Sell`,
 	seller: `Seller`,
 	sellAsset: `Sell Asset`,
+	showMore: `Show More`,
 	standard: `Standard`,
 	stamp: `STAMP`,
 	stampComment: `STAMP Comment`,
