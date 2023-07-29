@@ -59,6 +59,7 @@ export const CommentDetail = styled.div`
 `;
 
 export const LoadingWrapper = styled.div`
+	margin: 20px 0 0 0;
 	width: fit-content;
 	p {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
