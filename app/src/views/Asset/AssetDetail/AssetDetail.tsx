@@ -65,7 +65,7 @@ export default function AssetDetail(props: IProps) {
 			return (
 				<>
 					<AssetDetailInfo asset={asset} />
-					<AssetDetailAction asset={asset} handleUpdate={handleUpdate} />{' '}
+					<AssetDetailAction asset={asset} handleUpdate={handleUpdate} />
 				</>
 			);
 		} else {
