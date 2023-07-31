@@ -23,18 +23,6 @@ export function getTagValue(list: { [key: string]: any }[], name: string): strin
 	return STORAGE.none;
 }
 
-export function checkGqlCursor(string: string): boolean {
-	/* All Search Cursors contain '-'
-		GQL Cursors contain letters, numbers or '=' */
-	if (/[-]/.test(string)) {
-		return false;
-	} else if (/[A-Za-z0-9]/.test(string) || /[=]/.test(string)) {
-		return true;
-	} else {
-		return true;
-	}
-}
-
 export function unquoteJsonKeys(json: Object): string {
 	return JSON.stringify(json)
 		.replace(/"([^"]+)":/g, '$1:')

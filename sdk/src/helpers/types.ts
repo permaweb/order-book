@@ -272,6 +272,7 @@ export type GQLResponseType = {
 		owner?: {
 			address: string;
 		};
+		address?: string;
 		timestamp?: number;
 	};
 };

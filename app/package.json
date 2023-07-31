@@ -22,7 +22,7 @@
 		"@types/react-router-dom": "^5.3.3",
 		"arweave-wallet-connector": "^1.0.2",
 		"html-react-parser": "^3.0.4",
-		"permaweb-orderbook": "^1.3.33",
+		"permaweb-orderbook": "^1.3.35",
 		"react": "^18.2.0",
 		"react-chartjs-2": "^5.2.0",
 		"react-dom": "^18.2.0",

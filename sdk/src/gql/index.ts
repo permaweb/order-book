@@ -41,7 +41,7 @@ export async function getGQLData(args: {
 
 	const first = args.useArweaveBundlr ? '' : `first: ${PAGINATOR}`;
 	const nodeFields = args.useArweaveBundlr
-		? 'timestamp'
+		? `address timestamp`
 		: `data {
 				size
 				type

@@ -185,7 +185,6 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const implementation = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.implements);
 		const license = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.license);
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
-		const owner = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.initialOwner);
 
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
@@ -202,7 +201,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 						? gqlData.assets[i].node.block.timestamp * 1000
 						: gqlData.assets[i].node.timestamp,
 					blockHeight: gqlData.assets[i].node.block ? gqlData.assets[i].node.block.height : 0,
-					creator: gqlData.assets[i].node.owner ? gqlData.assets[i].node.owner.address : owner,
+					creator: gqlData.assets[i].node.owner ? gqlData.assets[i].node.owner.address : gqlData.assets[i].node.address,
 				},
 			};
 
