@@ -187,8 +187,6 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
 		const owner = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.initialOwner);
 
-		console.log(gqlData.assets[i].node);
-
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
 				data: {
