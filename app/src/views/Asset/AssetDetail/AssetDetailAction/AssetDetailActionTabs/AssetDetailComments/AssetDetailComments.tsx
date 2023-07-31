@@ -203,7 +203,7 @@ export default function AssetDetailComments(props: IAProps) {
 		const rect = element?.getBoundingClientRect();
 
 		if (rect && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
-			if (comments && comments.length > sequence.end) {
+			if (comments && comments.length > sequence.end && finalComments && finalComments.length) {
 				updateSequence();
 			}
 		}
