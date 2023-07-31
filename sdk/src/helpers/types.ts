@@ -149,7 +149,7 @@ export type ApiClientType = {
 	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
 	getCollection: (args: { collectionId: string }) => Promise<CollectionAssetType>;
 	getComments: (args: { id: string }) => Promise<CommentsResponseType>;
-	getComment: (args: { id: string }) => Promise<CommentDetailType>;
+	getCommentData: (args: { id: string }) => Promise<CommentDetailType>;
 };
 
 export type WriteContractArgs = {

@@ -44,6 +44,11 @@ import walletSVG from 'assets/wallet.svg';
 import { language } from './language';
 import { DREObjectType, WalletEnum } from './types';
 
+export const APP = {
+	key: 'appVersion',
+	version: '1.0.0',
+};
+
 export const ASSETS = {
 	activity: activitySVG,
 	arLogo: arLogoSVG,
@@ -152,10 +157,6 @@ export const DETAIL_ACTION_TABS = [
 		label: DETAIL_ACTION_TAB_OPTIONS.comments,
 		icon: ASSETS.comments,
 	},
-	// {
-	// 	label: DETAIL_ACTION_TAB_OPTIONS.activity,
-	// 	icon: ASSETS.activity,
-	// },
 ];
 
 export const DETAIL_MARKET_TAB_OPTIONS = {

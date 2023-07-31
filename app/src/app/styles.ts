@@ -68,9 +68,6 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
-    &:focus {
-      outline: 0;
-    }
   }
 
   h1 {
@@ -145,6 +142,9 @@ export const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme.colors.font.primary.alt1};
     margin: 0;
     padding: 10px;
+    &:focus {
+      outline: 0;
+    }
     &:disabled {
       cursor: not-allowed;
     }

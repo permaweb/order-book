@@ -68,7 +68,6 @@ function CommentCreate(props: IAMProps) {
 			try {
 				await orProvider.orderBook.api.arClient.bundlr.ready();
 
-				// @ts-ignore
 				const contractId = await orProvider.orderBook.api.createAsset({
 					content: comment,
 					contentType: CONTENT_TYPES.textPlain,
@@ -88,6 +87,11 @@ function CommentCreate(props: IAMProps) {
 					status: true,
 					message: `${language.replied}!`,
 				});
+
+				setTimeout(() => {
+					setCommentResponse(null), setComment('');
+				}, 1500);
+				props.handleUpdate(contractId);
 			} catch (e: any) {
 				console.error(e);
 				setLoading(false);
@@ -96,11 +100,6 @@ function CommentCreate(props: IAMProps) {
 					message: language.errorOccurred,
 				});
 			}
-
-			setTimeout(() => {
-				setCommentResponse(null), setComment('');
-			}, 1500);
-			props.handleUpdate();
 		}
 	}
 
@@ -166,7 +165,7 @@ function CommentData(props: { id: string }) {
 	React.useEffect(() => {
 		(async function () {
 			if (props.id) {
-				const comment = await orProvider.orderBook.api.getComment({ id: props.id });
+				const comment = await orProvider.orderBook.api.getCommentData({ id: props.id });
 				setComment(comment);
 			}
 		})();
@@ -204,7 +203,7 @@ export default function AssetDetailComments(props: IAProps) {
 		const rect = element?.getBoundingClientRect();
 
 		if (rect && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
-			if (comments && sequence.end < comments.length) {
+			if (comments && comments.length > sequence.end) {
 				updateSequence();
 			}
 		}
@@ -234,7 +233,7 @@ export default function AssetDetailComments(props: IAProps) {
 
 	React.useEffect(() => {
 		if (comments) {
-			let existingData: any = finalComments ? [...finalComments] : [];
+			const existingData: any = finalComments ? [...finalComments] : [];
 			const currentData: any = [...comments].splice(sequence.start, sequence.end + 1);
 			setCurrentComments(
 				[...existingData, ...currentData].filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
@@ -273,6 +272,24 @@ export default function AssetDetailComments(props: IAProps) {
 			window.removeEventListener('scroll', handleScroll);
 		};
 	}, [handleScroll]);
+
+	async function handleUpdate(id: string) {
+		if (orProvider) {
+			const comment = await orProvider.orderBook.api.getAssetById({ id: id });
+			const ownerDetail = (
+				await getOwners([{ creator: comment.data.creator }], orProvider, props.asset as AssetDetailType)
+			)[0];
+			console.log(ownerDetail);
+			const newComment: FinalCommentType = {
+				id: id,
+				dataSource: props.asset.data.id,
+				owner: comment.data.creator,
+				ownerDetail,
+			};
+			console.log(newComment);
+			setFinalComments([newComment, ...finalComments]);
+		}
+	}
 
 	function getComments() {
 		if (finalComments) {
@@ -328,13 +345,7 @@ export default function AssetDetailComments(props: IAProps) {
 
 	return (
 		<S.Wrapper ref={wrapperRef} className={'border-wrapper'}>
-			<CommentCreate
-				asset={props.asset}
-				handleUpdate={() => {
-					setFinalComments(null);
-					setLocalUpdate((prev) => !prev);
-				}}
-			/>
+			<CommentCreate asset={props.asset} handleUpdate={handleUpdate} />
 			{getComments()}
 		</S.Wrapper>
 	);

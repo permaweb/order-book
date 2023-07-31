@@ -36,7 +36,7 @@ export async function getComments(args: {
 		reduxCursor: null,
 		cursorObject: CursorEnum.GQL,
 		arClient: args.arClient,
-		useArweaveNet: true,
+		useArweaveBundlr: true,
 	});
 
 	let comments: CommentType[] = [];
@@ -45,7 +45,7 @@ export async function getComments(args: {
 		comments.push({
 			id: node.id,
 			dataSource: getTagValue(node.tags, TAGS.keys.dataSource),
-			owner: node.owner.address,
+			owner: node.owner ? node.owner.address : node.address,
 		});
 	}
 
@@ -56,8 +56,8 @@ export async function getComments(args: {
 	};
 }
 
-export async function getComment(args: { arClient: ArweaveClientType; id: string }): Promise<CommentDetailType> {
-	let comment = await fetch(getTxEndpoint(args.id));
+export async function getCommentData(args: { arClient: ArweaveClientType; id: string }): Promise<CommentDetailType> {
+	const comment = await fetch(getTxEndpoint(args.id));
 	return {
 		text: await comment.text(),
 	};

@@ -25,7 +25,7 @@ export const Wrapper = styled.button<{ sm: boolean }>`
 		margin: ${(props) => (props.sm ? '0 7.5px 0 0' : '0 12.5px 0 0')};
 		font-size: ${(props) =>
 			props.sm ? props.theme.typography.size.xxSmall : props.theme.typography.size.small} !important;
-		font-family: ${(props) => props.theme.typography.family.alt1} !important;
+		font-family: ${(props) => props.theme.typography.family.primary} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt8} !important;
 	}
 	svg {
@@ -43,7 +43,7 @@ export const DetailLine = styled.div`
 	span {
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		letter-spacing: 0.1rem;
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
@@ -51,7 +51,7 @@ export const DetailLine = styled.div`
 		margin: 0 0 0 5px;
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;

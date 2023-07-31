@@ -343,7 +343,7 @@ export const defaultTheme: DefaultTheme = {
 	typography: {
 		family: {
 			primary: `'Inter', sans-serif`,
-			alt1: `'Quantico', sans-serif`,
+			alt1: `'Inter', sans-serif`,
 		},
 		size: {
 			h1: 'clamp(38px, 4.5vw, 62px)',

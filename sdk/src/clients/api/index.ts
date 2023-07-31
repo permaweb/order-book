@@ -8,7 +8,7 @@ import {
 	getAssetsByUser,
 	getCollection,
 	getCollections,
-	getComment,
+	getCommentData,
 	getComments,
 	getProfile,
 	search,
@@ -90,8 +90,8 @@ const apiClient: ApiClientType = {
 		return await getComments({ ...args, arClient: this.arClient });
 	},
 
-	getComment: async function (args: { id: string }): Promise<CommentDetailType> {
-		return await getComment({ ...args, arClient: this.arClient });
+	getCommentData: async function (args: { id: string }): Promise<CommentDetailType> {
+		return await getCommentData({ ...args, arClient: this.arClient });
 	},
 };
 
