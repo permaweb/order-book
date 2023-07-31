@@ -80,18 +80,22 @@ export default function AssetDetailInfo(props: IAProps) {
 									</S.DCLineHeader>
 									<TxAddress address={props.asset.data.id} wrap={false} />
 								</S.DCLine>
-								<S.DCLine>
-									<S.DCLineHeader>
-										<p>{language.blockHeight}</p>
-									</S.DCLineHeader>
-									<S.DCLineDetailMedium>{formatCount(props.asset.data.blockHeight.toString())}</S.DCLineDetailMedium>
-								</S.DCLine>
-								<S.DCLine>
-									<S.DCLineHeader>
-										<p>{language.dateCreated}</p>
-									</S.DCLineHeader>
-									<S.DCLineDetailMedium>{formatDate(props.asset.data.dateCreated * 1000, 'iso')}</S.DCLineDetailMedium>
-								</S.DCLine>
+								{props.asset.data.blockHeight !== 0 && (
+									<S.DCLine>
+										<S.DCLineHeader>
+											<p>{language.blockHeight}</p>
+										</S.DCLineHeader>
+										<S.DCLineDetailMedium>{formatCount(props.asset.data.blockHeight.toString())}</S.DCLineDetailMedium>
+									</S.DCLine>
+								)}
+								{props.asset.data.dateCreated !== 0 && (
+									<S.DCLine>
+										<S.DCLineHeader>
+											<p>{language.dateCreated}</p>
+										</S.DCLineHeader>
+										<S.DCLineDetailMedium>{formatDate(props.asset.data.dateCreated, 'iso')}</S.DCLineDetailMedium>
+									</S.DCLine>
+								)}
 								{props.asset.data.implementation && props.asset.data.implementation !== STORAGE.none && (
 									<S.DCLine>
 										<S.DCLineHeader>

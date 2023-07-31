@@ -1,4 +1,4 @@
-import { CURSORS, PAGINATOR } from '../helpers/config';
+import { BUNDLR_CONFIG, CURSORS, PAGINATOR } from '../helpers/config';
 import {
 	AGQLResponseType,
 	ArweaveClientType,
@@ -16,9 +16,10 @@ export async function getGQLData(args: {
 	cursor: string | null;
 	reduxCursor: string | null;
 	cursorObject: CursorObjectKeyType;
-	useArweavePost?: boolean;
 	arClient: ArweaveClientType;
 	minBlock?: number;
+	useArweaveNet?: boolean;
+	useArweaveBundlr?: boolean;
 }): Promise<AGQLResponseType> {
 	const data: GQLResponseType[] = [];
 	let nextCursor: string | null = null;
@@ -32,12 +33,26 @@ export async function getGQLData(args: {
 	let owners = args.uploader ? JSON.stringify([args.uploader]) : null;
 	let cursor = args.cursor ? `"${args.cursor}"` : null;
 
-	let block = '';
-	if (args.minBlock) {
-		block = `block: {
+	const block = args.minBlock
+		? `block: {
 			min: ${args.minBlock}
-		}`;
-	}
+		}`
+		: '';
+
+	const first = args.useArweaveBundlr ? '' : `first: ${PAGINATOR}`;
+	const nodeFields = args.useArweaveBundlr
+		? 'timestamp'
+		: `data {
+				size
+				type
+			}
+			owner {
+				address
+			}
+			block {
+				height
+				timestamp
+			}`;
 
 	const query = {
 		query: `
@@ -45,8 +60,8 @@ export async function getGQLData(args: {
                     transactions(
                         ids: ${ids},
                         tags: ${tags},
+						${first}
                         owners: ${owners},
-                        first: ${PAGINATOR}, 
                         after: ${cursor},
 						${block}
                     ){
@@ -58,20 +73,7 @@ export async function getGQLData(args: {
                                 name 
                                 value 
                             }
-                            data {
-                                size
-                                type
-                            }
-							owner {
-								address
-							}
-							block {
-								height
-								timestamp
-							}
-							owner {
-								address
-							}
+							${nodeFields}
                         }
                     }
                 }
@@ -79,9 +81,13 @@ export async function getGQLData(args: {
         `,
 	};
 
-	const response = args.useArweavePost
-		? await args.arClient.arweavePost.api.post('/graphql', query)
-		: await args.arClient.arweaveGet.api.post('/graphql', query);
+	const response = await getResponse({
+		arClient: args.arClient,
+		query: query,
+		useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
+		useArweaveNet: args.useArweaveNet ? args.useArweaveNet : false,
+	});
+
 	if (response.data.data) {
 		const responseData = response.data.data.transactions.edges;
 		if (responseData.length > 0) {
@@ -97,6 +103,28 @@ export async function getGQLData(args: {
 	}
 
 	return { data: data, nextCursor: nextCursor };
+}
+
+async function getResponse(args: { arClient: any; query: any; useArweaveBundlr: boolean; useArweaveNet: boolean }) {
+	if (args.useArweaveBundlr) return await useFetch({ query: args.query, endpoint: `${BUNDLR_CONFIG.node}/graphql` });
+	else if (args.useArweaveNet) return await args.arClient.arweavePost.api.post('/graphql', args.query);
+	else return await args.arClient.arweaveGet.api.post('/graphql', args.query);
+}
+
+async function useFetch(args: { query: string; endpoint: string }) {
+	const response = await fetch(args.endpoint, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(args.query),
+	});
+	try {
+		return { data: await response.json() };
+	} catch (e: any) {
+		console.error(e);
+		return { data: [] };
+	}
 }
 
 export * from './assets';

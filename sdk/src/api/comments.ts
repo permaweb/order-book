@@ -36,7 +36,7 @@ export async function getComments(args: {
 		reduxCursor: null,
 		cursorObject: CursorEnum.GQL,
 		arClient: args.arClient,
-		useArweavePost: true,
+		useArweaveNet: true,
 	});
 
 	let comments: CommentType[] = [];

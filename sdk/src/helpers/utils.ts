@@ -63,3 +63,10 @@ export function logValue(message: any, value: any, status: 0 | 1 | null): void {
 	const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
 	console.log(`${formattedDate} - ${message} - ['${value}'] - log status ${status}`);
 }
+
+export function getObjectSizeInKb(obj: any) {
+	const jsonString = JSON.stringify(obj);
+	const bytes = new TextEncoder().encode(jsonString).length;
+	const kilobytes = bytes / 1024;
+	return kilobytes;
+}

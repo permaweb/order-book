@@ -25,117 +25,18 @@ import {
 } from '../helpers';
 
 export async function createAsset(args: AssetCreateArgsClientType): Promise<string | null> {
-	const contractTags = createContractTags(args);
-	const assetId = await deployToBundlr({
+	const assetId = await createTransaction({
 		arClient: args.arClient,
 		content: args.content,
 		contentType: args.contentType,
-		contractTags: contractTags,
+		tags: createTags(args),
 	});
-	const contractId = await deployToWarp({ arClient: args.arClient, assetId: assetId });
+	const contractId = await createContract({ arClient: args.arClient, assetId: assetId });
 	if (contractId) {
 		logValue(`Deployed Contract`, contractId, 0);
 		return contractId;
 	} else {
 		return null;
-	}
-}
-
-function createContractTags(args: AssetCreateArgsClientType): TagType[] {
-	const dateTime = new Date().getTime().toString();
-
-	let initStateJson: any = {
-		balances: {
-			[args.owner]: 1,
-		},
-		title: args.title,
-		description: args.description,
-		ticker: args.ticker,
-		dateCreated: dateTime,
-		claimable: [],
-	};
-
-	if (args.dataProtocol) initStateJson.dataProtocol = args.dataProtocol;
-	if (args.dataSource) initStateJson.dataSource = args.dataSource;
-	if (args.renderWith) initStateJson.renderWith = args.renderWith.map((renderWith: string) => renderWith);
-
-	initStateJson = JSON.stringify(initStateJson);
-
-	const contractTags: TagType[] = [
-		{ name: TAGS.keys.contractSrc, value: TAGS.values.assetContractSrc },
-		{ name: TAGS.keys.smartweaveAppName, value: TAGS.values.smartweaveAppName },
-		{ name: TAGS.keys.smartweaveAppVersion, value: TAGS.values.smartweaveAppVersion },
-		{ name: TAGS.keys.contentType, value: args.contentType },
-		{ name: TAGS.keys.initState, value: initStateJson },
-		{ name: TAGS.keys.initialOwner, value: args.owner },
-		{ name: TAGS.keys.ans110.title, value: args.title },
-		{ name: TAGS.keys.ans110.description, value: args.description },
-		{ name: TAGS.keys.ans110.type, value: args.type },
-		{ name: TAGS.keys.ans110.implements, value: TAGS.values.ansVersion },
-		{ name: TAGS.keys.dateCreated, value: dateTime },
-		{ name: TAGS.keys.indexedBy, value: TAGS.values.indexer },
-	];
-
-	args.topics.forEach((topic: string) => contractTags.push({ name: TAGS.keys.topic(topic), value: topic }));
-
-	if (args.dataProtocol) contractTags.push({ name: TAGS.keys.dataProtocol, value: args.dataProtocol });
-	if (args.dataSource) contractTags.push({ name: TAGS.keys.dataSource, value: args.dataSource });
-	if (args.renderWith)
-		args.renderWith.forEach((renderWith: string) =>
-			contractTags.push({ name: TAGS.keys.renderWith, value: renderWith })
-		);
-
-	return contractTags;
-}
-
-async function deployToWarp(args: { arClient: any; assetId: string }) {
-	try {
-		const { contractTxId } = await args.arClient.warpDefault.register(args.assetId, 'node2');
-		return contractTxId;
-	} catch (e: any) {
-		logValue(`Error deploying to Warp - Asset ID`, args.assetId, 1);
-
-		const errorString = e.toString();
-		if (errorString.indexOf('500') > -1) {
-			return null;
-		}
-
-		if (errorString.indexOf('502') > -1 || errorString.indexOf('504') > -1 || errorString.indexOf('FetchError') > -1) {
-			let retries = 5;
-			for (let i = 0; i < retries; i++) {
-				await new Promise((r) => setTimeout(r, 2000));
-				try {
-					log(`Retrying Warp ...`, null);
-					const { contractTxId } = await args.arClient.warpDefault.register(args.assetId, 'node2');
-					log(`Retry succeeded`, 0);
-					return contractTxId;
-				} catch (e2: any) {
-					logValue(`Error deploying to Warp - Asset ID`, args.assetId, 1);
-					continue;
-				}
-			}
-		}
-	}
-
-	throw new Error(`Warp retries failed ...`);
-}
-
-async function deployToBundlr(args: { arClient: any; content: any; contentType: string; contractTags: any }) {
-	let finalContent: any;
-	switch (args.contentType) {
-		case CONTENT_TYPES.json as any:
-			finalContent = JSON.stringify(args.content);
-			break;
-		default:
-			finalContent = args.content;
-			break;
-	}
-	try {
-		const transaction = args.arClient.bundlr.createTransaction(finalContent, { tags: args.contractTags });
-		await transaction.sign();
-		return (await transaction.upload()).id;
-	} catch (e: any) {
-		throw new Error(`Error uploading to bundlr ...\n ${e}`);
 	}
 }
 
@@ -230,6 +131,7 @@ export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetTy
 		reduxCursor: args.reduxCursor,
 		arClient: args.arClient,
 		walletAddress: args.walletAddress,
+		useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
 	});
 
 	const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
@@ -251,6 +153,7 @@ export async function getAssetById(args: {
 			reduxCursor: null,
 			walletAddress: null,
 			arClient: args.arClient,
+			useArweaveBundlr: true,
 		})
 	)[0];
 
@@ -282,6 +185,9 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const implementation = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.implements);
 		const license = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.license);
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
+		const owner = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.initialOwner);
+
+		console.log(gqlData.assets[i].node);
 
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
@@ -294,9 +200,11 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 					implementation: implementation,
 					license: license,
 					renderWith: renderWith ? renderWith : null,
-					dateCreated: gqlData.assets[i].node.block.timestamp,
-					blockHeight: gqlData.assets[i].node.block.height,
-					creator: gqlData.assets[i].node.owner.address,
+					dateCreated: gqlData.assets[i].node.block
+						? gqlData.assets[i].node.block.timestamp * 1000
+						: gqlData.assets[i].node.timestamp,
+					blockHeight: gqlData.assets[i].node.block ? gqlData.assets[i].node.block.height : 0,
+					creator: gqlData.assets[i].node.owner ? gqlData.assets[i].node.owner.address : owner,
 				},
 			};
 
@@ -359,4 +267,101 @@ function getUDL(gqlData: GQLResponseType): UDLType | null {
 		derivationFee: derivationFee,
 		paymentMode: { key: TAGS.keys.udl.paymentMode, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.paymentMode) },
 	};
+}
+
+function createTags(args: AssetCreateArgsClientType): TagType[] {
+	const dateTime = new Date().getTime().toString();
+
+	let initStateJson: any = {
+		balances: {
+			[args.owner]: 1,
+		},
+		title: args.title,
+		description: args.description,
+		ticker: args.ticker,
+		dateCreated: dateTime,
+		claimable: [],
+	};
+
+	if (args.dataProtocol) initStateJson.dataProtocol = args.dataProtocol;
+	if (args.dataSource) initStateJson.dataSource = args.dataSource;
+	if (args.renderWith) initStateJson.renderWith = args.renderWith.map((renderWith: string) => renderWith);
+
+	initStateJson = JSON.stringify(initStateJson);
+
+	const tags: TagType[] = [
+		{ name: TAGS.keys.contractSrc, value: TAGS.values.assetContractSrc },
+		{ name: TAGS.keys.smartweaveAppName, value: TAGS.values.smartweaveAppName },
+		{ name: TAGS.keys.smartweaveAppVersion, value: TAGS.values.smartweaveAppVersion },
+		{ name: TAGS.keys.contentType, value: args.contentType },
+		{ name: TAGS.keys.initState, value: initStateJson },
+		{ name: TAGS.keys.initialOwner, value: args.owner },
+		{ name: TAGS.keys.ans110.title, value: args.title },
+		{ name: TAGS.keys.ans110.description, value: args.description },
+		{ name: TAGS.keys.ans110.type, value: args.type },
+		{ name: TAGS.keys.ans110.implements, value: TAGS.values.ansVersion },
+		{ name: TAGS.keys.dateCreated, value: dateTime },
+		{ name: TAGS.keys.indexedBy, value: TAGS.values.indexer },
+	];
+
+	args.topics.forEach((topic: string) => tags.push({ name: TAGS.keys.topic(topic), value: topic }));
+
+	if (args.dataProtocol) tags.push({ name: TAGS.keys.dataProtocol, value: args.dataProtocol });
+	if (args.dataSource) tags.push({ name: TAGS.keys.dataSource, value: args.dataSource });
+	if (args.renderWith)
+		args.renderWith.forEach((renderWith: string) => tags.push({ name: TAGS.keys.renderWith, value: renderWith }));
+
+	return tags;
+}
+
+async function createTransaction(args: { arClient: any; content: any; contentType: string; tags: TagType[] }) {
+	let finalContent: any;
+	switch (args.contentType) {
+		case CONTENT_TYPES.json as any:
+			finalContent = JSON.stringify(args.content);
+			break;
+		default:
+			finalContent = args.content;
+			break;
+	}
+	try {
+		const txRes = await args.arClient.arweavePost.createTransaction({ data: finalContent }, 'use_wallet');
+		args.tags.forEach((tag: TagType) => txRes.addTag(tag.name, tag.value));
+		const response = await global.window.arweaveWallet.dispatch(txRes);
+		return response.id;
+	} catch (e: any) {
+		throw new Error(`Error creating transaction ...\n ${e}`);
+	}
+}
+
+async function createContract(args: { arClient: any; assetId: string }) {
+	try {
+		const { contractTxId } = await args.arClient.warpDefault.register(args.assetId, 'node2');
+		return contractTxId;
+	} catch (e: any) {
+		logValue(`Error deploying to Warp - Asset ID`, args.assetId, 1);
+
+		const errorString = e.toString();
+		if (errorString.indexOf('500') > -1) {
+			return null;
+		}
+
+		if (errorString.indexOf('502') > -1 || errorString.indexOf('504') > -1 || errorString.indexOf('FetchError') > -1) {
+			let retries = 5;
+			for (let i = 0; i < retries; i++) {
+				await new Promise((r) => setTimeout(r, 2000));
+				try {
+					log(`Retrying Warp ...`, null);
+					const { contractTxId } = await args.arClient.warpDefault.register(args.assetId, 'node2');
+					log(`Retry succeeded`, 0);
+					return contractTxId;
+				} catch (e2: any) {
+					logValue(`Error deploying to Warp - Asset ID`, args.assetId, 1);
+					continue;
+				}
+			}
+		}
+	}
+
+	throw new Error(`Warp retries failed ...`);
 }

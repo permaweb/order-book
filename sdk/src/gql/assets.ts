@@ -19,6 +19,7 @@ export async function getGqlDataByIds(args: AssetArgsClientType): Promise<Assets
 		reduxCursor: args.reduxCursor,
 		cursorObject: CursorEnum.idGQL,
 		arClient: args.arClient,
+		useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
 	});
 
 	return getAssetsResponseObject(gqlData);

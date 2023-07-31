@@ -36,18 +36,6 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType | null>(null);
-	// const [signer, setSigner] = React.useState<any>(null);
-
-	// React.useEffect(() => {
-	// 	(async function () {
-	// 		if (arProvider.wallet && window.arweaveWallet) {
-	// 			const signer = new InjectedArweaveSigner(arProvider.wallet);
-	// 			signer.getAddress = window.arweaveWallet.getActiveAddress;
-	// 			await signer.setPublicKey();
-	// 			setSigner(signer);
-	// 		}
-	// 	})();
-	// }, [arProvider.wallet]);
 
 	React.useEffect(() => {
 		const arweaveGet = Arweave.init({

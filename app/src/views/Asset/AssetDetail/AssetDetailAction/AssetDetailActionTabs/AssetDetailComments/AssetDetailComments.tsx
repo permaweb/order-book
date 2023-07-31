@@ -9,7 +9,7 @@ import { OwnerInfo } from 'global/OwnerInfo';
 import { StampWidget } from 'global/StampWidget';
 import { ASSETS, COMMENT_SPEC } from 'helpers/config';
 import { language } from 'helpers/language';
-import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, SequenceType, WalletEnum } from 'helpers/types';
+import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, SequenceType } from 'helpers/types';
 import * as urls from 'helpers/urls';
 import { getOwners, rankData } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -65,40 +65,36 @@ function CommentCreate(props: IAMProps) {
 			e.preventDefault();
 			e.stopPropagation();
 			setLoading(true);
+			try {
+				await orProvider.orderBook.api.arClient.bundlr.ready();
 
-			if (arProvider.walletType === WalletEnum.arweaveApp) {
-				alert(language.arweaveAppNotSupportedError);
+				// @ts-ignore
+				const contractId = await orProvider.orderBook.api.createAsset({
+					content: comment,
+					contentType: CONTENT_TYPES.textPlain,
+					title: comment.length > 25 ? `${comment.substring(0, 25)}...` : comment,
+					description: comment,
+					type: COMMENT_SPEC.protcolId,
+					topics: [COMMENT_SPEC.protcolId],
+					owner: arProvider.walletAddress,
+					ticker: COMMENT_SPEC.ticker,
+					dataProtocol: COMMENT_SPEC.protcolId,
+					dataSource: props.asset.data.id,
+					renderWith: [COMMENT_SPEC.renderWith],
+				});
+
 				setLoading(false);
-			} else {
-				try {
-					await orProvider.orderBook.api.arClient.bundlr.ready();
-					const contractId = await orProvider.orderBook.api.createAsset({
-						content: comment,
-						contentType: CONTENT_TYPES.textPlain,
-						title: `${props.asset.data.title} Comment`,
-						description: comment,
-						type: COMMENT_SPEC.protcolId,
-						topics: [COMMENT_SPEC.protcolId],
-						owner: arProvider.walletAddress,
-						ticker: COMMENT_SPEC.ticker,
-						dataProtocol: COMMENT_SPEC.protcolId,
-						dataSource: props.asset.data.id,
-						renderWith: [COMMENT_SPEC.renderWith],
-					});
-					console.log(`Contract: ${contractId}`);
-					setLoading(false);
-					setCommentResponse({
-						status: true,
-						message: `${language.replied}!`,
-					});
-				} catch (e: any) {
-					console.error(e);
-					setLoading(false);
-					setCommentResponse({
-						status: true,
-						message: language.errorOccurred,
-					});
-				}
+				setCommentResponse({
+					status: true,
+					message: `${language.replied}!`,
+				});
+			} catch (e: any) {
+				console.error(e);
+				setLoading(false);
+				setCommentResponse({
+					status: true,
+					message: language.errorOccurred,
+				});
 			}
 
 			setTimeout(() => {

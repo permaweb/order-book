@@ -19,9 +19,7 @@ const arClient: ArweaveClientType = {
 		this.arweaveGet = args.arweaveGet;
 		this.arweavePost = args.arweavePost;
 
-		if (args.bundlrKey) {
-			this.bundlr = new Bundlr(BUNDLR_CONFIG.node, BUNDLR_CONFIG.currency, args.bundlrKey);
-		}
+		if (args.bundlrKey) this.bundlr = new Bundlr(BUNDLR_CONFIG.node, BUNDLR_CONFIG.currency, args.bundlrKey);
 
 		this.warpDefault = args.warp;
 		this.options.remoteStateSyncSource = args.warpDreNode;

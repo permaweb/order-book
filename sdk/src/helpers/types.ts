@@ -73,6 +73,7 @@ export type InitArgs = {
 	currency: 'U';
 	arweaveGet: any;
 	arweavePost: any;
+	arweaveBundlr?: any;
 	bundlrKey: any;
 	warp: any;
 	warpDreNode: string;
@@ -94,6 +95,7 @@ export type AssetArgsType = {
 
 export type AssetArgsClientType = AssetArgsType & {
 	arClient: any;
+	useArweaveBundlr?: boolean;
 };
 
 export type AssetCreateArgsType = {
@@ -259,17 +261,18 @@ export type GQLResponseType = {
 	node: {
 		id: string;
 		tags: { [key: string]: any }[];
-		data: {
+		data?: {
 			size: string;
 			type: string;
 		};
-		block: {
+		block?: {
 			height: number;
 			timestamp: number;
 		};
-		owner: {
+		owner?: {
 			address: string;
 		};
+		timestamp?: number;
 	};
 };
 
