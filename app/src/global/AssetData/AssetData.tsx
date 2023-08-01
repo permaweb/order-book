@@ -97,27 +97,51 @@ export default function AssetData(props: IProps) {
 						return getUnsupportedWrapper();
 					}
 					if (assetRender.contentType.includes('html')) {
-						return <S.Frame src={assetRender.url} ref={iframeRef} allowFullScreen onError={handleError} />;
+						if (!props.preview)
+							return <S.Frame src={assetRender.url} ref={iframeRef} allowFullScreen onError={handleError} />;
+						else {
+							return (
+								<S.Preview>
+									<ReactSVG src={ASSETS.renderer} />
+								</S.Preview>
+							);
+						}
 					}
 					if (assetRender.contentType.includes('image')) {
 						return <S.Image src={assetRender.url} onError={handleError} />;
 					}
 					if (assetRender.contentType.includes('audio')) {
-						return (
-							<S.AudioWrapper>
-								<ReactSVG src={ASSETS.audio} />
-								<S.Audio controls onError={handleError}>
-									<source src={assetRender.url} type={assetRender.contentType} />
-								</S.Audio>
-							</S.AudioWrapper>
-						);
+						if (!props.preview) {
+							return (
+								<S.AudioWrapper>
+									<ReactSVG src={ASSETS.audio} />
+									<S.Audio controls onError={handleError}>
+										<source src={assetRender.url} type={assetRender.contentType} />
+									</S.Audio>
+								</S.AudioWrapper>
+							);
+						} else {
+							return (
+								<S.Preview>
+									<ReactSVG src={ASSETS.renderer} />
+								</S.Preview>
+							);
+						}
 					}
 					if (assetRender.contentType.includes('video')) {
-						return (
-							<S.Video controls onError={handleError}>
-								<source src={assetRender.url} type={assetRender.contentType} />
-							</S.Video>
-						);
+						if (!props.preview) {
+							return (
+								<S.Video controls onError={handleError}>
+									<source src={assetRender.url} type={assetRender.contentType} />
+								</S.Video>
+							);
+						} else {
+							return (
+								<S.Preview>
+									<ReactSVG src={ASSETS.renderer} />
+								</S.Preview>
+							);
+						}
 					} else {
 						return getUnsupportedWrapper();
 					}
