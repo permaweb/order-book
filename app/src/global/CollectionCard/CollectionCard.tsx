@@ -4,6 +4,7 @@ import { getTxEndpoint } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Loader } from 'components/atoms/Loader';
+import { OwnerInfo } from 'global/OwnerInfo';
 import { StampWidget } from 'global/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
@@ -24,6 +25,25 @@ export default function CollectionCard(props: IProps) {
 		}
 	}
 
+	function getCreator() {
+		if (props.collection && props.collection.creator) {
+			return (
+				<S.IFlex>
+					<p>{language.createdBy}</p>
+					<OwnerInfo
+						owner={props.collection.creator}
+						asset={null}
+						isSaleOrder={false}
+						handleUpdate={() => {}}
+						loading={false}
+					/>
+				</S.IFlex>
+			);
+		} else {
+			return null;
+		}
+	}
+
 	function getData() {
 		if (props.collection) {
 			const redirect = `${urls.collection}${props.collection.id}`;
@@ -31,7 +51,7 @@ export default function CollectionCard(props: IProps) {
 				<S.CollectionCard key={props.collection.id}>
 					<S.InfoWrapper>
 						<h2>{props.collection.title}</h2>
-						{props.collection.author.handle && <p>{`${language.createdBy} ${props.collection.author.handle}`}</p>}
+						{getCreator()}
 						{!props.hideRedirect && (
 							<S.ButtonWrapper>
 								<Button

@@ -309,10 +309,7 @@ export type CollectionType = {
 	title: string;
 	description: string;
 	type: string;
-	author: {
-		address: string;
-		handle?: string | null;
-	};
+	creator: ProfileType;
 	stamps?: { total: number; vouched: number };
 };
 

@@ -207,6 +207,9 @@ export const ACHeader = styled(AssetCDetail)`
 	padding: 20px;
 	h2 {
 		line-height: 1.5;
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 `;
 

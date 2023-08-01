@@ -34,7 +34,7 @@ export default function ReduxAssetsUpdate(props: {
 	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 
 	React.useEffect(() => {
-		let arweaveGet = Arweave.init({
+		const arweaveGet = Arweave.init({
 			host: API_CONFIG.arweaveGet,
 			port: API_CONFIG.port,
 			protocol: API_CONFIG.protocol,
@@ -42,7 +42,7 @@ export default function ReduxAssetsUpdate(props: {
 			logging: API_CONFIG.logging,
 		});
 
-		let arweavePost = Arweave.init({
+		const arweavePost = Arweave.init({
 			host: API_CONFIG.arweavePost,
 			port: API_CONFIG.port,
 			protocol: API_CONFIG.protocol,
@@ -75,12 +75,18 @@ export default function ReduxAssetsUpdate(props: {
 					if (currentReducer[props.reduxCursor]) {
 						let contractIds: string[] = [];
 
-						let updatedReducer: any[];
+						let updatedReducer: {
+							groups: {
+								index: string;
+								ids: string[];
+							}[];
+							count: number;
+						} = { groups: [], count: 0 };
 						if (
 							props.collectionId ||
 							(assetsReducer.accountData.address && props.address !== assetsReducer.accountData.address)
 						) {
-							updatedReducer = [];
+							updatedReducer = { groups: [], count: 0 };
 						} else updatedReducer = currentReducer[props.reduxCursor];
 
 						switch (props.apiFetch) {
@@ -107,32 +113,41 @@ export default function ReduxAssetsUpdate(props: {
 							window.arweaveWallet
 						);
 
-						const groupIndex = new Map(currentReducer[props.reduxCursor].map((group: any) => [group.index, group.ids]));
+						const groupIndex = new Map(
+							currentReducer[props.reduxCursor].groups.map((group: any) => [group.index, group.ids])
+						);
 
 						if (rankedContractIds.length <= 0) {
-							updatedReducer.push({
+							updatedReducer.groups.push({
 								index: `${props.reduxCursor}-${props.cursorObject}-0`,
 								ids: [],
 							});
-						}
+						} else {
+							for (let i = 0, j = 0; i < rankedContractIds.length; i += PAGINATOR, j++) {
+								const cursorIds = [...rankedContractIds].slice(i, i + PAGINATOR);
+								const newIndex = `${props.reduxCursor}-${props.cursorObject}-${j}`;
 
-						for (let i = 0, j = 0; i < rankedContractIds.length; i += PAGINATOR, j++) {
-							const cursorIds = [...rankedContractIds].slice(i, i + PAGINATOR);
-							const newIndex = `${props.reduxCursor}-${props.cursorObject}-${j}`;
-
-							if (
-								![...groupIndex.values()].some((ids: any) =>
-									ids.every((id: any, index: any) => id === cursorIds[index])
-								)
-							) {
-								updatedReducer.push({
-									index: newIndex,
-									ids: cursorIds,
-								});
+								if (
+									![...groupIndex.values()].some((ids: any) =>
+										ids.every((id: any, index: any) => id === cursorIds[index])
+									)
+								) {
+									updatedReducer.groups.push({
+										index: newIndex,
+										ids: cursorIds,
+									});
+								}
 							}
 						}
 
-						dispatch(cursorActions.setCursors({ [props.cursorObject]: { [props.reduxCursor]: updatedReducer } }));
+						updatedReducer.count = rankedContractIds.length;
+						dispatch(
+							cursorActions.setCursors({
+								[props.cursorObject]: {
+									[props.reduxCursor]: updatedReducer,
+								},
+							})
+						);
 					}
 				}
 			})();
@@ -142,11 +157,11 @@ export default function ReduxAssetsUpdate(props: {
 	React.useEffect(() => {
 		(async function () {
 			const cursorReducer = cursorsReducer[props.cursorObject][props.reduxCursor];
-			if (cursorReducer && cursorReducer.length && orderBook && props.currentTableCursor && orderBook) {
-				for (let i = 0; i < cursorReducer.length; i++) {
-					if (props.currentTableCursor === cursorReducer[i].index) {
+			if (cursorReducer && cursorReducer.groups.length && orderBook && props.currentTableCursor && orderBook) {
+				for (let i = 0; i < cursorReducer.groups.length; i++) {
+					if (props.currentTableCursor === cursorReducer.groups[i].index) {
 						const fetchedAssets = await orderBook.api.getAssetsByIds({
-							ids: cursorReducer[i].ids,
+							ids: cursorReducer.groups[i].ids,
 							owner: null,
 							uploader: null,
 							cursor: null,
@@ -193,7 +208,7 @@ export default function ReduxAssetsUpdate(props: {
 			}
 		})();
 	}, [
-		cursorsReducer[props.cursorObject][props.reduxCursor],
+		cursorsReducer[props.cursorObject][props.reduxCursor].groups,
 		assetsReducer.accountData.address,
 		props.currentTableCursor,
 		orderBook,

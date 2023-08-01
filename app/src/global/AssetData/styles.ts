@@ -25,6 +25,11 @@ export const Frame = styled.iframe`
 	height: 100%;
 	width: 100%;
 	scrollbar-width: none;
+	-ms-overflow-style: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 export const FramePreview = styled.div`

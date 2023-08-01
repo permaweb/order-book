@@ -79,9 +79,9 @@ export async function getAssetIdsByContract(args: { arClient: any }): Promise<st
 export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetType[]> {
 	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 	if (result.status === 200) {
-		let balances = ((await result.json()) as UserBalancesType).balances;
+		const balances = ((await result.json()) as UserBalancesType).balances;
 
-		let assetIds = balances.map((balance: BalanceType) => {
+		const assetIds = balances.map((balance: BalanceType) => {
 			return balance.contract_tx_id;
 		});
 
@@ -104,9 +104,9 @@ export async function getAssetIdsByUser(args: { walletAddress: string; arClient:
 	try {
 		const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 		if (result.status === 200) {
-			let balances = ((await result.json()) as UserBalancesType).balances;
+			const balances = ((await result.json()) as UserBalancesType).balances;
 
-			let assetIds = balances
+			const assetIds = balances
 				.filter((balance: BalanceType) => {
 					return balance.balance && parseInt(balance.balance) !== 0;
 				})

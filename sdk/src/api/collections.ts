@@ -17,28 +17,33 @@ import {
 
 import { getProfile } from './profile';
 
-async function buildCollection(node: any, items: string[] | null, arClient: ArweaveClientType, withProfile: boolean) {
-	let banner =
+async function buildCollection(
+	node: any,
+	items: string[] | null,
+	arClient: ArweaveClientType,
+	useProfile: boolean
+): Promise<CollectionAssetType> {
+	const banner =
 		getTagValue(node.tags, TAGS.keys.banner) !== STORAGE.none
 			? getTagValue(node.tags, TAGS.keys.banner)
 			: DEFAULT_COLLECTION_BANNER;
-	let thumbnail =
+	const thumbnail =
 		getTagValue(node.tags, TAGS.keys.thumbnail) !== STORAGE.none
 			? getTagValue(node.tags, TAGS.keys.thumbnail)
 			: DEFAULT_COLLECTION_THUMB;
-	let name = getTagValue(node.tags, TAGS.keys.name);
-	let title = getTagValue(node.tags, TAGS.keys.ans110.title);
-	let description = getTagValue(node.tags, TAGS.keys.ans110.description);
-	let type = getTagValue(node.tags, TAGS.keys.ans110.type);
+	const name = getTagValue(node.tags, TAGS.keys.name);
+	const title = getTagValue(node.tags, TAGS.keys.ans110.title);
+	const description = getTagValue(node.tags, TAGS.keys.ans110.description);
+	const type = getTagValue(node.tags, TAGS.keys.ans110.type);
 
-	let profile = withProfile
+	const profile = useProfile
 		? await getProfile({
 				walletAddress: node.owner.address,
 				arClient: arClient,
 		  })
 		: null;
 
-	let collection = {
+	const collection = {
 		id: node.id,
 		banner: banner,
 		thumbnail: thumbnail,
@@ -46,10 +51,7 @@ async function buildCollection(node: any, items: string[] | null, arClient: Arwe
 		title: title,
 		description: description,
 		type: type,
-		author: {
-			address: node.owner.address,
-			handle: profile ? profile.handle : null,
-		},
+		creator: profile,
 		assets: items,
 	};
 
@@ -64,7 +66,7 @@ export async function getCollections(args: {
 	arClient: ArweaveClientType;
 	cursor: string | null;
 }): Promise<CollectionsResponseType> {
-	let gqlData = await getGQLData({
+	const gqlData = await getGQLData({
 		ids: null,
 		tagFilters: [
 			{
@@ -79,13 +81,13 @@ export async function getCollections(args: {
 		arClient: args.arClient,
 		minBlock: 1224710,
 	});
-	let collections: CollectionType[] = [];
+	const collections: CollectionType[] = [];
 	for (let i = 0; i < gqlData.data.length; i++) {
-		let node = gqlData.data[i].node;
-		let name = getTagValue(node.tags, TAGS.keys.name);
-		let title = getTagValue(node.tags, TAGS.keys.ans110.title);
-		let description = getTagValue(node.tags, TAGS.keys.ans110.description);
-		let type = getTagValue(node.tags, TAGS.keys.ans110.type);
+		const node = gqlData.data[i].node;
+		const name = getTagValue(node.tags, TAGS.keys.name);
+		const title = getTagValue(node.tags, TAGS.keys.ans110.title);
+		const description = getTagValue(node.tags, TAGS.keys.ans110.description);
+		const type = getTagValue(node.tags, TAGS.keys.ans110.type);
 
 		if ([name, title, description, type].includes(STORAGE.none)) continue;
 
@@ -100,9 +102,9 @@ export async function getCollections(args: {
 
 export async function getCollection(args: GetCollectionArgs): Promise<CollectionAssetType | null> {
 	try {
-		let collectionFetch = await fetch(getTxEndpoint(args.collectionId));
-		let collection: CollectionManifestType = await collectionFetch.json();
-		let collectionGql = await getGQLData({
+		const collectionFetch = await fetch(getTxEndpoint(args.collectionId));
+		const collection: CollectionManifestType = await collectionFetch.json();
+		const collectionGql = await getGQLData({
 			ids: [args.collectionId],
 			tagFilters: null,
 			cursorObject: null,
@@ -114,7 +116,7 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 
 		if (collectionGql.data.length < 1) return null;
 
-		let node = collectionGql.data[0].node;
+		const node = collectionGql.data[0].node;
 
 		return await buildCollection(node, collection.items, args.arClient, true);
 	} catch (error: any) {

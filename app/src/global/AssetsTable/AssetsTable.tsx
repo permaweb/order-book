@@ -37,8 +37,8 @@ export default function AssetsTable(props: IProps) {
 	}, [props.assets]);
 
 	React.useEffect(() => {
-		if (cursorsReducer[CursorEnum.idGQL][props.reduxCursor].length) {
-			setCurrentTableCursor(cursorsReducer[CursorEnum.idGQL][props.reduxCursor][0].index);
+		if (cursorsReducer[CursorEnum.idGQL][props.reduxCursor].groups.length) {
+			setCurrentTableCursor(cursorsReducer[CursorEnum.idGQL][props.reduxCursor].groups[0].index);
 		}
 	}, [cursorsReducer[CursorEnum.idGQL]]);
 

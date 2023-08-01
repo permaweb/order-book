@@ -84,13 +84,13 @@ export const Primary = styled.button<{
 			transform: scale(1, 1);
 		}
 		25% {
-			transform: scale(0.9, 1.1);
+			transform: scale(0.95, 1.05);
 		}
 		50% {
-			transform: scale(1.1, 0.9);
+			transform: scale(1.05, 0.95);
 		}
 		75% {
-			transform: scale(0.95, 1.05);
+			transform: scale(0.975, 1.025);
 		}
 	}
 

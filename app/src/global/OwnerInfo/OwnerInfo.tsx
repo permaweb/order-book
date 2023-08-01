@@ -19,8 +19,15 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loa
 	const [redirect, setRedirect] = React.useState<string | null>(null);
 
 	React.useEffect(() => {
-		if (owner) setRedirect(`${urls.account}${owner.address}`);
+		function getAddress() {
+			if (owner.address) return owner.address;
+			else if (owner.walletAddress) return owner.walletAddress;
+			else return null;
+		}
+		if (owner) setRedirect(`${urls.account}${getAddress()}`);
 	}, [owner]);
+
+	console.log(owner);
 
 	const handleError = () => {
 		setHasError(true);

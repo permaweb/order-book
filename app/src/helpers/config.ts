@@ -31,6 +31,7 @@ import rendererSVG from 'assets/renderer.svg';
 import searchSVG from 'assets/search.svg';
 import sellSVG from 'assets/sell.svg';
 import settingsSVG from 'assets/settings.svg';
+import shareSVG from 'assets/share.svg';
 import defaultStampSVG from 'assets/stamp-default.svg';
 import superStampSVG from 'assets/stamp-super.svg';
 import vouchedStampSVG from 'assets/stamp-vouched.svg';
@@ -80,6 +81,7 @@ export const ASSETS = {
 	search: searchSVG,
 	sell: sellSVG,
 	settings: settingsSVG,
+	share: shareSVG,
 	stamps: stampsSVG,
 	stamp: {
 		default: defaultStampSVG,

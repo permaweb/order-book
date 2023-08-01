@@ -96,6 +96,9 @@ export default function AssetData(props: IProps) {
 					if (loadError) {
 						return getUnsupportedWrapper();
 					}
+					if (assetRender.contentType.includes('html')) {
+						return <S.Frame src={assetRender.url} ref={iframeRef} allowFullScreen onError={handleError} />;
+					}
 					if (assetRender.contentType.includes('image')) {
 						return <S.Image src={assetRender.url} onError={handleError} />;
 					}
