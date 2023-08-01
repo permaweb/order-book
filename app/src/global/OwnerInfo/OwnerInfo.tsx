@@ -27,8 +27,6 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loa
 		if (owner) setRedirect(`${urls.account}${getAddress()}`);
 	}, [owner]);
 
-	console.log(owner);
-
 	const handleError = () => {
 		setHasError(true);
 	};
