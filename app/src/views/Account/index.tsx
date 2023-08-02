@@ -6,6 +6,7 @@ import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsTable } from 'global/AssetsTable';
 import { REDUX_TABLES } from 'helpers/redux';
+import * as windowUtils from 'helpers/window';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
@@ -28,7 +29,10 @@ export default function Account() {
 	const [profile, setProfile] = React.useState<any>();
 
 	React.useEffect(() => {
-		if (id) setIdParam(id);
+		if (id) {
+			windowUtils.scrollTo(0, 0, 'smooth');
+			setIdParam(id);
+		}
 	}, [id]);
 
 	React.useEffect(() => {

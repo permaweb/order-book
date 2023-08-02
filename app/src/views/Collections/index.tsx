@@ -24,10 +24,10 @@ export default function Collections() {
 		if (orProvider.orderBook) {
 			(async function () {
 				setCollections(null);
-				let collectionsFetch = await orProvider.orderBook.api.getCollections({
+				const collectionsFetch = await orProvider.orderBook.api.getCollections({
 					cursor: cursor,
 				});
-				let collections = await rankData(
+				const collections = await rankData(
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost,

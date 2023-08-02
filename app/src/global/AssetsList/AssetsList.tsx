@@ -20,7 +20,6 @@ function AssetRow(props: { asset: AssetType; index: number }) {
 		<S.PICWrapper>
 			<S.PCWrapper>
 				<S.AFlex>
-					<p>{props.index}</p>
 					<S.AWrapper>
 						<S.AssetLink>
 							<Link to={redirect} />
@@ -77,9 +76,6 @@ export default function AssetsList(props: IProps) {
 						<>
 							<S.HeaderWrapper>
 								<S.HSection1>
-									<S.Rank>
-										<p>{language.rank}</p>
-									</S.Rank>
 									<S.AtomicAsset>
 										<p>{language.atomicAsset}</p>
 									</S.AtomicAsset>
@@ -93,7 +89,6 @@ export default function AssetsList(props: IProps) {
 									</S.SHeaderFlex>
 								</S.HSection1>
 								<S.HSection2>
-									<p>{language.rank}</p>
 									<S.AtomicAsset>
 										<p>{language.atomicAsset}</p>
 									</S.AtomicAsset>

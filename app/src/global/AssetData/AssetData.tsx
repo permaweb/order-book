@@ -97,12 +97,12 @@ export default function AssetData(props: IProps) {
 						return getUnsupportedWrapper();
 					}
 					if (assetRender.contentType.includes('html')) {
-						if (!props.preview)
+						if (!props.preview && props.autoLoad)
 							return <S.Frame src={assetRender.url} ref={iframeRef} allowFullScreen onError={handleError} />;
 						else {
 							return (
 								<S.Preview>
-									<ReactSVG src={ASSETS.renderer} />
+									<ReactSVG src={ASSETS.html} />
 								</S.Preview>
 							);
 						}
@@ -123,13 +123,13 @@ export default function AssetData(props: IProps) {
 						} else {
 							return (
 								<S.Preview>
-									<ReactSVG src={ASSETS.renderer} />
+									<ReactSVG src={ASSETS.audio} />
 								</S.Preview>
 							);
 						}
 					}
 					if (assetRender.contentType.includes('video')) {
-						if (!props.preview) {
+						if (!props.preview && props.autoLoad) {
 							return (
 								<S.Video controls onError={handleError}>
 									<source src={assetRender.url} type={assetRender.contentType} />
@@ -138,7 +138,7 @@ export default function AssetData(props: IProps) {
 						} else {
 							return (
 								<S.Preview>
-									<ReactSVG src={ASSETS.renderer} />
+									<ReactSVG src={ASSETS.video} />
 								</S.Preview>
 							);
 						}

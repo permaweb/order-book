@@ -10,7 +10,6 @@ import { Modal } from 'components/molecules/Modal';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
-import { formatFloat } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
@@ -42,7 +41,7 @@ function StampAction(props: {
 			<S.SAInfoContainer>
 				<S.SABalanceContainer>
 					<ReactSVG src={ASSETS.stamp.super} />
-					<p>{formatFloat(props.balance, 2)}</p>
+					<p>{(props.balance / 1e12).toFixed(2)}</p>
 				</S.SABalanceContainer>
 			</S.SAInfoContainer>
 			<S.SAFormContainer onSubmit={() => props.handleSubmit(Number(amount))}>
@@ -119,19 +118,22 @@ export default function StampWidget(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (props.assetId && stamps) {
+			if (props.assetId && stamps && arProvider.walletAddress) {
 				try {
-					setCount(await stamps.count(props.assetId));
+					const updatedCount = await stamps.count(props.assetId);
 					const hasStamped = await stamps.hasStamped(props.assetId);
+					setCount(updatedCount);
 					setHasStamped(hasStamped);
 					if (hasStamped) {
 						setDisabled(true);
 					}
-					setBalance(await stamps.balance());
-				} catch {}
+					setBalance(await stamps.balance(arProvider.walletAddress));
+				} catch (e: any) {
+					console.error(e);
+				}
 			}
 		})();
-	}, [stamps, props.assetId, updateCount]);
+	}, [stamps, props.assetId, updateCount, arProvider.walletAddress]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -173,6 +175,7 @@ export default function StampWidget(props: IProps) {
 						stampSuccess = stamp && stamp.id;
 					}
 
+					await new Promise((resolve) => setTimeout(resolve, 500));
 					setUpdateCount(!updateCount);
 
 					if (!stampSuccess) {

@@ -1,15 +1,9 @@
-import { PAGINATOR } from './config';
-
 export function getArweaveBalanceEndpoint(walletAddress: string) {
 	return `https://arweave.net/wallet/${walletAddress}/balance`;
 }
 
 export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContract: string, dreNode: string) {
 	return `${dreNode}/contract?id=${currencyContract}&query=$.balances.${walletAddress}`;
-}
-
-export function getBalancesEndpoint(walletAddress: string) {
-	return `https://contracts.warp.cc/balances?walletAddress=${walletAddress}&limit=${PAGINATOR}`;
 }
 
 export function getRendererEndpoint(renderWith: string, tx: string) {

@@ -56,10 +56,7 @@ export const Rank = styled.div`
 
 export const AtomicAsset = styled.div`
 	min-width: 110px;
-	margin: 0 0 0 88.5px;
-	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		margin: 0;
-	}
+	margin: 0;
 `;
 
 export const SHeaderFlex = styled.div`
@@ -175,7 +172,7 @@ export const AssetWrapper = styled.div`
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
-	margin: 0 15px;
+	margin: 0 15px 0 0;
 	overflow: hidden;
 `;
 

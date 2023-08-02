@@ -8,7 +8,7 @@ import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 import { CURRENCY_DICT, OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
-import { API_CONFIG, AR_WALLETS, ASSETS, CURRENCIES, WALLET_PERMISSIONS } from 'helpers/config';
+import { API_CONFIG, APP, AR_WALLETS, ASSETS, CURRENCIES, WALLET_PERMISSIONS } from 'helpers/config';
 import { getArweaveBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { WalletEnum } from 'helpers/types';
@@ -93,22 +93,24 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	const [currencyBalances, setCurrencyBalances] = React.useState<CurrencyBalancesType | null>(null);
 
 	const [updateBalance, setUpdateBalance] = React.useState<boolean>(false);
+	const [newVersion, setNewVersion] = React.useState<boolean>(
+		!localStorage.getItem(APP.providerKey) || localStorage.getItem(APP.providerKey) !== APP.providerVersion
+	);
 
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	async function handleArConnect() {
 		if (!walletAddress) {
 			if (window.arweaveWallet) {
-				await global.window?.arweaveWallet
-					?.connect(WALLET_PERMISSIONS as any)
-					.then(() => {
-						setWalletModalVisible(false);
-					})
-					.catch((e: any) => {
-						alert(e);
-					});
-				setWallet(window.arweaveWallet);
-				setWalletType(WalletEnum.arConnect);
+				try {
+					await global.window?.arweaveWallet?.connect(WALLET_PERMISSIONS as any);
+					setWalletAddress(await global.window.arweaveWallet.getActiveAddress());
+					setWallet(window.arweaveWallet);
+					setWalletType(WalletEnum.arConnect);
+					setWalletModalVisible(false);
+				} catch (e: any) {
+					alert(e);
+				}
 			} else {
 				alert(language.connectorNotFound);
 			}
@@ -122,6 +124,9 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 		});
 		wallet.setUrl(WalletEnum.arweaveApp);
 		await wallet.connect();
+		wallet.on('disconnect', () => {
+			handleDisconnect();
+		});
 		setWallet(wallet);
 		setWalletType(WalletEnum.arweaveApp);
 	}
@@ -150,6 +155,8 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 
 	async function handleDisconnect() {
 		await global.window?.arweaveWallet?.disconnect();
+		setWallet(null);
+		setWalletType(null);
 		setWalletAddress(null);
 	}
 
@@ -161,18 +168,24 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 
 	React.useEffect(() => {
 		async function handleWallet() {
-			let walletAddress: string | null = null;
-			try {
-				walletAddress = await global.window.arweaveWallet.getActiveAddress();
+			if (!newVersion) {
+				let walletAddress: string | null = null;
+				try {
+					walletAddress = await global.window.arweaveWallet.getActiveAddress();
 
-				if (walletType !== WalletEnum.arweaveApp) {
-					setWalletType(WalletEnum.arConnect);
-					setWallet(window.arweaveWallet);
+					if (walletType !== WalletEnum.arweaveApp) {
+						setWalletType(WalletEnum.arConnect);
+						setWallet(window.arweaveWallet);
+					}
+				} catch {}
+				if (walletAddress) {
+					setWalletAddress(walletAddress as any);
+					setAvailableBalance(await getUserBalance(walletAddress));
 				}
-			} catch {}
-			if (walletAddress) {
-				setWalletAddress(walletAddress as any);
-				setAvailableBalance(await getUserBalance(walletAddress));
+			} else {
+				setNewVersion(false);
+				localStorage.setItem(APP.providerKey, APP.providerVersion);
+				await handleDisconnect();
 			}
 		}
 
@@ -186,7 +199,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	}, [walletType]);
 
 	React.useEffect(() => {
-		let arweaveGet = Arweave.init({
+		const arweaveGet = Arweave.init({
 			host: API_CONFIG.arweaveGet,
 			port: API_CONFIG.port,
 			protocol: API_CONFIG.protocol,
@@ -194,7 +207,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 			logging: API_CONFIG.logging,
 		});
 
-		let arweavePost = Arweave.init({
+		const arweavePost = Arweave.init({
 			host: API_CONFIG.arweavePost,
 			port: API_CONFIG.port,
 			protocol: API_CONFIG.protocol,

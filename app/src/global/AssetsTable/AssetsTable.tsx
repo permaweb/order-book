@@ -59,8 +59,8 @@ export default function AssetsTable(props: IProps) {
 	}
 
 	function getPaginatorAction(action: 'next' | 'prev') {
-		if (currentTableCursor && cursorsReducer[CursorEnum.idGQL][props.reduxCursor].length) {
-			const reducer = cursorsReducer[CursorEnum.idGQL][props.reduxCursor];
+		if (currentTableCursor && cursorsReducer[CursorEnum.idGQL][props.reduxCursor].groups.length) {
+			const reducer = cursorsReducer[CursorEnum.idGQL][props.reduxCursor].groups;
 			const currentIndex = reducer.findIndex(
 				(element: { index: string; ids: string[] }) => element.index === currentTableCursor
 			);

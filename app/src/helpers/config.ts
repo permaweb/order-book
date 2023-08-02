@@ -17,6 +17,7 @@ import commentsSVG from 'assets/comments.svg';
 import copySVG from 'assets/copy.svg';
 import defaultCollectionPNG from 'assets/default-collection.png';
 import detailsSVG from 'assets/details.svg';
+import htmlSVG from 'assets/html.svg';
 import infoSVG from 'assets/info.svg';
 import licenseSVG from 'assets/license.svg';
 import logoSVG from 'assets/logo.svg';
@@ -40,14 +41,17 @@ import uSVG from 'assets/u.svg';
 import udlSVG from 'assets/udl.svg';
 import unsupportedSVG from 'assets/unsupported.svg';
 import userSVG from 'assets/user.svg';
+import videoSVG from 'assets/video.svg';
 import walletSVG from 'assets/wallet.svg';
 
 import { language } from './language';
 import { DREObjectType, WalletEnum } from './types';
 
 export const APP = {
-	key: 'appVersion',
-	version: '1.0.0',
+	appKey: 'appVersion',
+	appVersion: '1.0.2',
+	providerKey: 'providerVersion',
+	providerVersion: '1.0.2',
 };
 
 export const ASSETS = {
@@ -67,6 +71,7 @@ export const ASSETS = {
 	copy: copySVG,
 	defaultCollection: defaultCollectionPNG,
 	details: detailsSVG,
+	html: htmlSVG,
 	info: infoSVG,
 	license: licenseSVG,
 	logo: logoSVG,
@@ -92,6 +97,7 @@ export const ASSETS = {
 	udl: udlSVG,
 	unsupported: unsupportedSVG,
 	user: userSVG,
+	video: videoSVG,
 	wallet: walletSVG,
 	wallets: {
 		arconnect: arconnectWalletPNG,
@@ -131,8 +137,6 @@ export const API_CONFIG = {
 export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH', 'SIGNATURE'];
 
 export const FEATURE_COUNT = 3;
-
-export const PAGINATOR = 100;
 
 export const STORAGE = {
 	none: 'N/A',
