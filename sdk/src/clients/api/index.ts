@@ -1,5 +1,6 @@
 import {
 	createAsset,
+	getActivity,
 	getAssetById,
 	getAssetIdsByContract,
 	getAssetIdsByUser,
@@ -14,6 +15,7 @@ import {
 	search,
 } from '../../api';
 import {
+	ActivityResponseType,
 	ApiClientInitArgs,
 	ApiClientType,
 	AssetArgsType,
@@ -41,6 +43,10 @@ const apiClient: ApiClientType = {
 
 	createAsset: async function (args: AssetCreateArgsType): Promise<string> {
 		return await createAsset({ ...args, arClient: this.arClient });
+	},
+
+	getActivity: async function (args: { id: string }): Promise<ActivityResponseType> {
+		return await getActivity({ ...args, arClient: this.arClient });
 	},
 
 	getAssetsByContract: async function (args: AssetArgsType): Promise<AssetType[]> {

@@ -23,31 +23,33 @@ export default function AssetData(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			const renderWith =
-				props.asset.data?.renderWith && props.asset.data.renderWith !== OrderBook.STORAGE.none
-					? props.asset.data.renderWith
-					: '[]';
-			let parsedRenderWith: string | null = null;
-			try {
-				parsedRenderWith = JSON.parse(renderWith);
-			} catch (e: any) {
-				parsedRenderWith = renderWith;
-			}
-			if (parsedRenderWith && parsedRenderWith.length) {
-				setAssetRender({
-					url: getRendererEndpoint(parsedRenderWith, props.asset.data.id),
-					type: 'renderer',
-					contentType: 'renderer',
-				});
-			} else {
-				const assetResponse = await fetch(getTxEndpoint(props.asset.data.id));
-				const contentType = assetResponse.headers.get('content-type');
-				if (assetResponse.status === 200 && contentType) {
+			if (props.asset) {
+				const renderWith =
+					props.asset.data?.renderWith && props.asset.data.renderWith !== OrderBook.STORAGE.none
+						? props.asset.data.renderWith
+						: '[]';
+				let parsedRenderWith: string | null = null;
+				try {
+					parsedRenderWith = JSON.parse(renderWith);
+				} catch (e: any) {
+					parsedRenderWith = renderWith;
+				}
+				if (parsedRenderWith && parsedRenderWith.length) {
 					setAssetRender({
-						url: assetResponse.url,
-						type: 'raw',
-						contentType: contentType as ContentType,
+						url: getRendererEndpoint(parsedRenderWith, props.asset.data.id),
+						type: 'renderer',
+						contentType: 'renderer',
 					});
+				} else {
+					const assetResponse = await fetch(getTxEndpoint(props.asset.data.id));
+					const contentType = assetResponse.headers.get('content-type');
+					if (assetResponse.status === 200 && contentType) {
+						setAssetRender({
+							url: assetResponse.url,
+							type: 'raw',
+							contentType: contentType as ContentType,
+						});
+					}
 				}
 			}
 		})();
@@ -148,7 +150,7 @@ export default function AssetData(props: IProps) {
 				default:
 					return getUnsupportedWrapper();
 			}
-		}
+		} else return null;
 	}
 
 	return <S.Wrapper>{getData()}</S.Wrapper>;

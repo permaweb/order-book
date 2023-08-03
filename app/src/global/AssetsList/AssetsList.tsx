@@ -60,7 +60,7 @@ export default function AssetsList(props: IProps) {
 
 	function getData() {
 		if (!assets || props.loading) {
-			const keys = Array.from({ length: 6 }, (_, i) => i + 1);
+			const keys = Array.from({ length: 20 }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
 					<S.PCLoader key={`pc_${element}`}>

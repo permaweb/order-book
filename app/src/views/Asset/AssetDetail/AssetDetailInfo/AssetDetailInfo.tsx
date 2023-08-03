@@ -85,7 +85,7 @@ export default function AssetDetailInfo(props: IAProps) {
 										<S.DCLineHeader>
 											<p>{language.blockHeight}</p>
 										</S.DCLineHeader>
-										<S.DCLineDetailMedium>{formatCount(props.asset.data.blockHeight.toString())}</S.DCLineDetailMedium>
+										<S.DCLineDetail>{formatCount(props.asset.data.blockHeight.toString())}</S.DCLineDetail>
 									</S.DCLine>
 								)}
 								{props.asset.data.dateCreated !== 0 && (
@@ -93,7 +93,7 @@ export default function AssetDetailInfo(props: IAProps) {
 										<S.DCLineHeader>
 											<p>{language.dateCreated}</p>
 										</S.DCLineHeader>
-										<S.DCLineDetailMedium>{formatDate(props.asset.data.dateCreated, 'iso')}</S.DCLineDetailMedium>
+										<S.DCLineDetail>{formatDate(props.asset.data.dateCreated, 'iso')}</S.DCLineDetail>
 									</S.DCLine>
 								)}
 								{props.asset.data.implementation && props.asset.data.implementation !== STORAGE.none && (
@@ -101,7 +101,7 @@ export default function AssetDetailInfo(props: IAProps) {
 										<S.DCLineHeader>
 											<p>{language.standard}</p>
 										</S.DCLineHeader>
-										<S.DCLineDetailMedium>{props.asset.data.implementation}</S.DCLineDetailMedium>
+										<S.DCLineDetail>{props.asset.data.implementation}</S.DCLineDetail>
 									</S.DCLine>
 								)}
 							</S.DrawerContent>

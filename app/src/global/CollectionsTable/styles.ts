@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { fadeIn2, open } from 'helpers/animations';
 import { STYLING } from 'helpers/styling';
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+	scroll-margin-top: 20px;
+`;
 
 export const Header = styled.div`
 	width: 100%;

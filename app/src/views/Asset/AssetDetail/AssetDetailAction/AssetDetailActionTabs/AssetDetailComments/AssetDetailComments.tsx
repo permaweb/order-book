@@ -218,8 +218,8 @@ export default function AssetDetailComments(props: IAProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (props.asset) {
-				const commentsFetch = await orProvider.orderBook.api.getComments({ id: props.asset.data.id });
+			if (props.asset && orProvider) {
+				const commentsFetch = await orProvider.orderBook.api.getComments({ id: props.asset.data.id, cursor: null });
 				const rankedComments = await rankData(
 					commentsFetch.comments,
 					orProvider.orderBook.env.arClient.warpDefault,
@@ -229,7 +229,7 @@ export default function AssetDetailComments(props: IAProps) {
 				setComments(rankedComments);
 			}
 		})();
-	}, [props.asset, localUpdate]);
+	}, [props.asset, orProvider, localUpdate]);
 
 	React.useEffect(() => {
 		if (comments) {
@@ -279,14 +279,12 @@ export default function AssetDetailComments(props: IAProps) {
 			const ownerDetail = (
 				await getOwners([{ creator: comment.data.creator }], orProvider, props.asset as AssetDetailType)
 			)[0];
-			console.log(ownerDetail);
 			const newComment: FinalCommentType = {
 				id: id,
 				dataSource: props.asset.data.id,
 				owner: comment.data.creator,
 				ownerDetail,
 			};
-			console.log(newComment);
 			setFinalComments([newComment, ...finalComments]);
 		}
 	}

@@ -39,53 +39,16 @@ export async function getGQLData(args: {
 		}`
 		: '';
 
-	const first = args.useArweaveBundlr ? '' : `first: ${PAGINATOR}`;
-	const nodeFields = args.useArweaveBundlr
-		? `address timestamp`
-		: `data {
-				size
-				type
-			}
-			owner {
-				address
-			}
-			block {
-				height
-				timestamp
-			}`;
-
-	const query = {
-		query: `
-                query {
-                    transactions(
-                        ids: ${ids},
-                        tags: ${tags},
-						${first}
-                        owners: ${owners},
-                        after: ${cursor},
-						${block}
-                    ){
-                    edges {
-                        cursor
-                        node {
-                            id
-                            tags {
-                                name 
-                                value 
-                            }
-							${nodeFields}
-                        }
-                    }
-                }
-            }
-        `,
-	};
-
 	const response = await getResponse({
 		arClient: args.arClient,
-		query: query,
 		useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
 		useArweaveNet: args.useArweaveNet ? args.useArweaveNet : false,
+		ids: ids,
+		tags: tags,
+		owners: owners,
+		cursor: cursor,
+		after: cursor,
+		block: block,
 	});
 
 	if (response.data.data) {
@@ -105,26 +68,144 @@ export async function getGQLData(args: {
 	return { data: data, nextCursor: nextCursor };
 }
 
-async function getResponse(args: { arClient: any; query: any; useArweaveBundlr: boolean; useArweaveNet: boolean }) {
-	if (args.useArweaveBundlr) return await useFetch({ query: args.query, endpoint: `${BUNDLR_CONFIG.node}/graphql` });
-	else if (args.useArweaveNet) return await args.arClient.arweavePost.api.post('/graphql', args.query);
-	else return await args.arClient.arweaveGet.api.post('/graphql', args.query);
+async function getResponse(args: {
+	arClient: any;
+	useArweaveBundlr: boolean;
+	useArweaveNet: boolean;
+	ids: any;
+	tags: any;
+	owners: any;
+	cursor: any;
+	after: any;
+	block: any;
+}) {
+	const { useArweaveBundlr, useArweaveNet, arClient, ids, tags, owners, cursor, after, block } = args;
+
+	const endpoints = [
+		{
+			enabled: useArweaveBundlr,
+			execute: async () => {
+				const response = await fetch(`${BUNDLR_CONFIG.node}/graphql`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(
+						getQuery({
+							useArweaveBundlr: true,
+							ids,
+							tags,
+							owners,
+							cursor,
+							after,
+							block,
+						})
+					),
+				});
+				return { data: await response.json() };
+			},
+		},
+		{
+			enabled: useArweaveNet,
+			execute: () =>
+				arClient.arweavePost.api.post(
+					'/graphql',
+					getQuery({
+						useArweaveBundlr: false,
+						ids,
+						tags,
+						owners,
+						cursor,
+						after,
+						block,
+					})
+				),
+		},
+		{
+			enabled: true,
+			execute: () =>
+				arClient.arweaveGet.api.post(
+					'/graphql',
+					getQuery({
+						useArweaveBundlr: false,
+						ids,
+						tags,
+						owners,
+						cursor,
+						after,
+						block,
+					})
+				),
+		},
+	];
+
+	for (const endpoint of endpoints) {
+		if (endpoint.enabled) {
+			try {
+				return await endpoint.execute();
+			} catch (error: any) {
+				console.error(error);
+				return { data: [] };
+			}
+		}
+	}
+
+	console.error('All endpoints failed');
+	return { data: [] };
 }
 
-async function useFetch(args: { query: string; endpoint: string }) {
-	const response = await fetch(args.endpoint, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(args.query),
-	});
-	try {
-		return { data: await response.json() };
-	} catch (e: any) {
-		console.error(e);
-		return { data: [] };
-	}
+function getQuery(args: {
+	ids: any;
+	tags: any;
+	owners: any;
+	cursor: any;
+	after: any;
+	block: any;
+	useArweaveBundlr: boolean;
+}) {
+	const first = args.useArweaveBundlr ? '' : `first: ${PAGINATOR}`;
+	const nodeFields = args.useArweaveBundlr
+		? `address timestamp`
+		: `data {
+				size
+				type
+			}
+			owner {
+				address
+			}
+			block {
+				height
+				timestamp
+			}`;
+
+	const query = {
+		query: `
+                query {
+                    transactions(
+                        ids: ${args.ids},
+                        tags: ${args.tags},
+						${first}
+                        owners: ${args.owners},
+                        after: ${args.cursor},
+						${args.block}
+                    ){
+                    edges {
+                        cursor
+                        node {
+                            id
+                            tags {
+                                name 
+                                value 
+                            }
+							${nodeFields}
+                        }
+                    }
+                }
+            }
+        `,
+	};
+
+	return query;
 }
 
 export * from './assets';

@@ -108,7 +108,7 @@ export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
 	display: flex;

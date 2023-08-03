@@ -25,8 +25,8 @@ export default function Landing() {
 	React.useEffect(() => {
 		if (orProvider.orderBook) {
 			(async function () {
-				let collectionsFetch = await orProvider.orderBook.api.getCollections({ cursor: null });
-				let collections = await rankData(
+				const collectionsFetch = await orProvider.orderBook.api.getCollections({ cursor: null });
+				const collections = await rankData(
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost,
@@ -48,12 +48,17 @@ export default function Landing() {
 
 	React.useEffect(() => {
 		if (assetsReducer.contractData) {
-			setTableAssets(assetsReducer.contractData);
+			if (featuredAssets) {
+				const featuredIds = featuredAssets.map((asset: AssetType) => asset.data.id);
+				setTableAssets(assetsReducer.contractData.filter((asset: AssetType) => !featuredIds.includes(asset.data.id)));
+			} else {
+				setTableAssets(assetsReducer.contractData);
+			}
 			setLoading(false);
 		} else {
 			setLoading(true);
 		}
-	}, [assetsReducer.contractData]);
+	}, [assetsReducer.contractData, featuredAssets]);
 
 	return (
 		<div className={'background-wrapper'}>

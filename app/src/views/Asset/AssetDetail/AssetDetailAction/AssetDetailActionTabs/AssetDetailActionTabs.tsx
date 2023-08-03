@@ -8,6 +8,7 @@ import { IAMProps } from '../../types';
 import { AssetDetailActivity } from './AssetDetailActivity';
 import { AssetDetailComments } from './AssetDetailComments';
 import { AssetDetailMarket } from './AssetDetailMarket';
+import { AssetDetailMicroscope } from './AssetDetailMicroscope';
 import * as S from './styles';
 
 export default function AssetDetailActions(props: IAMProps) {
@@ -17,10 +18,12 @@ export default function AssetDetailActions(props: IAMProps) {
 		switch (currentTab) {
 			case DETAIL_ACTION_TAB_OPTIONS.market:
 				return <AssetDetailMarket asset={props.asset} handleUpdate={props.handleUpdate} />;
-			case DETAIL_ACTION_TAB_OPTIONS.activity:
-				return <AssetDetailActivity />;
 			case DETAIL_ACTION_TAB_OPTIONS.comments:
 				return <AssetDetailComments asset={props.asset} />;
+			case DETAIL_ACTION_TAB_OPTIONS.activity:
+				return <AssetDetailActivity asset={props.asset} />;
+			case DETAIL_ACTION_TAB_OPTIONS.microscope:
+				return <AssetDetailMicroscope asset={props.asset} />;
 			default:
 				return null;
 		}

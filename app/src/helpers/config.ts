@@ -24,6 +24,7 @@ import logoSVG from 'assets/logo.svg';
 import logoAltPNG from 'assets/logoAlt.png';
 import marketSVG from 'assets/market.svg';
 import menuSVG from 'assets/menu.svg';
+import microscopeSVG from 'assets/microscope.svg';
 import ordersSVG from 'assets/orders.svg';
 import overviewSVG from 'assets/overview.svg';
 import ownersSVG from 'assets/owners.svg';
@@ -78,6 +79,7 @@ export const ASSETS = {
 	logoAlt: logoAltPNG,
 	market: marketSVG,
 	menu: menuSVG,
+	microscope: microscopeSVG,
 	orders: ordersSVG,
 	overview: overviewSVG,
 	owners: ownersSVG,
@@ -149,9 +151,10 @@ export const REDIRECTS = {
 };
 
 export const DETAIL_ACTION_TAB_OPTIONS = {
-	activity: language.activity,
-	comments: language.comments,
 	market: language.market,
+	comments: language.comments,
+	activity: language.activity,
+	microscope: language.microscope,
 };
 
 export const DETAIL_ACTION_TABS = [
@@ -162,6 +165,14 @@ export const DETAIL_ACTION_TABS = [
 	{
 		label: DETAIL_ACTION_TAB_OPTIONS.comments,
 		icon: ASSETS.comments,
+	},
+	{
+		label: DETAIL_ACTION_TAB_OPTIONS.activity,
+		icon: ASSETS.activity,
+	},
+	{
+		label: DETAIL_ACTION_TAB_OPTIONS.microscope,
+		icon: ASSETS.microscope,
 	},
 ];
 

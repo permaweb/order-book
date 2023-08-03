@@ -43,6 +43,17 @@ const DEFAULT = {
 	semiTransparent3: 'rgba(0, 0, 0, 0.25)',
 	backdropShadow1: '#c4c4c4b0',
 	backdropShadow2: '#dadadaba',
+	stats: {
+		primary: '#EC9192',
+		alt1: '#90C3C8',
+		alt2: '#B9B8D3',
+		alt3: '#759FBC',
+		alt4: '#5FA3C7',
+		alt5: '#8E8DBE',
+		alt6: '#FFCAAF',
+		alt7: '#A0D2DB',
+		alt8: '#F7ACCF',
+	},
 };
 export const defaultTheme: DefaultTheme = {
 	scheme: 'light',
@@ -270,6 +281,15 @@ export const defaultTheme: DefaultTheme = {
 		loader: {
 			primary: DEFAULT.primary2,
 		},
+		microscope: {
+			active: {
+				background: DEFAULT.alt5,
+				hover: DEFAULT.alt6,
+			},
+			inactive: {
+				background: DEFAULT.neutral2,
+			},
+		},
 		navigation: {
 			footer: {
 				background: DEFAULT.neutral6,
@@ -310,6 +330,17 @@ export const defaultTheme: DefaultTheme = {
 		},
 		shadow: {
 			primary: DEFAULT.neutral9,
+		},
+		stats: {
+			primary: DEFAULT.stats.primary,
+			alt1: DEFAULT.stats.alt1,
+			alt2: DEFAULT.stats.alt2,
+			alt3: DEFAULT.stats.alt3,
+			alt4: DEFAULT.stats.alt4,
+			alt5: DEFAULT.stats.alt5,
+			alt6: DEFAULT.stats.alt6,
+			alt7: DEFAULT.stats.alt7,
+			alt8: DEFAULT.stats.alt8,
 		},
 		table: {
 			placeholder: {

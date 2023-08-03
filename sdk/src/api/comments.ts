@@ -15,7 +15,7 @@ export async function getComments(args: {
 	id: string;
 	cursor: string;
 }): Promise<CommentsResponseType> {
-	let gqlData = await getGQLData({
+	const gqlData = await getGQLData({
 		ids: null,
 		tagFilters: [
 			{
@@ -39,9 +39,9 @@ export async function getComments(args: {
 		useArweaveBundlr: true,
 	});
 
-	let comments: CommentType[] = [];
+	const comments: CommentType[] = [];
 	for (let i = 0; i < gqlData.data.length; i++) {
-		let node = gqlData.data[i].node;
+		const node = gqlData.data[i].node;
 		comments.push({
 			id: node.id,
 			dataSource: getTagValue(node.tags, TAGS.keys.dataSource),

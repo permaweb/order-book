@@ -5,9 +5,9 @@ import { STYLING } from 'helpers/styling';
 export const Wrapper = styled.div``;
 
 export const DCWrapper = styled.div`
+	width: fit-content;
 	margin: 12.5px 0 0 0;
 	padding: 12.5px 0 0 0;
-	width: fit-content;
 	border-top: 1px solid ${(props) => props.theme.colors.border.primary};
 	> * {
 		&:not(:last-child) {
@@ -37,7 +37,7 @@ export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 `;
 

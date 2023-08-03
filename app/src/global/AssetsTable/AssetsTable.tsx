@@ -126,7 +126,7 @@ export default function AssetsTable(props: IProps) {
 			getFeaturedData={props.getFeaturedData}
 		>
 			<div className={'view-wrapper max-cutoff'}>
-				<S.Wrapper>
+				<S.Wrapper ref={scrollRef}>
 					{props.header && <h2>{props.header}</h2>}
 					{getPaginator(true)}
 					{getTable()}

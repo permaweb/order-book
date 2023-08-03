@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
+import { useTheme } from 'styled-components';
 
 import { checkDesktop, checkWindowResize } from 'helpers/window';
 
@@ -10,6 +11,8 @@ import { IProps } from './types';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function PieChart(props: IProps) {
+	const theme = useTheme();
+
 	const [desktop, setDesktop] = React.useState(checkDesktop());
 
 	const [data, setData] = React.useState<any>(null);
@@ -34,26 +37,26 @@ export default function PieChart(props: IProps) {
 			pieData.datasets.push({
 				data: props.quantities.map((element: { label: string; value: string; quantity: number }) => element.quantity),
 				backgroundColor: [
-					'#EC9192',
-					'#90C3C8',
-					'#B9B8D3',
-					'#759FBC',
-					'#5FA3C7',
-					'#8E8DBE',
-					'#FFCAAF',
-					'#A0D2DB',
-					'#F7ACCF',
+					theme.colors.stats.primary,
+					theme.colors.stats.alt1,
+					theme.colors.stats.alt2,
+					theme.colors.stats.alt3,
+					theme.colors.stats.alt4,
+					theme.colors.stats.alt5,
+					theme.colors.stats.alt6,
+					theme.colors.stats.alt7,
+					theme.colors.stats.alt8,
 				],
 				borderColor: [
-					'#D3D3D3',
-					'#D3D3D3',
-					'#D3D3D3',
-					'#D3D3D3',
-					'#D3D3D3',
-					'#D3D3D3',
-					'#D3D3D3',
-					'#D3D3D3',
-					'#D3D3D3',
+					theme.colors.border.primary,
+					theme.colors.border.primary,
+					theme.colors.border.primary,
+					theme.colors.border.primary,
+					theme.colors.border.primary,
+					theme.colors.border.primary,
+					theme.colors.border.primary,
+					theme.colors.border.primary,
+					theme.colors.border.primary,
 				],
 				borderWidth: 1,
 			});

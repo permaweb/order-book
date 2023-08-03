@@ -169,13 +169,12 @@ export default function StampWidget(props: IProps) {
 				if (props.assetId) {
 					setDisabled(true);
 
-					let stamp: any = await stamps.stamp(props.assetId, amount ? amount : 0, [{ name: '', value: '' }]);
+					const stamp: any = await stamps.stamp(props.assetId, amount ? amount : 0, [{ name: '', value: '' }]);
 					let stampSuccess = stamp && stamp.bundlrResponse && stamp.bundlrResponse.id;
 					if (!stampSuccess) {
 						stampSuccess = stamp && stamp.id;
 					}
 
-					await new Promise((resolve) => setTimeout(resolve, 500));
 					setUpdateCount(!updateCount);
 
 					if (!stampSuccess) {
@@ -218,7 +217,7 @@ export default function StampWidget(props: IProps) {
 			<S.Wrapper
 				onClick={handleModalOpen}
 				disabled={false}
-				title={arProvider.walletAddress ? '' : language.connectWalletToStamp}
+				title={arProvider.walletAddress ? language.stamp : language.connectWalletToStamp}
 				sm={props.sm ? props.sm : false}
 			>
 				<p>{getTotalCount()}</p>

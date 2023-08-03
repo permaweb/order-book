@@ -138,6 +138,7 @@ export type ApiClientType = {
 	orderBookContract: string;
 	init: (args: ApiClientInitArgs) => ApiClientType;
 	createAsset: (args: AssetCreateArgsType) => Promise<string>;
+	getActivity: (args: { id: string }) => Promise<any>;
 	getAssetsByContract: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetIdsByContract: () => Promise<string[]>;
 	getAssetsByUser: (args: AssetArgsType) => Promise<AssetType[]>;
@@ -148,7 +149,7 @@ export type ApiClientType = {
 	search: (args: {}) => Promise<SearchReturnType>;
 	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
 	getCollection: (args: { collectionId: string }) => Promise<CollectionAssetType>;
-	getComments: (args: { id: string }) => Promise<CommentsResponseType>;
+	getComments: (args: { id: string; cursor: string | null }) => Promise<CommentsResponseType>;
 	getCommentData: (args: { id: string }) => Promise<CommentDetailType>;
 };
 
@@ -320,6 +321,22 @@ export type CollectionAssetType = CollectionType & {
 export type CollectionManifestType = {
 	type: string;
 	items: string[];
+};
+
+export type ActivityElementType = {
+	id: string;
+	dataProtocol: string | null;
+	dataSource: string;
+	dateCreated: number;
+	owner: string;
+	protocolName: string | null;
+	stamps?: { total: number; vouched: number };
+};
+
+export type ActivityResponseType = {
+	activity: ActivityElementType[];
+	nextCursor: string | null;
+	previousCursor: string | null;
 };
 
 export type CommentType = {

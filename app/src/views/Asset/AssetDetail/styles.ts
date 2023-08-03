@@ -97,7 +97,7 @@ export const DrawerHeaderFlex = styled.div`
 export const DCHeader = styled.p`
 	font-size: ${(props) => props.theme.typography.size.base};
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	line-height: 1.65;
 	word-wrap: break-word;
@@ -138,7 +138,7 @@ export const DCLineDetail = styled.p`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	word-wrap: break-word;
 	display: flex;
@@ -152,11 +152,8 @@ export const DCLineDetail = styled.p`
 	}
 `;
 
-export const DCLineDetailMedium = styled(DCLineDetail)`
+export const DCLineNoMax = styled(DCLineDetail)`
 	font-weight: ${(props) => props.theme.typography.weight.regular};
-`;
-
-export const DCLineNoMax = styled(DCLineDetailMedium)`
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		max-width: none;
 		white-space: normal;
@@ -271,11 +268,11 @@ export const ACChartContainer = styled.div`
 		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		margin: 0 0 -60px 0;
 		width: fit-content;
-		padding: 10px 20px;
+		padding: 7.5px 20px;
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: ${STYLING.dimensions.borderRadiusField};
 	}
