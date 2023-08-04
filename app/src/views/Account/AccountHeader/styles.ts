@@ -49,6 +49,9 @@ export const AvatarWrapper = styled.div`
 		width: 65px;
 		stroke: ${(props) => props.theme.colors.icon.alt1.fill};
 	}
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		margin: 0;
+	}
 `;
 
 export const Avatar = styled.img`
