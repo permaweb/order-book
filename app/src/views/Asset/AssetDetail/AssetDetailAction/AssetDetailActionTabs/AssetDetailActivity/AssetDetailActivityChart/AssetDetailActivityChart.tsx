@@ -141,5 +141,7 @@ export default function AssetDetailActivityChart(props: IProps) {
 				<Line options={options} data={data} />
 			</S.ChartWrapper>
 		</S.Wrapper>
-	) : null;
+	) : (
+		<p>{`${language.loading}...`}</p>
+	);
 }
