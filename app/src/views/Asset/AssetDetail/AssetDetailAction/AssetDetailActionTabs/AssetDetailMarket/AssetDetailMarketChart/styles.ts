@@ -36,18 +36,17 @@ export const ChartWrapper = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	flex-wrap: wrap;
+	flex-wrap: wrap-reverse;
 	gap: 40px;
 `;
 
 export const Chart = styled.div`
-	height: 400px;
+	height: auto;
 	width: 400px;
 	max-width: 100%;
 `;
 
 export const ChartKeyWrapper = styled.div`
-	margin: 40px 0 0 0;
 	> * {
 		&:not(:last-child) {
 			margin: 0 0 10px 0;
