@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Tabs } from 'components/organisms/Tabs';
+import { Tabs } from 'components/molecules/Tabs';
 import { DETAIL_ACTION_TAB_OPTIONS, DETAIL_ACTION_TABS } from 'helpers/config';
 
 import { IAMProps } from '../../types';

@@ -30,17 +30,7 @@ export default function AssetDetailActivityChart(props: IProps) {
 		responsive: true,
 		plugins: {
 			legend: {
-				position: 'bottom' as const,
-				labels: {
-					boxHeight: 20,
-					boxWidth: 20,
-					borderWidth: 1,
-					marginRight: 20,
-					font: {
-						size: 13,
-						weight: 'medium',
-					},
-				},
+				display: false,
 			},
 			title: {
 				display: false,
@@ -146,6 +136,20 @@ export default function AssetDetailActivityChart(props: IProps) {
 			<S.Header>
 				<p>{language.weeklyAssetActivity}</p>
 			</S.Header>
+			<S.ChartKeyWrapper>
+				<S.ChartKeyLine>
+					<S.ChartKey background={theme.colors.stats.primary} />
+					<p>{language.stamps}</p>
+				</S.ChartKeyLine>
+				<S.ChartKeyLine>
+					<S.ChartKey background={theme.colors.stats.alt1} />
+					<p>{language.comments}</p>
+				</S.ChartKeyLine>
+				<S.ChartKeyLine>
+					<S.ChartKey background={theme.colors.stats.alt2} />
+					<p>{language.total}</p>
+				</S.ChartKeyLine>
+			</S.ChartKeyWrapper>
 			<S.ChartWrapper>
 				<Line options={options} data={data} />
 			</S.ChartWrapper>

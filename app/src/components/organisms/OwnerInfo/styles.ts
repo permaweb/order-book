@@ -12,6 +12,8 @@ export const DCLineHeader = styled.div`
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		word-wrap: break-word;
+		padding: 0 !important;
+		border: none !important;
 	}
 `;
 

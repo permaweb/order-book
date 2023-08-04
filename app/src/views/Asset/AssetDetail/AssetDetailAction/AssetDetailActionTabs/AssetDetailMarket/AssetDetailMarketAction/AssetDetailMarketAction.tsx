@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Tabs } from 'components/organisms/Tabs';
-import { AssetBuy } from 'global/AssetBuy';
-import { AssetSell } from 'global/AssetSell';
+import { Tabs } from 'components/molecules/Tabs';
+import { AssetBuy } from 'components/organisms/AssetBuy';
+import { AssetSell } from 'components/organisms/AssetSell';
 import { DETAIL_MARKET_ACTION_TABS, DETAIL_MARKET_TAB_OPTIONS } from 'helpers/config';
 
 import * as S from './styles';

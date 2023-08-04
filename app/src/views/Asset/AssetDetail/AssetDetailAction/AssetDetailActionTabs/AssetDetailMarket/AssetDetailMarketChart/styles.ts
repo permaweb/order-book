@@ -4,10 +4,21 @@ import { STYLING } from 'helpers/styling';
 
 export const Wrapper = styled.div`
 	width: 100%;
+	padding: 20px;
+	margin: 0 0 20px 0;
+	position: relative;
+`;
+
+export const HeaderWrapper = styled.div`
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: space-between;
+	margin: 0 0 20px 0;
 `;
 
 export const Header = styled.div`
-	margin: 0 0 30px 0;
 	p {
 		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);
@@ -21,13 +32,25 @@ export const Header = styled.div`
 	}
 `;
 
-export const ChartKeyWrapper = styled.div`
+export const ChartWrapper = styled.div`
+	width: 100%;
 	display: flex;
-	align-items: center;
-	margin: 0 0 20px 0;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 40px;
+`;
+
+export const Chart = styled.div`
+	height: 400px;
+	width: 400px;
+	max-width: 100%;
+`;
+
+export const ChartKeyWrapper = styled.div`
+	margin: 40px 0 0 0;
 	> * {
 		&:not(:last-child) {
-			margin: 0 10px 0 0;
+			margin: 0 0 10px 0;
 		}
 		&:last-child {
 			margin: 0;
@@ -38,13 +61,17 @@ export const ChartKeyWrapper = styled.div`
 export const ChartKeyLine = styled.div`
 	display: flex;
 	align-items: center;
-	p {
-		font-size: ${(props) => props.theme.typography.size.small};
-		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
-		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.medium};
-		color: ${(props) => props.theme.colors.font.primary.alt1};
-	}
+`;
+
+export const Percentage = styled.p`
+	font-size: ${(props) => props.theme.typography.size.small};
+	line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+	font-family: ${(props) => props.theme.typography.family.primary};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
+	color: ${(props) => props.theme.colors.font.primary.alt1};
+	padding: 0 !important;
+	border: none !important;
+	margin: 0 0 0 7.5px;
 `;
 
 export const ChartKey = styled.div<{ background: string }>`
@@ -54,8 +81,4 @@ export const ChartKey = styled.div<{ background: string }>`
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: 2.5px;
 	margin: 0 10px 0 0;
-`;
-
-export const ChartWrapper = styled.div`
-	width: 100%;
 `;

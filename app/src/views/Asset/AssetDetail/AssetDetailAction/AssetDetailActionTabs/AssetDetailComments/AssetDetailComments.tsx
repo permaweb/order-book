@@ -5,8 +5,8 @@ import { AssetDetailType, CommentDetailType, CommentType, CONTENT_TYPES } from '
 
 import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
-import { OwnerInfo } from 'global/OwnerInfo';
-import { StampWidget } from 'global/StampWidget';
+import { OwnerInfo } from 'components/organisms/OwnerInfo';
+import { StampWidget } from 'components/organisms/StampWidget';
 import { ASSETS, COMMENT_SPEC } from 'helpers/config';
 import { language } from 'helpers/language';
 import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, SequenceType } from 'helpers/types';

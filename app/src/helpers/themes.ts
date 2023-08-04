@@ -53,6 +53,7 @@ const DEFAULT = {
 		alt6: '#FFCAAF',
 		alt7: '#A0D2DB',
 		alt8: '#F7ACCF',
+		alt9: '#D3D3D3',
 	},
 };
 export const defaultTheme: DefaultTheme = {

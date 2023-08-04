@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
 import { Loader } from 'components/atoms/Loader';
-import { OrderCancel } from 'global/OrderCancel';
+import { OrderCancel } from 'components/organisms/OrderCancel';
 import { ASSETS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import * as urls from 'helpers/urls';

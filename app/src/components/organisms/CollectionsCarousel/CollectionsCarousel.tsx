@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'components/atoms/Button';
 import { Loader } from 'components/atoms/Loader';
 import { Carousel } from 'components/molecules/Carousel';
-import { CollectionCard } from 'global/CollectionCard';
+import { CollectionCard } from 'components/organisms/CollectionCard';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';

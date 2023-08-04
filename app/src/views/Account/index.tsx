@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
-import { AssetsTable } from 'global/AssetsTable';
+import { AssetsTable } from 'components/organisms/AssetsTable';
 import { REDUX_TABLES } from 'helpers/redux';
 import * as windowUtils from 'helpers/window';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';

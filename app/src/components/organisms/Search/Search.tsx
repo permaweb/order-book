@@ -6,7 +6,7 @@ import { AssetType } from 'permaweb-orderbook';
 
 import { IconButton } from 'components/atoms/IconButton';
 import { Modal } from 'components/molecules/Modal';
-import { AssetData } from 'global/AssetData';
+import { AssetData } from 'components/organisms/AssetData';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';

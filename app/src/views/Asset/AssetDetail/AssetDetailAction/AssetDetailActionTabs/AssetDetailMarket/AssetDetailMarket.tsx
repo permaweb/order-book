@@ -1,20 +1,20 @@
 import React from 'react';
 
-import { AssetDetailType, OrderBookPairOrderType } from 'permaweb-orderbook';
+import { AssetDetailType } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
-import { PieChart } from 'components/atoms/PieChart';
-import { OwnerInfo } from 'global/OwnerInfo';
+import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
-import { formatAddress, formatPrice, getOwners } from 'helpers/utils';
+import { formatPrice, getOwners } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from '../../../styles';
 import { IAMProps } from '../../../types';
 
 import { AssetDetailMarketAction } from './AssetDetailMarketAction';
+import { AssetDetailMarketChart } from './AssetDetailMarketChart';
 
 export default function AssetDetailMarket(props: IAMProps) {
 	const orProvider = useOrderBookProvider();
@@ -22,32 +22,11 @@ export default function AssetDetailMarket(props: IAMProps) {
 	const [currentOwners, setCurrentOwners] = React.useState<OwnerType[] | null>(null);
 	const [currentSaleOwners, setCurrentSaleOwners] = React.useState<OwnerListingType[] | null>(null);
 
-	const [totalBalance, setTotalBalance] = React.useState<number>(0);
-	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
-
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
 
 	React.useEffect(() => {
 		if (props.asset) setAsset(props.asset as AssetDetailType);
 	}, [props.asset]);
-
-	React.useEffect(() => {
-		if (asset && asset.state) {
-			const balances = Object.keys(asset.state.balances).map((balance: any) => {
-				return asset.state.balances[balance];
-			});
-			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
-		}
-	}, [asset]);
-
-	React.useEffect(() => {
-		if (asset && asset.orders) {
-			const saleBalances = asset.orders.map((order: OrderBookPairOrderType) => {
-				return order.quantity;
-			});
-			setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
-		}
-	}, [asset]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -62,44 +41,7 @@ export default function AssetDetailMarket(props: IAMProps) {
 
 	function getChart() {
 		if (currentOwners && currentOwners.length > 1) {
-			const quantities: { label: string; value: string; quantity: number }[] = [...currentOwners]
-				.filter((owner: any) => {
-					return owner.address !== orProvider.orderBook.env.orderBookContract;
-				})
-				.map((owner: any) => {
-					return {
-						label: owner.handle
-							? `${owner.handle} (${(
-									(owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage) * 100
-							  ).toFixed(2)}%)`
-							: `${formatAddress(owner.address, false)} (${(
-									(owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage) * 100
-							  ).toFixed(2)}%)`,
-						value: currentOwners.map((owner: any) =>
-							owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage
-						),
-						quantity: owner.ownerPercentage ? owner.ownerPercentage : owner.sellPercentage,
-					};
-				}) as any;
-
-			if (totalSalesBalance && totalSalesBalance > 0) {
-				quantities.push({
-					label: `${language.totalSalesPercentage} (${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%)`,
-					value: `${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`,
-					quantity: totalSalesBalance / totalBalance,
-				});
-			}
-
-			return (
-				<S.ACChartWrapper className={'border-wrapper'}>
-					<S.ACChartContainer>
-						<p>{language.currentOwners}</p>
-						<S.ACChart>
-							<PieChart quantities={quantities.reverse()} />
-						</S.ACChart>
-					</S.ACChartContainer>
-				</S.ACChartWrapper>
-			);
+			return <AssetDetailMarketChart asset={props.asset} owners={currentOwners} />;
 		} else {
 			return null;
 		}

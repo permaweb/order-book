@@ -5,8 +5,8 @@ import { useTheme } from 'styled-components';
 import { ActivityElementType, AssetDetailType, AssetType } from 'permaweb-orderbook';
 
 import { TxAddress } from 'components/atoms/TxAddress';
-import { AssetData } from 'global/AssetData';
-import { OwnerInfo } from 'global/OwnerInfo';
+import { AssetData } from 'components/organisms/AssetData';
+import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';

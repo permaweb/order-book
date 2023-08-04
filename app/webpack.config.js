@@ -169,7 +169,6 @@ module.exports = {
 			assets: path.resolve(__dirname, 'src/assets/'),
 			components: path.resolve(__dirname, 'src/components/'),
 			filters: path.resolve(__dirname, 'src/filters/'),
-			global: path.resolve(__dirname, 'src/global/'),
 			helpers: path.resolve(__dirname, 'src/helpers/'),
 			hooks: path.resolve(__dirname, 'src/hooks/'),
 			navigation: path.resolve(__dirname, 'src/navigation/'),

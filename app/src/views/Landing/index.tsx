@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
-import { AssetsGrid } from 'global/AssetsGrid';
-import { AssetsTable } from 'global/AssetsTable';
-import { CollectionsCarousel } from 'global/CollectionsCarousel';
+import { AssetsGrid } from 'components/organisms/AssetsGrid';
+import { AssetsTable } from 'components/organisms/AssetsTable';
+import { CollectionsCarousel } from 'components/organisms/CollectionsCarousel';
 import { FEATURE_COUNT } from 'helpers/config';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';

@@ -143,7 +143,6 @@ export const DCLineDetail = styled.p`
 	word-wrap: break-word;
 	display: flex;
 	align-items: center;
-
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		max-width: 100px;
 		overflow: hidden;
@@ -270,7 +269,6 @@ export const ACChartContainer = styled.div`
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
-		margin: 0 0 -60px 0;
 		width: fit-content;
 		padding: 7.5px 20px;
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
@@ -281,7 +279,6 @@ export const ACChartContainer = styled.div`
 export const ACChart = styled.div`
 	width: 625px;
 	max-width: 100%;
-	margin: -100px 0 0 auto;
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		margin: 100px auto 20px auto;
 	}

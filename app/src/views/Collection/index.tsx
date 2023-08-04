@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
-import { AssetsTable } from 'global/AssetsTable';
-import { CollectionCard } from 'global/CollectionCard';
+import { AssetsTable } from 'components/organisms/AssetsTable';
+import { CollectionCard } from 'components/organisms/CollectionCard';
 import { REDUX_TABLES } from 'helpers/redux';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';

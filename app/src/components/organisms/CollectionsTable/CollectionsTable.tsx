@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { CollectionType } from 'permaweb-orderbook';
 
 import { Paginator } from 'components/molecules/Paginator';
-import { StampWidget } from 'global/StampWidget';
+import { StampWidget } from 'components/organisms/StampWidget';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 

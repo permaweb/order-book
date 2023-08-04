@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AssetType, CursorEnum } from 'permaweb-orderbook';
 
 import { Paginator } from 'components/molecules/Paginator';
-import { AssetsGrid } from 'global/AssetsGrid';
-import { AssetsList } from 'global/AssetsList';
+import { AssetsGrid } from 'components/organisms/AssetsGrid';
+import { AssetsList } from 'components/organisms/AssetsList';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import { ReduxAssetsUpdate } from 'store/assets/ReduxAssetsUpdate';

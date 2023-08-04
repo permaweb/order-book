@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import { AssetType } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
-import { AssetData } from 'global/AssetData';
-import { AssetOrders } from 'global/AssetOrders';
-import { StampWidget } from 'global/StampWidget';
+import { AssetData } from 'components/organisms/AssetData';
+import { AssetOrders } from 'components/organisms/AssetOrders';
+import { StampWidget } from 'components/organisms/StampWidget';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 

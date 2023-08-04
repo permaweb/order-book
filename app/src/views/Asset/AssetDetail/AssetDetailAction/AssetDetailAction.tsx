@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { AssetDetailType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
-import { OwnerInfo } from 'global/OwnerInfo';
-import { StampWidget } from 'global/StampWidget';
+import { OwnerInfo } from 'components/organisms/OwnerInfo';
+import { StampWidget } from 'components/organisms/StampWidget';
 import { REDIRECTS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';

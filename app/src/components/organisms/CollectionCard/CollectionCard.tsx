@@ -4,8 +4,8 @@ import { getTxEndpoint } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Loader } from 'components/atoms/Loader';
-import { OwnerInfo } from 'global/OwnerInfo';
-import { StampWidget } from 'global/StampWidget';
+import { OwnerInfo } from 'components/organisms/OwnerInfo';
+import { StampWidget } from 'components/organisms/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';

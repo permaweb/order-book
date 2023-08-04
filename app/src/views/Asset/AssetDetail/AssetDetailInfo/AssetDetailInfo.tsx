@@ -4,8 +4,8 @@ import { AssetDetailType } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
-import { AssetData } from 'global/AssetData';
-import { OwnerInfo } from 'global/OwnerInfo';
+import { AssetData } from 'components/organisms/AssetData';
+import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { ASSETS, STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';

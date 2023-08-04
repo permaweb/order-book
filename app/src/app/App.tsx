@@ -1,4 +1,4 @@
-import { ContractNotification } from 'global/ContractNotification';
+import { ContractNotification } from 'components/organisms/ContractNotification';
 import { APP, DOM } from 'helpers/config';
 import { Footer } from 'navigation/footer';
 import { Header } from 'navigation/header';

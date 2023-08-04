@@ -3,7 +3,7 @@ import React from 'react';
 import { CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
-import { CollectionsTable } from 'global/CollectionsTable';
+import { CollectionsTable } from 'components/organisms/CollectionsTable';
 import { REDUX_TABLES } from 'helpers/redux';
 import { rankData } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
