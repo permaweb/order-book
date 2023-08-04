@@ -91,7 +91,7 @@ export default function AssetDetailActivityChart(props: IProps) {
 		return counts.reverse();
 	}
 
-	function getDataSet(type: 'stamps' | 'comments') {
+	function getDataSet(type: 'stamps' | 'comments' | 'total') {
 		if (props.activity) {
 			let parsedList: ActivityElementType[] = [];
 			switch (type) {
@@ -104,6 +104,9 @@ export default function AssetDetailActivityChart(props: IProps) {
 					parsedList = props.activity.filter(
 						(element: ActivityElementType) => element.dataProtocol.toLowerCase() === 'comment'
 					);
+					break;
+				case 'total':
+					parsedList = props.activity;
 					break;
 			}
 			return getCountsByDay(parsedList);
@@ -126,6 +129,12 @@ export default function AssetDetailActivityChart(props: IProps) {
 						data: getDataSet('comments'),
 						backgroundColor: theme.colors.stats.alt1,
 						borderColor: theme.colors.stats.alt1,
+					},
+					{
+						label: language.total,
+						data: getDataSet('total'),
+						backgroundColor: theme.colors.stats.alt2,
+						borderColor: theme.colors.stats.alt2,
 					},
 				],
 			});

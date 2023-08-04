@@ -1,12 +1,11 @@
 import React from 'react';
 import cytoscape from 'cytoscape';
-// import klay from 'cytoscape-klay';
 import { useTheme } from 'styled-components';
 
-import { ActivityElementType, AssetDetailType } from 'permaweb-orderbook';
+import { ActivityElementType, AssetDetailType, AssetType } from 'permaweb-orderbook';
 
 import { TxAddress } from 'components/atoms/TxAddress';
-// import { AssetData } from 'global/AssetData';
+import { AssetData } from 'global/AssetData';
 import { OwnerInfo } from 'global/OwnerInfo';
 import { STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
@@ -17,57 +16,6 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
-// cytoscape.use(klay);
-
-// const layouts: Record<string, any> = {
-// 	// breadthfirst: {
-// 	// 	name: 'breadthfirst',
-// 	// 	directed: true,
-// 	// 	padding: 10,
-// 	// 	circle: true, // put this to false for a tree-like layout
-// 	// },
-// 	concentric: {
-// 		name: 'concentric',
-// 		fit: true, // whether to fit the viewport to the graph
-// 		padding: 30, // the padding on fit
-// 		startAngle: (Math.PI * 3) / 2, // the position of the first node
-// 		sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
-// 		clockwise: true, // whether the layout should go clockwise (true) or counterclockwise (false)
-// 		equidistant: false, // whether levels have an equal radial distance between them
-// 		minNodeSpacing: 10, // min spacing between outside of nodes (used for radius adjustment)
-// 		concentric: function (node) {
-// 			// returns numeric value for each node, placing higher nodes in levels towards the center
-// 			return node.id() === 'root' ? 1 : 0; // replace 'root' with the id of your root node
-// 		},
-// 		levelWidth: function (nodes) {
-// 			// the variation of concentric values in each level
-// 			return nodes.maxDegree() / 4;
-// 		},
-// 		animate: false, // whether to transition the node positions
-// 		animationDuration: 500, // duration of animation in ms if enabled
-// 	},
-// 	// klay: {
-// 	// 	name: 'klay',
-// 	// 	animate: true,
-// 	// 	padding: 4,
-// 	// 	nodeDimensionsIncludeLabels: true,
-// 	// 	klay: {
-// 	// 		spacing: 40,
-// 	// 		mergeEdges: false,
-// 	// 	},
-// 	// },
-// };
-
-// ['box', 'disco', 'force', 'layered', 'mrtree', 'random', 'stress'].forEach((elkAlgo) => {
-// 	layouts[`elk_${elkAlgo}`] = {
-// 		name: 'elk',
-// 		animate: true,
-// 		elk: {
-// 			algorithm: elkAlgo,
-// 		},
-// 	};
-// });
-
 function Tree(props: { data: any; handleCallback: (node: any) => void; activeId: string | null }) {
 	const theme = useTheme();
 
@@ -75,26 +23,44 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 		{
 			selector: 'node',
 			style: {
-				'background-color': theme.colors.microscope.inactive.background,
+				'background-color': theme.colors.button.primary.active.background,
 				'text-valign': 'center',
 				'text-halign': 'center',
-				height: '25px',
-				width: '25px',
-				'border-width': '1px',
+				height: props.data && props.data.length < 20 ? '4.5px' : '25px',
+				width: props.data && props.data.length < 20 ? '4.5px' : '25px',
+				'border-width': props.data && props.data.length < 20 ? '0.25px' : '1px',
 				'border-color': theme.colors.border.primary,
 			},
 		},
 		{
-			selector: `node[id="${props.activeId}"]`,
+			selector: `node[type = "stamp"]`,
 			style: {
-				'background-color': theme.colors.microscope.active.background,
+				'background-color': theme.colors.stats.alt1,
+			},
+		},
+		{
+			selector: `node[type = "root"]`,
+			style: {
+				'background-color': theme.colors.stats.alt6,
+			},
+		},
+		{
+			selector: `node[type = "comment"]`,
+			style: {
+				'background-color': theme.colors.stats.alt2,
+			},
+		},
+		{
+			selector: `node[id = "${props.activeId}"]`,
+			style: {
+				'background-color': theme.colors.stats.primary,
 			},
 		},
 		{
 			selector: 'edge',
 			style: {
 				'line-color': theme.colors.border.primary,
-				width: 1.5,
+				width: props.data && props.data.length < 20 ? 0.25 : 1.5,
 			},
 		},
 	];
@@ -110,35 +76,26 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 			userZoomingEnabled: false,
 		});
 
-		// cy.layout(layouts['breadthfirst']).run();
-
 		const layout = cy.layout({
 			name: 'concentric',
-			fit: true, // whether to fit the viewport to the graph
-			padding: 30, // padding on fit
-			startAngle: (Math.PI * 3) / 2, // where nodes start in radians
-			sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
-			clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
-			equidistant: false, // whether levels have an equal radial distance betwen them (may distort distances between nodes in the same level)
-			minNodeSpacing: 10, // min spacing between outside of nodes (used for radius adjustment)
-			height: undefined, // height of layout area (overrides container height)
-			width: undefined, // width of layout area (overrides container width)
-			avoidOverlap: true, // prevents node overlap, may overflow bounding box and radius if not enough space
-			nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
-			spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
+			fit: true,
+			padding: 30,
+			startAngle: (Math.PI * 3) / 2,
+			sweep: undefined,
+			clockwise: true,
+			equidistant: false,
+			minNodeSpacing: 10,
+			height: undefined,
+			width: undefined,
+			avoidOverlap: true,
+			nodeDimensionsIncludeLabels: false,
+			spacingFactor: undefined,
 			concentric: function (node) {
-				// returns numeric value for each node, placing higher nodes in levels towards the centre
 				return node.degree();
 			},
 			levelWidth: function (nodes) {
-				// the variation of concentric values in each level
 				return nodes.maxDegree() / 4;
 			},
-			animate: false, // whether to transition the node positions
-			animationDuration: 500, // duration of animation in ms if enabled
-			animationEasing: undefined, // easing of animation if enabled
-			ready: undefined, // callback on layout ready
-			stop: undefined, // callback on layout stop
 		});
 
 		layout.run();
@@ -156,21 +113,34 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 		cy.on('mouseover', 'node', function (event: any) {
 			const node = event.target;
 			cyRef.current.style.cursor = 'pointer';
-			node.style('background-color', theme.colors.microscope.active.hover);
+			node.style('background-color', theme.colors.stats.primary);
 		});
 
 		cy.on('mouseout', 'node', function (event: any) {
 			const node = event.target;
 			cyRef.current.style.cursor = 'default';
 			if (node.id() !== props.activeId) {
-				node.style('background-color', theme.colors.microscope.inactive.background);
+				switch (node.data().type) {
+					case 'stamp':
+						node.style('background-color', theme.colors.stats.alt1);
+						break;
+					case 'comment':
+						node.style('background-color', theme.colors.stats.alt2);
+						break;
+					case 'root':
+						node.style('background-color', theme.colors.stats.alt6);
+						break;
+					default:
+						node.style('background-color', theme.colors.button.primary.active.background);
+						break;
+				}
 			}
 		});
 
 		return () => {
 			cy.destroy();
 		};
-	}, [props.activeId]);
+	}, [props.activeId, props.data]);
 
 	return (
 		<S.TreeDiagram>
@@ -180,6 +150,8 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 }
 
 export default function AssetDetailMicroscope(props: IProps) {
+	const theme = useTheme();
+
 	const orProvider = useOrderBookProvider();
 
 	const [activeNode, setActiveNode] = React.useState<any>(null);
@@ -187,7 +159,7 @@ export default function AssetDetailMicroscope(props: IProps) {
 
 	const [activity, setActivity] = React.useState<ActivityElementType[] | null>(null);
 	const [activeOwner, setActiveOwner] = React.useState<OwnerType | OwnerListingType | null>(null);
-	// const [activeAsset, setActiveAsset] = React.useState<AssetType | null>(null);
+	const [activeAsset, setActiveAsset] = React.useState<AssetType | null>(null);
 
 	React.useEffect(() => {
 		(async function () {
@@ -211,13 +183,13 @@ export default function AssetDetailMicroscope(props: IProps) {
 	React.useEffect(() => {
 		(async function () {
 			if (activeNode && props.asset && orProvider.orderBook) {
-				// setActiveAsset(null);
+				setActiveAsset(null);
 				setActiveOwner(null);
 
-				// const asset = await orProvider.orderBook.api.getAssetById({ id: activeNode.id });
+				const asset = await orProvider.orderBook.api.getAssetById({ id: activeNode.id });
 				const owner = (await getOwners([{ creator: activeNode.owner }], orProvider, props.asset as AssetDetailType))[0];
 
-				// setActiveAsset(asset);
+				setActiveAsset(asset);
 				setActiveOwner(owner);
 			}
 		})();
@@ -229,9 +201,9 @@ export default function AssetDetailMicroscope(props: IProps) {
 
 	return (
 		<S.Wrapper className={'border-wrapper'}>
-			{/* <S.Header>
-				<p>{language.microscope}</p>
-			</S.Header> */}
+			<S.Header>
+				<p>{language.interactionsWith(props.asset.data.title)}</p>
+			</S.Header>
 			<Tree
 				data={data}
 				handleCallback={(node: any) => handleCallback(node)}
@@ -239,38 +211,58 @@ export default function AssetDetailMicroscope(props: IProps) {
 			/>
 			{activeNode && (
 				<S.TxWrapper>
-					<S.TInfoWrapper>
-						<S.THeaderWrapper>
-							<S.TFlex>
-								<span>{`${language.activeNode}:`}</span>
-								<TxAddress address={activeNode.id} wrap={false} />
-							</S.TFlex>
-						</S.THeaderWrapper>
-						<S.TDetailWrapper>
-							<S.TFlex>
-								<span>{`${language.owner.charAt(0).toUpperCase() + language.owner.slice(1)}:`}</span>
-								<OwnerInfo
-									owner={activeOwner}
-									asset={props.asset}
-									isSaleOrder={false}
-									handleUpdate={() => {}}
-									loading={!activeOwner}
-								/>
-							</S.TFlex>
-							{activeNode.dataProtocol && activeNode.dataProtocol !== STORAGE.none && (
+					<S.TxHeader>
+						<S.TInfoWrapper>
+							<S.THeaderWrapper>
 								<S.TFlex>
-									<span>{`${language.dataProtocol}:`}</span>
-									<p>{activeNode.dataProtocol.toUpperCase()}</p>
+									<span>{`${language.activeNode}:`}</span>
+									<TxAddress address={activeNode.id} wrap={false} />
 								</S.TFlex>
-							)}
-							{activeNode.protocolName && activeNode.protocolName !== STORAGE.none && (
+							</S.THeaderWrapper>
+							<S.TDetailWrapper>
 								<S.TFlex>
-									<span>{`${language.protocolName}:`}</span>
-									<p>{activeNode.protocolName.toUpperCase()}</p>
+									<span>{`${language.owner.charAt(0).toUpperCase() + language.owner.slice(1)}:`}</span>
+									<OwnerInfo
+										owner={activeOwner}
+										asset={props.asset}
+										isSaleOrder={false}
+										handleUpdate={() => {}}
+										loading={!activeOwner}
+									/>
 								</S.TFlex>
-							)}
-						</S.TDetailWrapper>
-					</S.TInfoWrapper>
+								{activeNode.dataProtocol && activeNode.dataProtocol !== STORAGE.none && (
+									<S.TFlex>
+										<span>{`${language.dataProtocol}:`}</span>
+										<p>{activeNode.dataProtocol.charAt(0).toUpperCase() + activeNode.dataProtocol.slice(1)}</p>
+									</S.TFlex>
+								)}
+								{activeNode.protocolName && activeNode.protocolName !== STORAGE.none && (
+									<S.TFlex>
+										<span>{`${language.protocolName}:`}</span>
+										<p>{activeNode.protocolName.charAt(0).toUpperCase() + activeNode.protocolName.slice(1)}</p>
+									</S.TFlex>
+								)}
+							</S.TDetailWrapper>
+						</S.TInfoWrapper>
+						<S.TKeyWrapper>
+							<S.TKeyLine>
+								<S.TKey background={theme.colors.stats.primary} />
+								<p>{language.activeNode}</p>
+							</S.TKeyLine>
+							<S.TKeyLine>
+								<S.TKey background={theme.colors.stats.alt6} />
+								<p>{language.rootNode}</p>
+							</S.TKeyLine>
+							<S.TKeyLine>
+								<S.TKey background={theme.colors.stats.alt1} />
+								<p>{language.stamp}</p>
+							</S.TKeyLine>
+							<S.TKeyLine>
+								<S.TKey background={theme.colors.stats.alt2} />
+								<p>{language.comment}</p>
+							</S.TKeyLine>
+						</S.TKeyWrapper>
+					</S.TxHeader>
 					{/* {props.activity && (
                         <S.TTableWrapper>
                             {props.activity.map((element: ActivityElementType, index: number) => {
@@ -283,9 +275,11 @@ export default function AssetDetailMicroscope(props: IProps) {
                             })}
                         </S.TTableWrapper>
                     )} */}
-					{/* <S.TAssetWrapper>
-						<AssetData asset={activeAsset} autoLoad />
-					</S.TAssetWrapper> */}
+					{props.asset && activeAsset && activeAsset.data.id !== props.asset.data.id && (
+						<S.TAssetWrapper>
+							<AssetData asset={activeAsset} autoLoad />
+						</S.TAssetWrapper>
+					)}
 				</S.TxWrapper>
 			)}
 		</S.Wrapper>
@@ -300,11 +294,20 @@ function structureData(activity: ActivityElementType[], rootId: string, rootOwne
 			owner: element.owner,
 			dataProtocol: element.dataProtocol,
 			protocolName: element.protocolName,
+			type: getType(element),
 		},
 	}));
 	nodeGroups.push({
-		data: { group: 'nodes', id: rootId, owner: rootOwner, dataProtocol: STORAGE.none, protocolName: STORAGE.none },
+		data: {
+			group: 'nodes',
+			id: rootId,
+			owner: rootOwner,
+			dataProtocol: STORAGE.none,
+			protocolName: STORAGE.none,
+			type: 'root',
+		},
 	});
+
 	const edgeGroups = activity
 		.map((element: ActivityElementType) => ({
 			data: {
@@ -315,9 +318,16 @@ function structureData(activity: ActivityElementType[], rootId: string, rootOwne
 				owner: element.owner,
 				dataProtocol: element.dataProtocol,
 				protocolName: element.protocolName,
+				type: getType(element),
 			},
 		}))
 		.filter((element: any) => element.id !== rootId);
 
 	return [...nodeGroups.reverse(), ...edgeGroups];
+}
+
+function getType(element: ActivityElementType) {
+	if (element.protocolName && element.protocolName.toLowerCase() === 'stamp') return 'stamp';
+	if (element.dataProtocol && element.dataProtocol.toLowerCase() === 'comment') return 'comment';
+	return null;
 }

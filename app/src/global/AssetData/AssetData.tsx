@@ -81,6 +81,7 @@ export default function AssetData(props: IProps) {
 										);
 									}
 								}}
+								onError={handleError}
 							/>
 						) : (
 							<S.FramePreview>

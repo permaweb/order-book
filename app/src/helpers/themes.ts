@@ -281,15 +281,6 @@ export const defaultTheme: DefaultTheme = {
 		loader: {
 			primary: DEFAULT.primary2,
 		},
-		microscope: {
-			active: {
-				background: DEFAULT.alt5,
-				hover: DEFAULT.alt6,
-			},
-			inactive: {
-				background: DEFAULT.neutral2,
-			},
-		},
 		navigation: {
 			footer: {
 				background: DEFAULT.neutral6,

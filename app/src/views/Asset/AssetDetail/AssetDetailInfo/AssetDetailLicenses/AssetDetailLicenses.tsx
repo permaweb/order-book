@@ -30,7 +30,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 									</S.Logo>
 									<S.HeaderLink>
 										<Link target={'_blank'} to={REDIRECTS.udl}>
-											License Information
+											{language.licenseText}
 										</Link>
 									</S.HeaderLink>
 								</S.HeaderFlex>
