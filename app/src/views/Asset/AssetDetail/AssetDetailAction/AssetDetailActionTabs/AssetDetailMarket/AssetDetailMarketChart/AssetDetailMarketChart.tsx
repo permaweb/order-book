@@ -22,7 +22,13 @@ export default function AssetDetailMarketChart(props: IProps) {
 
 	React.useEffect(() => {
 		if (props.owners) {
-			setSortedOwners(props.owners.sort((a: any, b: any) => a.balance - b.balance).reverse());
+			setSortedOwners(
+				props.owners.sort((a: any, b: any) => {
+					if (a.address === ORDERBOOK_CONTRACT) return -1;
+					if (b.address === ORDERBOOK_CONTRACT) return 1;
+					return b.balance - a.balance;
+				})
+			);
 		}
 	}, [props.owners]);
 
