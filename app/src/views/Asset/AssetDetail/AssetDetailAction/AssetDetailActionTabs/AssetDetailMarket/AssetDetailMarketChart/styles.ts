@@ -61,9 +61,12 @@ export const ChartKeyWrapper = styled.div`
 	}
 `;
 
-export const ChartKeyLine = styled.div`
+export const ChartKeyLine = styled.div<{ first: boolean }>`
 	display: flex;
 	align-items: center;
+	margin: ${(props) => (props.first ? '0 0 17.5px 0 !important' : '0 0 10px 0')};
+	padding: ${(props) => (props.first ? `0 0 7.5px 0` : '0')};
+	border-bottom: ${(props) => (props.first ? `1px solid ${props.theme.colors.border.primary}` : 'none')};
 `;
 
 export const Percentage = styled.p`

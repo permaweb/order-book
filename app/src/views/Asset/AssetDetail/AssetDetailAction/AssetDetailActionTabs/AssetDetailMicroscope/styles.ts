@@ -91,23 +91,6 @@ export const TKey = styled.div<{ background: string }>`
 	margin: 0 10px 0 0;
 `;
 
-export const TTableWrapper = styled.div`
-	width: 60%;
-	> * {
-		&:not(:last-child) {
-			margin: 0 0 10px 0;
-		}
-		&:last-child {
-			margin: 0;
-		}
-	}
-`;
-
-export const TRow = styled.div`
-	display: flex;
-	align-items: center;
-`;
-
 export const TAssetWrapper = styled.div`
 	width: 100%;
 	margin: 40px 0 0 0;

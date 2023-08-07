@@ -263,18 +263,6 @@ export default function AssetDetailMicroscope(props: IProps) {
 							</S.TKeyLine>
 						</S.TKeyWrapper>
 					</S.TxHeader>
-					{/* {props.activity && (
-                        <S.TTableWrapper>
-                            {props.activity.map((element: ActivityElementType, index: number) => {
-                                console.log(element)
-                                return (
-                                    <S.TRow key={index}>
-                                        <TxAddress address={element.id} wrap={false} />
-                                    </S.TRow>
-                                )
-                            })}
-                        </S.TTableWrapper>
-                    )} */}
 					{props.asset && activeAsset && activeAsset.data.id !== props.asset.data.id && (
 						<S.TAssetWrapper>
 							<AssetData asset={activeAsset} autoLoad />

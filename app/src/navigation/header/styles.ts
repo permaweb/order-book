@@ -151,7 +151,7 @@ export const Connect = styled.div<{ show: boolean }>`
 	height: 100%;
 	display: flex;
 	align-items: center;
-	padding: 0 20px 0 17.5px;
+	padding: 0 20px 0 10px;
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		display: ${(props) => (props.show ? 'block' : 'none')};
 		height: auto;

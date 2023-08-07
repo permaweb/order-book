@@ -333,6 +333,7 @@ export const defaultTheme: DefaultTheme = {
 			alt6: DEFAULT.stats.alt6,
 			alt7: DEFAULT.stats.alt7,
 			alt8: DEFAULT.stats.alt8,
+			alt9: DEFAULT.stats.alt9,
 		},
 		table: {
 			placeholder: {

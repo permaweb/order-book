@@ -88,8 +88,8 @@ export default function AssetDetailMarketChart(props: IProps) {
 				<S.ChartKeyWrapper>
 					{sortedOwners.map((owner: OwnerType | OwnerListingType, index: number) => {
 						return (
-							<S.ChartKeyLine key={index}>
-								<S.ChartKey background={keys[index]} />
+							<S.ChartKeyLine key={index} first={index === 0}>
+								<S.ChartKey background={keys[index] ? keys[index] : theme.colors.stats.alt9} />
 								{owner.address !== ORDERBOOK_CONTRACT ? (
 									<>
 										<OwnerInfo
