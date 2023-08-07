@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 export const IconWrapper = styled.div`
 	button {
 		width: 12.5px !important;
-		margin: 1.5px 0 0 3.5px;
+		margin: 1.5px 0 0 1.5px;
 	}
 `;
 

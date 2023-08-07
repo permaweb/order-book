@@ -14,21 +14,26 @@ export const Wrapper = styled.div`
 export const FlexAction = styled.div`
 	display: flex;
 	align-items: center;
-	span 
-		border-right: 1px solid ${(props) => props.theme.colors.button.alt1.border};
-		height: 100%;
-		display: flex;
-		align-items: center;
-		text-align: left;
-	}
 	svg {
 		height: 25px;
 		width: 20px;
 		margin: 0 -2.5px 0 11.5px;
 	}
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		flex-direction: column-reverse;
+		align-items: flex-end;
+	}
 `;
 
-export const BalanceWrapper = styled.div`
+export const BalancesWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		margin: 10px 0 0 0;
+	}
+`;
+
+export const Balance = styled.div`
 	height: 45px;
 	display: flex;
 	justify-content: center;
@@ -49,6 +54,9 @@ export const BalanceWrapper = styled.div`
 		width: 20px;
 		margin: 0 0 0 5.5px;
 	}
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		margin: 0 0 0 10px;
+	}
 `;
 
 export const WalletDropdown = styled.ul`
@@ -61,7 +69,7 @@ export const WalletDropdown = styled.ul`
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	@media (max-width: ${STYLING.cutoffs.initial}) {
-		top: 81.5px;
+		top: 78.5px;
 	}
 	li {
 		text-align: center;

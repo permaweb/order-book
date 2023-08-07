@@ -32,7 +32,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 
 	React.useEffect(() => {
 		if (!showWallet) {
-			setLabel(`${language.fetching} ...`);
+			setLabel(`${language.fetching}...`);
 		} else {
 			if (arProvider.walletAddress) {
 				if (arProvider.arProfile && arProvider.arProfile.handle) {
@@ -82,20 +82,20 @@ export default function WalletConnect(props: { callback?: () => void }) {
 			<S.Wrapper>
 				<S.FlexAction>
 					{arProvider.walletAddress && (
-						<>
+						<S.BalancesWrapper>
 							{arProvider.currencyBalances && (
-								<S.BalanceWrapper>
+								<S.Balance>
 									<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
 									<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
-								</S.BalanceWrapper>
+								</S.Balance>
 							)}
 							{arProvider.availableBalance !== null && (
-								<S.BalanceWrapper>
+								<S.Balance>
 									<p>{`${arProvider.availableBalance.toFixed(2)}`}</p>
 									<ReactSVG src={ASSETS.arLogo} />
-								</S.BalanceWrapper>
+								</S.Balance>
 							)}
-						</>
+						</S.BalancesWrapper>
 					)}
 					<Button
 						type={'primary'}

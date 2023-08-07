@@ -88,7 +88,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 						<AssetOrders asset={props.asset} />
 					</S.AssetDataAlt>
 					<S.ICWidgetIcons>
-						{assetRender && assetRender.type === 'renderer' && (
+						{assetRender && assetRender.type === 'renderer' && !props.autoLoad && (
 							<S.Icon>
 								<Button
 									type={'primary'}
