@@ -109,20 +109,20 @@ export default function AssetDetailActivityChart(props: IProps) {
 				labels: getLabels(),
 				datasets: [
 					{
-						label: language.stamps,
-						data: getDataSet('stamps'),
+						label: language.total,
+						data: getDataSet('total'),
 						backgroundColor: theme.colors.stats.primary,
 						borderColor: theme.colors.stats.primary,
 					},
 					{
-						label: language.comments,
-						data: getDataSet('comments'),
+						label: language.stamps,
+						data: getDataSet('stamps'),
 						backgroundColor: theme.colors.stats.alt1,
 						borderColor: theme.colors.stats.alt1,
 					},
 					{
-						label: language.total,
-						data: getDataSet('total'),
+						label: language.comments,
+						data: getDataSet('comments'),
 						backgroundColor: theme.colors.stats.alt2,
 						borderColor: theme.colors.stats.alt2,
 					},
@@ -132,22 +132,22 @@ export default function AssetDetailActivityChart(props: IProps) {
 	}, [props.activity]);
 
 	return data ? (
-		<S.Wrapper>
+		<S.Wrapper className={'border-wrapper'}>
 			<S.Header>
 				<p>{language.weeklyAssetActivity}</p>
 			</S.Header>
 			<S.ChartKeyWrapper>
 				<S.ChartKeyLine>
 					<S.ChartKey background={theme.colors.stats.primary} />
-					<p>{language.stamps}</p>
+					<p>{language.total}</p>
 				</S.ChartKeyLine>
 				<S.ChartKeyLine>
 					<S.ChartKey background={theme.colors.stats.alt1} />
-					<p>{language.comments}</p>
+					<p>{language.stamps}</p>
 				</S.ChartKeyLine>
 				<S.ChartKeyLine>
 					<S.ChartKey background={theme.colors.stats.alt2} />
-					<p>{language.total}</p>
+					<p>{language.comments}</p>
 				</S.ChartKeyLine>
 			</S.ChartKeyWrapper>
 			<S.ChartWrapper>

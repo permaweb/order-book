@@ -31,6 +31,7 @@ export const Header = styled.div`
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		padding: 7.5px 20px;
+		background: ${(props) => props.theme.colors.container.alt2.background};
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: ${STYLING.dimensions.borderRadiusField};
 	}

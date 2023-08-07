@@ -78,6 +78,8 @@ export default function OrderCancel(props: IProps) {
 						message: language.orderCancelled,
 					});
 					setCancelConfirmed(true);
+					props.handleUpdate();
+					setShowModal(false);
 				} else {
 					let message = '';
 					if (arProvider.walletType === WalletEnum.arweaveApp && !arProvider.wallet['_address']) {

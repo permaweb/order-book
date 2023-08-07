@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import cytoscape from 'cytoscape';
 import { useTheme } from 'styled-components';
 
@@ -7,7 +8,7 @@ import { ActivityElementType, AssetDetailType, AssetType } from 'permaweb-orderb
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'components/organisms/AssetData';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
-import { STORAGE } from 'helpers/config';
+import { REDIRECTS, STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
 import { getOwners } from 'helpers/utils';
@@ -149,7 +150,7 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 	);
 }
 
-export default function AssetDetailMicroscope(props: IProps) {
+export default function AssetDetailActivityMicroscope(props: IProps) {
 	const theme = useTheme();
 
 	const orProvider = useOrderBookProvider();
@@ -157,22 +158,13 @@ export default function AssetDetailMicroscope(props: IProps) {
 	const [activeNode, setActiveNode] = React.useState<any>(null);
 	const [data, setData] = React.useState<any>(null);
 
-	const [activity, setActivity] = React.useState<ActivityElementType[] | null>(null);
 	const [activeOwner, setActiveOwner] = React.useState<OwnerType | OwnerListingType | null>(null);
 	const [activeAsset, setActiveAsset] = React.useState<AssetType | null>(null);
 
 	React.useEffect(() => {
-		(async function () {
-			if (props.asset && orProvider) {
-				const activityFetch = await orProvider.orderBook.api.getActivity({ id: props.asset.data.id });
-				setActivity(activityFetch.activity);
-			}
-		})();
-	}, [props.asset]);
-
-	React.useEffect(() => {
-		if (props.asset && activity) setData(structureData(activity, props.asset.data.id, props.asset.data.creator));
-	}, [activity]);
+		if (props.asset && props.activity)
+			setData(structureData(props.activity, props.asset.data.id, props.asset.data.creator));
+	}, [props.asset, props.activity]);
 
 	React.useEffect(() => {
 		if (data && data.length) {
@@ -202,7 +194,7 @@ export default function AssetDetailMicroscope(props: IProps) {
 	return (
 		<S.Wrapper className={'border-wrapper'}>
 			<S.Header>
-				<p>{language.interactionsWith(props.asset.data.title)}</p>
+				<p>{language.relatedTransactions}</p>
 			</S.Header>
 			<Tree
 				data={data}
@@ -241,6 +233,13 @@ export default function AssetDetailMicroscope(props: IProps) {
 										<span>{`${language.protocolName}:`}</span>
 										<p>{activeNode.protocolName.charAt(0).toUpperCase() + activeNode.protocolName.slice(1)}</p>
 									</S.TFlex>
+								)}
+								{activeNode && (
+									<S.ACLink>
+										<Link target={'_blank'} to={REDIRECTS.viewblock(activeNode.id)}>
+											{language.viewblock}
+										</Link>
+									</S.ACLink>
 								)}
 							</S.TDetailWrapper>
 						</S.TInfoWrapper>

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
 	position: relative;
-	padding: 20px;
 	> * {
 		&:not(:last-child) {
 			margin: 0 0 25px 0;

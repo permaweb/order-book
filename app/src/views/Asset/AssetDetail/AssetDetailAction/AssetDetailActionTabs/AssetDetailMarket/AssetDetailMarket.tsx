@@ -92,7 +92,7 @@ export default function AssetDetailMarket(props: IAMProps) {
 					/>
 				</S.DrawerWrapper>
 			)}
-			{currentOwners && currentOwners.length > 0 && (
+			{/* {currentOwners && currentOwners.length > 0 && (
 				<S.DrawerWrapper>
 					<Drawer
 						title={language.currentAssetOwners}
@@ -121,7 +121,7 @@ export default function AssetDetailMarket(props: IAMProps) {
 						}
 					/>
 				</S.DrawerWrapper>
-			)}
+			)} */}
 		</>
 	) : null;
 }

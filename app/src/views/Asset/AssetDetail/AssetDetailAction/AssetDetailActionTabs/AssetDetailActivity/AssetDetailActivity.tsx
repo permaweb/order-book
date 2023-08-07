@@ -7,6 +7,7 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { IAProps } from '../../../types';
 
 import { AssetDetailActivityChart } from './AssetDetailActivityChart';
+import { AssetDetailActivityMicroscope } from './AssetDetailActivityMicroscope';
 import * as S from './styles';
 
 export default function AssetDetailActivity(props: IAProps) {
@@ -24,8 +25,9 @@ export default function AssetDetailActivity(props: IAProps) {
 	}, [props.asset]);
 
 	return (
-		<S.Wrapper className={'border-wrapper'}>
+		<S.Wrapper>
 			<AssetDetailActivityChart asset={props.asset} activity={activity} />
+			<AssetDetailActivityMicroscope asset={props.asset} activity={activity} />
 		</S.Wrapper>
 	);
 }

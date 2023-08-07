@@ -5,7 +5,7 @@ import { loaderKeyFrame, loadingSlide, open } from 'helpers/animations';
 export const Wrapper = styled.div`
 	height: 100%;
 	width: 100%;
-	position: absolute;
+	position: fixed;
 	z-index: 11;
 	top: 0;
 	left: 0;

@@ -21,6 +21,7 @@ export const Header = styled.div`
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		padding: 7.5px 20px;
+		background: ${(props) => props.theme.colors.container.alt2.background};
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: ${STYLING.dimensions.borderRadiusField};
 	}
@@ -132,6 +133,20 @@ export const TDetailWrapper = styled.div`
 		}
 		&:last-child {
 			margin: 0;
+		}
+	}
+`;
+
+export const ACLink = styled.div`
+	margin: 5px 0 0 0;
+	a {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
+		text-decoration: underline;
+		&:hover {
+			color: ${(props) => props.theme.colors.font.primary.alt8};
 		}
 	}
 `;

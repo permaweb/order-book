@@ -17,6 +17,19 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function AssetDetailMarketChart(props: IProps) {
 	const theme = useTheme();
 
+	const keys = [
+		theme.colors.stats.primary,
+		theme.colors.stats.alt1,
+		theme.colors.stats.alt2,
+		theme.colors.stats.alt3,
+		theme.colors.stats.alt4,
+		theme.colors.stats.alt5,
+		theme.colors.stats.alt6,
+		theme.colors.stats.alt7,
+		theme.colors.stats.alt8,
+		theme.colors.stats.alt9,
+	];
+
 	const [data, setData] = React.useState<any>(null);
 	const [sortedOwners, setSortedOwners] = React.useState<OwnerType[] | OwnerListingType[] | null>(null);
 
@@ -31,19 +44,6 @@ export default function AssetDetailMarketChart(props: IProps) {
 			);
 		}
 	}, [props.owners]);
-
-	const keys = [
-		theme.colors.stats.primary,
-		theme.colors.stats.alt1,
-		theme.colors.stats.alt2,
-		theme.colors.stats.alt3,
-		theme.colors.stats.alt4,
-		theme.colors.stats.alt5,
-		theme.colors.stats.alt6,
-		theme.colors.stats.alt7,
-		theme.colors.stats.alt8,
-		theme.colors.stats.alt9,
-	];
 
 	React.useEffect(() => {
 		if (sortedOwners) {
@@ -96,7 +96,7 @@ export default function AssetDetailMarketChart(props: IProps) {
 											owner={owner}
 											asset={props.asset}
 											loading={false}
-											isSaleOrder={true}
+											isSaleOrder={false}
 											handleUpdate={() => {}}
 										/>
 										<S.Percentage>{`(${(

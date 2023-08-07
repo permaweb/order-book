@@ -46,12 +46,6 @@ export const NavPaths = styled.div`
 	}
 `;
 
-export const SettingsWrapper = styled.div`
-	@media (max-width: ${STYLING.cutoffs.initial}) {
-		margin: 0 20px 0 auto;
-	}
-`;
-
 export const Link = styled.div`
 	a {
 		height: 100%;

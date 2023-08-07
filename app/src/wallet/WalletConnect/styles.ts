@@ -59,7 +59,36 @@ export const Balance = styled.div`
 	}
 `;
 
-export const WalletDropdown = styled.ul`
+export const BalanceAction = styled.button`
+	height: 45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 10px;
+	margin: 0 10px 0 0;
+	background: ${(props) => props.theme.colors.button.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
+	p {
+		color: ${(props) => props.theme.colors.font.primary.alt8};
+		font-size: ${(props) => props.theme.typography.size.small};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+	}
+	svg {
+		padding: 1.5px 0 0 0;
+		height: 20px;
+		width: 20px;
+		margin: 0 0 0 5.5px;
+	}
+	&:hover {
+		background: ${(props) => props.theme.colors.button.primary.hover};
+	}
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		margin: 0 0 0 10px;
+	}
+`;
+
+export const Dropdown = styled.ul`
 	width: 225px;
 	padding: 10px 0;
 	position: absolute;
@@ -79,11 +108,29 @@ export const WalletDropdown = styled.ul`
 		cursor: pointer;
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		font-size: ${(props) => props.theme.typography.size.xxSmall};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		border: 1px solid ${(props) => props.theme.colors.transparent};
 		padding: 0 15px;
 		&:hover {
 			background: ${(props) => props.theme.colors.container.primary.hover};
 		}
+	}
+`;
+
+export const BalanceDropdown = styled(Dropdown)`
+	right: 240px;
+	p {
+		width: fit-content;
+		padding: 0 0 5px 0;
+		margin: 5px 0 5px 15px;
+		font-size: ${(props) => props.theme.typography.size.xxSmall};
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+	}
+	@media (max-width: ${STYLING.cutoffs.initial}) {
+		top: 131.5px;
+		right: 20px;
 	}
 `;

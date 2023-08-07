@@ -146,6 +146,8 @@ export const STORAGE = {
 
 export const REDIRECTS = {
 	arProfile: `https://arprofile.arweave.dev/`,
+	permaswap: `https://app.permaswap.network/AR-U`,
+	u: `https://getu.arweave.dev/#/burn/`,
 	udl: `https://udlicense.arweave.dev`,
 	viewblock: (tx: string) => `https://viewblock.io/arweave/tx/${tx}`,
 };
@@ -169,10 +171,6 @@ export const DETAIL_ACTION_TABS = [
 	{
 		label: DETAIL_ACTION_TAB_OPTIONS.activity,
 		icon: ASSETS.activity,
-	},
-	{
-		label: DETAIL_ACTION_TAB_OPTIONS.microscope,
-		icon: ASSETS.microscope,
 	},
 ];
 

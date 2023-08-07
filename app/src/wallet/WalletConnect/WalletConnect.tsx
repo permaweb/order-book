@@ -5,7 +5,7 @@ import { ReactSVG } from 'react-svg';
 import { CURRENCY_DICT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
-import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
+import { ASSETS, CURRENCY_ICONS, REDIRECTS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
@@ -20,7 +20,8 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	const arProvider = useArweaveProvider();
 
 	const [showWallet, setShowWallet] = React.useState<boolean>(false);
-	const [showDropdown, setShowDropdown] = React.useState<boolean>(false);
+	const [showWalletDropdown, setShowWalletDropdown] = React.useState<boolean>(false);
+	const [showGetBalanceDropdown, setShowGetBalanceDropdown] = React.useState<boolean>(false);
 	const [copied, setCopied] = React.useState<boolean>(false);
 	const [label, setLabel] = React.useState<string | null>(null);
 
@@ -48,10 +49,11 @@ export default function WalletConnect(props: { callback?: () => void }) {
 
 	function handlePress() {
 		if (arProvider.walletAddress) {
-			setShowDropdown(true);
+			setShowWalletDropdown(true);
 		} else {
 			arProvider.setWalletModalVisible(true);
 		}
+		setShowGetBalanceDropdown(false);
 	}
 
 	const copyAddress = React.useCallback(async () => {
@@ -66,7 +68,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 
 	function handleViewAccount() {
 		navigate(`${urls.account}${arProvider.walletAddress}`);
-		setShowDropdown(false);
+		setShowWalletDropdown(false);
 		if (props.callback) {
 			props.callback();
 		}
@@ -74,20 +76,55 @@ export default function WalletConnect(props: { callback?: () => void }) {
 
 	function handleDisconnect() {
 		arProvider.handleDisconnect();
-		setShowDropdown(false);
+		setShowWalletDropdown(false);
 	}
 
 	return (
-		<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>
+		<CloseHandler
+			callback={() => {
+				setShowWalletDropdown(false);
+				setShowGetBalanceDropdown(false);
+			}}
+			active={showWalletDropdown || showGetBalanceDropdown}
+			disabled={false}
+		>
 			<S.Wrapper>
 				<S.FlexAction>
 					{arProvider.walletAddress && (
 						<S.BalancesWrapper>
 							{arProvider.currencyBalances && (
-								<S.Balance>
-									<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
-									<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
-								</S.Balance>
+								<>
+									<S.BalanceAction
+										onClick={() => {
+											setShowGetBalanceDropdown(!showGetBalanceDropdown);
+											setShowWalletDropdown(false);
+										}}
+									>
+										<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
+										<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
+									</S.BalanceAction>
+									{showGetBalanceDropdown && (
+										<S.BalanceDropdown>
+											<p>{language.getU}</p>
+											<li
+												onClick={() => {
+													window.open(REDIRECTS.u, '_blank');
+													setShowGetBalanceDropdown(false);
+												}}
+											>
+												{language.burnYourOwn}
+											</li>
+											<li
+												onClick={() => {
+													window.open(REDIRECTS.permaswap, '_blank');
+													setShowGetBalanceDropdown(false);
+												}}
+											>
+												{language.buyOnPermaswap}
+											</li>
+										</S.BalanceDropdown>
+									)}
+								</>
 							)}
 							{arProvider.availableBalance !== null && (
 								<S.Balance>
@@ -106,12 +143,12 @@ export default function WalletConnect(props: { callback?: () => void }) {
 						icon={ASSETS.wallet}
 					/>
 				</S.FlexAction>
-				{showDropdown && (
-					<S.WalletDropdown>
+				{showWalletDropdown && (
+					<S.Dropdown>
 						<li onClick={handleViewAccount}>{language.account}</li>
 						<li onClick={copyAddress}>{copied ? `${language.copied}!` : language.copyAddress}</li>
 						<li onClick={handleDisconnect}>{language.disconnect}</li>
-					</S.WalletDropdown>
+					</S.Dropdown>
 				)}
 			</S.Wrapper>
 		</CloseHandler>

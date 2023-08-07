@@ -27,3 +27,5 @@ export const Content = styled.p`
 	font-weight: ${(props) => props.theme.typography.weight.medium};
 	font-size: 13px;
 `;
+
+export const SettingsWrapper = styled.div``;

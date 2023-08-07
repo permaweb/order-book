@@ -56,6 +56,14 @@ export const DetailLine = styled.div`
 	}
 `;
 
+export const DetailLineInfo = styled(DetailLine)`
+	margin: 0 0 20px 0;
+	p {
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		line-height: 1.5;
+	}
+`;
+
 export const FlexActions = styled.div`
 	display: flex;
 	align-items: center;

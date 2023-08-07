@@ -2,8 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from 'components/atoms/Button';
-import { IconButton } from 'components/atoms/IconButton';
-import { ASSETS, DRE_NODES } from 'helpers/config';
+import { DRE_NODES } from 'helpers/config';
 import { language } from 'helpers/language';
 import { DREObjectType } from 'helpers/types';
 import { RootState } from 'store';
@@ -47,15 +46,7 @@ export default function Settings() {
 	return (
 		<CloseHandler active={dropdownOpen} callback={() => setDropdownOpen(false)} disabled={false}>
 			<S.Wrapper>
-				<IconButton
-					type={'alt1'}
-					src={ASSETS.settings}
-					handlePress={() => setDropdownOpen(!dropdownOpen)}
-					dimensions={{
-						wrapper: 45,
-						icon: 22.5,
-					}}
-				/>
+				<S.Action onClick={() => setDropdownOpen(!dropdownOpen)}>{language.settings}</S.Action>
 				{dropdownOpen && (
 					<S.Dropdown className={'border-wrapper'}>
 						<DRESwitch />
