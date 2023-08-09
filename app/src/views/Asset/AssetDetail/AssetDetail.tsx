@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { initPubSub, subscribe } from 'warp-contracts-pubsub';
 
 import { AssetDetailType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Loader } from 'components/atoms/Loader';
+import { DRE_STATE_CHANNEL } from 'helpers/config';
 import { language } from 'helpers/language';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
@@ -13,6 +15,8 @@ import AssetDetailAction from './AssetDetailAction/AssetDetailAction';
 import { AssetDetailInfo } from './AssetDetailInfo';
 import * as S from './styles';
 import { IProps } from './types';
+
+initPubSub();
 
 export default function AssetDetail(props: IProps) {
 	const navigate = useNavigate();
@@ -23,16 +27,17 @@ export default function AssetDetail(props: IProps) {
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
 	const [errorFetchingAsset, setErrorFetchingAsset] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
-
 	const [localUpdate, setLocalUpdate] = React.useState(false);
 
-	React.useEffect(() => {
-		arProvider.setUpdateBalance(localUpdate);
-	}, [localUpdate]);
+	const [pendingOrderBookResponse, setPendingOrderBookResponse] = React.useState<{ tx: string } | null>(null);
 
 	React.useEffect(() => {
 		setAsset(null);
 	}, [props.assetId]);
+
+	React.useEffect(() => {
+		arProvider.setUpdateBalance(localUpdate);
+	}, [localUpdate]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -49,14 +54,26 @@ export default function AssetDetail(props: IProps) {
 		})();
 	}, [orProvider.orderBook, props.assetId]);
 
-	async function handleUpdate() {
-		if (orProvider.orderBook) {
-			setAsset(null);
-			setLoading(true);
-			const updatedAsset = (await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType;
-			setAsset(updatedAsset);
-			setLocalUpdate((prev) => !prev);
-			setLoading(false);
+	async function handleUpdate(orderBookResponse: any) {
+		if (arProvider && orProvider.orderBook && orderBookResponse) {
+			setPendingOrderBookResponse({ tx: orderBookResponse.originalTxId });
+
+			const subscription = await subscribe(
+				DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),
+				async ({ data }) => {
+					const parsedData = JSON.parse(data);
+					if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription) {
+						subscription.unsubscribe();
+						setLocalUpdate((prev) => !prev);
+						setPendingOrderBookResponse(null);
+						const updatedAsset = (await orProvider.orderBook.api.getAssetById({
+							id: props.assetId,
+						})) as AssetDetailType;
+						setAsset(updatedAsset);
+					}
+				},
+				console.error()
+			);
 		}
 	}
 
@@ -65,7 +82,7 @@ export default function AssetDetail(props: IProps) {
 			return (
 				<>
 					<AssetDetailInfo asset={asset} />
-					<AssetDetailAction asset={asset} handleUpdate={handleUpdate} />
+					<AssetDetailAction asset={asset} handleUpdate={handleUpdate} pendingResponse={pendingOrderBookResponse} />
 				</>
 			);
 		} else {

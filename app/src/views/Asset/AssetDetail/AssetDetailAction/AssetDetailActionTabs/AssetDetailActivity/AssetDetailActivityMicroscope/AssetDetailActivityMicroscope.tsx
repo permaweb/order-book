@@ -31,6 +31,7 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 				width: props.data && props.data.length < 20 ? '4.5px' : '25px',
 				'border-width': props.data && props.data.length < 20 ? '0.25px' : '1px',
 				'border-color': theme.colors.border.primary,
+				'overlay-opacity': 0,
 			},
 		},
 		{

@@ -38,6 +38,10 @@ import defaultStampSVG from 'assets/stamp-default.svg';
 import superStampSVG from 'assets/stamp-super.svg';
 import vouchedStampSVG from 'assets/stamp-vouched.svg';
 import stampsSVG from 'assets/stamps.svg';
+import streak1SVG from 'assets/streak-1-7.svg';
+import streak2SVG from 'assets/streak-8-14.svg';
+import streak3SVG from 'assets/streak-15-29.svg';
+import streak4GIF from 'assets/streak-30.gif';
 import uSVG from 'assets/u.svg';
 import udlSVG from 'assets/udl.svg';
 import unsupportedSVG from 'assets/unsupported.svg';
@@ -50,7 +54,7 @@ import { DREObjectType, WalletEnum } from './types';
 
 export const APP = {
 	appKey: 'appVersion',
-	appVersion: '1.0.2',
+	appVersion: '1.0.3',
 	providerKey: 'providerVersion',
 	providerVersion: '1.0.2',
 };
@@ -94,6 +98,12 @@ export const ASSETS = {
 		default: defaultStampSVG,
 		super: superStampSVG,
 		vouched: vouchedStampSVG,
+	},
+	streak: {
+		'1': streak1SVG,
+		'2': streak2SVG,
+		'3': streak3SVG,
+		'4': streak4GIF,
 	},
 	u: uSVG,
 	udl: udlSVG,
@@ -192,14 +202,12 @@ export const DETAIL_MARKET_ACTION_TABS = [
 
 export const DRE_NODES: DREObjectType[] = [
 	{
-		label: 'DRE-5',
-		source: 'https://dre-5.warp.cc/contract',
-	},
-	{
-		label: 'DRE-6',
-		source: 'https://dre-6.warp.cc/contract',
+		label: 'DRE-U',
+		source: 'https://dre-u.warp.cc/contract',
 	},
 ];
+
+export const DRE_STATE_CHANNEL = (id: string) => `states/DRE-BAZAR-1/${id}`;
 
 export const UDL_ICONS_MAP = {
 	AR: ASSETS.arLogo,
@@ -215,3 +223,10 @@ export const COMMENT_SPEC = {
 	renderWith: 'comment-renderers',
 	ticker: 'ATOMIC ASSET - COMMENT',
 };
+
+export const SOCIAL_PATHS = [
+	{
+		name: language.social.twitter,
+		href: 'https://twitter.com/OurBazAR',
+	},
+];

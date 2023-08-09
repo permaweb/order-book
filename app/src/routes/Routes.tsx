@@ -7,9 +7,10 @@ import { View } from 'wrappers/View';
 
 const Account = getLazyImport('Account');
 const Asset = getLazyImport('Asset');
-const Landing = getLazyImport('Landing');
 const Collection = getLazyImport('Collection');
 const Collections = getLazyImport('Collections');
+const Docs = getLazyImport('Docs');
+const Landing = getLazyImport('Landing');
 const NotFound = getLazyImport('NotFound');
 
 export default function _Routes() {
@@ -61,6 +62,22 @@ export default function _Routes() {
 					element={
 						<View>
 							<NotFound />
+						</View>
+					}
+				/>
+				<Route
+					path={`${urls.docs}:active/*`}
+					element={
+						<View>
+							<Docs />
+						</View>
+					}
+				/>
+				<Route
+					path={urls.docs}
+					element={
+						<View>
+							<Docs />
 						</View>
 					}
 				/>

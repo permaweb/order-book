@@ -1,5 +1,5 @@
 export function getBalancesEndpoint(walletAddress: string) {
-	return `https://contracts.warp.cc/balances?walletAddress=${walletAddress}&index=ucm&limit=1000`;
+	return `https://contracts-u.warp.cc/balances?walletAddress=${walletAddress}&index=ucm&limit=1000`;
 }
 
 export function getTxEndpoint(txId: string) {

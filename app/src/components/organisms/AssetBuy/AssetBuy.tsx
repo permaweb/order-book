@@ -10,6 +10,7 @@ import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType, WalletEnum } from 'helpers/types';
+import * as windowUtils from 'helpers/window';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
@@ -30,6 +31,7 @@ export default function AssetBuy(props: IProps) {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
 	const [buyResponse, setBuyResponse] = React.useState<ResponseType | null>(null);
+	const [orderBookResponse, setOrderBookResponse] = React.useState<any>(null);
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.state) {
@@ -105,17 +107,20 @@ export default function AssetBuy(props: IProps) {
 					signer.getAddress = window.arweaveWallet.getActiveAddress;
 					await signer.setPublicKey();
 
-					await orProvider.orderBook.buy({
+					const response = await orProvider.orderBook.buy({
 						assetId: props.asset.data.id,
 						spend: calcTotalPrice(),
 						wallet: signer,
 						walletAddress: arProvider.walletAddress,
 					});
+
+					setOrderBookResponse(response);
+
 					setLoading(false);
 					setShowConfirmation(false);
 					setBuyResponse({
 						status: true,
-						message: `${language.purchaseSuccess}!`,
+						message: `${language.orderPendingDescription}`,
 					});
 				} else {
 					let message = '';
@@ -148,6 +153,17 @@ export default function AssetBuy(props: IProps) {
 				});
 			}
 		}
+	}
+
+	function handleModalClose(handleUpdate: boolean) {
+		if (handleUpdate && orderBookResponse) {
+			setAssetQuantity(0);
+			windowUtils.scrollTo(0, 0, 'smooth');
+			props.handleUpdate(orderBookResponse);
+		}
+
+		setShowConfirmation(false);
+		setBuyResponse(null);
 	}
 
 	function getAmount(price: string) {
@@ -214,14 +230,6 @@ export default function AssetBuy(props: IProps) {
 				</S.PriceInfoWrapper>
 			</S.SpendWrapper>
 		);
-	}
-
-	function handleModalClose(handleUpdate: boolean) {
-		if (handleUpdate) {
-			props.handleUpdate();
-		}
-		setShowConfirmation(false);
-		setBuyResponse(null);
 	}
 
 	return (

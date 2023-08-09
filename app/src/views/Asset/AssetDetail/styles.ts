@@ -256,6 +256,28 @@ export const OwnerLineAlt = styled(OwnerLine)`
 	margin: 10px 0 0 0;
 `;
 
+export const PendingLine = styled.div`
+	width: fit-content;
+	display: flex;
+	align-items: center;
+	padding: 7.5px 15px 7.5px 10px;
+	margin: 20px 0 0 0;
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+    border-radius: 7.5px;
+    background: ${(props) => props.theme.colors.notification.neutral};
+	span {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		margin: 0 12.5px 0 0;
+	}d
+`;
+
 export const ACChartWrapper = styled.div`
 	margin: 0 0 20px 0;
 `;

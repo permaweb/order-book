@@ -6,7 +6,6 @@ import { Loader } from 'components/atoms/Loader';
 import { OrderCancel } from 'components/organisms/OrderCancel';
 import { ASSETS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
-import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -53,9 +52,8 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loa
 
 	function getLabel() {
 		if (owner) {
-			if (arProvider.walletAddress && arProvider.walletAddress === owner.address) return language.you;
-			else if (owner.handle) return owner.handle;
-			else return formatAddress(owner.address, false);
+			if (owner.handle) return `${owner.handle}`;
+			else return `${formatAddress(owner.address, false)}`;
 		} else return null;
 	}
 

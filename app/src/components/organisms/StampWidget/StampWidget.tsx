@@ -225,9 +225,6 @@ export default function StampWidget(props: IProps) {
 			</S.Wrapper>
 			{showModal && (
 				<Modal header={props.title} handleClose={() => handleModalClose()}>
-					<S.DetailLineInfo>
-						<p>{language.stampInfo}</p>
-					</S.DetailLineInfo>
 					<S.DetailLine>
 						<span>{`${language.stampCount}:`}</span>
 						<p>{count ? count.total.toString() : '0'}</p>

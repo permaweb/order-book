@@ -4,7 +4,6 @@ import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-// import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 import { OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { API_CONFIG, CURRENCIES } from 'helpers/config';

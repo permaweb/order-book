@@ -5,7 +5,7 @@ import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { CURRENCY_DICT, OrderBook, OrderBookType, ProfileType } from 'permaweb-orderbook';
+import { CURRENCY_DICT, OrderBook, ORDERBOOK_CONTRACT, OrderBookType, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
 import { API_CONFIG, APP, AR_WALLETS, ASSETS, CURRENCIES, WALLET_PERMISSIONS } from 'helpers/config';
@@ -27,6 +27,7 @@ interface ArweaveContextState {
 	walletModalVisible: boolean;
 	setWalletModalVisible: (open: boolean) => void;
 	arProfile: any;
+	streak: { days: string; lastHeight: number } | null;
 	currencyBalances: CurrencyBalancesType | null;
 	setUpdateBalance: (updateBalance: boolean) => void;
 }
@@ -55,6 +56,7 @@ const DEFAULT_CONTEXT = {
 	walletModalVisible: false,
 	setWalletModalVisible(_open: boolean) {},
 	arProfile: null,
+	streak: null,
 	currencyBalances: null,
 	setUpdateBalance(_updateBalance: boolean) {},
 };
@@ -90,6 +92,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 
 	const [availableBalance, setAvailableBalance] = React.useState<number | null>(null);
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
+	const [streak, setStreak] = React.useState<{ days: string; lastHeight: number } | null>(null);
 	const [currencyBalances, setCurrencyBalances] = React.useState<CurrencyBalancesType | null>(null);
 
 	const [updateBalance, setUpdateBalance] = React.useState<boolean>(false);
@@ -259,6 +262,18 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 		})();
 	}, [walletAddress, orderBook, updateBalance]);
 
+	React.useEffect(() => {
+		(async function () {
+			if (walletAddress && orderBook) {
+				const orderBookState = await orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
+				const streak = orderBookState.streaks[walletAddress];
+				if (streak) {
+					setStreak(streak);
+				}
+			}
+		})();
+	}, [walletAddress, orderBook]);
+
 	return (
 		<>
 			{walletModalVisible && (
@@ -278,6 +293,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 					walletModalVisible,
 					setWalletModalVisible,
 					arProfile,
+					streak,
 					currencyBalances,
 					setUpdateBalance: setUpdateBalance,
 				}}

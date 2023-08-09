@@ -10,5 +10,9 @@ export interface IAProps {
 
 export interface IAMProps {
 	asset: AssetType | AssetDetailType;
-	handleUpdate: (() => Promise<void>) | ((id: string) => void);
+	handleUpdate: ((orderBookResponse: any) => Promise<void>) | ((id: string) => void);
+}
+
+export interface IADProps extends IAMProps {
+	pendingResponse: { tx: string } | null;
 }

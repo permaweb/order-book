@@ -130,7 +130,8 @@ export default function ReduxAssetsUpdate(props: {
 								if (
 									![...groupIndex.values()].some((ids: any) =>
 										ids.every((id: any, index: any) => id === cursorIds[index])
-									)
+									) ||
+									newIndex === `${props.reduxCursor}-${props.cursorObject}-0`
 								) {
 									updatedReducer.groups.push({
 										index: newIndex,

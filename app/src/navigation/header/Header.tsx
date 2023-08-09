@@ -41,7 +41,6 @@ export default function Header() {
 	function navList() {
 		return (
 			<S.NC>
-				<S.NavPaths></S.NavPaths>
 				<S.SC>
 					<S.Connect show={true}>
 						<WalletConnect callback={() => setOpen(!open)} />

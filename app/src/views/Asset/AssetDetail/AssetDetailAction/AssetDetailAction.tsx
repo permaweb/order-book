@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { AssetDetailType } from 'permaweb-orderbook';
 
+import { TxAddress } from 'components/atoms/TxAddress';
 import { Modal } from 'components/molecules/Modal';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { StampWidget } from 'components/organisms/StampWidget';
@@ -13,11 +14,11 @@ import { formatPrice, getOwners } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from '../styles';
-import { IAMProps } from '../types';
+import { IADProps } from '../types';
 
 import { AssetDetailActionTabs } from './AssetDetailActionTabs';
 
-export default function AssetDetailAction(props: IAMProps) {
+export default function AssetDetailAction(props: IADProps) {
 	const orProvider = useOrderBookProvider();
 
 	const [currentOwners, setCurrentOwners] = React.useState<OwnerType[] | null>(null);
@@ -79,6 +80,12 @@ export default function AssetDetailAction(props: IAMProps) {
 								}`}</button>
 							</S.OwnerLineAlt>
 						)}
+						{props.pendingResponse && (
+							<S.PendingLine>
+								<span>{`${language.orderPending}...`}</span>
+								<TxAddress address={props.pendingResponse.tx} wrap={true} />
+							</S.PendingLine>
+						)}
 					</S.ACHeader>
 				</div>
 				<AssetDetailActionTabs asset={asset} handleUpdate={props.handleUpdate} />
@@ -98,7 +105,10 @@ export default function AssetDetailAction(props: IAMProps) {
 										owner={owner}
 										asset={asset}
 										isSaleOrder={false}
-										handleUpdate={props.handleUpdate}
+										handleUpdate={(orderResponse: any) => {
+											setShowCurrentOwnersModal(false);
+											props.handleUpdate(orderResponse);
+										}}
 										loading={false}
 									/>
 									<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
@@ -125,7 +135,10 @@ export default function AssetDetailAction(props: IAMProps) {
 										owner={owner}
 										asset={asset}
 										isSaleOrder={true}
-										handleUpdate={props.handleUpdate}
+										handleUpdate={(orderResponse: any) => {
+											setShowCurrentSalesModal(false);
+											props.handleUpdate(orderResponse);
+										}}
 										loading={false}
 									/>
 									<S.DCLineFlex>

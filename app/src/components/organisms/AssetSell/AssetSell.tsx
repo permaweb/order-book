@@ -11,6 +11,7 @@ import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType, ValidationType, WalletEnum } from 'helpers/types';
+import * as windowUtils from 'helpers/window';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { WalletConnect } from 'wallet/WalletConnect';
@@ -43,6 +44,7 @@ export default function AssetSell(props: IProps) {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
 	const [sellResponse, setSellResponse] = React.useState<ResponseType | null>(null);
+	const [orderBookResponse, setOrderBookResponse] = React.useState<any>(null);
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.state) {
@@ -157,7 +159,7 @@ export default function AssetSell(props: IProps) {
 		if (initialLoad) {
 			setInitialLoad(false);
 		}
-	}, []);
+	}, [quantity, unitPrice]);
 
 	function getActionDisabled() {
 		if (!arProvider.walletAddress) return true;
@@ -201,18 +203,21 @@ export default function AssetSell(props: IProps) {
 					signer.getAddress = window.arweaveWallet.getActiveAddress;
 					await signer.setPublicKey();
 
-					await orProvider.orderBook.sell({
+					const response = await orProvider.orderBook.sell({
 						assetId: props.asset.data.id,
 						qty: quantity,
 						price: unitPrice * 1e6,
 						wallet: signer,
 						walletAddress: arProvider.walletAddress,
 					});
+
+					setOrderBookResponse(response);
+
 					setLoading(false);
 					setShowConfirmation(false);
 					setSellResponse({
 						status: true,
-						message: `${language.listingSuccess}!`,
+						message: `${language.orderPendingDescription}`,
 					});
 				} else {
 					let message = '';
@@ -248,8 +253,12 @@ export default function AssetSell(props: IProps) {
 	}
 
 	function handleModalClose(handleUpdate: boolean) {
-		if (handleUpdate) {
-			props.handleUpdate();
+		if (handleUpdate && orderBookResponse) {
+			setUnitPrice(0);
+			setQuantity(0);
+			setInitialLoad(true);
+			windowUtils.scrollTo(0, 0, 'smooth');
+			props.handleUpdate(orderBookResponse);
 		}
 		setShowConfirmation(false);
 		setSellResponse(null);

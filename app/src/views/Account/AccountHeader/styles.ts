@@ -40,7 +40,7 @@ export const AvatarWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 0 20px 0 0;
+	margin: 0 5px 0 0;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1.5px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadius};
@@ -81,10 +81,6 @@ export const SubHeader = styled.div`
 	display: flex;
 	align-items: center;
 	width: fit-content;
-	background: ${(props) => props.theme.colors.container.alt1.background};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadiusField};
-	padding: 5px 10px;
 	p {
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
@@ -100,7 +96,16 @@ export const SubHeader = styled.div`
 	}
 `;
 
-export const Action = styled.div``;
+export const Action = styled.div`
+	margin: 0 0 0 15px;
+
+	a {
+		text-decoration: underline;
+		&:hover {
+			color: ${(props) => props.theme.colors.font.primary.alt8};
+		}
+	}
+`;
 
 export const ShareWrapper = styled.div`
 	height: fit-content;
@@ -188,5 +193,27 @@ export const Info = styled.div`
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		margin: 0 0 0 5px;
+	}
+`;
+
+export const Streak = styled.div`
+	height: 45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 15px;
+	margin: 0 0 0 10px;
+	background: ${(props) => props.theme.colors.container.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
+	p {
+		color: ${(props) => props.theme.colors.font.primary.alt8};
+		font-size: ${(props) => props.theme.typography.size.small};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+	}
+	img {
+		height: 20px;
+		width: 20px;
+		margin: 0 7.5px 0 0;
 	}
 `;

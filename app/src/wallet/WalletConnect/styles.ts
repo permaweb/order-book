@@ -88,6 +88,15 @@ export const BalanceAction = styled.button`
 	}
 `;
 
+export const Streak = styled(Balance)`
+	padding: 0 15px;
+	img {
+		height: 20px;
+		width: 20px;
+		margin: 0 7.5px 0 0;
+	}
+`;
+
 export const Dropdown = styled.ul`
 	width: 225px;
 	padding: 10px 0;

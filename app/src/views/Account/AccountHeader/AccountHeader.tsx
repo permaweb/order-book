@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { TwitterShareButton } from 'react-share';
 import { ReactSVG } from 'react-svg';
 
-import { CursorEnum } from 'permaweb-orderbook';
+import { CursorEnum, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
-import { ButtonLink } from 'components/atoms/ButtonLink';
 import { IconButton } from 'components/atoms/IconButton';
 import { AR_PROFILE, ASSETS, REDIRECTS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
@@ -14,6 +14,7 @@ import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
 import { formatAddress } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 import { CloseHandler } from 'wrappers/CloseHandler';
 
@@ -22,22 +23,35 @@ import { IProps } from './types';
 
 export default function AccountHeader(props: IProps) {
 	const arProvider = useArweaveProvider();
+	const orProvider = useOrderBookProvider();
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 
 	const [addressCopied, setAddressCopied] = React.useState<boolean>(false);
 	const [urlCopied, setUrlCopied] = React.useState<boolean>(false);
 
 	const [count, setCount] = React.useState<number | null>(null);
+	const [streak, setStreak] = React.useState<{ days: string; lastHeight: number } | null>(null);
 	const [showDropdown, setShowDropdown] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		if (
 			cursorsReducer[CursorEnum.idGQL][REDUX_TABLES.userAssets] &&
-			cursorsReducer[CursorEnum.idGQL][REDUX_TABLES.userAssets].count
+			cursorsReducer[CursorEnum.idGQL][REDUX_TABLES.userAssets].count !== null
 		) {
 			setCount(cursorsReducer[CursorEnum.idGQL][REDUX_TABLES.userAssets].count);
 		}
 	}, [cursorsReducer[CursorEnum.idGQL]]);
+
+	React.useEffect(() => {
+		(async function () {
+			if (props.profile && orProvider.orderBook) {
+				const orderBookState = await orProvider.orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
+				const streak = orderBookState.streaks[props.profile.walletAddress];
+				if (streak) setStreak(streak);
+				else setStreak(null);
+			}
+		})();
+	}, [props.profile, orProvider.orderBook]);
 
 	const copyText = React.useCallback(async (text: string, type: 'address' | 'url') => {
 		if (text) {
@@ -49,6 +63,38 @@ export default function AccountHeader(props: IProps) {
 			}
 		}
 	}, []);
+
+	function getRangeLabel(number: number) {
+		if (number >= 1 && number <= 7) return '1-7';
+		if (number >= 8 && number <= 14) return '8-14';
+		if (number >= 15 && number <= 29) return '15-29';
+		if (number >= 30) return '30+';
+		return 'out-of-range';
+	}
+
+	function getStreakIcon() {
+		if (streak) {
+			const num = Number(streak.days);
+			let icon: string;
+			switch (getRangeLabel(num)) {
+				case '1-7':
+					icon = ASSETS.streak['1'];
+					break;
+				case '8-14':
+					icon = ASSETS.streak['2'];
+					break;
+				case '15-29':
+					icon = ASSETS.streak['3'];
+					break;
+				case '30+':
+					icon = ASSETS.streak['4'];
+					break;
+				default:
+					break;
+			}
+			return <img src={icon} />;
+		} else return null;
+	}
 
 	function getProfileImage() {
 		if (props.profile) {
@@ -74,34 +120,35 @@ export default function AccountHeader(props: IProps) {
 	}
 
 	const subheader = () => {
-		return (
-			<S.SubHeader>
-				<p>{formatAddress(props.profile.walletAddress, false)}</p>
-				<IconButton
-					type={'primary'}
-					src={addressCopied ? ASSETS.checkmark : ASSETS.copy}
-					handlePress={() => copyText(props.profile.walletAddress, 'address')}
-					sm
-				/>
-			</S.SubHeader>
-		);
+		if (props.profile) {
+			return (
+				<S.SubHeader>
+					<p>{formatAddress(props.profile.walletAddress, false)}</p>
+					<IconButton
+						type={'primary'}
+						src={addressCopied ? ASSETS.checkmark : ASSETS.copy}
+						handlePress={() => copyText(props.profile.walletAddress, 'address')}
+						sm
+					/>
+					{getAction()}
+				</S.SubHeader>
+			);
+		} else {
+			return null;
+		}
 	};
 
 	function getAction() {
 		if (!props.profile) return null;
 		if (!arProvider.walletAddress || !props.profile.walletAddress) return null;
 		else {
-			if (arProvider.walletAddress !== props.profile.walletAddress) {
-				return subheader();
-			} else if (arProvider.walletAddress === props.profile.walletAddress) {
+			if (arProvider.walletAddress === props.profile.walletAddress && !props.profile.handle) {
 				return (
-					<ButtonLink
-						type={'primary'}
-						href={REDIRECTS.arProfile}
-						label={language.createProfile}
-						targetBlank
-						height={40}
-					/>
+					<S.Action>
+						<Link to={REDIRECTS.arProfile} target={'_blank'}>
+							{language.createProfile}
+						</Link>
+					</S.Action>
 				);
 			} else return null;
 		}
@@ -118,8 +165,14 @@ export default function AccountHeader(props: IProps) {
 								<S.Header>
 									<h2>{getHeader()}</h2>
 								</S.Header>
-								{props.profile && props.profile.handle ? subheader() : <S.Action>{getAction()}</S.Action>}
+								{subheader()}
 							</S.HeaderContainer>
+							{streak && (
+								<S.Streak>
+									{getStreakIcon()}
+									<p>{language.dayStreak(streak.days).toUpperCase()}</p>
+								</S.Streak>
+							)}
 						</S.HeaderWrapper>
 						<S.ShareWrapper>
 							<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>
@@ -147,7 +200,7 @@ export default function AccountHeader(props: IProps) {
 						</S.ShareWrapper>
 					</S.C1>
 					<S.InfoWrapper>
-						{count && (
+						{count !== null && (
 							<S.Info>
 								<span>{`${language.assets}:`}</span>
 								<p>{count}</p>

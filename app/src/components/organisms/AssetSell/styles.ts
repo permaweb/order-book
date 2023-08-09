@@ -154,10 +154,10 @@ export const SellActionEnd = styled(SellAction)`
 
 export const ModalTitle = styled.div`
 	p {
-		font-size: ${(props) => props.theme.typography.size.lg};
-		line-height: calc(${(props) => props.theme.typography.size.lg} + 6px);
+		font-size: ${(props) => props.theme.typography.size.base};
+		line-height: 1.5;
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 	}
 `;

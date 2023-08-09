@@ -9,6 +9,7 @@ import { Modal } from 'components/molecules/Modal';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType, WalletEnum } from 'helpers/types';
+import * as windowUtils from 'helpers/window';
 import { checkDesktop, checkWindowResize } from 'helpers/window';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
@@ -24,6 +25,7 @@ export default function OrderCancel(props: IProps) {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [cancelResponse, setCancelResponse] = React.useState<ResponseType | null>(null);
 	const [cancelConfirmed, setCancelConfirmed] = React.useState<boolean>(false);
+	const [orderBookResponse, setOrderBookResponse] = React.useState<any>(null);
 
 	const [desktop, setDesktop] = React.useState(checkDesktop());
 
@@ -67,19 +69,22 @@ export default function OrderCancel(props: IProps) {
 					await signer.setPublicKey();
 
 					const orderId = getOrderId();
-					await orProvider.orderBook.cancel({
+
+					const response = await orProvider.orderBook.cancel({
 						orderId: orderId,
 						wallet: signer,
 						walletAddress: arProvider.walletAddress,
 					});
+
+					setOrderBookResponse(response);
+
 					setLoading(false);
+
 					setCancelResponse({
 						status: true,
 						message: language.orderCancelled,
 					});
 					setCancelConfirmed(true);
-					props.handleUpdate();
-					setShowModal(false);
 				} else {
 					let message = '';
 					if (arProvider.walletType === WalletEnum.arweaveApp && !arProvider.wallet['_address']) {
@@ -115,7 +120,10 @@ export default function OrderCancel(props: IProps) {
 	}
 
 	function handleClose() {
-		if (cancelConfirmed) props.handleUpdate();
+		if (cancelConfirmed && orderBookResponse) {
+			windowUtils.scrollTo(0, 0, 'smooth');
+			props.handleUpdate(orderBookResponse);
+		}
 		setShowModal(false);
 	}
 

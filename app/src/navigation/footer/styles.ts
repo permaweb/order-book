@@ -28,4 +28,25 @@ export const Content = styled.p`
 	font-size: 13px;
 `;
 
-export const SettingsWrapper = styled.div``;
+export const EWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	> * {
+		&:not(:last-child) {
+			margin: 0 20px 0 0;
+		}
+		&:last-child {
+			margin: 0;
+		}
+	}
+	a,
+	button {
+		font-size: ${(props) => props.theme.typography.size.xSmall};
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.regular};
+		text-decoration: none !important;
+		&:hover {
+			color: ${(props) => props.theme.colors.font.primary.alt8};
+		}
+	}
+`;
