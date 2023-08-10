@@ -15,6 +15,8 @@ import { RootState } from 'store';
 
 export default function Landing() {
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
+
 	const orProvider = useOrderBookProvider();
 
 	const [loading, setLoading] = React.useState<boolean>(false);
@@ -30,12 +32,13 @@ export default function Landing() {
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost,
-					window.arweaveWallet
+					window.arweaveWallet,
+					dreReducer.source
 				);
 				setCollections(collections);
 			})();
 		}
-	}, [orProvider.orderBook]);
+	}, [orProvider.orderBook, dreReducer.source]);
 
 	React.useEffect(() => {
 		if (assetsReducer.featuredData) {

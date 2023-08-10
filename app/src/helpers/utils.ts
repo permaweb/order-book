@@ -97,12 +97,14 @@ export async function rankData(
 	dataFetch: CollectionType[] | AssetType[] | CommentType[] | string[],
 	warp: any,
 	arweave: any,
-	wallet: any
+	wallet: any,
+	dre: string
 ) {
 	const stamps = Stamps.init({
 		warp: warp,
 		arweave: arweave,
 		wallet: new InjectedArweaveSigner(wallet),
+		dre: dre,
 	});
 
 	const dataIds: string[] = dataFetch.map((a: any) => getDataId(a));
@@ -204,4 +206,14 @@ export async function getOwners(
 		}
 	}
 	return [];
+}
+
+export function checkEqualBalances(arr1: number[], arr2: number[]) {
+	if (arr1.length !== arr2.length) return false;
+
+	for (let i = 0; i < arr1.length; i++) {
+		if (arr1[i] !== arr2[i]) return false;
+	}
+
+	return true;
 }

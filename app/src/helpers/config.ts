@@ -54,9 +54,10 @@ import { DREObjectType, WalletEnum } from './types';
 
 export const APP = {
 	appKey: 'appVersion',
-	appVersion: '1.0.3',
+	appVersion: '1.0.4',
+	orderTx: 'orderTx',
 	providerKey: 'providerVersion',
-	providerVersion: '1.0.2',
+	providerVersion: '1.0.3',
 };
 
 export const ASSETS = {
@@ -166,7 +167,6 @@ export const DETAIL_ACTION_TAB_OPTIONS = {
 	market: language.market,
 	comments: language.comments,
 	activity: language.activity,
-	microscope: language.microscope,
 };
 
 export const DETAIL_ACTION_TABS = [

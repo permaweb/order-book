@@ -1,16 +1,16 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 import * as S from './styles';
 import { IProps } from './types';
 
 export default function Slider(props: IProps) {
-	const rangeRef = useRef<HTMLInputElement>(null);
+	const rangeRef = React.useRef<HTMLInputElement>(null);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const rangeElement = rangeRef.current;
 
 		const handleWheel = (e: any) => {
-			e.preventDefault();
+			if (e) e.preventDefault();
 		};
 
 		rangeElement.addEventListener('wheel', handleWheel, { passive: false });

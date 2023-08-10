@@ -110,7 +110,8 @@ export default function ReduxAssetsUpdate(props: {
 							contractIds,
 							orderBook.env.arClient.warpDefault,
 							orderBook.env.arClient.arweavePost,
-							window.arweaveWallet
+							window.arweaveWallet,
+							dreReducer.source
 						);
 
 						const groupIndex = new Map(
@@ -153,7 +154,7 @@ export default function ReduxAssetsUpdate(props: {
 				}
 			})();
 		}
-	}, [props.address, props.collectionId, orderBook]);
+	}, [props.address, props.collectionId, dreReducer.source, orderBook]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -174,7 +175,8 @@ export default function ReduxAssetsUpdate(props: {
 							fetchedAssets,
 							orderBook.env.arClient.warpDefault,
 							orderBook.env.arClient.arweavePost,
-							window.arweaveWallet
+							window.arweaveWallet,
+							dreReducer.source
 						);
 
 						switch (props.apiFetch) {
@@ -212,6 +214,7 @@ export default function ReduxAssetsUpdate(props: {
 		cursorsReducer[props.cursorObject][props.reduxCursor].groups,
 		assetsReducer.accountData.address,
 		props.currentTableCursor,
+		dreReducer.source,
 		orderBook,
 	]);
 

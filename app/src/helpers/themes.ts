@@ -5,7 +5,7 @@ const DEFAULT = {
 	neutral2: '#F7F7F7',
 	neutral3: '#FDFDFD',
 	neutral4: '#3A3A3A',
-	neutral5: '#D3D3D3',
+	neutral5: '#D1D1D1',
 	neutral6: '#FEFEFE',
 	neutral7: '#757582',
 	neutral8: '#BDBDBD',

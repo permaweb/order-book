@@ -144,6 +144,7 @@ export const language = {
 	transactionId: `Transaction ID`,
 	unitPrice: `Unit Price`,
 	unitPriceAboveZero: `Unit price must be above 0`,
+	updatingAsset: `Updating Asset`,
 	totalPriceAboveZero: `Unit price must be above 0`,
 	viewAllCollections: `View All Collections`,
 	viewblock: `Viewblock`,
@@ -152,5 +153,4 @@ export const language = {
 	walletNotConnected: `Connect a wallet to continue`,
 	walletTransactionInfo: `Your wallet must be connected to make transactions`,
 	weeklyAssetActivity: `Past Week Asset Activity`,
-	you: 'you',
 };

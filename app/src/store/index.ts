@@ -12,7 +12,7 @@ declare const window: any;
 const persistConfig = {
 	key: 'root',
 	storage,
-	blacklist: ['assetsReducer', 'cursorsReducer'],
+	blacklist: ['assetsReducer', 'cursorsReducer', 'dreReducer'],
 };
 
 const rootReducer = combineReducers({

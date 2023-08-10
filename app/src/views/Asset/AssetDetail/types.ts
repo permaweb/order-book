@@ -15,4 +15,5 @@ export interface IAMProps {
 
 export interface IADProps extends IAMProps {
 	pendingResponse: { tx: string } | null;
+	updating: boolean;
 }

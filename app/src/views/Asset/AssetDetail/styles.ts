@@ -259,23 +259,31 @@ export const OwnerLineAlt = styled(OwnerLine)`
 export const PendingLine = styled.div`
 	width: fit-content;
 	display: flex;
+	flex-wrap: wrap;
+	gap: 12.5px;
 	align-items: center;
 	padding: 7.5px 15px 7.5px 10px;
 	margin: 20px 0 0 0;
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
-    border-radius: 7.5px;
-    background: ${(props) => props.theme.colors.notification.neutral};
+	border-radius: 7.5px;
+	background: ${(props) => props.theme.colors.notification.neutral};
 	span {
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		overflow-x: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		margin: 0 12.5px 0 0;
-	}d
+	}
+`;
+
+export const UpdatingLine = styled(PendingLine)`
+	background: ${(props) => props.theme.colors.notification.success};
+	span {
+		color: ${(props) => props.theme.colors.font.primary.base};
+	}
 `;
 
 export const ACChartWrapper = styled.div`

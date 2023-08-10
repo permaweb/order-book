@@ -40,7 +40,7 @@ export default function AssetDetailActivityChart(props: IProps) {
 		scales: {
 			y: {
 				min: 0,
-				max: 10,
+				max: props.activity && props.activity.length > 10 ? props.activity.length : 10,
 				ticks: {
 					stepSize: 1,
 				},

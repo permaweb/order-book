@@ -130,7 +130,7 @@ export const SellAction = styled.div`
 	margin: 40px 0 0 0;
 	span {
 		font-size: 24px;
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 `;
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { AssetDetailType, CommentDetailType, CommentType, CONTENT_TYPES } from 'permaweb-orderbook';
@@ -14,6 +15,7 @@ import * as urls from 'helpers/urls';
 import { getOwners, rankData } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { RootState } from 'store';
 import { WalletConnect } from 'wallet/WalletConnect';
 
 import { IAMProps, IAProps } from '../../../types';
@@ -90,7 +92,7 @@ function CommentCreate(props: IAMProps) {
 
 				setTimeout(() => {
 					setCommentResponse(null), setComment('');
-				}, 1500);
+				}, 2000);
 				props.handleUpdate(contractId);
 			} catch (e: any) {
 				console.error(e);
@@ -182,6 +184,7 @@ export default function AssetDetailComments(props: IAProps) {
 	const navigate = useNavigate();
 
 	const orProvider = useOrderBookProvider();
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const wrapperRef = React.useRef(null);
 
@@ -224,12 +227,13 @@ export default function AssetDetailComments(props: IAProps) {
 					commentsFetch.comments,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost,
-					window.arweaveWallet
+					window.arweaveWallet,
+					dreReducer.source
 				);
 				setComments(rankedComments);
 			}
 		})();
-	}, [props.asset, orProvider, localUpdate]);
+	}, [props.asset, orProvider, dreReducer.source, localUpdate]);
 
 	React.useEffect(() => {
 		if (comments) {
@@ -274,18 +278,24 @@ export default function AssetDetailComments(props: IAProps) {
 	}, [handleScroll]);
 
 	async function handleUpdate(id: string) {
-		if (orProvider) {
-			const comment = await orProvider.orderBook.api.getAssetById({ id: id });
-			const ownerDetail = (
-				await getOwners([{ creator: comment.data.creator }], orProvider, props.asset as AssetDetailType)
-			)[0];
-			const newComment: FinalCommentType = {
-				id: id,
-				dataSource: props.asset.data.id,
-				owner: comment.data.creator,
-				ownerDetail,
-			};
-			setFinalComments([newComment, ...finalComments]);
+		await new Promise((resolve) => setTimeout(resolve, 500));
+
+		if (orProvider.orderBook) {
+			try {
+				const comment = await orProvider.orderBook.api.getAssetById({ id: id });
+				const ownerDetail = (
+					await getOwners([{ creator: comment.data.creator }], orProvider, props.asset as AssetDetailType)
+				)[0];
+				const newComment: FinalCommentType = {
+					id: id,
+					dataSource: props.asset.data.id,
+					owner: comment.data.creator,
+					ownerDetail,
+				};
+				setFinalComments([newComment, ...finalComments]);
+			} catch (error: any) {
+				console.error(error);
+			}
 		}
 	}
 

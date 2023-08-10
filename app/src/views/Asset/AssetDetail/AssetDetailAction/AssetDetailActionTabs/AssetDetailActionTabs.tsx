@@ -5,7 +5,6 @@ import { DETAIL_ACTION_TAB_OPTIONS, DETAIL_ACTION_TABS } from 'helpers/config';
 
 import { IAMProps } from '../../types';
 
-import { AssetDetailActivityMicroscope } from './AssetDetailActivity/AssetDetailActivityMicroscope';
 import { AssetDetailActivity } from './AssetDetailActivity';
 import { AssetDetailComments } from './AssetDetailComments';
 import { AssetDetailMarket } from './AssetDetailMarket';
@@ -22,8 +21,6 @@ export default function AssetDetailActions(props: IAMProps) {
 				return <AssetDetailComments asset={props.asset} />;
 			case DETAIL_ACTION_TAB_OPTIONS.activity:
 				return <AssetDetailActivity asset={props.asset} />;
-			case DETAIL_ACTION_TAB_OPTIONS.microscope:
-				return <AssetDetailActivityMicroscope asset={props.asset} />;
 			default:
 				return null;
 		}

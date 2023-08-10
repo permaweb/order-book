@@ -124,6 +124,9 @@ export default function OrderCancel(props: IProps) {
 			windowUtils.scrollTo(0, 0, 'smooth');
 			props.handleUpdate(orderBookResponse);
 		}
+		setCancelResponse(null);
+		setCancelConfirmed(false);
+		setOrderBookResponse(null);
 		setShowModal(false);
 	}
 

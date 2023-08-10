@@ -159,6 +159,7 @@ export async function getAssetById(args: {
 
 	if (asset) {
 		const state = await args.arClient.read(args.id);
+
 		let orders = [];
 		let orderBookState = await args.arClient.read(args.orderBookContract);
 		let pair = orderBookState.pairs.find((p: any) => {

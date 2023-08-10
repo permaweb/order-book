@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
@@ -7,9 +8,11 @@ import { CollectionsTable } from 'components/organisms/CollectionsTable';
 import { REDUX_TABLES } from 'helpers/redux';
 import { rankData } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { RootState } from 'store';
 
 export default function Collections() {
 	const orProvider = useOrderBookProvider();
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const [collections, setCollections] = React.useState<CollectionType[] | null>(null);
 
@@ -31,13 +34,14 @@ export default function Collections() {
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost,
-					window.arweaveWallet
+					window.arweaveWallet,
+					dreReducer.source
 				);
 				setCursorState(handleCursors(cursor, collectionsFetch.nextCursor, cursorState.list));
 				setCollections(collections);
 			})();
 		}
-	}, [orProvider.orderBook, cursor]);
+	}, [orProvider.orderBook, dreReducer.source, cursor]);
 
 	function handlePageFetch(updatedCursor: string | null) {
 		setCursor(updatedCursor);

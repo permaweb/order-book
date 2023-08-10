@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { ReactSVG } from 'react-svg';
 import Stamps from '@permaweb/stampjs';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
@@ -12,6 +13,7 @@ import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { RootState } from 'store';
 import { WalletConnect } from 'wallet/WalletConnect';
 
 import * as S from './styles';
@@ -87,6 +89,7 @@ function StampAction(props: {
 export default function StampWidget(props: IProps) {
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
+	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const [stamps, setStamps] = React.useState<any>(null);
 
@@ -111,14 +114,18 @@ export default function StampWidget(props: IProps) {
 					warp: orProvider.orderBook.env.arClient.warpDefault,
 					arweave: orProvider.orderBook.env.arClient.arweavePost,
 					wallet: new InjectedArweaveSigner(arProvider.walletAddress),
+					dre: dreReducer.source,
 				})
 			);
 		}
-	}, [orProvider.orderBook, arProvider.walletAddress, showModal]);
+	}, [orProvider.orderBook, arProvider.walletAddress, , dreReducer.source, showModal]);
 
 	React.useEffect(() => {
 		(async function () {
 			if (props.assetId && stamps && arProvider.walletAddress) {
+				if (updateCount) {
+					await new Promise((resolve) => setTimeout(resolve, 1000));
+				}
 				try {
 					const updatedCount = await stamps.count(props.assetId);
 					const hasStamped = await stamps.hasStamped(props.assetId);
@@ -128,6 +135,7 @@ export default function StampWidget(props: IProps) {
 						setDisabled(true);
 					}
 					setBalance(await stamps.balance(arProvider.walletAddress));
+					setUpdateCount(false);
 				} catch (e: any) {
 					console.error(e);
 				}
@@ -138,7 +146,7 @@ export default function StampWidget(props: IProps) {
 	React.useEffect(() => {
 		(async function () {
 			if (stamps) {
-				await new Promise((r) => setTimeout(r, 500));
+				await new Promise((r) => setTimeout(r, 1000));
 				setInitLoadingDisabled(hasStamped ? true : false);
 			}
 		})();
@@ -175,7 +183,7 @@ export default function StampWidget(props: IProps) {
 						stampSuccess = stamp && stamp.id;
 					}
 
-					setUpdateCount(!updateCount);
+					setUpdateCount(true);
 
 					if (!stampSuccess) {
 						setDisabled(false);

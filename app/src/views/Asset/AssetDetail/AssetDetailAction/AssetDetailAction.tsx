@@ -86,6 +86,11 @@ export default function AssetDetailAction(props: IADProps) {
 								<TxAddress address={props.pendingResponse.tx} wrap={true} />
 							</S.PendingLine>
 						)}
+						{props.updating && (
+							<S.UpdatingLine>
+								<span>{`${language.updatingAsset}...`}</span>
+							</S.UpdatingLine>
+						)}
 					</S.ACHeader>
 				</div>
 				<AssetDetailActionTabs asset={asset} handleUpdate={props.handleUpdate} />
