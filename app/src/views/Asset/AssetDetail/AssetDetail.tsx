@@ -72,8 +72,6 @@ export default function AssetDetail(props: IProps) {
 				id: props.assetId,
 			})) as AssetDetailType;
 
-			console.log(updatedAsset.state.balances);
-
 			const currentAssetQuantities = asset.orders.reduce(
 				(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
 				0
@@ -113,9 +111,6 @@ export default function AssetDetail(props: IProps) {
 				balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
 			}
 
-			// console.log(`quantityCheck ${quantityCheck}`);
-			// console.log(`balanceCheck ${balanceCheck}`);
-
 			if (!quantityCheck && !balanceCheck) {
 				localStorage.removeItem(APP.orderTx);
 				setLocalUpdate((prev) => !prev);
@@ -131,6 +126,9 @@ export default function AssetDetail(props: IProps) {
 				}, 2000);
 			}
 		} else {
+			if (localStorage.getItem(APP.orderTx)) {
+				localStorage.removeItem(APP.orderTx);
+			}
 			setLocalUpdate((prev) => !prev);
 			setPendingOrderBookResponse(null);
 			setUpdating(true);
@@ -161,15 +159,15 @@ export default function AssetDetail(props: IProps) {
 
 			let timeoutId: any;
 			timeoutId = setTimeout(async () => {
+				console.log('Subscription failed, polling asset');
 				await updateAsset(true);
 				if (subscription) subscription.unsubscribe();
-			}, 0);
+			}, 7000);
 
 			const subscription = await subscribe(
 				DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),
 				async ({ data }) => {
 					clearTimeout(timeoutId);
-
 					const parsedData = JSON.parse(data);
 					if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription) {
 						subscription.unsubscribe();

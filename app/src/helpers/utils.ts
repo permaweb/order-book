@@ -98,13 +98,13 @@ export async function rankData(
 	warp: any,
 	arweave: any,
 	wallet: any,
-	dre: string
+	_dre: string
 ) {
 	const stamps = Stamps.init({
 		warp: warp,
 		arweave: arweave,
 		wallet: new InjectedArweaveSigner(wallet),
-		dre: dre,
+		// dre: 'https://dre-u.warp.cc/contract',
 	});
 
 	const dataIds: string[] = dataFetch.map((a: any) => getDataId(a));

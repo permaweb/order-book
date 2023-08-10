@@ -13,16 +13,6 @@ const arClient: ArweaveClientType = {
 		remoteStateSyncEnabled: true,
 		remoteStateSyncSource: null,
 		unsafeClient: 'skip',
-		whitelistSources: [
-			'Of9pi--Gj7hCTawhgxOwbuWnFI1h24TTgO5pw8ENJNQ',
-			'kP1Ed8AMvaaBrEFjatP4pSmiE_fsRrGS0EcBMQYYiyc',
-			'mGxosQexdvrvzYCshzBvj18Xh1QmZX16qFJBuh4qobo',
-			'LBcYEl2zwKDApj1Cow1_BYyiicxVV7OCZTexsjk6mB4',
-			'XW_z0WhM5PsVD-nmyNm1pCK1za9uysu1vco1HS8DpIo',
-			'eIAyBgHH-H7Qzw9fj7Austj30QKPQn27eaakvpOUSR8',
-			'_z0ch80z_daDUFqC9jHjfOL8nekJcok4ZRkE_UesYsk',
-			'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo',
-		],
 	},
 
 	init: function (args: ArweaveClientInitArgs) {

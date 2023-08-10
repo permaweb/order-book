@@ -117,7 +117,7 @@ export default function DocTemplate(props: { doc?: string; id?: string }) {
 				.catch((error) => console.error('Error fetching markdown: ', error));
 		} else {
 			if (!active) {
-				navigate(`${urls.docs}what-is-an-atomic-asset`);
+				navigate(`${urls.docs}introduction`);
 			} else {
 				import(`../MD/${active}.md`)
 					.then((module) => setMarkdown(module.default))

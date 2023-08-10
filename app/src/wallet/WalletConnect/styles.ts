@@ -59,6 +59,10 @@ export const Balance = styled.div`
 	}
 `;
 
+export const BDWrapper = styled.div`
+	position: relative;
+`;
+
 export const BalanceAction = styled.button`
 	height: 45px;
 	display: flex;
@@ -127,7 +131,8 @@ export const Dropdown = styled.ul`
 `;
 
 export const BalanceDropdown = styled(Dropdown)`
-	right: 240px;
+	top: 52.5px;
+	right: 10px;
 	p {
 		width: fit-content;
 		padding: 0 0 5px 0;

@@ -1,5 +1,9 @@
 export const docsOrder = [
 	{
+		name: 'Introduction',
+		path: 'introduction',
+	},
+	{
 		name: 'What is an atomic asset?',
 		path: 'what-is-an-atomic-asset',
 	},
