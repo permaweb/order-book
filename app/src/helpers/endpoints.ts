@@ -7,7 +7,11 @@ export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContra
 }
 
 export function getRendererEndpoint(renderWith: string, tx: string) {
-	return `https://${renderWith}.arweave.dev/?tx=${tx}`;
+	if (/[A-Za-z0-9]/.test(renderWith) || (/[=]/.test(renderWith) && renderWith.length === 43)) {
+		return `https://arweave.net/${renderWith}/?tx=${tx}`;
+	} else {
+		return `https://${renderWith}.arweave.dev/?tx=${tx}`;
+	}
 }
 
 export function getTxEndpoint(txId: string) {
