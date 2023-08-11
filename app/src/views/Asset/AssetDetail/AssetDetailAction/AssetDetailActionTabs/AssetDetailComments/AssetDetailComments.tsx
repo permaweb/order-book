@@ -117,6 +117,7 @@ function CommentCreate(props: IAMProps) {
 								isSaleOrder={false}
 								handleUpdate={() => {}}
 								loading={false}
+								hideOrderCancel={false}
 							/>
 						</S.CommentHeader>
 					)}
@@ -313,6 +314,7 @@ export default function AssetDetailComments(props: IAProps) {
 										isSaleOrder={false}
 										handleUpdate={() => setLocalUpdate((prev) => !prev)}
 										loading={!comment.ownerDetail}
+										hideOrderCancel={false}
 									/>
 								</S.CommentHeader>
 								<CommentData id={comment.id} />

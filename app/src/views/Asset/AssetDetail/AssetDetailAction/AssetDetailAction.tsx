@@ -93,7 +93,12 @@ export default function AssetDetailAction(props: IADProps) {
 						)}
 					</S.ACHeader>
 				</div>
-				<AssetDetailActionTabs asset={asset} handleUpdate={props.handleUpdate} />
+				<AssetDetailActionTabs
+					asset={asset}
+					handleUpdate={props.handleUpdate}
+					pendingResponse={props.pendingResponse}
+					updating={props.updating}
+				/>
 			</S.C2>
 
 			{showCurrentOwnersModal && currentOwners && (
@@ -115,6 +120,7 @@ export default function AssetDetailAction(props: IADProps) {
 											props.handleUpdate(orderResponse);
 										}}
 										loading={false}
+										hideOrderCancel={props.updating || props.pendingResponse}
 									/>
 									<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 								</S.DCLine>
@@ -145,6 +151,7 @@ export default function AssetDetailAction(props: IADProps) {
 											props.handleUpdate(orderResponse);
 										}}
 										loading={false}
+										hideOrderCancel={props.updating || props.pendingResponse}
 									/>
 									<S.DCLineFlex>
 										<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>

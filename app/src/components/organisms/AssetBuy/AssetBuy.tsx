@@ -63,6 +63,7 @@ export default function AssetBuy(props: IProps) {
 
 	function getActionDisabled() {
 		if (!arProvider.walletAddress) return true;
+		if (props.updating || props.pendingResponse) return true;
 		if (arProvider && arProvider.currencyBalances) {
 			const totalPrice = calcTotalPrice();
 			return arProvider.currencyBalances['U'] < totalPrice || totalPrice <= 0;

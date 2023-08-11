@@ -3,20 +3,27 @@ import React from 'react';
 import { Tabs } from 'components/molecules/Tabs';
 import { DETAIL_ACTION_TAB_OPTIONS, DETAIL_ACTION_TABS } from 'helpers/config';
 
-import { IAMProps } from '../../types';
+import { IADProps } from '../../types';
 
 import { AssetDetailActivity } from './AssetDetailActivity';
 import { AssetDetailComments } from './AssetDetailComments';
 import { AssetDetailMarket } from './AssetDetailMarket';
 import * as S from './styles';
 
-export default function AssetDetailActions(props: IAMProps) {
+export default function AssetDetailActions(props: IADProps) {
 	const [currentTab, setCurrentTab] = React.useState<string>(DETAIL_ACTION_TABS[0]!.label);
 
 	function getTab() {
 		switch (currentTab) {
 			case DETAIL_ACTION_TAB_OPTIONS.market:
-				return <AssetDetailMarket asset={props.asset} handleUpdate={props.handleUpdate} />;
+				return (
+					<AssetDetailMarket
+						asset={props.asset}
+						handleUpdate={props.handleUpdate}
+						pendingResponse={props.pendingResponse}
+						updating={props.updating}
+					/>
+				);
 			case DETAIL_ACTION_TAB_OPTIONS.comments:
 				return <AssetDetailComments asset={props.asset} />;
 			case DETAIL_ACTION_TAB_OPTIONS.activity:

@@ -36,6 +36,7 @@ export default function CollectionCard(props: IProps) {
 						isSaleOrder={false}
 						handleUpdate={() => {}}
 						loading={false}
+						hideOrderCancel={false}
 					/>
 				</S.IFlex>
 			);

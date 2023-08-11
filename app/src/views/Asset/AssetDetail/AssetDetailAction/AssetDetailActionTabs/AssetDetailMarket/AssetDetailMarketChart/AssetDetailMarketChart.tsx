@@ -127,6 +127,7 @@ export default function AssetDetailMarketChart(props: IProps) {
 											loading={false}
 											isSaleOrder={false}
 											handleUpdate={() => {}}
+											hideOrderCancel={false}
 										/>
 										<S.Percentage>{`(${(
 											((owner as any).ownerPercentage

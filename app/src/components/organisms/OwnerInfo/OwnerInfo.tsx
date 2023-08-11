@@ -12,7 +12,7 @@ import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 import * as S from './styles';
 
-export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loading }) {
+export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loading, hideOrderCancel }) {
 	const arProvider = useArweaveProvider();
 
 	const [hasError, setHasError] = React.useState(false);
@@ -68,7 +68,7 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loa
 			<Link to={redirect}>
 				<S.NoWrap>{getLabel()}</S.NoWrap>
 			</Link>
-			{getOwnerOrder() && (
+			{getOwnerOrder() && !hideOrderCancel && (
 				<S.OrderCancel>
 					<OrderCancel asset={asset} handleUpdate={handleUpdate} />
 				</S.OrderCancel>

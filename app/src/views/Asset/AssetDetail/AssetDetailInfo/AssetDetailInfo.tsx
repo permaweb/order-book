@@ -57,6 +57,7 @@ export default function AssetDetailInfo(props: IAProps) {
 											isSaleOrder={false}
 											handleUpdate={() => {}}
 											loading={false}
+											hideOrderCancel={false}
 										/>
 									</S.DCOwnerFlex>
 								)}

@@ -14,9 +14,23 @@ export default function AssetDetailMarketAction(props: IProps) {
 	function getTab() {
 		switch (currentTab) {
 			case DETAIL_MARKET_TAB_OPTIONS.buy:
-				return <AssetBuy asset={props.asset} handleUpdate={props.handleUpdate} />;
+				return (
+					<AssetBuy
+						asset={props.asset}
+						handleUpdate={props.handleUpdate}
+						pendingResponse={props.pendingResponse}
+						updating={props.updating}
+					/>
+				);
 			case DETAIL_MARKET_TAB_OPTIONS.sell:
-				return <AssetSell asset={props.asset} handleUpdate={props.handleUpdate} />;
+				return (
+					<AssetSell
+						asset={props.asset}
+						handleUpdate={props.handleUpdate}
+						pendingResponse={props.pendingResponse}
+						updating={props.updating}
+					/>
+				);
 			default:
 				return null;
 		}

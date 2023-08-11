@@ -68,62 +68,67 @@ export default function AssetDetail(props: IProps) {
 
 	async function updateAsset(poll: boolean) {
 		if (poll) {
-			const updatedAsset = (await orProvider.orderBook.api.getAssetById({
-				id: props.assetId,
-			})) as AssetDetailType;
+			// const retries = 10;
+			let fetchSuccess = false;
+			// for (let i = 0; i < retries; i++) {
+			while (!fetchSuccess) {
+				await new Promise((r) => setTimeout(r, 3000));
 
-			const currentAssetQuantities = asset.orders.reduce(
-				(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
-				0
-			);
+				// console.log('Trying fetch', i + 1)
+				const updatedAsset = (await orProvider.orderBook.api.getAssetById({
+					id: props.assetId,
+				})) as AssetDetailType;
 
-			const currentAssetBalances = Object.keys(asset.state.balances).map(
-				(address: string) => asset.state.balances[address]
-			);
-
-			const updatedAssetBalances = Object.keys(updatedAsset.state.balances).map(
-				(address: string) => asset.state.balances[address]
-			);
-
-			const updatedAssetQuantities = updatedAsset.orders.reduce(
-				(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
-				0
-			);
-
-			let balanceCheck: boolean;
-			let quantityCheck: boolean;
-			if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
-				const asset = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`)).asset;
-
-				const storageAssetQuantities = asset.orders.reduce(
+				const currentAssetQuantities = asset.orders.reduce(
 					(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
 					0
 				);
 
-				const storageAssetBalances = Object.keys(asset.state.balances).map(
+				const currentAssetBalances = Object.keys(asset.state.balances).map(
 					(address: string) => asset.state.balances[address]
 				);
 
-				quantityCheck = storageAssetQuantities === updatedAssetBalances;
-				balanceCheck = checkEqualBalances(storageAssetBalances, updatedAssetBalances);
-			} else {
-				quantityCheck = currentAssetQuantities === updatedAssetQuantities;
-				balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
-			}
+				const updatedAssetBalances = Object.keys(updatedAsset.state.balances).map(
+					(address: string) => asset.state.balances[address]
+				);
 
-			if (!quantityCheck && !balanceCheck) {
-				localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
-				setLocalUpdate((prev) => !prev);
-				setPendingOrderBookResponse(null);
-				setUpdating(true);
+				const updatedAssetQuantities = updatedAsset.orders.reduce(
+					(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
+					0
+				);
 
-				setAsset(updatedAsset);
-				await new Promise((resolve) => setTimeout(resolve, 1000));
-				setUpdating(false);
-			} else {
-				setTimeout(() => {
-					updateAsset(true);
-				}, 2000);
+				let balanceCheck: boolean;
+				let quantityCheck: boolean;
+				if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
+					const asset = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`)).asset;
+
+					const storageAssetQuantities = asset.orders.reduce(
+						(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
+						0
+					);
+
+					const storageAssetBalances = Object.keys(asset.state.balances).map(
+						(address: string) => asset.state.balances[address]
+					);
+
+					quantityCheck = storageAssetQuantities === updatedAssetBalances;
+					balanceCheck = checkEqualBalances(storageAssetBalances, updatedAssetBalances);
+				} else {
+					quantityCheck = currentAssetQuantities === updatedAssetQuantities;
+					balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
+				}
+
+				if (!quantityCheck && !balanceCheck) {
+					localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
+					setLocalUpdate((prev) => !prev);
+					setPendingOrderBookResponse(null);
+					setUpdating(true);
+
+					setAsset(updatedAsset);
+					await new Promise((resolve) => setTimeout(resolve, 1000));
+					setUpdating(false);
+					fetchSuccess = true;
+				}
 			}
 		} else {
 			if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {

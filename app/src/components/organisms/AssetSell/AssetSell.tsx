@@ -166,6 +166,7 @@ export default function AssetSell(props: IProps) {
 		if (connectedDisabledSale) return true;
 		if (invalidQuantity.status || quantity <= 0 || isNaN(quantity)) return true;
 		if (invalidUnitPrice.status || unitPrice <= 0 || isNaN(unitPrice)) return true;
+		if (props.updating || props.pendingResponse) return true;
 		return false;
 	}
 

@@ -11,12 +11,12 @@ import { formatPrice, getOwners } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from '../../../styles';
-import { IAMProps } from '../../../types';
+import { IADProps } from '../../../types';
 
 import { AssetDetailMarketAction } from './AssetDetailMarketAction';
 import { AssetDetailMarketChart } from './AssetDetailMarketChart';
 
-export default function AssetDetailMarket(props: IAMProps) {
+export default function AssetDetailMarket(props: IADProps) {
 	const orProvider = useOrderBookProvider();
 
 	const [currentOwners, setCurrentOwners] = React.useState<OwnerType[] | null>(null);
@@ -54,6 +54,8 @@ export default function AssetDetailMarket(props: IAMProps) {
 				<AssetDetailMarketAction
 					asset={asset as AssetDetailType}
 					handleUpdate={props.handleUpdate as () => Promise<void>}
+					pendingResponse={props.pendingResponse}
+					updating={props.updating}
 				/>
 			</S.AssetCAction>
 			{currentSaleOwners && currentSaleOwners.length > 0 && (
@@ -79,6 +81,7 @@ export default function AssetDetailMarket(props: IAMProps) {
 												isSaleOrder={true}
 												handleUpdate={props.handleUpdate}
 												loading={false}
+												hideOrderCancel={props.updating || props.pendingResponse}
 											/>
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
@@ -92,36 +95,6 @@ export default function AssetDetailMarket(props: IAMProps) {
 					/>
 				</S.DrawerWrapper>
 			)}
-			{/* {currentOwners && currentOwners.length > 0 && (
-				<S.DrawerWrapper>
-					<Drawer
-						title={language.currentAssetOwners}
-						icon={ASSETS.owners}
-						content={
-							<S.DrawerContent>
-								<S.DrawerHeader>
-									<p>{language.owner.charAt(0).toUpperCase() + language.owner.slice(1)}</p>
-									<p>{language.percentage}</p>
-								</S.DrawerHeader>
-								{currentOwners.map((owner: OwnerType, index: number) => {
-									return (
-										<S.DCLine key={index}>
-											<OwnerInfo
-												owner={owner}
-												asset={asset}
-												isSaleOrder={false}
-												handleUpdate={props.handleUpdate}
-												loading={false}
-											/>
-											<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
-										</S.DCLine>
-									);
-								})}
-							</S.DrawerContent>
-						}
-					/>
-				</S.DrawerWrapper>
-			)} */}
 		</>
 	) : null;
 }

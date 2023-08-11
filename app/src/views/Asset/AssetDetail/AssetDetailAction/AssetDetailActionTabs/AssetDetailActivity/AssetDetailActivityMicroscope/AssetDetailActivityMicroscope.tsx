@@ -221,6 +221,7 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 										isSaleOrder={false}
 										handleUpdate={() => {}}
 										loading={!activeOwner}
+										hideOrderCancel={false}
 									/>
 								</S.TFlex>
 								{activeNode.dataProtocol && activeNode.dataProtocol !== STORAGE.none && (
