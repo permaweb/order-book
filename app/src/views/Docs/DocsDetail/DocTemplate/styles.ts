@@ -149,7 +149,6 @@ export const Wrapper = styled.div<{ isView: boolean }>`
 
 	img {
 		width: 100%;
-		max-width: 700px;
 		background: ${(props) => props.theme.colors.container.primary.background};
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: ${STYLING.dimensions.borderRadiusWrapper};

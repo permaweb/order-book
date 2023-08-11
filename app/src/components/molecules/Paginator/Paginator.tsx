@@ -42,14 +42,14 @@ export default function Paginator(props: IProps) {
 	const sliceEnd = getSliceEnd();
 
 	function handleScroll() {
-		if (props.scrollRef.current) {
-			setTimeout(function () {
+		setTimeout(function () {
+			if (props.scrollRef && props.scrollRef.current) {
 				props.scrollRef.current.scrollIntoView({
 					behavior: 'smooth',
 					block: 'start',
 				});
-			}, 1);
-		}
+			}
+		}, 1);
 	}
 
 	const handleNextPage = () => {

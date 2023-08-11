@@ -5,6 +5,7 @@ import { ReactSVG } from 'react-svg';
 import { CURRENCY_DICT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
+import { Streak } from 'components/atoms/Streak';
 import { ASSETS, CURRENCY_ICONS, REDIRECTS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
@@ -79,38 +80,6 @@ export default function WalletConnect(props: { callback?: () => void }) {
 		setShowWalletDropdown(false);
 	}
 
-	function getRangeLabel(number: number) {
-		if (number >= 1 && number <= 7) return '1-7';
-		if (number >= 8 && number <= 14) return '8-14';
-		if (number >= 15 && number <= 29) return '15-29';
-		if (number >= 30) return '30+';
-		return 'out-of-range';
-	}
-
-	function getStreakIcon() {
-		if (arProvider.streak) {
-			const num = Number(arProvider.streak.days);
-			let icon: string;
-			switch (getRangeLabel(num)) {
-				case '1-7':
-					icon = ASSETS.streak['1'];
-					break;
-				case '8-14':
-					icon = ASSETS.streak['2'];
-					break;
-				case '15-29':
-					icon = ASSETS.streak['3'];
-					break;
-				case '30+':
-					icon = ASSETS.streak['4'];
-					break;
-				default:
-					break;
-			}
-			return <img src={icon} />;
-		} else return null;
-	}
-
 	return (
 		<CloseHandler
 			callback={() => {
@@ -125,10 +94,9 @@ export default function WalletConnect(props: { callback?: () => void }) {
 					{arProvider.walletAddress && (
 						<S.BalancesWrapper>
 							{arProvider.streak && (
-								<S.Streak>
-									{getStreakIcon()}
-									<p>{language.dayStreak(arProvider.streak.days).toUpperCase()}</p>
-								</S.Streak>
+								<S.StreakWrapper>
+									<Streak streak={arProvider.streak.days} />
+								</S.StreakWrapper>
 							)}
 							{arProvider.currencyBalances && (
 								<S.BDWrapper>

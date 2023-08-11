@@ -4,9 +4,7 @@ import {
 	getAssetById,
 	getAssetIdsByContract,
 	getAssetIdsByUser,
-	getAssetsByContract,
 	getAssetsByIds,
-	getAssetsByUser,
 	getCollection,
 	getCollections,
 	getCommentData,
@@ -49,16 +47,8 @@ const apiClient: ApiClientType = {
 		return await getActivity({ ...args, arClient: this.arClient });
 	},
 
-	getAssetsByContract: async function (args: AssetArgsType): Promise<AssetType[]> {
-		return await getAssetsByContract({ ...args, arClient: this.arClient });
-	},
-
 	getAssetIdsByContract: async function (): Promise<string[]> {
 		return await getAssetIdsByContract({ arClient: this.arClient });
-	},
-
-	getAssetsByUser: async function (args: AssetArgsType): Promise<AssetType[]> {
-		return await getAssetsByUser({ ...args, arClient: this.arClient });
 	},
 
 	getAssetIdsByUser: async function (args: { walletAddress: string }): Promise<string[]> {

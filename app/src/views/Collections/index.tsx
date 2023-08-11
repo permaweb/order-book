@@ -37,6 +37,7 @@ export default function Collections() {
 					window.arweaveWallet,
 					dreReducer.source
 				);
+
 				setCursorState(handleCursors(cursor, collectionsFetch.nextCursor, cursorState.list));
 				setCollections(collections);
 			})();

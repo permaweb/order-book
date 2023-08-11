@@ -4,9 +4,9 @@ import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { AssetType, CursorEnum, OrderBook, OrderBookType, PAGINATOR } from 'permaweb-orderbook';
+import { AssetType, CursorEnum, OrderBook, OrderBookType } from 'permaweb-orderbook';
 
-import { API_CONFIG, CURRENCIES, FEATURE_COUNT } from 'helpers/config';
+import { API_CONFIG, CURRENCIES, FEATURE_COUNT, PAGINATORS } from 'helpers/config';
 import { ApiFetchType } from 'helpers/types';
 import { rankData } from 'helpers/utils';
 import { RootState } from 'store';
@@ -89,19 +89,25 @@ export default function ReduxAssetsUpdate(props: {
 							updatedReducer = { groups: [], count: 0 };
 						} else updatedReducer = currentReducer[props.reduxCursor];
 
+						let paginator = PAGINATORS.default;
 						switch (props.apiFetch) {
 							case 'contract':
+								paginator = PAGINATORS.contract;
 								contractIds = await orderBook.api.getAssetIdsByContract();
 								break;
 							case 'user':
 								if (props.address) {
+									paginator = PAGINATORS.user;
 									contractIds = await orderBook.api.getAssetIdsByUser({ walletAddress: props.address });
 								}
 								break;
 							case 'collection':
 								if (props.collectionId) {
+									paginator = PAGINATORS.collection;
 									let collection = await orderBook.api.getCollection({ collectionId: props.collectionId });
-									if (collection) contractIds = collection.assets;
+									if (collection) {
+										contractIds = collection.assets;
+									}
 								}
 								break;
 						}
@@ -124,8 +130,8 @@ export default function ReduxAssetsUpdate(props: {
 								ids: [],
 							});
 						} else {
-							for (let i = 0, j = 0; i < rankedContractIds.length; i += PAGINATOR, j++) {
-								const cursorIds = [...rankedContractIds].slice(i, i + PAGINATOR);
+							for (let i = 0, j = 0; i < rankedContractIds.length; i += paginator, j++) {
+								const cursorIds = [...rankedContractIds].slice(i, i + paginator);
 								const newIndex = `${props.reduxCursor}-${props.cursorObject}-${j}`;
 
 								if (

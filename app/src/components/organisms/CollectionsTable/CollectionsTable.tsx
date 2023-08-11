@@ -91,7 +91,7 @@ export default function CollectionsTable(props: IProps) {
 		}
 	}
 
-	return props.collections ? (
+	return props.collections !== null ? (
 		<S.Wrapper ref={scrollRef}>
 			<S.Header>
 				<p>{language.collections.toUpperCase()}</p>

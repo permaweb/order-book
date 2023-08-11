@@ -3,7 +3,7 @@ import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permaweb-orderbook';
 
-import { AR_PROFILE, STORAGE } from './config';
+import { API_CONFIG, AR_PROFILE, STORAGE } from './config';
 import { language } from './language';
 import { DateType, OwnerListingType, OwnerType } from './types';
 
@@ -104,7 +104,7 @@ export async function rankData(
 		warp: warp,
 		arweave: arweave,
 		wallet: new InjectedArweaveSigner(wallet),
-		// dre: 'https://dre-u.warp.cc/contract',
+		graphql: `${API_CONFIG.protocol}://${API_CONFIG.arweavePost}/graphql`,
 	});
 
 	const dataIds: string[] = dataFetch.map((a: any) => getDataId(a));

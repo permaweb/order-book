@@ -147,6 +147,13 @@ export const API_CONFIG = {
 	logging: false,
 };
 
+export const PAGINATORS = {
+	collection: 15,
+	contract: 13,
+	user: 15,
+	default: 100,
+};
+
 export const WALLET_PERMISSIONS = ['ACCESS_ADDRESS', 'ACCESS_PUBLIC_KEY', 'SIGN_TRANSACTION', 'DISPATCH', 'SIGNATURE'];
 
 export const FEATURE_COUNT = 3;

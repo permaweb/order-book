@@ -40,29 +40,6 @@ export async function createAsset(args: AssetCreateArgsClientType): Promise<stri
 	}
 }
 
-export async function getAssetsByContract(args: AssetArgsClientType): Promise<AssetType[]> {
-	try {
-		const assets: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
-		const ids = assets.map((asset: OrderBookPairType) => {
-			return asset.pair[0];
-		});
-
-		const gqlData: AssetsResponseType = await getGqlDataByIds({
-			ids: ids,
-			owner: args.owner,
-			uploader: args.uploader,
-			cursor: null,
-			reduxCursor: null,
-			arClient: args.arClient,
-			walletAddress: args.walletAddress,
-		});
-
-		return getValidatedAssets(gqlData, assets);
-	} catch (error: any) {
-		throw new Error(error);
-	}
-}
-
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
 	try {
 		let r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
@@ -74,30 +51,6 @@ export async function getAssetIdsByContract(args: { arClient: any }): Promise<st
 	} catch (e: any) {
 		return [];
 	}
-}
-
-export async function getAssetsByUser(args: AssetArgsClientType): Promise<AssetType[]> {
-	const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
-	if (result.status === 200) {
-		const balances = ((await result.json()) as UserBalancesType).balances;
-
-		const assetIds = balances.map((balance: BalanceType) => {
-			return balance.contract_tx_id;
-		});
-
-		const gqlData: AssetsResponseType = await getGqlDataByIds({
-			ids: assetIds,
-			owner: args.owner,
-			uploader: args.uploader,
-			cursor: args.cursor,
-			reduxCursor: args.reduxCursor,
-			arClient: args.arClient,
-			walletAddress: args.walletAddress,
-		});
-
-		return getValidatedAssets(gqlData);
-	}
-	return [];
 }
 
 export async function getAssetIdsByUser(args: { walletAddress: string; arClient: any }): Promise<string[]> {

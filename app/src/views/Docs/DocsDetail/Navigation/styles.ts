@@ -102,7 +102,7 @@ export const NListItem = styled.li<{ disabled: boolean; active: boolean }>`
 	&:hover {
 		background: ${(props) =>
 			props.disabled ? props.theme.colors.button.primary.disabled.background : props.theme.colors.button.primary.hover};
-		border: 1px solid ${(props) => (props.active ? props.theme.colors.border.primary : 'transparent')};
+		border: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
 	@media (max-width: ${STYLING.cutoffs.initial}) {
 		margin: 15px;

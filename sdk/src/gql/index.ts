@@ -20,6 +20,7 @@ export async function getGQLData(args: {
 	minBlock?: number;
 	useArweaveNet?: boolean;
 	useArweaveBundlr?: boolean;
+	customPaginator?: number;
 }): Promise<AGQLResponseType> {
 	const data: GQLResponseType[] = [];
 	let nextCursor: string | null = null;
@@ -49,6 +50,7 @@ export async function getGQLData(args: {
 		cursor: cursor,
 		after: cursor,
 		block: block,
+		customPaginator: args.customPaginator ? args.customPaginator : null,
 	});
 
 	if (response.data.data) {
@@ -56,7 +58,29 @@ export async function getGQLData(args: {
 		if (responseData.length > 0) {
 			data.push(...responseData);
 			if (args.cursorObject && args.cursorObject === CursorEnum.GQL) {
-				if (responseData.length < PAGINATOR) {
+				const paginator = args.customPaginator ? args.customPaginator : PAGINATOR;
+				const lastResults: boolean = responseData.length < paginator;
+				let endCheck: boolean = false;
+				if (responseData.length === paginator) {
+					const checkedCursor = `"${responseData[responseData.length - 1].cursor}"`;
+					const checkedResponse = await getResponse({
+						arClient: args.arClient,
+						useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
+						useArweaveNet: args.useArweaveNet ? args.useArweaveNet : false,
+						ids: null,
+						tags: tags,
+						owners: owners,
+						cursor: checkedCursor,
+						after: checkedCursor,
+						block: block,
+						customPaginator: args.customPaginator ? args.customPaginator : null,
+					});
+
+					const checkedResponseData = checkedResponse.data.data.transactions.edges;
+					endCheck = checkedResponseData.length <= 0;
+				}
+
+				if (lastResults || endCheck) {
 					nextCursor = CURSORS.end;
 				} else {
 					nextCursor = responseData[responseData.length - 1].cursor;
@@ -78,8 +102,9 @@ async function getResponse(args: {
 	cursor: any;
 	after: any;
 	block: any;
+	customPaginator: number | null;
 }) {
-	const { useArweaveBundlr, useArweaveNet, arClient, ids, tags, owners, cursor, after, block } = args;
+	const { useArweaveBundlr, useArweaveNet, arClient, ids, tags, owners, cursor, after, block, customPaginator } = args;
 
 	const endpoints = [
 		{
@@ -99,6 +124,7 @@ async function getResponse(args: {
 							cursor,
 							after,
 							block,
+							customPaginator,
 						})
 					),
 				});
@@ -118,6 +144,7 @@ async function getResponse(args: {
 						cursor,
 						after,
 						block,
+						customPaginator,
 					})
 				),
 		},
@@ -134,6 +161,7 @@ async function getResponse(args: {
 						cursor,
 						after,
 						block,
+						customPaginator,
 					})
 				),
 		},
@@ -149,9 +177,6 @@ async function getResponse(args: {
 			}
 		}
 	}
-
-	console.error('All endpoints failed');
-	return { data: [] };
 }
 
 function getQuery(args: {
@@ -162,8 +187,9 @@ function getQuery(args: {
 	after: any;
 	block: any;
 	useArweaveBundlr: boolean;
+	customPaginator: number | null;
 }) {
-	const first = args.useArweaveBundlr ? '' : `first: ${PAGINATOR}`;
+	const first = args.useArweaveBundlr ? '' : `first: ${args.customPaginator ? args.customPaginator : PAGINATOR}`;
 	const nodeFields = args.useArweaveBundlr
 		? `address timestamp`
 		: `data {

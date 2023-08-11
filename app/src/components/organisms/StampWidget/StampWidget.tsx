@@ -114,7 +114,6 @@ export default function StampWidget(props: IProps) {
 					warp: orProvider.orderBook.env.arClient.warpDefault,
 					arweave: orProvider.orderBook.env.arClient.arweavePost,
 					wallet: new InjectedArweaveSigner(arProvider.walletAddress),
-					// dre: 'https://dre-u.warp.cc/contract',
 				})
 			);
 		}
