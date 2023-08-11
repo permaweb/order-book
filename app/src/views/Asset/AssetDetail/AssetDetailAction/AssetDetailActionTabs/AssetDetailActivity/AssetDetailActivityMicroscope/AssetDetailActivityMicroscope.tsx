@@ -74,7 +74,7 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 			container: cyRef.current,
 			elements: props.data,
 			style: styles,
-			userPanningEnabled: false, // Disable panning
+			userPanningEnabled: false,
 			userZoomingEnabled: false,
 		});
 

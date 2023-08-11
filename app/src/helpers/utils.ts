@@ -217,3 +217,5 @@ export function checkEqualBalances(arr1: number[], arr2: number[]) {
 
 	return true;
 }
+
+export const checkAddress = (addr: string) => /[a-z0-9_-]{43}/i.test(addr);

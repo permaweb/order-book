@@ -1,3 +1,5 @@
+import { checkAddress } from './utils';
+
 export function getArweaveBalanceEndpoint(walletAddress: string) {
 	return `https://arweave.net/wallet/${walletAddress}/balance`;
 }
@@ -7,7 +9,7 @@ export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContra
 }
 
 export function getRendererEndpoint(renderWith: string, tx: string) {
-	if (/[A-Za-z0-9]/.test(renderWith) || (/[=]/.test(renderWith) && renderWith.length === 43)) {
+	if (checkAddress(renderWith)) {
 		return `https://arweave.net/${renderWith}/?tx=${tx}`;
 	} else {
 		return `https://${renderWith}.arweave.dev/?tx=${tx}`;

@@ -68,13 +68,10 @@ export default function AssetDetail(props: IProps) {
 
 	async function updateAsset(poll: boolean) {
 		if (poll) {
-			// const retries = 10;
 			let fetchSuccess = false;
-			// for (let i = 0; i < retries; i++) {
 			while (!fetchSuccess) {
 				await new Promise((r) => setTimeout(r, 3000));
 
-				// console.log('Trying fetch', i + 1)
 				const updatedAsset = (await orProvider.orderBook.api.getAssetById({
 					id: props.assetId,
 				})) as AssetDetailType;
@@ -167,7 +164,6 @@ export default function AssetDetail(props: IProps) {
 			} else {
 				let timeoutId: any;
 				timeoutId = setTimeout(async () => {
-					console.log('Subscription failed, polling asset');
 					await updateAsset(true);
 					if (subscription) subscription.unsubscribe();
 				}, 7000);
