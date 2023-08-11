@@ -44,8 +44,8 @@ export default function AssetDetail(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (asset && localStorage.getItem(APP.orderTx)) {
-				const storageItem = JSON.parse(localStorage.getItem(APP.orderTx));
+			if (asset && localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
+				const storageItem = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`));
 				await handleUpdate({ originalTxId: storageItem.originalTxId });
 			}
 		})();
@@ -92,8 +92,8 @@ export default function AssetDetail(props: IProps) {
 
 			let balanceCheck: boolean;
 			let quantityCheck: boolean;
-			if (localStorage.getItem(APP.orderTx)) {
-				const asset = JSON.parse(localStorage.getItem(APP.orderTx)).asset;
+			if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
+				const asset = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`)).asset;
 
 				const storageAssetQuantities = asset.orders.reduce(
 					(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
@@ -112,7 +112,7 @@ export default function AssetDetail(props: IProps) {
 			}
 
 			if (!quantityCheck && !balanceCheck) {
-				localStorage.removeItem(APP.orderTx);
+				localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
 				setLocalUpdate((prev) => !prev);
 				setPendingOrderBookResponse(null);
 				setUpdating(true);
@@ -126,8 +126,8 @@ export default function AssetDetail(props: IProps) {
 				}, 2000);
 			}
 		} else {
-			if (localStorage.getItem(APP.orderTx)) {
-				localStorage.removeItem(APP.orderTx);
+			if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
+				localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
 			}
 			setLocalUpdate((prev) => !prev);
 			setPendingOrderBookResponse(null);
@@ -144,9 +144,9 @@ export default function AssetDetail(props: IProps) {
 	}
 
 	async function handleUpdate(orderBookResponse: any) {
-		if (asset && orderBookResponse && !localStorage.getItem(APP.orderTx)) {
+		if (asset && orderBookResponse && !localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
 			localStorage.setItem(
-				APP.orderTx,
+				`${APP.orderTx}-${props.assetId}`,
 				JSON.stringify({
 					originalTxId: orderBookResponse.originalTxId,
 					asset: asset,
@@ -157,25 +157,29 @@ export default function AssetDetail(props: IProps) {
 		if (arProvider && orProvider.orderBook && orderBookResponse) {
 			setPendingOrderBookResponse({ tx: orderBookResponse.originalTxId });
 
-			let timeoutId: any;
-			timeoutId = setTimeout(async () => {
-				console.log('Subscription failed, polling asset');
+			if (!orderBookResponse.bundlrResponse) {
 				await updateAsset(true);
-				if (subscription) subscription.unsubscribe();
-			}, 7000);
+			} else {
+				let timeoutId: any;
+				timeoutId = setTimeout(async () => {
+					console.log('Subscription failed, polling asset');
+					await updateAsset(true);
+					if (subscription) subscription.unsubscribe();
+				}, 7000);
 
-			const subscription = await subscribe(
-				DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),
-				async ({ data }) => {
-					clearTimeout(timeoutId);
-					const parsedData = JSON.parse(data);
-					if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription) {
-						subscription.unsubscribe();
-						await updateAsset(false);
-					}
-				},
-				console.error
-			);
+				const subscription = await subscribe(
+					DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),
+					async ({ data }) => {
+						clearTimeout(timeoutId);
+						const parsedData = JSON.parse(data);
+						if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription) {
+							subscription.unsubscribe();
+							await updateAsset(false);
+						}
+					},
+					console.error
+				);
+			}
 		}
 	}
 
