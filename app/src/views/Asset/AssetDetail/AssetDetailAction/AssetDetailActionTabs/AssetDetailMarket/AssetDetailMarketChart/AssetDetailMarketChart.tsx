@@ -95,8 +95,6 @@ export default function AssetDetailMarketChart(props: IProps) {
 		}
 	}, [sortedOwners]);
 
-	console.log(theme.colors.stats.alt10);
-
 	return data && sortedOwners ? (
 		<S.Wrapper className={'border-wrapper'}>
 			<S.HeaderWrapper>
