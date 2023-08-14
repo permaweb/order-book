@@ -1,4 +1,5 @@
 import { CURRENCY_DICT } from 'permaweb-orderbook';
+import { getHost } from './utils';
 
 import activitySVG from 'assets/activity.svg';
 import arLogoSVG from 'assets/ar-logo.svg';
@@ -139,8 +140,8 @@ export const AR_WALLETS = [
 ];
 
 export const API_CONFIG = {
-	arweaveGet: 'arweave-search.goldsky.com',
-	arweavePost: 'arweave.net',
+	arweaveGet: getHost(),
+	arweavePost: getHost(),
 	protocol: 'https',
 	port: 443,
 	timeout: 40000,
