@@ -53,7 +53,8 @@ const DEFAULT = {
 		alt6: '#FFCAAF',
 		alt7: '#A0D2DB',
 		alt8: '#F7ACCF',
-		alt9: '#D3D3D3',
+		alt9: '#6689A1',
+		alt10: '#D3D3D3',
 	},
 };
 export const defaultTheme: DefaultTheme = {
@@ -334,6 +335,7 @@ export const defaultTheme: DefaultTheme = {
 			alt7: DEFAULT.stats.alt7,
 			alt8: DEFAULT.stats.alt8,
 			alt9: DEFAULT.stats.alt9,
+			alt10: DEFAULT.stats.alt10,
 		},
 		table: {
 			placeholder: {

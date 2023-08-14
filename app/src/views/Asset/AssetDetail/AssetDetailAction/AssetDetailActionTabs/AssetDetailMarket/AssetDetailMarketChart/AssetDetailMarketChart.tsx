@@ -32,6 +32,7 @@ export default function AssetDetailMarketChart(props: IProps) {
 		theme.colors.stats.alt7,
 		theme.colors.stats.alt8,
 		theme.colors.stats.alt9,
+		theme.colors.stats.alt10,
 	];
 
 	const [data, setData] = React.useState<any>(null);
@@ -94,6 +95,8 @@ export default function AssetDetailMarketChart(props: IProps) {
 		}
 	}, [sortedOwners]);
 
+	console.log(theme.colors.stats.alt10);
+
 	return data && sortedOwners ? (
 		<S.Wrapper className={'border-wrapper'}>
 			<S.HeaderWrapper>
@@ -118,7 +121,7 @@ export default function AssetDetailMarketChart(props: IProps) {
 					{sortedOwners.map((owner: OwnerType | OwnerListingType, index: number) => {
 						return (
 							<S.ChartKeyLine key={index} first={index === 0 && owner.address === ORDERBOOK_CONTRACT}>
-								<S.ChartKey background={keys[index] ? keys[index] : theme.colors.stats.alt9} />
+								<S.ChartKey background={keys[index] ? keys[index] : theme.colors.stats.alt10} />
 								{owner.address !== ORDERBOOK_CONTRACT && owner.address !== language.other ? (
 									<>
 										<OwnerInfo
