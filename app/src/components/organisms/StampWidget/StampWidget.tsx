@@ -117,7 +117,7 @@ export default function StampWidget(props: IProps) {
 				})
 			);
 		}
-	}, [orProvider.orderBook, arProvider.walletAddress, , dreReducer.source, showModal]);
+	}, [orProvider.orderBook, arProvider.walletAddress, dreReducer.source, showModal]);
 
 	React.useEffect(() => {
 		(async function () {
