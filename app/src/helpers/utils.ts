@@ -1,11 +1,27 @@
 import Stamps from '@permaweb/stampjs';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
+import { always, compose, cond, equals, T, takeLast, join, split,
+	identity } from 'ramda';
 
 import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permaweb-orderbook';
 
 import { API_CONFIG, AR_PROFILE, STORAGE } from './config';
 import { language } from './language';
 import { DateType, OwnerListingType, OwnerType } from './types';
+
+export function getHost() {
+    return compose(
+      cond([
+        [equals("gitpod.io"), always("arweave.net")],
+        [equals("arweave.dev"), always("arweave.net")],
+        [equals("localhost"), always("arweave.net")],
+        [T, identity],
+      ]),
+      join("."),
+      takeLast(2),
+      split(".")
+    )(window.location.hostname);
+}
 
 export function formatAddress(address: string | null, wrap: boolean) {
 	if (!address) {

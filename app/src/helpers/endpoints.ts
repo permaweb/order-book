@@ -1,7 +1,7 @@
-import { checkAddress } from './utils';
+import { checkAddress, getHost } from './utils';
 
 export function getArweaveBalanceEndpoint(walletAddress: string) {
-	return `https://arweave.net/wallet/${walletAddress}/balance`;
+	return `https://${getHost()}/wallet/${walletAddress}/balance`;
 }
 
 export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContract: string, dreNode: string) {
@@ -10,12 +10,12 @@ export function getCurrencyBalanceEndpoint(walletAddress: string, currencyContra
 
 export function getRendererEndpoint(renderWith: string, tx: string) {
 	if (checkAddress(renderWith)) {
-		return `https://arweave.net/${renderWith}/?tx=${tx}`;
+		return `https://${getHost()}/${renderWith}/?tx=${tx}`;
 	} else {
 		return `https://${renderWith}.arweave.dev/?tx=${tx}`;
 	}
 }
 
 export function getTxEndpoint(txId: string) {
-	return `https://arweave.net/${txId}`;
+	return `https://${getHost()}/${txId}`;
 }
