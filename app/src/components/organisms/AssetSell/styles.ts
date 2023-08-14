@@ -89,7 +89,7 @@ export const Warning = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.warning};
 	}
 `;
@@ -185,6 +185,7 @@ export const ErrorMessage = styled.div`
 	p {
 		color: ${(props) => props.theme.colors.warning};
 		font-size: ${(props) => props.theme.typography.size.base};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		line-height: 1.5;
 		width: 100%;
 		overflow-wrap: break-word;

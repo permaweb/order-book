@@ -10,6 +10,7 @@ import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType, WalletEnum } from 'helpers/types';
+import { formatCount } from 'helpers/utils';
 import * as windowUtils from 'helpers/window';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
@@ -209,7 +210,7 @@ export default function AssetBuy(props: IProps) {
 						<S.SpendInfoWrapper>
 							<S.SpendInfoContainer>
 								<span>{language.totalBuyQuantity}</span>
-								<p>{assetQuantity}</p>
+								<p>{formatCount(assetQuantity.toString())}</p>
 							</S.SpendInfoContainer>
 							<S.SpendInfoContainer>
 								<span>{language.totalBuyPercentage}</span>
@@ -238,14 +239,14 @@ export default function AssetBuy(props: IProps) {
 			<S.Wrapper>
 				<S.DCLine>
 					<S.DCLineHeader>{`${language.totalAssetBalance}:`}</S.DCLineHeader>
-					<S.DCLineDetail>{totalBalance}</S.DCLineDetail>
+					<S.DCLineDetail>{formatCount(totalBalance.toString())}</S.DCLineDetail>
 				</S.DCLine>
 
 				{tradeable ? (
 					<S.DCWrapper>
 						<S.DCLine>
 							<S.DCLineHeader>{`${language.totalSalesBalance}:`}</S.DCLineHeader>
-							<S.DCLineDetail>{totalSalesBalance}</S.DCLineDetail>
+							<S.DCLineDetail>{formatCount(totalSalesBalance.toString())}</S.DCLineDetail>
 						</S.DCLine>
 						<S.DCLine>
 							<S.DCLineHeader>{`${language.totalSalesPercentage}:`}</S.DCLineHeader>

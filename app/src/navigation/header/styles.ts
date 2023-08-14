@@ -109,7 +109,7 @@ export const LogoContent = styled.div`
 	padding: 2.5px 0 0 0;
 	svg {
 		height: auto;
-		width: 125px;
+		width: 150px;
 	}
 `;
 

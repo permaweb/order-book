@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { formatCount } from 'helpers/utils';
+
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -28,7 +30,7 @@ export default function Slider(props: IProps) {
 						<p>{props.label}</p>
 					</S.Label>
 					<S.Value>
-						<p>{`(${props.value} / ${props.maxValue})`}</p>
+						<p>{`(${formatCount(props.value.toString())} / ${formatCount(props.maxValue.toString())})`}</p>
 					</S.Value>
 				</S.LabelWrapper>
 			)}
