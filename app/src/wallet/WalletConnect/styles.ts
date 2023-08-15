@@ -9,6 +9,14 @@ export const Wrapper = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	animation: ${open} ${fadeIn2};
+
+	button {
+		span {
+			font-size: ${(props) => props.theme.typography.size.small} !important;
+			font-weight: ${(props) => props.theme.typography.weight.medium} !important;
+			color: ${(props) => props.theme.colors.button.primary.label} !important;
+		}
+	}
 `;
 
 export const FlexAction = styled.div`
