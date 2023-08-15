@@ -135,7 +135,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 								{containsLicense && (
 									<S.ActionContainer>
 										<Button
-											type={'success'}
+											type={'alt1'}
 											label={paymentResponse ? paymentResponse.message : language.payLicense}
 											handlePress={handlePay}
 											disabled={

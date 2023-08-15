@@ -70,9 +70,12 @@ export default function AssetDetail(props: IProps) {
 
 	async function updateAsset(poll: boolean) {
 		if (poll) {
+			let tryCount = 0;
 			let fetchSuccess = false;
 			while (!fetchSuccess) {
 				await new Promise((r) => setTimeout(r, 3000));
+				tryCount++;
+
 				orProvider.setUpdate(!orProviderUpdate);
 
 				if (orProvider && orProvider.orderBook) {
@@ -120,7 +123,7 @@ export default function AssetDetail(props: IProps) {
 							balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
 						}
 
-						if (!quantityCheck && !balanceCheck) {
+						if ((!quantityCheck && !balanceCheck) || tryCount >= 10) {
 							localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
 							setArProviderUpdate((prev) => !prev);
 							setPendingOrderBookResponse(null);
@@ -130,6 +133,7 @@ export default function AssetDetail(props: IProps) {
 							await new Promise((resolve) => setTimeout(resolve, 1000));
 							setUpdating(false);
 							fetchSuccess = true;
+							return;
 						}
 					}
 				}
@@ -171,33 +175,31 @@ export default function AssetDetail(props: IProps) {
 			} else {
 				let timeoutId: any;
 				timeoutId = setTimeout(async () => {
-					console.log('Fetching asset...');
 					await updateAsset(true);
-					if (subscription) subscription.unsubscribe();
-					if (subscription2) subscription2.unsubscribe();
-				}, 20000);
+					if (orderBookSubscription) orderBookSubscription.unsubscribe();
+					if (assetSubscription) assetSubscription.unsubscribe();
+				}, 30000);
 
-				const subscription = await subscribe(
+				const orderBookSubscription = await subscribe(
 					DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),
 					async ({ data }) => {
 						clearTimeout(timeoutId);
 						const parsedData = JSON.parse(data);
-						if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription) {
-							subscription.unsubscribe();
+						if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && orderBookSubscription) {
+							orderBookSubscription.unsubscribe();
 							await updateAsset(false);
 						}
 					},
 					console.error
 				);
 
-				const subscription2 = await subscribe(
+				const assetSubscription = await subscribe(
 					DRE_STATE_CHANNEL(props.assetId),
 					async ({ data }) => {
 						clearTimeout(timeoutId);
 						const parsedData = JSON.parse(data);
-						if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription2) {
-							subscription2.unsubscribe();
-							console.log("made it")
+						if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && assetSubscription) {
+							assetSubscription.unsubscribe();
 							await updateAsset(false);
 						}
 					},

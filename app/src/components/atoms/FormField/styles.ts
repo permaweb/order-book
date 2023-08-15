@@ -73,7 +73,7 @@ export const EndTextContainer = styled.div<{
 	height: ${(props) =>
 		props.sm ? STYLING.dimensions.formHeightSm : `calc(${STYLING.dimensions.formHeightMax} - 7.5px)`};
 	height: 100%;
-	max-width: 100px;
+	max-width: 120px;
 	position: absolute;
 	top: ${(props) => (props.sm ? '42.5%' : '37.5%')};
 	right: 47.5px;

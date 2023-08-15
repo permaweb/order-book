@@ -100,7 +100,7 @@ export const NoWrap = styled.p`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		max-width: 100px;
+		max-width: 120px;
 	}
 `;
 

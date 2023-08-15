@@ -122,6 +122,9 @@ export const DCLineHeader = styled.div`
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		word-wrap: break-word;
 	}
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		max-width: 120px;
+	}
 `;
 
 export const NoWrap = styled.p`
@@ -130,7 +133,7 @@ export const NoWrap = styled.p`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		max-width: 100px;
+		max-width: 120px;
 	}
 `;
 
@@ -144,7 +147,7 @@ export const DCLineDetail = styled.p`
 	display: flex;
 	align-items: center;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		max-width: 100px;
+		max-width: 120px;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
