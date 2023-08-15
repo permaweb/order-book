@@ -30,7 +30,9 @@ export default function AssetDetail(props: IProps) {
 	const [errorFetchingAsset, setErrorFetchingAsset] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [updating, setUpdating] = React.useState<boolean>(false);
-	const [localUpdate, setLocalUpdate] = React.useState(false);
+
+	const [arProviderUpdate, setArProviderUpdate] = React.useState(false);
+	const [orProviderUpdate, _setOrProviderUpdate] = React.useState(false);
 
 	const [pendingOrderBookResponse, setPendingOrderBookResponse] = React.useState<{ tx: string } | null>(null);
 
@@ -39,8 +41,8 @@ export default function AssetDetail(props: IProps) {
 	}, [props.assetId]);
 
 	React.useEffect(() => {
-		arProvider.setUpdateBalance(localUpdate);
-	}, [localUpdate]);
+		arProvider.setUpdateBalance(arProviderUpdate);
+	}, [arProviderUpdate]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -71,67 +73,72 @@ export default function AssetDetail(props: IProps) {
 			let fetchSuccess = false;
 			while (!fetchSuccess) {
 				await new Promise((r) => setTimeout(r, 3000));
+				orProvider.setUpdate(!orProviderUpdate);
 
-				const updatedAsset = (await orProvider.orderBook.api.getAssetById({
-					id: props.assetId,
-				})) as AssetDetailType;
+				if (orProvider && orProvider.orderBook) {
+					const updatedAsset = (await orProvider.orderBook.api.getAssetById({
+						id: props.assetId,
+					})) as AssetDetailType;
 
-				const currentAssetQuantities = asset.orders.reduce(
-					(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
-					0
-				);
-
-				const currentAssetBalances = Object.keys(asset.state.balances).map(
-					(address: string) => asset.state.balances[address]
-				);
-
-				const updatedAssetBalances = Object.keys(updatedAsset.state.balances).map(
-					(address: string) => asset.state.balances[address]
-				);
-
-				const updatedAssetQuantities = updatedAsset.orders.reduce(
-					(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
-					0
-				);
-
-				let balanceCheck: boolean;
-				let quantityCheck: boolean;
-				if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
-					const asset = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`)).asset;
-
-					const storageAssetQuantities = asset.orders.reduce(
+					const currentAssetQuantities = asset.orders.reduce(
 						(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
 						0
 					);
 
-					const storageAssetBalances = Object.keys(asset.state.balances).map(
+					const currentAssetBalances = Object.keys(asset.state.balances).map(
 						(address: string) => asset.state.balances[address]
 					);
 
-					quantityCheck = storageAssetQuantities === updatedAssetBalances;
-					balanceCheck = checkEqualBalances(storageAssetBalances, updatedAssetBalances);
-				} else {
-					quantityCheck = currentAssetQuantities === updatedAssetQuantities;
-					balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
-				}
+					if (updateAsset && updatedAsset.state && updatedAsset.state.balances) {
+						const updatedAssetBalances = Object.keys(updatedAsset.state.balances).map(
+							(address: string) => asset.state.balances[address]
+						);
 
-				if (!quantityCheck && !balanceCheck) {
-					localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
-					setLocalUpdate((prev) => !prev);
-					setPendingOrderBookResponse(null);
-					setUpdating(true);
+						const updatedAssetQuantities = updatedAsset.orders.reduce(
+							(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
+							0
+						);
 
-					setAsset(updatedAsset);
-					await new Promise((resolve) => setTimeout(resolve, 1000));
-					setUpdating(false);
-					fetchSuccess = true;
+						let balanceCheck: boolean;
+						let quantityCheck: boolean;
+						if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
+							const asset = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`)).asset;
+
+							const storageAssetQuantities = asset.orders.reduce(
+								(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
+								0
+							);
+
+							const storageAssetBalances = Object.keys(asset.state.balances).map(
+								(address: string) => asset.state.balances[address]
+							);
+
+							quantityCheck = storageAssetQuantities === updatedAssetBalances;
+							balanceCheck = checkEqualBalances(storageAssetBalances, updatedAssetBalances);
+						} else {
+							quantityCheck = currentAssetQuantities === updatedAssetQuantities;
+							balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
+						}
+
+						if (!quantityCheck && !balanceCheck) {
+							localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
+							setArProviderUpdate((prev) => !prev);
+							setPendingOrderBookResponse(null);
+							setUpdating(true);
+
+							setAsset(updatedAsset);
+							await new Promise((resolve) => setTimeout(resolve, 1000));
+							setUpdating(false);
+							fetchSuccess = true;
+						}
+					}
 				}
 			}
 		} else {
 			if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
 				localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
 			}
-			setLocalUpdate((prev) => !prev);
+			setArProviderUpdate((prev) => !prev);
 			setPendingOrderBookResponse(null);
 			setUpdating(true);
 
@@ -164,9 +171,10 @@ export default function AssetDetail(props: IProps) {
 			} else {
 				let timeoutId: any;
 				timeoutId = setTimeout(async () => {
+					console.log('Fetching asset...');
 					await updateAsset(true);
 					if (subscription) subscription.unsubscribe();
-				}, 7000);
+				}, 10000);
 
 				const subscription = await subscribe(
 					DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),

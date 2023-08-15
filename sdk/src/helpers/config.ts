@@ -1,3 +1,4 @@
+// tfalT8Z-88riNtoXdF5ldaBtmsfcSmbMqWLh2DHJIbg
 export const ORDERBOOK_CONTRACT = 'V6fwgkTtbRJVu_yKGJM2RQ6bHte35_g0Sj2C_BIdScs';
 
 export const CURRENCY_DICT = {

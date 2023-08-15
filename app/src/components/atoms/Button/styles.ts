@@ -265,10 +265,13 @@ export const IconAlt3 = styled(IconPrimary)`
 
 export const Success = styled(Alt1)`
 	background: ${(props) => props.theme.colors.button.success.background};
+	border: 1px solid ${(props) => props.theme.colors.button.success.background};
 	&:hover {
+		border: 1px solid ${(props) => props.theme.colors.button.success.background};
 		background: ${(props) => props.theme.colors.button.success.hover};
 	}
 	&:focus {
+		border: 1px solid ${(props) => props.theme.colors.button.success.background};
 		background: ${(props) => props.theme.colors.button.success.hover};
 	}
 	&:disabled {

@@ -14,6 +14,7 @@ LoggerFactory.INST.logLevel('fatal');
 
 interface OrderBookContextState {
 	orderBook: OrderBookType | null;
+	setUpdate: (update: boolean) => void;
 }
 
 interface OrderBookProviderProps {
@@ -22,6 +23,7 @@ interface OrderBookProviderProps {
 
 const DEFAULT_CONTEXT = {
 	orderBook: null,
+	setUpdate(_update: boolean) {},
 };
 
 const OrderBookContext = React.createContext<OrderBookContextState>(DEFAULT_CONTEXT);
@@ -35,6 +37,7 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const [orderBook, setOrderBook] = React.useState<OrderBookType | null>(null);
+	const [update, setUpdate] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		const arweaveGet = Arweave.init({
@@ -68,12 +71,13 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 				warpDreNode: dreReducer.source,
 			})
 		);
-	}, [arProvider.wallet, arProvider.walletAddress, dreReducer.source]);
+	}, [arProvider.wallet, arProvider.walletAddress, dreReducer.source, update]);
 
 	return (
 		<OrderBookContext.Provider
 			value={{
 				orderBook,
+				setUpdate: setUpdate,
 			}}
 		>
 			{props.children}

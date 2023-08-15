@@ -1,55 +1,116 @@
-// import React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
+import Payments from '@permaweb/payments';
+import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
-// import Payments from '@permaweb/payments';
-// import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
-import { STORAGE, TAGS, UDL_LICENSE_VALUE } from 'permaweb-orderbook';
+import { STORAGE, TAGS } from 'permaweb-orderbook';
 
+import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
-import { ASSETS, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
+import { API_CONFIG, ASSETS, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
 import { language } from 'helpers/language';
-import { formatDisplayString } from 'helpers/utils';
+import { ResponseType } from 'helpers/types';
+import { formatDisplayString, getHost } from 'helpers/utils';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
+import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
-// import { useArweaveProvider } from 'providers/ArweaveProvider';
-// import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { IAProps } from '../../types';
 
 import * as S from './styles';
 
 export default function AssetDetailLicenses(props: IAProps) {
-	// const arProvider = useArweaveProvider();
-	// const orProvider = useOrderBookProvider();
+	const arProvider = useArweaveProvider();
+	const orProvider = useOrderBookProvider();
 
-	// const [payments, setPayments] = React.useState<any>(null);
-	// const [isLicensed, setIsLicensed] = React.useState<any>(null);
+	const [payments, setPayments] = React.useState<any>(null);
 
-	// React.useEffect(() => {
-	// 	if (orProvider.orderBook) {
-	// 		setPayments(
-	// 			Payments.init({
-	// 				warp: orProvider.orderBook.env.arClient.warpDefault,
-	// 				wallet: arProvider.walletAddress ? new InjectedArweaveSigner(arProvider.walletAddress) : 'use_wallet',
-	// 				gateway: 'https://arweave.net/graphql',
-	// 			})
-	// 		);
-	// 	}
-	// }, [orProvider.orderBook, arProvider.walletAddress]);
+	const [isLicensed, setIsLicensed] = React.useState<boolean>(false);
+	const [containsLicense, setContainsLicense] = React.useState<boolean>(false);
+	const [loading, setLoading] = React.useState<boolean>(false);
+	const [initialDisabled, setInitialDisabled] = React.useState<boolean>(true);
 
-	// React.useEffect(() => {
-	// 	(async function () {
-	// 		if (
-	// 			props.asset &&
-	// 			props.asset.data.udl &&
-	// 			props.asset.data.license &&
-	// 			props.asset.data.license !== STORAGE.none &&
-	// 			payments
-	// 		) {
-	// 			console.log(await payments.isLicensed(props.asset.data.license, props.asset.data.id));
-	// 		}
-	// 	})();
-	// }, [props.asset, payments]);
+	const [paymentResponse, setPaymentResponse] = React.useState<ResponseType | null>(null);
+
+	React.useEffect(() => {
+		(async function () {
+			if (orProvider.orderBook) {
+				let signer: any = null;
+				if (arProvider.walletAddress) {
+					signer = new InjectedArweaveSigner(arProvider.wallet);
+					signer.getAddress = window.arweaveWallet.getActiveAddress;
+					await signer.setPublicKey();
+				}
+
+				setPayments(
+					Payments.init({
+						warp: orProvider.orderBook.env.arClient.warpDefault,
+						wallet: signer ? signer : 'use_wallet',
+						gateway: `${API_CONFIG.protocol}://${getHost()}/graphql`,
+					})
+				);
+			}
+		})();
+	}, [orProvider.orderBook, arProvider.walletAddress]);
+
+	React.useEffect(() => {
+		(async function () {
+			if (
+				props.asset &&
+				props.asset.data.udl &&
+				props.asset.data.udl.license &&
+				props.asset.data.udl.license.value !== STORAGE.none &&
+				payments
+			) {
+				setContainsLicense(true);
+				setIsLicensed(await payments.isLicensed(props.asset.data.id, arProvider.walletAddress));
+				setInitialDisabled(false);
+			}
+		})();
+	}, [props.asset, payments, loading]);
+
+	React.useEffect(() => {
+		if (isLicensed) {
+			setPaymentResponse({
+				status: true,
+				message: `${language.licensePaid}!`,
+			});
+		}
+	}, [isLicensed]);
+
+	async function handlePay() {
+		(async function () {
+			if (
+				props.asset &&
+				props.asset.data.udl &&
+				props.asset.data.udl.license &&
+				props.asset.data.udl.license.value !== STORAGE.none &&
+				payments
+			) {
+				try {
+					setLoading(true);
+					const payment = await payments.pay(props.asset.data.id, arProvider.walletAddress);
+					console.log(payment);
+
+					setLoading(false);
+					setPaymentResponse({
+						status: true,
+						message: `${language.licensePaid}!`,
+					});
+				} catch (e: any) {
+					let message: any = e.message ? e.message : language.errorOccurred;
+					if (e.message) console.error(e.message);
+					else console.error(e);
+					setLoading(false);
+					setPaymentResponse({
+						status: true,
+						message: message,
+					});
+				}
+			}
+		})();
+	}
 
 	return props.asset &&
 		(props.asset.data.udl || (props.asset.data.license && props.asset.data.license !== STORAGE.none)) ? (
@@ -71,6 +132,24 @@ export default function AssetDetailLicenses(props: IAProps) {
 										</Link>
 									</S.HeaderLink>
 								</S.HeaderFlex>
+								{containsLicense && (
+									<S.ActionContainer>
+										<Button
+											type={'success'}
+											label={paymentResponse ? paymentResponse.message : language.payLicense}
+											handlePress={handlePay}
+											disabled={
+												!arProvider.walletAddress ||
+												isLicensed ||
+												loading ||
+												paymentResponse !== null ||
+												initialDisabled
+											}
+											loading={loading}
+											noMinWidth
+										/>
+									</S.ActionContainer>
+								)}
 								{Object.keys(props.asset.data.udl).map((key: string, index: number) => {
 									return props.asset.data.udl[key].key !== TAGS.keys.udl.license &&
 										props.asset.data.udl[key].value !== STORAGE.none ? (
@@ -95,16 +174,14 @@ export default function AssetDetailLicenses(props: IAProps) {
 								})}
 							</>
 						)}
-						{props.asset.data.license &&
-							props.asset.data.license !== STORAGE.none &&
-							props.asset.data.license.toLowerCase() !== UDL_LICENSE_VALUE.toLowerCase() && (
-								<S.DCLine>
-									<S.DCLineHeader>
-										<p>{language.license}</p>
-									</S.DCLineHeader>
-									<TxAddress address={props.asset.data.license} wrap={false} view viewIcon={ASSETS.details} />
-								</S.DCLine>
-							)}
+						{props.asset.data.license && props.asset.data.license !== STORAGE.none && (
+							<S.DCLine>
+								<S.DCLineHeader>
+									<p>{language.license}</p>
+								</S.DCLineHeader>
+								<TxAddress address={props.asset.data.license} wrap={false} view viewIcon={ASSETS.details} />
+							</S.DCLine>
+						)}
 					</S.DrawerContent>
 				}
 			/>
