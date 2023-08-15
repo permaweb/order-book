@@ -106,64 +106,84 @@ async function getResponse(args: {
 }) {
 	const { useArweaveBundlr, useArweaveNet, arClient, ids, tags, owners, cursor, after, block, customPaginator } = args;
 
+	const fetchArweaveNet = async () =>
+		arClient.arweavePost.api.post(
+			'/graphql',
+			getQuery({
+				useArweaveBundlr: false,
+				ids,
+				tags,
+				owners,
+				cursor,
+				after,
+				block,
+				customPaginator,
+			})
+		);
+
+	const fetchGoldsky = async () =>
+		arClient.arweaveGet.api.post(
+			'/graphql',
+			getQuery({
+				useArweaveBundlr: false,
+				ids,
+				tags,
+				owners,
+				cursor,
+				after,
+				block,
+				customPaginator,
+			})
+		);
+
+	const fetchBundlr = async () => {
+		try {
+			const response = await fetch(`${BUNDLR_CONFIG.node}/graphql`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(
+					getQuery({
+						useArweaveBundlr: true,
+						ids,
+						tags,
+						owners,
+						cursor,
+						after,
+						block,
+						customPaginator,
+					})
+				),
+			});
+			const responseData = await response.json();
+			const responseLength = responseData.data.transactions.edges.length;
+			if (responseLength > 0) return { data: responseData };
+			else return await fetchArweaveNet();
+		} catch (error: any) {
+			console.warn(error);
+			return await fetchArweaveNet();
+		}
+	};
+
 	const endpoints = [
 		{
 			enabled: useArweaveBundlr,
 			execute: async () => {
-				const response = await fetch(`${BUNDLR_CONFIG.node}/graphql`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(
-						getQuery({
-							useArweaveBundlr: true,
-							ids,
-							tags,
-							owners,
-							cursor,
-							after,
-							block,
-							customPaginator,
-						})
-					),
-				});
-				return { data: await response.json() };
+				return await fetchBundlr();
 			},
 		},
 		{
 			enabled: useArweaveNet,
-			execute: () =>
-				arClient.arweavePost.api.post(
-					'/graphql',
-					getQuery({
-						useArweaveBundlr: false,
-						ids,
-						tags,
-						owners,
-						cursor,
-						after,
-						block,
-						customPaginator,
-					})
-				),
+			execute: async () => {
+				return await fetchArweaveNet();
+			},
 		},
 		{
 			enabled: true,
-			execute: () =>
-				arClient.arweaveGet.api.post(
-					'/graphql',
-					getQuery({
-						useArweaveBundlr: false,
-						ids,
-						tags,
-						owners,
-						cursor,
-						after,
-						block,
-						customPaginator,
-					})
-				),
+			execute: async () => {
+				return await fetchGoldsky();
+			},
 		},
 	];
 

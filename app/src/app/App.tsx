@@ -1,4 +1,3 @@
-import { ContractNotification } from 'components/organisms/ContractNotification';
 import { APP, DOM } from 'helpers/config';
 import { Footer } from 'navigation/footer';
 import { Header } from 'navigation/header';
@@ -16,7 +15,6 @@ export default function App() {
 			<div id={DOM.loader} />
 			<div id={DOM.modal} />
 			<div id={DOM.notification} />
-			<ContractNotification />
 			<Header />
 			<Routes />
 			<Footer />

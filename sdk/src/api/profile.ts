@@ -34,7 +34,11 @@ export async function getProfile(args: {
 				fetchedProfile = JSON.parse(fetchedProfile);
 				finalProfile = {
 					handle: fetchedProfile.handle ? fetchedProfile.handle : null,
-					avatar: fetchedProfile.avatar ? fetchedProfile.avatar : null,
+					avatar: fetchedProfile.avatar
+						? fetchedProfile.avatar.includes('ar://')
+							? fetchedProfile.avatar.substring(5)
+							: fetchedProfile.avatar
+						: null,
 					twitter: fetchedProfile.links.twitter ? fetchedProfile.links.twitter : null,
 					discord: fetchedProfile.links.discord ? fetchedProfile.links.discord : null,
 					walletAddress: args.walletAddress,

@@ -1,6 +1,6 @@
 {
 	"name": "permaweb-orderbook",
-	"version": "1.3.6",
+	"version": "1.3.61",
 	"description": "Orderbook SDK",
 	"author": "VinceJuliano",
 	"license": "ISC",
@@ -12,9 +12,7 @@
 		"postinstall": "npm install ./bundlr-network-client-v0.11.2.tgz",
 		"check-packages": "node src/workers/check-packages.mjs"
 	},
-	"dependencies": {
-		"@bundlr-network/client": "file:bundlr-network-client-v0.11.2.tgz"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/mime": "^3.0.1",
 		"@types/mime-types": "^2.1.1",

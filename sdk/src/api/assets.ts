@@ -19,7 +19,6 @@ import {
 	TAGS,
 	TagType,
 	UDL_ICONS,
-	UDL_LICENSE_VALUE,
 	UDLType,
 	UserBalancesType,
 } from '../helpers';
@@ -139,6 +138,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const implementation = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.implements);
 		const license = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.license);
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
+		const collectionCode = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.collectionCode);
 
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
@@ -159,6 +159,8 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 				},
 			};
 
+			if (collectionCode && collectionCode !== STORAGE.none) asset.data.collectionCode = collectionCode;
+
 			const udl = getUDL(gqlData.assets[i]);
 			if (udl) asset.data.udl = udl;
 
@@ -178,7 +180,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 
 function getUDL(gqlData: GQLResponseType): UDLType | null {
 	const license = getTagValue(gqlData.node.tags, TAGS.keys.udl.license);
-	if (!license || license === STORAGE.none || !(license.toLowerCase() === UDL_LICENSE_VALUE.toLowerCase())) return null;
+	if (!license || license === STORAGE.none) return null; // || !(license.toLowerCase() === UDL_LICENSE_VALUE.toLowerCase())
 
 	let currencyIcon: string;
 	let currencyEndText: string;
@@ -187,6 +189,7 @@ function getUDL(gqlData: GQLResponseType): UDLType | null {
 	else currencyEndText = currencyType;
 
 	let accessFee = { key: TAGS.keys.udl.accessFee, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.accessFee) };
+	let licenseFee = { key: TAGS.keys.udl.licenseFee, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.licenseFee) };
 	let derivationFee = {
 		key: TAGS.keys.udl.derivationFee,
 		value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivationFee),
@@ -200,12 +203,14 @@ function getUDL(gqlData: GQLResponseType): UDLType | null {
 		accessFee['icon'] = currencyIcon;
 		derivationFee['icon'] = currencyIcon;
 		commercialFee['icon'] = currencyIcon;
+		licenseFee['icon'] = currencyIcon;
 	}
 
 	if (currencyEndText) {
 		accessFee['endText'] = currencyEndText;
 		derivationFee['endText'] = currencyEndText;
 		commercialFee['endText'] = currencyEndText;
+		licenseFee['endText'] = currencyEndText;
 	}
 
 	return {
@@ -214,8 +219,13 @@ function getUDL(gqlData: GQLResponseType): UDLType | null {
 		accessFee: accessFee,
 		commercial: { key: TAGS.keys.udl.commercial, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.commercial) },
 		commercialFee: commercialFee,
+		commercialUse: {
+			key: TAGS.keys.udl.commercialUse,
+			value: getTagValue(gqlData.node.tags, TAGS.keys.udl.commercialUse),
+		},
 		derivation: { key: TAGS.keys.udl.derivation, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.derivation) },
 		derivationFee: derivationFee,
+		licenseFee: licenseFee,
 		paymentMode: { key: TAGS.keys.udl.paymentMode, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.paymentMode) },
 	};
 }

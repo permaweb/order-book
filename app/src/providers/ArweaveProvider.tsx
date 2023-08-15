@@ -164,9 +164,14 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	}
 
 	const getUserBalance = async (wallet: string) => {
-		const rawBalance = await fetch(getArweaveBalanceEndpoint(wallet));
-		const jsonBalance = await rawBalance.json();
-		return jsonBalance / 1e12;
+		try {
+			const rawBalance = await fetch(getArweaveBalanceEndpoint(wallet));
+			const jsonBalance = await rawBalance.json();
+			return jsonBalance / 1e12;
+		} catch (error: any) {
+			console.error(error);
+			return 0;
+		}
 	};
 
 	React.useEffect(() => {

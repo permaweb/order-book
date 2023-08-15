@@ -1,5 +1,4 @@
 import { CURRENCY_DICT } from 'permaweb-orderbook';
-import { getHost } from './utils';
 
 import activitySVG from 'assets/activity.svg';
 import arLogoSVG from 'assets/ar-logo.svg';
@@ -52,10 +51,11 @@ import walletSVG from 'assets/wallet.svg';
 
 import { language } from './language';
 import { DREObjectType, WalletEnum } from './types';
+import { getHost } from './utils';
 
 export const APP = {
 	appKey: 'appVersion',
-	appVersion: '1.0.4',
+	appVersion: '1.0.5',
 	orderTx: 'orderTx',
 	providerKey: 'providerVersion',
 	providerVersion: '1.0.3',
@@ -140,7 +140,7 @@ export const AR_WALLETS = [
 ];
 
 export const API_CONFIG = {
-	arweaveGet: getHost(),
+	arweaveGet: 'arweave-search.goldsky.com',
 	arweavePost: getHost(),
 	protocol: 'https',
 	port: 443,
@@ -223,7 +223,7 @@ export const UDL_ICONS_MAP = {
 };
 
 export const AR_PROFILE = {
-	defaultAvatar: 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA',
+	defaultAvatar: 'OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA',
 };
 
 export const COMMENT_SPEC = {

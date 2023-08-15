@@ -9,6 +9,7 @@ import {
 	DEFAULT_COLLECTION_BANNER,
 	DEFAULT_COLLECTION_THUMB,
 	GetCollectionArgs,
+	GetCollectionByCodeArgs,
 	getTagValue,
 	getTxEndpoint,
 	STORAGE,
@@ -17,34 +18,34 @@ import {
 
 import { getProfile } from './profile';
 
-async function buildCollection(
-	node: any,
-	items: string[] | null,
-	arClient: ArweaveClientType,
-	useProfile: boolean
-): Promise<CollectionAssetType> {
+async function buildCollection(args: {
+	node: any;
+	items?: string[] | null;
+	arClient: ArweaveClientType;
+	useProfile: boolean;
+}): Promise<CollectionAssetType> {
 	const banner =
-		getTagValue(node.tags, TAGS.keys.banner) !== STORAGE.none
-			? getTagValue(node.tags, TAGS.keys.banner)
+		getTagValue(args.node.tags, TAGS.keys.banner) !== STORAGE.none
+			? getTagValue(args.node.tags, TAGS.keys.banner)
 			: DEFAULT_COLLECTION_BANNER;
 	const thumbnail =
-		getTagValue(node.tags, TAGS.keys.thumbnail) !== STORAGE.none
-			? getTagValue(node.tags, TAGS.keys.thumbnail)
+		getTagValue(args.node.tags, TAGS.keys.thumbnail) !== STORAGE.none
+			? getTagValue(args.node.tags, TAGS.keys.thumbnail)
 			: DEFAULT_COLLECTION_THUMB;
-	const name = getTagValue(node.tags, TAGS.keys.name);
-	const title = getTagValue(node.tags, TAGS.keys.ans110.title);
-	const description = getTagValue(node.tags, TAGS.keys.ans110.description);
-	const type = getTagValue(node.tags, TAGS.keys.ans110.type);
+	const name = getTagValue(args.node.tags, TAGS.keys.name);
+	const title = getTagValue(args.node.tags, TAGS.keys.ans110.title);
+	const description = getTagValue(args.node.tags, TAGS.keys.ans110.description);
+	const type = getTagValue(args.node.tags, TAGS.keys.ans110.type);
 
-	const profile = useProfile
+	const profile = args.useProfile
 		? await getProfile({
-				walletAddress: node.owner.address,
-				arClient: arClient,
+				walletAddress: args.node.owner.address,
+				arClient: args.arClient,
 		  })
 		: null;
 
-	const collection = {
-		id: node.id,
+	const collection: any = {
+		id: args.node.id,
 		banner: banner,
 		thumbnail: thumbnail,
 		name: name,
@@ -52,11 +53,10 @@ async function buildCollection(
 		description: description,
 		type: type,
 		creator: profile,
-		assets: items,
 	};
 
-	if (items) {
-		collection.assets = items;
+	if (args.items) {
+		collection.assets = args.items;
 	}
 
 	return collection;
@@ -91,7 +91,7 @@ export async function getCollections(args: {
 
 		if ([name, title, description, type].includes(STORAGE.none)) continue;
 
-		collections.push(await buildCollection(node, null, args.arClient, false));
+		collections.push(await buildCollection({ node, items: null, arClient: args.arClient, useProfile: false }));
 	}
 	return {
 		previousCursor: null,
@@ -118,7 +118,35 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 
 		const node = collectionGql.data[0].node;
 
-		return await buildCollection(node, collection.items, args.arClient, true);
+		return await buildCollection({ node, items: collection.items, arClient: args.arClient, useProfile: true });
+	} catch (error: any) {
+		console.error(error);
+	}
+	return null;
+}
+
+export async function getCollectionByCode(args: GetCollectionByCodeArgs): Promise<CollectionAssetType | null> {
+	try {
+		const collectionGql = await getGQLData({
+			ids: null,
+			tagFilters: [{ name: TAGS.keys.collectionCode, values: [args.collectionCode] }],
+			cursorObject: null,
+			uploader: null,
+			cursor: null,
+			reduxCursor: null,
+			arClient: args.arClient,
+		});
+
+		if (collectionGql.data.length < 1) return null;
+		else {
+			for (let i = 0; i < collectionGql.data.length; i++) {
+				const node = collectionGql.data[i].node;
+				const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
+				if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
+					return await buildCollection({ node, items: null, arClient: args.arClient, useProfile: true });
+				}
+			}
+		}
 	} catch (error: any) {
 		console.error(error);
 	}

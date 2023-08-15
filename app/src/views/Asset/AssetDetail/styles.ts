@@ -178,6 +178,14 @@ export const DCOwnerFlex = styled.div`
 	}
 `;
 
+export const DCCollectionFlex = styled.div`
+	display: flex;
+	align-items: center;
+	p {
+		margin: 0 5px 0 0;
+	}
+`;
+
 export const C2 = styled.div`
 	width: calc(100% - ${C1_DIMENSION});
 	padding: 0 0 0 40px;

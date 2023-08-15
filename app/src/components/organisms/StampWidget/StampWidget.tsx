@@ -113,7 +113,7 @@ export default function StampWidget(props: IProps) {
 				Stamps.init({
 					warp: orProvider.orderBook.env.arClient.warpDefault,
 					arweave: orProvider.orderBook.env.arClient.arweavePost,
-					wallet: new InjectedArweaveSigner(arProvider.walletAddress),
+					wallet: arProvider.walletAddress ? new InjectedArweaveSigner(arProvider.walletAddress) : 'use_wallet',
 				})
 			);
 		}
@@ -121,19 +121,28 @@ export default function StampWidget(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (props.assetId && stamps && arProvider.walletAddress) {
+			if (props.assetId && stamps) {
 				if (updateCount) {
 					await new Promise((resolve) => setTimeout(resolve, 1000));
 				}
+				const updatedCount = await stamps.count(props.assetId);
+				setCount(updatedCount);
+			}
+		})();
+	}, [stamps, props.assetId, updateCount]);
+
+	React.useEffect(() => {
+		(async function () {
+			if (props.assetId && stamps) {
 				try {
-					const updatedCount = await stamps.count(props.assetId);
 					const hasStamped = await stamps.hasStamped(props.assetId);
-					setCount(updatedCount);
 					setHasStamped(hasStamped);
 					if (hasStamped) {
 						setDisabled(true);
 					}
-					setBalance(await stamps.balance(arProvider.walletAddress));
+					if (arProvider.walletAddress) {
+						setBalance(await stamps.balance(arProvider.walletAddress));
+					}
 					setUpdateCount(false);
 				} catch (e: any) {
 					console.error(e);

@@ -6,6 +6,7 @@ import {
 	getAssetIdsByUser,
 	getAssetsByIds,
 	getCollection,
+	getCollectionByCode,
 	getCollections,
 	getCommentData,
 	getComments,
@@ -76,6 +77,10 @@ const apiClient: ApiClientType = {
 
 	getCollection: async function (args: { collectionId: string }): Promise<CollectionAssetType> {
 		return await getCollection({ ...args, arClient: this.arClient });
+	},
+
+	getCollectionByCode: async function (args: { collectionCode: string }): Promise<CollectionAssetType> {
+		return await getCollectionByCode({ ...args, arClient: this.arClient });
 	},
 
 	getCollections: async function (args: { cursor: string | null }): Promise<CollectionsResponseType> {

@@ -11,6 +11,7 @@ export type AssetType = {
 		dateCreated: number;
 		blockHeight: number;
 		creator: string;
+		collectionCode?: string;
 		udl?: UDLType;
 	};
 	orders?: OrderBookPairOrderType[];
@@ -28,10 +29,12 @@ export type UDLType = {
 	license: LicenseValueType;
 	access: LicenseValueType;
 	accessFee: LicenseValueType;
+	licenseFee: LicenseValueType;
 	derivation: LicenseValueType;
 	derivationFee: LicenseValueType;
 	commercial: LicenseValueType;
 	commercialFee: LicenseValueType;
+	commercialUse: LicenseValueType;
 	paymentMode: LicenseValueType;
 };
 
@@ -125,6 +128,11 @@ export type GetCollectionArgs = {
 	collectionId: string;
 };
 
+export type GetCollectionByCodeArgs = {
+	arClient: any;
+	collectionCode: string;
+};
+
 export type SearchReturnType = {
 	assets: AssetType[];
 };
@@ -147,6 +155,7 @@ export type ApiClientType = {
 	search: (args: {}) => Promise<SearchReturnType>;
 	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
 	getCollection: (args: { collectionId: string }) => Promise<CollectionAssetType>;
+	getCollectionByCode: (args: { collectionCode: string }) => Promise<CollectionAssetType>;
 	getComments: (args: { id: string; cursor: string | null }) => Promise<CommentsResponseType>;
 	getCommentData: (args: { id: string }) => Promise<CommentDetailType>;
 };

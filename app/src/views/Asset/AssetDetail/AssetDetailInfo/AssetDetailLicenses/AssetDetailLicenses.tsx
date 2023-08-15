@@ -1,6 +1,9 @@
+// import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
+// import Payments from '@permaweb/payments';
+// import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 import { STORAGE, TAGS, UDL_LICENSE_VALUE } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
@@ -9,11 +12,45 @@ import { ASSETS, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
 import { language } from 'helpers/language';
 import { formatDisplayString } from 'helpers/utils';
 
+// import { useArweaveProvider } from 'providers/ArweaveProvider';
+// import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { IAProps } from '../../types';
 
 import * as S from './styles';
 
 export default function AssetDetailLicenses(props: IAProps) {
+	// const arProvider = useArweaveProvider();
+	// const orProvider = useOrderBookProvider();
+
+	// const [payments, setPayments] = React.useState<any>(null);
+	// const [isLicensed, setIsLicensed] = React.useState<any>(null);
+
+	// React.useEffect(() => {
+	// 	if (orProvider.orderBook) {
+	// 		setPayments(
+	// 			Payments.init({
+	// 				warp: orProvider.orderBook.env.arClient.warpDefault,
+	// 				wallet: arProvider.walletAddress ? new InjectedArweaveSigner(arProvider.walletAddress) : 'use_wallet',
+	// 				gateway: 'https://arweave.net/graphql',
+	// 			})
+	// 		);
+	// 	}
+	// }, [orProvider.orderBook, arProvider.walletAddress]);
+
+	// React.useEffect(() => {
+	// 	(async function () {
+	// 		if (
+	// 			props.asset &&
+	// 			props.asset.data.udl &&
+	// 			props.asset.data.license &&
+	// 			props.asset.data.license !== STORAGE.none &&
+	// 			payments
+	// 		) {
+	// 			console.log(await payments.isLicensed(props.asset.data.license, props.asset.data.id));
+	// 		}
+	// 	})();
+	// }, [props.asset, payments]);
+
 	return props.asset &&
 		(props.asset.data.udl || (props.asset.data.license && props.asset.data.license !== STORAGE.none)) ? (
 		<S.Wrapper>

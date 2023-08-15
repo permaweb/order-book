@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import { AssetDetailType } from 'permaweb-orderbook';
+import { AssetDetailType, CollectionAssetType } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
@@ -9,6 +10,7 @@ import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { ASSETS, STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
+import * as urls from 'helpers/urls';
 import { formatCount, formatDate, getOwners } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
@@ -21,6 +23,7 @@ export default function AssetDetailInfo(props: IAProps) {
 	const orProvider = useOrderBookProvider();
 
 	const [creator, setCreator] = React.useState<OwnerType | OwnerListingType | null>(null);
+	const [collection, setCollection] = React.useState<CollectionAssetType | null>(null);
 
 	React.useEffect(() => {
 		(async function () {
@@ -29,6 +32,17 @@ export default function AssetDetailInfo(props: IAProps) {
 					await getOwners([{ creator: props.asset.data.creator }], orProvider, props.asset as AssetDetailType)
 				)[0];
 				setCreator(creator);
+			}
+		})();
+	}, [props.asset, orProvider.orderBook]);
+
+	React.useEffect(() => {
+		(async function () {
+			if (props.asset && props.asset.data.collectionCode && orProvider.orderBook) {
+				const collection = await orProvider.orderBook.api.getCollectionByCode({
+					collectionCode: props.asset.data.collectionCode,
+				});
+				setCollection(collection);
 			}
 		})();
 	}, [props.asset, orProvider.orderBook]);
@@ -60,6 +74,11 @@ export default function AssetDetailInfo(props: IAProps) {
 											hideOrderCancel={false}
 										/>
 									</S.DCOwnerFlex>
+								)}
+								{collection && (
+									<S.DCCollectionFlex>
+										<Link to={`${urls.collection}${collection.id}`}>{collection.title}</Link>
+									</S.DCCollectionFlex>
 								)}
 								<S.DCLineNoMax>{props.asset.data.description}</S.DCLineNoMax>
 							</S.DrawerContent>
