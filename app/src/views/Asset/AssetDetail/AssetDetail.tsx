@@ -174,7 +174,8 @@ export default function AssetDetail(props: IProps) {
 					console.log('Fetching asset...');
 					await updateAsset(true);
 					if (subscription) subscription.unsubscribe();
-				}, 10000);
+					if (subscription2) subscription2.unsubscribe();
+				}, 20000);
 
 				const subscription = await subscribe(
 					DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),
@@ -183,6 +184,20 @@ export default function AssetDetail(props: IProps) {
 						const parsedData = JSON.parse(data);
 						if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription) {
 							subscription.unsubscribe();
+							await updateAsset(false);
+						}
+					},
+					console.error
+				);
+
+				const subscription2 = await subscribe(
+					DRE_STATE_CHANNEL(props.assetId),
+					async ({ data }) => {
+						clearTimeout(timeoutId);
+						const parsedData = JSON.parse(data);
+						if (parsedData.sortKey >= orderBookResponse.bundlrResponse.sortKey && subscription2) {
+							subscription2.unsubscribe();
+							console.log("made it")
 							await updateAsset(false);
 						}
 					},
