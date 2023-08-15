@@ -76,7 +76,8 @@ export async function getGQLData(args: {
 						customPaginator: args.customPaginator ? args.customPaginator : null,
 					});
 
-					const checkedResponseData = checkedResponse.data.data.transactions.edges;
+					let checkedResponseData = [];
+					if (checkedResponse.data.data) checkedResponseData = checkedResponse.data.data.transactions.edges;
 					endCheck = checkedResponseData.length <= 0;
 				}
 

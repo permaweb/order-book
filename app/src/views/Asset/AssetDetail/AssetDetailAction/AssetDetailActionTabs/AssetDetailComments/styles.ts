@@ -109,6 +109,8 @@ export const WalletConnectionWrapper = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	margin: 0 0 100px 0;
 	flex-wrap: wrap;
 	gap: 20px;
 	span {
@@ -117,11 +119,20 @@ export const WalletConnectionWrapper = styled.div`
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.regular};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
+		padding: 7.5px 20px;
+		background: ${(props) => props.theme.colors.container.alt2.background};
+		border: 1px solid ${(props) => props.theme.colors.border.primary};
+		border-radius: ${STYLING.dimensions.borderRadiusField};
 	}
 	button {
 		width: fit-content;
 		span {
 			color: ${(props) => props.theme.colors.font.primary.alt1};
+			background: transparent;
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			font-weight: inherit;
 		}
 	}
 `;
