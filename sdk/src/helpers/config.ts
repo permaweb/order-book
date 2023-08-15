@@ -35,6 +35,7 @@ export const TAGS = {
 		collectionCode: 'Collection-Code',
 		contentType: 'Content-Type',
 		contractSrc: 'Contract-Src',
+		creator: 'Creator',
 		dataProtocol: 'Data-Protocol',
 		dataSource: 'Data-Source',
 		dateCreated: 'Date-Created',

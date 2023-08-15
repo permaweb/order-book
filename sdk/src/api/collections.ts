@@ -36,10 +36,11 @@ async function buildCollection(args: {
 	const title = getTagValue(args.node.tags, TAGS.keys.ans110.title);
 	const description = getTagValue(args.node.tags, TAGS.keys.ans110.description);
 	const type = getTagValue(args.node.tags, TAGS.keys.ans110.type);
+	const creator = getTagValue(args.node.tags, TAGS.keys.creator);
 
 	const profile = args.useProfile
 		? await getProfile({
-				walletAddress: args.node.owner.address,
+				walletAddress: creator && creator !== STORAGE.none ? creator : args.node.owner.address,
 				arClient: args.arClient,
 		  })
 		: null;

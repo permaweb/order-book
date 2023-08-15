@@ -4,7 +4,7 @@ import { ReactSVG } from 'react-svg';
 
 import { Loader } from 'components/atoms/Loader';
 import { OrderCancel } from 'components/organisms/OrderCancel';
-import { ASSETS } from 'helpers/config';
+import { AR_PROFILE, ASSETS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import * as urls from 'helpers/urls';
 import { formatAddress } from 'helpers/utils';
@@ -32,7 +32,7 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loa
 	};
 
 	const avatar =
-		!hasError && owner && owner.avatar ? (
+		!hasError && owner && owner.avatar && owner.avatar !== AR_PROFILE.defaultAvatar ? (
 			<img src={getTxEndpoint(owner.avatar)} onError={handleError} />
 		) : (
 			<ReactSVG src={ASSETS.user} />
