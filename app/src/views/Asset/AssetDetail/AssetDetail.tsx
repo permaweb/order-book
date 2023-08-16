@@ -209,19 +209,35 @@ export default function AssetDetail(props: IProps) {
 		}
 	}
 
+	function getAsset() {
+		if (asset.state && asset.state.balances) {
+			const addresses = Object.keys(asset.state.balances).map((address: any) => address);
+			if (addresses.includes('0'.repeat(43))) {
+				return (
+					<S.Warning>
+						<p>{language.assetHasBeenBurned}</p>
+						<Button type={'primary'} label={language.goBack} handlePress={() => navigate(-1)} noMinWidth />
+					</S.Warning>
+				);
+			} else {
+				return (
+					<>
+						<AssetDetailInfo asset={asset} />
+						<AssetDetailAction
+							asset={asset}
+							handleUpdate={handleUpdate}
+							pendingResponse={pendingOrderBookResponse}
+							updating={updating}
+						/>
+					</>
+				);
+			}
+		}
+	}
+
 	function getData() {
 		if (asset) {
-			return (
-				<>
-					<AssetDetailInfo asset={asset} />
-					<AssetDetailAction
-						asset={asset}
-						handleUpdate={handleUpdate}
-						pendingResponse={pendingOrderBookResponse}
-						updating={updating}
-					/>
-				</>
-			);
+			return getAsset();
 		} else {
 			if (loading) {
 				return <Loader />;

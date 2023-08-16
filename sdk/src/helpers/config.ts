@@ -1,5 +1,4 @@
-// tfalT8Z-88riNtoXdF5ldaBtmsfcSmbMqWLh2DHJIbg
-export const ORDERBOOK_CONTRACT = 'V6fwgkTtbRJVu_yKGJM2RQ6bHte35_g0Sj2C_BIdScs';
+export const ORDERBOOK_CONTRACT = 'tfalT8Z-88riNtoXdF5ldaBtmsfcSmbMqWLh2DHJIbg';
 
 export const CURRENCY_DICT = {
 	U: 'KTzTXT_ANmF84fWEKHzWURD1LWd9QaFR9yfYUwH2Lxw',
@@ -91,7 +90,7 @@ export const CONTENT_TYPES = {
 export const DEFAULT_COLLECTION_BANNER =
 	'https://pfyk3jkw3r37rwor3gknr5t4p2drukyqiyicauhtamrg7oyikt5a.arweave.net/eXCtpVbcd_jZ0dmU2PZ8focaKxBGECBQ8wMib7sIVPo';
 export const DEFAULT_COLLECTION_THUMB =
-	'https://mbxncnknoa66kt4m7fajlej7ggwnhwa4oqdycccaihwvmfjfeiia.arweave.net/YG7RNU1wPeVPjPlAlZE_MazT2Bx0B4EIQEHtVhUlIhA';
+	'https://ssnc6hvdhwdqgyy5lze2dd2ndfvw3ula73sd4ib2unf5svmw4y4q.arweave.net/lJovHqM9hwNjHV5JoY9NGWtt0WD-5D4gOqNL2VWW5jk';
 
 export const UDL_LICENSE_VALUE = 'udlicense';
 

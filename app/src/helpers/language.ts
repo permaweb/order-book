@@ -9,6 +9,7 @@ export const language = {
 	atomicAsset: `Atomic Asset`,
 	appName: `BazAR`,
 	arProfileCreate: `To create your AR Profile, click here:`,
+	assetHasBeenBurned: `This asset has been burned`,
 	assetPercentageInfo: `Slide For Percentage of Asset`,
 	assetQuantityInfo: `Slide For Quantity of Asset`,
 	assetRights: `Asset Rights`,

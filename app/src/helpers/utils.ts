@@ -39,23 +39,6 @@ export function formatCount(count: string): string {
 	return count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-// function formatTime(time: number): string {
-// 	return time < 10 ? `0${time.toString()}` : time.toString();
-// }
-
-// function getHours(hours: number) {
-// 	if (hours > 12) return hours - 12;
-// 	else return hours;
-// }
-
-// function getHourFormat(hours: number) {
-// 	if (hours >= 12 && hours <= 23) {
-// 		return `PM`;
-// 	} else {
-// 		return `AM`;
-// 	}
-// }
-
 export function formatDate(dateArg: string | number | null, dateType: DateType) {
 	if (!dateArg) {
 		return STORAGE.none;
