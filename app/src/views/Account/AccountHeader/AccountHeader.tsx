@@ -155,7 +155,8 @@ export default function AccountHeader(props: IProps) {
 										</li>
 										<S.Share>
 											<TwitterShareButton title={''} url={window.location.href}>
-												{language.shareOnTwitter}
+												{language.shareOn}
+												<ReactSVG src={ASSETS.x} />
 											</TwitterShareButton>
 										</S.Share>
 									</S.ShareDropdown>

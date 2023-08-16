@@ -49,4 +49,11 @@ export const EWrapper = styled.div`
 			color: ${(props) => props.theme.colors.font.primary.alt8};
 		}
 	}
+	svg {
+		height: 12.5px;
+		width: 12.5px;
+		&:hover {
+			opacity: 0.5;
+		}
+	}
 `;

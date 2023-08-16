@@ -237,6 +237,7 @@ export const COMMENT_SPEC = {
 export const SOCIAL_PATHS = [
 	{
 		name: language.social.twitter,
+		icon: ASSETS.x,
 		href: 'https://twitter.com/OurBazAR',
 	},
 ];

@@ -165,9 +165,14 @@ export const Share = styled.li`
 	&:hover {
 		background: ${(props) => props.theme.colors.container.primary.hover};
 	}
-	svg {
-		height: 15px;
-		width: 15px;
+	button {
+		display: flex;
+		align-items: center;
+		svg {
+			height: 10px;
+			width: 10px;
+			margin: 1.5px 0 0 5.5px;
+		}
 	}
 `;
 
