@@ -42,7 +42,7 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 				<S.SFlex>
 					<S.SCValue>
 						<StampWidget
-							assetId={props.collection.name}
+							assetId={props.collection.id}
 							title={props.collection.name}
 							stamps={props.collection.stamps ? props.collection.stamps : null}
 							hasStampedMessage={language.collectionStamped}
