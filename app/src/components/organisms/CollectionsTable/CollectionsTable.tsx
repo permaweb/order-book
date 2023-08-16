@@ -1,18 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CollectionType } from 'permaweb-orderbook';
+import { CollectionType, getTxEndpoint } from 'permaweb-orderbook';
 
 import { Paginator } from 'components/molecules/Paginator';
 import { StampWidget } from 'components/organisms/StampWidget';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
+import { checkAddress } from 'helpers/utils';
 
 import * as S from './styles';
 import { IProps } from './types';
 
 function CollectionRow(props: { collection: CollectionType; index: number }) {
 	const redirect = `${urls.collection}${props.collection.id}`;
+
+	let thumbnail: string = '';
+	if (props.collection.thumbnail) {
+		thumbnail = checkAddress(props.collection.thumbnail)
+			? getTxEndpoint(props.collection.thumbnail)
+			: props.collection.thumbnail;
+	}
 
 	return (
 		<S.PICWrapper>
@@ -24,7 +32,7 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 							<Link to={redirect} />
 						</S.CollectionLink>
 						<S.ThumbnailWrapper>
-							<img src={props.collection.thumbnail} />
+							<img src={thumbnail} />
 						</S.ThumbnailWrapper>
 					</S.AWrapper>
 					<S.ATitle>
