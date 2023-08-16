@@ -29,7 +29,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 	const [isLicensed, setIsLicensed] = React.useState<boolean>(false);
 	const [containsLicense, setContainsLicense] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
-	const [_initialDisabled, setInitialDisabled] = React.useState<boolean>(true);
+	const [initialDisabled, setInitialDisabled] = React.useState<boolean>(true);
 
 	const [paymentResponse, setPaymentResponse] = React.useState<ResponseType | null>(null);
 
@@ -138,14 +138,13 @@ export default function AssetDetailLicenses(props: IAProps) {
 											type={'alt1'}
 											label={paymentResponse ? paymentResponse.message : language.payLicense}
 											handlePress={handlePay}
-											// disabled={
-											// 	!arProvider.walletAddress ||
-											// 	isLicensed ||
-											// 	loading ||
-											// 	paymentResponse !== null ||
-											// 	initialDisabled
-											// }
-											disabled={true}
+											disabled={
+												!arProvider.walletAddress ||
+												isLicensed ||
+												loading ||
+												paymentResponse !== null ||
+												initialDisabled
+											}
 											loading={loading}
 											noMinWidth
 										/>

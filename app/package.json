@@ -18,7 +18,7 @@
 	},
 	"dependencies": {
 		"@bundlr-network/client": "^0.11.9",
-		"@permaweb/payments": "0.0.10",
+		"@permaweb/payments": "0.0.12",
 		"@permaweb/stampjs": "0.5.2",
 		"@types/cytoscape": "3.14.17",
 		"@types/react-router-dom": "^5.3.3",
