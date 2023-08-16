@@ -48,6 +48,7 @@ import unsupportedSVG from 'assets/unsupported.svg';
 import userSVG from 'assets/user.svg';
 import videoSVG from 'assets/video.svg';
 import walletSVG from 'assets/wallet.svg';
+import xSVG from 'assets/x.svg';
 
 import { language } from './language';
 import { DREObjectType, WalletEnum } from './types';
@@ -117,6 +118,7 @@ export const ASSETS = {
 		arconnect: arconnectWalletPNG,
 		arweaveApp: arLogoSVG,
 	},
+	x: xSVG,
 };
 
 export const DOM = {

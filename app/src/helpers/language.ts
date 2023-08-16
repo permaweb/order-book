@@ -117,7 +117,7 @@ export const language = {
 	seller: `Seller`,
 	sellAsset: `Sell Asset`,
 	settings: `Settings`,
-	shareOnTwitter: `Share on Twitter`,
+	shareOnTwitter: `Share on X`,
 	shareProfile: `Share Profile`,
 	social: {
 		twitter: `Twitter`,

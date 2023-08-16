@@ -165,6 +165,10 @@ export const Share = styled.li`
 	&:hover {
 		background: ${(props) => props.theme.colors.container.primary.hover};
 	}
+	svg {
+		height: 15px;
+		width: 15px;
+	}
 `;
 
 export const InfoWrapper = styled.div`
