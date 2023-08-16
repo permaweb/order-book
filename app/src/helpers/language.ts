@@ -18,7 +18,7 @@ export const language = {
 	blockHeight: `Block Height`,
 	burnYourOwn: `Burn your own`,
 	buy: `Buy`,
-	buyOnPermaswap: `Buy on Permaswap`,
+	buyOnEverPay: `Buy on everPay`,
 	buyNow: `Buy Now`,
 	cancel: `Cancel`,
 	cancelOrder: `Cancel Order`,

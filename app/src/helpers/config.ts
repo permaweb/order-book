@@ -167,7 +167,7 @@ export const STORAGE = {
 
 export const REDIRECTS = {
 	arProfile: `https://arprofile.arweave.dev/`,
-	permaswap: `https://app.permaswap.network/AR-U`,
+	everpay: `https://app.everpay.io/deposit`,
 	u: `https://getu.arweave.dev/#/burn/`,
 	udl: `https://udlicense.arweave.dev`,
 	viewblock: (tx: string) => `https://viewblock.io/arweave/tx/${tx}`,

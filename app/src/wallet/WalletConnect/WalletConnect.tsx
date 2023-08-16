@@ -122,11 +122,11 @@ export default function WalletConnect(props: { callback?: () => void }) {
 											</li>
 											<li
 												onClick={() => {
-													window.open(REDIRECTS.permaswap, '_blank');
+													window.open(REDIRECTS.everpay, '_blank');
 													setShowGetBalanceDropdown(false);
 												}}
 											>
-												{language.buyOnPermaswap}
+												{language.buyOnEverPay}
 											</li>
 										</S.BalanceDropdown>
 									)}
