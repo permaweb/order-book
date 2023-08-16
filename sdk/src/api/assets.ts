@@ -7,6 +7,7 @@ import {
 	AssetType,
 	BalanceType,
 	CONTENT_TYPES,
+	FILTERED_IDS,
 	getBalancesEndpoint,
 	getTagValue,
 	GQLResponseType,
@@ -41,11 +42,13 @@ export async function createAsset(args: AssetCreateArgsClientType): Promise<stri
 
 export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
 	try {
-		let r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
+		const r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
 			.map((asset: OrderBookPairType) => {
 				return asset.pair[0];
 			})
-			.reverse();
+			.reverse()
+			.filter((id: string) => !FILTERED_IDS.includes(id));
+
 		return r;
 	} catch (e: any) {
 		return [];
