@@ -258,9 +258,9 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 			if (walletAddress && orderBook) {
 				const currencyState = await orderBook.api.arClient.read(CURRENCY_DICT['U']);
 				const balance = currencyState.balances[walletAddress];
-				if (balance) {
+				if (balance !== null) {
 					setCurrencyBalances({
-						U: balance,
+						U: balance ? balance : 0,
 					});
 				}
 			}

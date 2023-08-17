@@ -15,4 +15,5 @@ export interface IProps {
 	address?: string;
 	collectionId?: string;
 	getFeaturedData: boolean;
+	showFilters: boolean;
 }

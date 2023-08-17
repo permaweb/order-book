@@ -118,13 +118,13 @@ export default function CollectionsTable(props: IProps) {
 						</S.StampCount>
 					</S.SHeaderFlex>
 				</S.HSection1>
-				{getPaginator(true)}
+				<S.PWrapper>{getPaginator(true)}</S.PWrapper>
 				<>
 					{props.collections.map((collection: CollectionType, index: number) => {
 						return <CollectionRow key={index} collection={collection} index={index + 1} />;
 					})}
 				</>
-				{getPaginator(false)}
+				<S.PWrapper>{getPaginator(false)}</S.PWrapper>
 			</S.Body>
 		</S.Wrapper>
 	) : null;

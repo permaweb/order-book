@@ -198,3 +198,8 @@ export const AOrders = styled.div`
 `;
 
 export const SCValue = styled.div``;
+
+export const PWrapper = styled.div`
+	width: 100%;
+	margin: 20px 0;
+`;

@@ -59,6 +59,7 @@ export default function Collection() {
 					showNoResults={true}
 					loading={loading}
 					getFeaturedData={false}
+					showFilters={false}
 				/>
 			</div>
 		</>

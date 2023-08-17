@@ -61,6 +61,7 @@ export const language = {
 	errorFetchingAsset: `Error Fetching Asset`,
 	errorOccurred: `Error Occurred`,
 	fetching: `Fetching`,
+	filterByListings: `Filter By Listings`,
 	getU: `Get U`,
 	goBack: `Go Back`,
 	grid: `Grid`,

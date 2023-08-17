@@ -3,12 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AssetType, CursorEnum } from 'permaweb-orderbook';
 
+import { Button } from 'components/atoms/Button';
 import { Paginator } from 'components/molecules/Paginator';
 import { AssetsGrid } from 'components/organisms/AssetsGrid';
 import { AssetsList } from 'components/organisms/AssetsList';
+import { ASSETS } from 'helpers/config';
+import { language } from 'helpers/language';
+import { REDUX_TABLES } from 'helpers/redux';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import { ReduxAssetsUpdate } from 'store/assets/ReduxAssetsUpdate';
+import * as cursorActions from 'store/cursors/actions';
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -18,6 +23,8 @@ export default function AssetsTable(props: IProps) {
 	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 
 	const scrollRef = React.useRef(null);
+
+	const [filterListings, setFilterListings] = React.useState<boolean>(false);
 
 	const [currentPage, setCurrentPage] = React.useState(1);
 	const [recordsPerPage] = React.useState(props.recordsPerPage);
@@ -104,6 +111,41 @@ export default function AssetsTable(props: IProps) {
 		}
 	}
 
+	function handleFilterUpdate() {
+		setFilterListings(!filterListings);
+		dispatch(
+			assetActions.setAssets({
+				contractData: null,
+				featuredData: null,
+				accountData: { address: null, data: null },
+				collectionData: null,
+			})
+		);
+		dispatch(
+			cursorActions.setCursors({
+				[REDUX_TABLES[props.reduxCursor]]: { groups: [], count: 0 },
+			})
+		);
+	}
+
+	function getActions() {
+		if (props.showFilters) {
+			return (
+				<>
+					<Button
+						type={'primary'}
+						label={language.filterByListings}
+						handlePress={handleFilterUpdate}
+						icon={filterListings ? ASSETS.close : null}
+						active={filterListings}
+						disabled={!currentRecords || currentRecords.length <= 0}
+						noMinWidth
+					/>
+				</>
+			);
+		} else return null;
+	}
+
 	function getTable() {
 		switch (props.tableType) {
 			case 'grid':
@@ -124,13 +166,17 @@ export default function AssetsTable(props: IProps) {
 			currentTableCursor={currentTableCursor}
 			collectionId={props.collectionId}
 			getFeaturedData={props.getFeaturedData}
+			filterListings={filterListings}
 		>
 			<div className={'view-wrapper max-cutoff'}>
 				<S.Wrapper ref={scrollRef}>
 					{props.header && <h2>{props.header}</h2>}
-					{getPaginator(true)}
+					<S.PAWrapper>
+						<S.PWrapper>{getPaginator(true)}</S.PWrapper>
+						<S.AWrapper>{getActions()}</S.AWrapper>
+					</S.PAWrapper>
 					{getTable()}
-					{getPaginator(false)}
+					<S.PBWrapper>{getPaginator(false)}</S.PBWrapper>
 				</S.Wrapper>
 			</div>
 		</ReduxAssetsUpdate>

@@ -67,16 +67,10 @@ export const Primary = styled.button<{
 	}
 
 	&:hover svg {
-		animation: gelatine 0.5s;
-		animation-iteration-count: 1;
 	}
 	&:focus svg {
-		animation: gelatine 0.5s;
-		animation-iteration-count: 1;
 	}
 	&:disabled svg {
-		animation: none;
-		animation-iteration-count: 1;
 	}
 	@keyframes gelatine {
 		from,
@@ -111,10 +105,10 @@ export const IconPrimary = styled.div<{
 	leftAlign: boolean;
 }>`
 	svg {
-		height: 20px;
-		width: 20px;
+		height: 12.5px;
+		width: 12.5px;
 		padding: 1.5px 0 0 0;
-		margin: ${(props) => (props.leftAlign ? '0 12.5px 0 0' : '0 0 0 12.5px')};
+		margin: ${(props) => (props.leftAlign ? '0 12.5px 0 0' : '1.5px 0 0 12.5px')};
 		fill: ${(props) =>
 			props.disabled
 				? props.theme.colors.button.primary.disabled.label

@@ -48,8 +48,8 @@ const apiClient: ApiClientType = {
 		return await getActivity({ ...args, arClient: this.arClient });
 	},
 
-	getAssetIdsByContract: async function (): Promise<string[]> {
-		return await getAssetIdsByContract({ arClient: this.arClient });
+	getAssetIdsByContract: async function (args: { filterListings: boolean }): Promise<string[]> {
+		return await getAssetIdsByContract({ arClient: this.arClient, filterListings: args.filterListings });
 	},
 
 	getAssetIdsByUser: async function (args: { walletAddress: string }): Promise<string[]> {

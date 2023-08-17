@@ -24,6 +24,7 @@ export default function ReduxAssetsUpdate(props: {
 	address?: string;
 	collectionId?: string;
 	getFeaturedData: boolean;
+	filterListings: boolean;
 }) {
 	const dispatch = useDispatch();
 
@@ -93,7 +94,9 @@ export default function ReduxAssetsUpdate(props: {
 						switch (props.apiFetch) {
 							case 'contract':
 								paginator = PAGINATORS.contract;
-								contractIds = await orderBook.api.getAssetIdsByContract();
+								contractIds = await orderBook.api.getAssetIdsByContract({
+									filterListings: props.filterListings,
+								});
 								break;
 							case 'user':
 								if (props.address) {
@@ -160,7 +163,7 @@ export default function ReduxAssetsUpdate(props: {
 				}
 			})();
 		}
-	}, [props.address, props.collectionId, dreReducer.source, orderBook]);
+	}, [props.address, props.collectionId, dreReducer.source, orderBook, props.filterListings]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -217,11 +220,12 @@ export default function ReduxAssetsUpdate(props: {
 			}
 		})();
 	}, [
-		cursorsReducer[props.cursorObject][props.reduxCursor].groups,
+		cursorsReducer,
 		assetsReducer.accountData.address,
 		props.currentTableCursor,
 		dreReducer.source,
 		orderBook,
+		props.filterListings,
 	]);
 
 	return <>{props.children}</>;

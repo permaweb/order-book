@@ -45,6 +45,7 @@ export default function Landing() {
 			setFeaturedAssets(assetsReducer.featuredData);
 			setLoading(false);
 		} else {
+			setFeaturedAssets(null);
 			setLoading(true);
 		}
 	}, [assetsReducer.contractData]);
@@ -59,6 +60,7 @@ export default function Landing() {
 			}
 			setLoading(false);
 		} else {
+			setTableAssets(null);
 			setLoading(true);
 		}
 	}, [assetsReducer.contractData, featuredAssets]);
@@ -74,7 +76,7 @@ export default function Landing() {
 					assets={featuredAssets}
 					autoLoad={true}
 					loaderCount={FEATURE_COUNT}
-					loading={false}
+					loading={loading}
 				/>
 			</div>
 			<AssetsTable
@@ -87,6 +89,7 @@ export default function Landing() {
 				showNoResults={true}
 				loading={loading}
 				getFeaturedData={!featuredAssets}
+				showFilters={true}
 			/>
 		</div>
 	);

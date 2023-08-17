@@ -4,7 +4,6 @@ export const Wrapper = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	margin: 20px 0;
 `;
 
 export const NumberContainer = styled.div`

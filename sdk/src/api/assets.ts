@@ -40,16 +40,20 @@ export async function createAsset(args: AssetCreateArgsClientType): Promise<stri
 	}
 }
 
-export async function getAssetIdsByContract(args: { arClient: any }): Promise<string[]> {
+export async function getAssetIdsByContract(args: { arClient: any; filterListings: boolean }): Promise<string[]> {
 	try {
-		const r = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs
-			.map((asset: OrderBookPairType) => {
-				return asset.pair[0];
-			})
-			.reverse()
-			.filter((id: string) => !FILTERED_IDS.includes(id));
-
-		return r;
+		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
+		const ids: string[] = [];
+		for (let i = 0; i < pairs.length; i++) {
+			if (!args.filterListings) ids.push(pairs[i].pair[0]);
+			else {
+				if (pairs[i].orders && pairs[i].orders.length > 0) {
+					ids.push(pairs[i].pair[0]);
+				}
+			}
+		}
+		const finalIds = ids.reverse().filter((id: string) => !FILTERED_IDS.includes(id));
+		return finalIds;
 	} catch (e: any) {
 		return [];
 	}
