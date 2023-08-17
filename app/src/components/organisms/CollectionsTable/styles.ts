@@ -12,7 +12,7 @@ export const Header = styled.div`
 	margin: 0 0 40px 0;
 	p {
 		font-size: 20px;
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 `;
 
@@ -28,7 +28,7 @@ export const HSection1 = styled.div`
 	p,
 	a {
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt6};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
@@ -88,7 +88,7 @@ export const PCWrapper = styled.div`
 		max-width: none;
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		overflow: hidden;
 		text-overflow: ellipsis;

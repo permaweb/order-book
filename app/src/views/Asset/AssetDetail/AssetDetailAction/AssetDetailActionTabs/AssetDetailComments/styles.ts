@@ -53,7 +53,7 @@ export const CommentDetail = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;
@@ -65,7 +65,7 @@ export const LoadingWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		max-width: 100%;
 		overflow: hidden;
@@ -91,7 +91,7 @@ export const CommentCreateTextArea = styled.textarea<{ invalid: boolean }>`
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
 	font-family: ${(props) => props.theme.typography.family.primary};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	padding: 0;
 	margin: 10px 0 0 0;
 	border: none;
@@ -117,7 +117,7 @@ export const WalletConnectionWrapper = styled.div`
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		padding: 7.5px 20px;
 		background: ${(props) => props.theme.colors.container.alt2.background};

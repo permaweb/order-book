@@ -9,6 +9,7 @@ import { STORAGE, TAGS } from 'permaweb-orderbook';
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
+// import { Modal } from 'components/molecules/Modal';
 import { API_CONFIG, ASSETS, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
@@ -26,9 +27,11 @@ export default function AssetDetailLicenses(props: IAProps) {
 
 	const [payments, setPayments] = React.useState<any>(null);
 
-	const [isLicensed, setIsLicensed] = React.useState<boolean>(false);
+	const [licensePaid, setLicensePaid] = React.useState<boolean>(false);
 	const [containsLicense, setContainsLicense] = React.useState<boolean>(false);
+
 	const [loading, setLoading] = React.useState<boolean>(false);
+	// const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
 	const [initialDisabled, setInitialDisabled] = React.useState<boolean>(true);
 
 	const [paymentResponse, setPaymentResponse] = React.useState<ResponseType | null>(null);
@@ -64,20 +67,20 @@ export default function AssetDetailLicenses(props: IAProps) {
 				payments
 			) {
 				setContainsLicense(true);
-				setIsLicensed(await payments.isLicensed(props.asset.data.id, arProvider.walletAddress));
+				setLicensePaid(await payments.isLicensed(props.asset.data.id, arProvider.walletAddress));
 				setInitialDisabled(false);
 			}
 		})();
 	}, [props.asset, payments, loading]);
 
 	React.useEffect(() => {
-		if (isLicensed) {
+		if (licensePaid) {
 			setPaymentResponse({
 				status: true,
 				message: `${language.licensePaid}!`,
 			});
 		}
-	}, [isLicensed]);
+	}, [licensePaid]);
 
 	async function handlePay() {
 		(async function () {
@@ -136,11 +139,11 @@ export default function AssetDetailLicenses(props: IAProps) {
 									<S.ActionContainer>
 										<Button
 											type={'alt1'}
-											label={paymentResponse ? paymentResponse.message : language.payLicense}
+											label={language.payLicense}
 											handlePress={handlePay}
 											disabled={
 												!arProvider.walletAddress ||
-												isLicensed ||
+												licensePaid ||
 												loading ||
 												paymentResponse !== null ||
 												initialDisabled
@@ -172,6 +175,25 @@ export default function AssetDetailLicenses(props: IAProps) {
 										</S.DCLine>
 									) : null;
 								})}
+
+								{/* {showConfirmation && (
+									<Modal header={language.confirmPayment} handleClose={() => setShowConfirmation(false)}>
+										<Button
+											type={'alt1'}
+											label={paymentResponse ? paymentResponse.message : language.confirm}
+											handlePress={handlePay}
+											disabled={
+												!arProvider.walletAddress ||
+												licensePaid ||
+												loading ||
+												paymentResponse !== null ||
+												initialDisabled
+											}
+											loading={loading}
+											noMinWidth
+										/>
+									</Modal>
+								)} */}
 							</>
 						)}
 						{props.asset.data.license && props.asset.data.license !== STORAGE.none && (

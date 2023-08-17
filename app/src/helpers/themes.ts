@@ -381,7 +381,7 @@ export const defaultTheme: DefaultTheme = {
 			xxSmall: '13px',
 		},
 		weight: {
-			thin: '400',
+			thin: '100',
 			extraLight: '200',
 			light: '300',
 			regular: '400',

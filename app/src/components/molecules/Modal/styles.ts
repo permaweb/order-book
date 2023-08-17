@@ -105,7 +105,7 @@ export const CloseButtonContainer = styled.button`
 	padding: 5px 10px;
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	font-size: ${(props) => props.theme.typography.size.xxSmall};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	&:hover {
 		opacity: 0.75;
 	}

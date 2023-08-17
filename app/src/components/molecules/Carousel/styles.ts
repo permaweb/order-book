@@ -19,7 +19,7 @@ export const Header = styled.div`
 	width: 100%;
 	p {
 		font-size: 20px;
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 `;
 

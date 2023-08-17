@@ -67,7 +67,7 @@ export const Wrapper = styled.div<{ isView: boolean }>`
 	div,
 	pre {
 		font-size: ${(props) => props.theme.typography.size.base} !important;
-		font-weight: ${(props) => props.theme.typography.weight.regular} !important;
+		font-weight: ${(props) => props.theme.typography.weight.medium} !important;
 		font-family: ${(props) => props.theme.typography.family.primary} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt1} !important;
 		line-height: 1.75 !important;
@@ -125,7 +125,7 @@ export const Wrapper = styled.div<{ isView: boolean }>`
 		border: 1px solid ${(props) => props.theme.colors.border.primary} !important;
 		border-radius: ${STYLING.dimensions.borderRadiusWrapper} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt1} !important;
-		font-weight: ${(props) => props.theme.typography.weight.regular} !important;
+		font-weight: ${(props) => props.theme.typography.weight.medium} !important;
 		font-size: ${(props) => props.theme.typography.size.small} !important;
 	}
 
@@ -140,7 +140,7 @@ export const Wrapper = styled.div<{ isView: boolean }>`
 			background: ${(props) => props.theme.colors.transparent} !important;
 			border: 1px solid ${(props) => props.theme.colors.transparent} !important;
 			color: ${(props) => props.theme.colors.font.primary.alt1} !important;
-			font-weight: ${(props) => props.theme.typography.weight.regular} !important;
+			font-weight: ${(props) => props.theme.typography.weight.medium} !important;
 			font-size: ${(props) => props.theme.typography.size.small} !important;
 			border-radius: 0 !important;
 			line-height: 1.5 !important;
@@ -169,7 +169,7 @@ export const CodeBlock = styled.div`
 		background: ${(props) => props.theme.colors.transparent} !important;
 		border: 1px solid ${(props) => props.theme.colors.transparent} !important;
 		color: ${(props) => props.theme.colors.font.primary.alt1} !important;
-		font-weight: ${(props) => props.theme.typography.weight.regular} !important;
+		font-weight: ${(props) => props.theme.typography.weight.medium} !important;
 		font-size: ${(props) => props.theme.typography.size.small} !important;
 		border-radius: 0 !important;
 		line-height: 1.5 !important;

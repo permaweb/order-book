@@ -29,7 +29,7 @@ export const Details = styled.div`
 export const TxData = styled.div`
 	pre {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		line-height: 1.5;
 	}

@@ -34,7 +34,7 @@ export const HSection1 = styled.div`
 	p,
 	a {
 		font-size: ${(props) => props.theme.typography.size.small};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
@@ -104,7 +104,7 @@ export const PCWrapper = styled.div`
 		max-width: 175px;
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -217,7 +217,7 @@ export const NoAssetsContainer = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.warning};
 	}
 `;

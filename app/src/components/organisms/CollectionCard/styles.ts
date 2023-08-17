@@ -38,7 +38,7 @@ export const InfoWrapper = styled.div`
 	h2 {
 		line-height: 1.5;
 		margin: 0 0 10px 0;
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		height: auto;
@@ -55,7 +55,7 @@ export const IFlex = styled.div`
 		font-size: ${(props) => props.theme.typography.size.small};
 		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		word-wrap: break-word;
 	}

@@ -35,6 +35,7 @@ export const language = {
 	commentStamped: `Comment Stamped`,
 	confirm: `Confirm`,
 	confirmListing: `Confirm Listing`,
+	confirmPayment: `Confirm Payment`,
 	confirmPurchase: `Confirm Purchase`,
 	connect: `Connect`,
 	connectorNotFound: `This connector was not found`,

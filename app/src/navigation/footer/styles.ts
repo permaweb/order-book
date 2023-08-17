@@ -43,7 +43,7 @@ export const EWrapper = styled.div`
 	button {
 		font-size: ${(props) => props.theme.typography.size.xSmall};
 		font-family: ${(props) => props.theme.typography.family.primary};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		text-decoration: none !important;
 		&:hover {
 			color: ${(props) => props.theme.colors.font.primary.alt8};

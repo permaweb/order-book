@@ -30,7 +30,7 @@ export const AltTab = styled.div`
 export const AltTabAction = styled.button<{ active: boolean; icon: boolean }>`
 	padding: ${(props) => (props.icon ? '8.15px 25px 8.15px 22.5px' : '8.15px 25px')};
 	font-size: ${(props) => props.theme.typography.size.small};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	color: ${(props) => props.theme.colors.font.primary.alt1};
 	cursor: pointer;

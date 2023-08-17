@@ -143,7 +143,7 @@ export const ShareDropdown = styled.ul`
 		cursor: pointer;
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		font-size: ${(props) => props.theme.typography.size.xxSmall};
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		border: 1px solid ${(props) => props.theme.colors.transparent};
 		padding: 0 15px;
 		&:hover {
@@ -159,7 +159,7 @@ export const Share = styled.li`
 	cursor: pointer;
 	color: ${(props) => props.theme.colors.font.primary.alt8};
 	font-size: ${(props) => props.theme.typography.size.xxSmall};
-	font-weight: ${(props) => props.theme.typography.weight.regular};
+	font-weight: ${(props) => props.theme.typography.weight.medium};
 	border: 1px solid ${(props) => props.theme.colors.transparent};
 	padding: 0 !important;
 	&:hover {
@@ -195,7 +195,7 @@ export const Info = styled.div`
 		line-height: calc(${(props) => props.theme.typography.size.small} + 2px);
 	}
 	span {
-		font-weight: ${(props) => props.theme.typography.weight.regular};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 	p {
