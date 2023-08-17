@@ -139,7 +139,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 									<S.ActionContainer>
 										<Button
 											type={'alt1'}
-											label={language.payLicense}
+											label={paymentResponse ? paymentResponse.message : language.confirm}
 											handlePress={handlePay}
 											disabled={
 												!arProvider.walletAddress ||
