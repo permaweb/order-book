@@ -40,6 +40,7 @@ export default function _Carousel(props: IProps) {
 		<S.Content>
 			<S.Header>
 				<p>{props.title.toUpperCase()}</p>
+				{props.action && <S.Action>{props.action}</S.Action>}
 			</S.Header>
 			<S.Body>
 				<Carousel

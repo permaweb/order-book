@@ -7,4 +7,5 @@ export interface IProps {
 		fn: any;
 		disabled: boolean;
 	};
+	action?: React.ReactNode;
 }

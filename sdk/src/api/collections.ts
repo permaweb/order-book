@@ -46,7 +46,7 @@ async function buildCollection(args: {
 		  })
 		: null;
 
-	const collection: any = {
+	const collection: CollectionAssetType = {
 		id: args.node.id,
 		banner: banner,
 		thumbnail: thumbnail,
@@ -55,6 +55,7 @@ async function buildCollection(args: {
 		description: description,
 		type: type,
 		creator: profile,
+		block: args.node.block,
 	};
 
 	if (args.items) {

@@ -15,16 +15,30 @@ export const Content = styled.div`
 `;
 
 export const Header = styled.div`
-	height: 50px;
+	// height: 70px;
 	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0 0 20px 0;
 	p {
 		font-size: 20px;
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		flex-direction: column;
+	}
+`;
+
+export const Action = styled.div`
+	margin: 0 100px 0 auto;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		width: fit-content;
+		margin: 20px 0 0 0;
+	}
 `;
 
 export const Body = styled.div`
-	height: calc(100% - 50px);
 	width: 100%;
 	.carousel-root {
 		height: 100%;
@@ -73,13 +87,16 @@ export const Indicator = styled.button<{ selected: boolean }>`
 
 export const NextAction = styled.div`
 	position: absolute;
-	top: -50px;
+	top: -58.5px;
 	right: 0;
 	height: fit-content;
 	width: fit-content;
 	margin: 0;
 	text-align: left;
 	display: flex;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		top: -106.5px;
+	}
 `;
 
 export const PrevAction = styled(NextAction)`

@@ -319,11 +319,12 @@ export type CollectionType = {
 	description: string;
 	type: string;
 	creator: ProfileType;
+	block: { height: number; timestamp: number };
 	stamps?: { total: number; vouched: number };
 };
 
 export type CollectionAssetType = CollectionType & {
-	assets: string[];
+	assets?: string[];
 };
 
 export type CollectionManifestType = {

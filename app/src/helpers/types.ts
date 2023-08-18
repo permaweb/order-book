@@ -86,3 +86,5 @@ export type SequenceType = {
 	start: number;
 	end: number;
 };
+
+export type CollectionsSortType = 'new' | 'stamps';
