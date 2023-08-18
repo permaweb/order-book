@@ -39,10 +39,10 @@ export default function CollectionsCarousel(props: IProps) {
 		})();
 	}, [props.collections, currentSort]);
 
-	async function sortCollections(collections: CollectionType[]) {
+	async function sortCollections(collectionsArg: CollectionType[]) {
 		switch (currentSort) {
 			case 'new':
-				const sortedCollections = collections.sort(
+				const sortedCollections = collectionsArg.sort(
 					(a: CollectionType, b: CollectionType) => b.block.timestamp - a.block.timestamp
 				);
 				return sortedCollections;
@@ -57,10 +57,10 @@ export default function CollectionsCarousel(props: IProps) {
 						dreReducer.source
 					);
 				} else {
-					return collections;
+					return collectionsArg;
 				}
 			default:
-				return collections;
+				return collectionsArg;
 		}
 	}
 

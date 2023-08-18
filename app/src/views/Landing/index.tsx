@@ -76,7 +76,7 @@ export default function Landing() {
 					assets={featuredAssets}
 					autoLoad={true}
 					loaderCount={FEATURE_COUNT}
-					loading={loading}
+					loading={featuredAssets ? false : loading}
 				/>
 			</div>
 			<AssetsTable

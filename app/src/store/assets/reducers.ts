@@ -14,13 +14,15 @@ export function assetsReducer(state: AssetsType = initStateAssets, action: Redux
 	switch (action.type) {
 		case SET_ASSETS:
 			return Object.assign({}, state, {
-				contractData: action.payload.contractData,
-				featuredData: action.payload.featuredData,
+				contractData: action.payload.contractData !== undefined ? action.payload.contractData : state.contractData,
+				featuredData: action.payload.featuredData !== undefined ? action.payload.featuredData : state.featuredData,
 				accountData: {
-					address: action.payload.accountData ? action.payload.accountData.address : state.accountData.address,
-					data: action.payload.accountData ? action.payload.accountData.data : state.accountData.data,
+					address:
+						action.payload.accountData !== undefined ? action.payload.accountData.address : state.accountData.address,
+					data: action.payload.accountData !== undefined ? action.payload.accountData.data : state.accountData.data,
 				},
-				collectionData: action.payload.collectionData,
+				collectionData:
+					action.payload.collectionData !== undefined ? action.payload.collectionData : state.collectionData,
 			});
 		default:
 			return state;
