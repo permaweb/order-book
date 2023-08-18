@@ -33,4 +33,8 @@ export const AWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	svg {
+		height: 12.5px;
+		width: 12.5px;
+	}
 `;

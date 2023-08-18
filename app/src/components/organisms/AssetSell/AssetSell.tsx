@@ -121,7 +121,7 @@ export default function AssetSell(props: IProps) {
 				} else if (unitPrice < 0.000001) {
 					setInvalidUnitPrice({
 						status: true,
-						message: 'Unit price must be above 0.000001',
+						message: language.unitPriceAboveDecimal,
 					});
 				} else {
 					const decimalString = unitPrice.toString();
@@ -131,7 +131,7 @@ export default function AssetSell(props: IProps) {
 						if (decimalPlaces.length > 6) {
 							setInvalidUnitPrice({
 								status: true,
-								message: 'Unit price must have at most 6 decimal places',
+								message: language.unitPriceBelowDecimal,
 							});
 						} else {
 							setInvalidUnitPrice({

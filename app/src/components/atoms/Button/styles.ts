@@ -105,8 +105,8 @@ export const IconPrimary = styled.div<{
 	leftAlign: boolean;
 }>`
 	svg {
-		height: 12.5px;
-		width: 12.5px;
+		height: 20px;
+		width: 20px;
 		padding: 1.5px 0 0 0;
 		margin: ${(props) => (props.leftAlign ? '0 12.5px 0 0' : '1.5px 0 0 12.5px')};
 		fill: ${(props) =>

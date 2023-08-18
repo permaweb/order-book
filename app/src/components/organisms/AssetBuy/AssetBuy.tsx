@@ -25,10 +25,11 @@ export default function AssetBuy(props: IProps) {
 
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
-
 	const [assetQuantity, setAssetQuantity] = React.useState<number>(0);
-	const [tradeable, setTradeable] = React.useState<boolean>(false);
 
+	const [denominator, _setDenominator] = React.useState<number | null>(null);
+
+	const [tradeable, setTradeable] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
 	const [buyResponse, setBuyResponse] = React.useState<ResponseType | null>(null);
@@ -39,9 +40,16 @@ export default function AssetBuy(props: IProps) {
 			const balances = Object.keys(props.asset.state.balances).map((balance: any) => {
 				return props.asset.state.balances[balance];
 			});
-			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
+			const reducedBalances = balances.reduce((a: number, b: number) => a + b, 0);
+			setTotalBalance(denominator ? reducedBalances / denominator : reducedBalances);
+
+			setTradeable(props.asset.state.claimable ? true : false);
+
+			// if (!denominator && props.asset.state.divisibility) {
+			// 	setDenominator(Math.pow(10, props.asset.state.divisibility));
+			// }
 		}
-	}, [props.asset]);
+	}, [props.asset, denominator]);
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.orders) {
@@ -49,12 +57,6 @@ export default function AssetBuy(props: IProps) {
 				return order.quantity;
 			});
 			setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
-		}
-	}, [props.asset]);
-
-	React.useEffect(() => {
-		if (props.asset && props.asset.state) {
-			setTradeable(props.asset.state.claimable ? true : false);
 		}
 	}, [props.asset]);
 
