@@ -52,8 +52,8 @@ export async function getAssetIdsByContract(args: { arClient: any; filterListing
 				}
 			}
 		}
-		const finalIds = ids.reverse().filter((id: string) => !FILTERED_IDS.includes(id));
-		return finalIds;
+		const finalAssetIds = ids.reverse().filter((id: string) => !FILTERED_IDS.includes(id));
+		return finalAssetIds;
 	} catch (e: any) {
 		return [];
 	}
@@ -77,7 +77,7 @@ export async function getAssetIdsByUser(args: {
 					return balance.contract_tx_id;
 				});
 
-			let finalAssetIds = [...assetIds];
+			let finalAssetIds = [...assetIds].filter((id: string) => !FILTERED_IDS.includes(id));
 			if (args.filterListings) {
 				const contractIds = await getAssetIdsByContract({
 					arClient: args.arClient,

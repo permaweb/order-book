@@ -138,7 +138,7 @@ export default function AssetsTable(props: IProps) {
 						handlePress={handleFilterUpdate}
 						icon={filterListings ? ASSETS.close : null}
 						active={filterListings}
-						disabled={!currentRecords || currentRecords.length <= 0}
+						disabled={!props.assets}
 						noMinWidth
 					/>
 				</>
