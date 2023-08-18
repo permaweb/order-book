@@ -83,6 +83,7 @@ export async function getCollections(args: {
 		cursorObject: CursorEnum.GQL,
 		arClient: args.arClient,
 		minBlock: 1242062,
+		useArweaveNet: true,
 	});
 	const collections: CollectionType[] = [];
 	for (let i = 0; i < gqlData.data.length; i++) {
