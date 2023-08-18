@@ -134,7 +134,7 @@ export default function AssetsTable(props: IProps) {
 				<>
 					<Button
 						type={'primary'}
-						label={language.filterByListings}
+						label={language.activeListings}
 						handlePress={handleFilterUpdate}
 						icon={filterListings ? ASSETS.close : null}
 						active={filterListings}

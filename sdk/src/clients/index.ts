@@ -1,7 +1,7 @@
 import { getContractEndpoint, getTransactionLink, validateAsset, validateBuy, validateSell } from '../helpers';
 import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from '../helpers/config';
 import {
-	ApiClientType,
+	APIClientType,
 	ArweaveClientType,
 	BuyArgs,
 	CancelArgs,
@@ -12,7 +12,7 @@ import {
 } from '../helpers/types';
 import { pairExists } from '../helpers/utils';
 
-import { ApiClient } from './api';
+import { APIClient } from './api';
 import { ArweaveClient } from './arweave';
 
 const client: OrderBookType = {
@@ -33,7 +33,7 @@ const client: OrderBookType = {
 			}),
 		};
 
-		let api: ApiClientType = ApiClient.init({
+		let api: APIClientType = APIClient.init({
 			arClient: this.env.arClient,
 			orderBookContract: ORDERBOOK_CONTRACT,
 		});

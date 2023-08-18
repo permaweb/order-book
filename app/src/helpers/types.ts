@@ -41,7 +41,7 @@ export type CursorType = {
 
 export type AssetTableType = 'grid' | 'list';
 
-export type ApiFetchType = 'contract' | 'user' | 'collection';
+export type APIFetchType = 'contract' | 'user' | 'collection';
 
 export type ValidationType = {
 	status: boolean;

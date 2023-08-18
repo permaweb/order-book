@@ -217,7 +217,7 @@ export const DRE_NODES: DREObjectType[] = [
 	},
 ];
 
-export const DRE_STATE_CHANNEL = (id: string) => `states/DRE-BAZAR-1/${id}`;
+export const DRE_STATE_CHANNEL = (id: string) => `states/DRE-BAZAR-2/${id}`;
 
 export const UDL_ICONS_MAP = {
 	AR: ASSETS.arLogo,

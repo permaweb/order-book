@@ -16,6 +16,7 @@ import {
 	TAGS,
 } from '../helpers';
 
+import { getAssetIdsByContract } from './assets';
 import { getProfile } from './profile';
 
 async function buildCollection(args: {
@@ -119,7 +120,13 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 
 		const node = collectionGql.data[0].node;
 
-		return await buildCollection({ node, items: collection.items, arClient: args.arClient, useProfile: true });
+		let items = collection.items;
+		if (args.filterListings) {
+			const contractIds = await getAssetIdsByContract({ arClient: args.arClient, filterListings: args.filterListings });
+			items = collection.items.filter((id: string) => contractIds.includes(id));
+		}
+
+		return await buildCollection({ node, items: items, arClient: args.arClient, useProfile: true });
 	} catch (error: any) {
 		console.error(error);
 	}

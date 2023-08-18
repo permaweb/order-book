@@ -82,7 +82,7 @@ export type InitArgs = {
 	warpDreNode: string;
 };
 
-export type ApiClientInitArgs = {
+export type APIClientInitArgs = {
 	arClient: ArweaveClientType;
 	orderBookContract: string;
 };
@@ -126,6 +126,7 @@ export type GetCollectionsArgs = {
 export type GetCollectionArgs = {
 	arClient: any;
 	collectionId: string;
+	filterListings: boolean;
 };
 
 export type GetCollectionByCodeArgs = {
@@ -141,20 +142,20 @@ export type SearchArgs = AssetArgsType & {
 	term: string;
 };
 
-export type ApiClientType = {
+export type APIClientType = {
 	arClient: ArweaveClientType;
 	orderBookContract: string;
-	init: (args: ApiClientInitArgs) => ApiClientType;
+	init: (args: APIClientInitArgs) => APIClientType;
 	createAsset: (args: AssetCreateArgsType) => Promise<string>;
 	getActivity: (args: { id: string }) => Promise<any>;
 	getAssetIdsByContract: (args: { filterListings: boolean }) => Promise<string[]>;
-	getAssetIdsByUser: (args: { walletAddress: string }) => Promise<string[]>;
+	getAssetIdsByUser: (args: { walletAddress: string; filterListings: boolean }) => Promise<string[]>;
 	getAssetsByIds: (args: AssetArgsType) => Promise<AssetType[]>;
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
 	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
-	getCollection: (args: { collectionId: string }) => Promise<CollectionAssetType>;
+	getCollection: (args: { collectionId: string; filterListings: boolean }) => Promise<CollectionAssetType>;
 	getCollectionByCode: (args: { collectionCode: string }) => Promise<CollectionAssetType>;
 	getComments: (args: { id: string; cursor: string | null }) => Promise<CommentsResponseType>;
 	getCommentData: (args: { id: string }) => Promise<CommentDetailType>;
@@ -219,7 +220,7 @@ export type OrderBookType = {
 	sell: (args: SellArgs) => Promise<any>;
 	buy: (args: BuyArgs) => Promise<any>;
 	cancel: (args: CancelArgs) => Promise<any>;
-	api: ApiClientType;
+	api: APIClientType;
 };
 
 export type PagingType = {

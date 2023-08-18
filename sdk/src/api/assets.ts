@@ -59,7 +59,11 @@ export async function getAssetIdsByContract(args: { arClient: any; filterListing
 	}
 }
 
-export async function getAssetIdsByUser(args: { walletAddress: string; arClient: any }): Promise<string[]> {
+export async function getAssetIdsByUser(args: {
+	arClient: any;
+	walletAddress: string;
+	filterListings: boolean;
+}): Promise<string[]> {
 	try {
 		const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
 		if (result.status === 200) {
@@ -72,7 +76,17 @@ export async function getAssetIdsByUser(args: { walletAddress: string; arClient:
 				.map((balance: BalanceType) => {
 					return balance.contract_tx_id;
 				});
-			return assetIds;
+
+			let finalAssetIds = [...assetIds];
+			if (args.filterListings) {
+				const contractIds = await getAssetIdsByContract({
+					arClient: args.arClient,
+					filterListings: args.filterListings,
+				});
+				finalAssetIds = assetIds.filter((id: string) => contractIds.includes(id));
+			}
+
+			return finalAssetIds;
 		} else {
 			return [];
 		}

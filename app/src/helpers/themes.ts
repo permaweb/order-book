@@ -96,7 +96,7 @@ export const defaultTheme: DefaultTheme = {
 				hover: DEFAULT.alt6,
 				label: DEFAULT.neutral1,
 				active: {
-					background: DEFAULT.alt5,
+					background: DEFAULT.alt6,
 					border: DEFAULT.alt5,
 					hover: DEFAULT.alt6,
 					label: DEFAULT.neutral1,

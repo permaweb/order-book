@@ -15,8 +15,8 @@ import {
 } from '../../api';
 import {
 	ActivityResponseType,
-	ApiClientInitArgs,
-	ApiClientType,
+	APIClientInitArgs,
+	APIClientType,
 	AssetArgsType,
 	AssetCreateArgsType,
 	AssetDetailType,
@@ -30,11 +30,11 @@ import {
 	SearchReturnType,
 } from '../../helpers';
 
-const apiClient: ApiClientType = {
+const apiClient: APIClientType = {
 	arClient: null,
 	orderBookContract: null,
 
-	init: function (args: ApiClientInitArgs) {
+	init: function (args: APIClientInitArgs) {
 		this.arClient = args.arClient;
 		this.orderBookContract = args.orderBookContract;
 		return this;
@@ -52,7 +52,7 @@ const apiClient: ApiClientType = {
 		return await getAssetIdsByContract({ arClient: this.arClient, filterListings: args.filterListings });
 	},
 
-	getAssetIdsByUser: async function (args: { walletAddress: string }): Promise<string[]> {
+	getAssetIdsByUser: async function (args: { walletAddress: string; filterListings: boolean }): Promise<string[]> {
 		return await getAssetIdsByUser({ ...args, arClient: this.arClient });
 	},
 
@@ -75,7 +75,10 @@ const apiClient: ApiClientType = {
 		return await search({ ...args, arClient: this.arClient });
 	},
 
-	getCollection: async function (args: { collectionId: string }): Promise<CollectionAssetType> {
+	getCollection: async function (args: {
+		collectionId: string;
+		filterListings: boolean;
+	}): Promise<CollectionAssetType> {
 		return await getCollection({ ...args, arClient: this.arClient });
 	},
 
@@ -96,4 +99,4 @@ const apiClient: ApiClientType = {
 	},
 };
 
-export { apiClient as ApiClient };
+export { apiClient as APIClient };

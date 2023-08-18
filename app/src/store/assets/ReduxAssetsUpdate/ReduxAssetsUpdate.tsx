@@ -7,7 +7,7 @@ import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 import { AssetType, CursorEnum, OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { API_CONFIG, CURRENCIES, FEATURE_COUNT, PAGINATORS } from 'helpers/config';
-import { ApiFetchType } from 'helpers/types';
+import { APIFetchType } from 'helpers/types';
 import { rankData } from 'helpers/utils';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
@@ -17,7 +17,7 @@ LoggerFactory.INST.logLevel('fatal');
 
 export default function ReduxAssetsUpdate(props: {
 	reduxCursor: string;
-	apiFetch: ApiFetchType;
+	apiFetch: APIFetchType;
 	cursorObject: CursorEnum;
 	currentTableCursor: string | null;
 	children: React.ReactNode;
@@ -101,13 +101,19 @@ export default function ReduxAssetsUpdate(props: {
 							case 'user':
 								if (props.address) {
 									paginator = PAGINATORS.user;
-									contractIds = await orderBook.api.getAssetIdsByUser({ walletAddress: props.address });
+									contractIds = await orderBook.api.getAssetIdsByUser({
+										walletAddress: props.address,
+										filterListings: props.filterListings,
+									});
 								}
 								break;
 							case 'collection':
 								if (props.collectionId) {
 									paginator = PAGINATORS.collection;
-									let collection = await orderBook.api.getCollection({ collectionId: props.collectionId });
+									const collection = await orderBook.api.getCollection({
+										collectionId: props.collectionId,
+										filterListings: props.filterListings,
+									});
 									if (collection) {
 										contractIds = collection.assets;
 									}

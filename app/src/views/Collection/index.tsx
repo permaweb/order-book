@@ -26,7 +26,10 @@ export default function Collection() {
 			if (id && orProvider.orderBook) {
 				setAssets(null);
 				setLoading(true);
-				const collectionFetch = await orProvider.orderBook.api.getCollection({ collectionId: id });
+				const collectionFetch = await orProvider.orderBook.api.getCollection({
+					collectionId: id,
+					filterListings: false,
+				});
 				setCollection(collectionFetch);
 				setLoading(false);
 			}
@@ -59,7 +62,7 @@ export default function Collection() {
 					showNoResults={true}
 					loading={loading}
 					getFeaturedData={false}
-					showFilters={false}
+					showFilters={true}
 				/>
 			</div>
 		</>
