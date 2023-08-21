@@ -39,6 +39,9 @@ export default function AssetSell(props: IProps) {
 
 	const [totalBalance, setTotalBalance] = React.useState<number>(0);
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
+
+	const [denominator, setDenominator] = React.useState<number | null>(null);
+
 	const [connectedDisabledSale, setConnectedDisabledSale] = React.useState<boolean>(false);
 	const [tradeable, setTradeable] = React.useState<boolean>(false);
 
@@ -52,16 +55,23 @@ export default function AssetSell(props: IProps) {
 			const balances = Object.keys(props.asset.state.balances).map((address: string) => {
 				return props.asset.state.balances[address];
 			});
-			setTotalBalance(balances.reduce((a: number, b: number) => a + b, 0));
+
+			const reducedBalances = balances.reduce((a: number, b: number) => a + b, 0);
+			setTotalBalance(denominator ? reducedBalances / denominator : reducedBalances);
+
 			if (arProvider.walletAddress) {
 				let salesBalance = props.asset.state.balances[arProvider.walletAddress];
-				setTotalSalesBalance(salesBalance ? salesBalance : 0);
-				if (salesBalance && salesBalance == 1) {
+				setTotalSalesBalance(salesBalance ? (denominator ? salesBalance / denominator : salesBalance) : 0);
+				if (salesBalance && salesBalance === 1) {
 					setQuantity(1);
 				}
 			}
+
+			if (!denominator && props.asset.state.divisibility) {
+				setDenominator(Math.pow(10, props.asset.state.divisibility));
+			}
 		}
-	}, [props.asset, arProvider.walletAddress]);
+	}, [props.asset, arProvider.walletAddress, denominator]);
 
 	React.useEffect(() => {
 		if (arProvider && arProvider.walletAddress && props.asset && props.asset.state) {
@@ -207,7 +217,7 @@ export default function AssetSell(props: IProps) {
 
 					const response = await orProvider.orderBook.sell({
 						assetId: props.asset.data.id,
-						qty: quantity,
+						qty: denominator ? quantity * denominator : quantity,
 						price: unitPrice * 1e6,
 						wallet: signer,
 						walletAddress: arProvider.walletAddress,

@@ -27,7 +27,7 @@ export default function AssetBuy(props: IProps) {
 	const [totalSalesBalance, setTotalSalesBalance] = React.useState<number>(0);
 	const [assetQuantity, setAssetQuantity] = React.useState<number>(0);
 
-	const [denominator, _setDenominator] = React.useState<number | null>(null);
+	const [denominator, setDenominator] = React.useState<number | null>(null);
 
 	const [tradeable, setTradeable] = React.useState<boolean>(false);
 	const [loading, setLoading] = React.useState<boolean>(false);
@@ -45,20 +45,21 @@ export default function AssetBuy(props: IProps) {
 
 			setTradeable(props.asset.state.claimable ? true : false);
 
-			// if (!denominator && props.asset.state.divisibility) {
-			// 	setDenominator(Math.pow(10, props.asset.state.divisibility));
-			// }
+			if (!denominator && props.asset.state.divisibility) {
+				setDenominator(Math.pow(10, props.asset.state.divisibility));
+			}
 		}
 	}, [props.asset, denominator]);
 
 	React.useEffect(() => {
 		if (props.asset && props.asset.orders) {
-			const saleBalances = props.asset.orders.map((order: OrderBookPairOrderType) => {
+			const salesBalances = props.asset.orders.map((order: OrderBookPairOrderType) => {
 				return order.quantity;
 			});
-			setTotalSalesBalance(saleBalances.reduce((a: number, b: number) => a + b, 0));
+			const reducedSalesBalances = salesBalances.reduce((a: number, b: number) => a + b, 0);
+			setTotalSalesBalance(denominator ? reducedSalesBalances / denominator : reducedSalesBalances);
 		}
-	}, [props.asset]);
+	}, [props.asset, denominator]);
 
 	React.useEffect(() => {
 		if (totalSalesBalance === 1) setAssetQuantity(1);
@@ -89,8 +90,11 @@ export default function AssetBuy(props: IProps) {
 			let order = sortedOrders[i];
 			let qty = order.quantity;
 			let price = order.price;
-			if (qty >= assetQuantity - totalQty) {
-				let remainingQty = assetQuantity - totalQty;
+
+			let aQty = denominator ? assetQuantity * denominator : assetQuantity;
+
+			if (qty >= aQty - totalQty) {
+				let remainingQty = aQty - totalQty;
 				totalQty += remainingQty;
 				totalPrice += remainingQty * price;
 				break;

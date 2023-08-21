@@ -20,6 +20,7 @@ export const Action = styled.div`
 		svg {
 			height: 15px;
 			width: 15px;
+			padding: 2.5px 0 0 0;
 		}
 	}
 `;

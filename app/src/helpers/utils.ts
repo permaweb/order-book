@@ -36,8 +36,18 @@ export function convertCamelCase(str: string) {
 }
 
 export function formatCount(count: string): string {
-	return count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	if (count.includes('.')) {
+		let parts = count.split('.');
+		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		return parts.join('.');
+	} else {
+		return count.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	}
 }
+
+// export function formatCount(count: string): string {
+// 	return count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+// }
 
 export function formatDate(dateArg: string | number | null, dateType: DateType) {
 	if (!dateArg) {

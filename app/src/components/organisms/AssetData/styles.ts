@@ -48,7 +48,7 @@ export const FramePreview = styled.div`
 export const Image = styled.img`
 	height: 100%;
 	width: 100%;
-	object-fit: cover;
+	object-fit: fill;
 `;
 
 export const AudioWrapper = styled.div`
