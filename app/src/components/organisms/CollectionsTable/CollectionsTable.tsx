@@ -15,12 +15,14 @@ import { IProps } from './types';
 function CollectionRow(props: { collection: CollectionType; index: number }) {
 	const redirect = `${urls.collection}${props.collection.id}`;
 
-	let thumbnail: string = '';
+	let thumbnail: string = getTxEndpoint(props.collection.banner);
 	if (props.collection.thumbnail) {
 		thumbnail = checkAddress(props.collection.thumbnail)
 			? getTxEndpoint(props.collection.thumbnail)
 			: props.collection.thumbnail;
 	}
+
+	console.log(props.collection);
 
 	return (
 		<S.PICWrapper>
