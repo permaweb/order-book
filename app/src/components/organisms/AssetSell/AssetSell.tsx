@@ -218,7 +218,7 @@ export default function AssetSell(props: IProps) {
 					const response = await orProvider.orderBook.sell({
 						assetId: props.asset.data.id,
 						qty: denominator ? quantity * denominator : quantity,
-						price: unitPrice * 1e6,
+						price: denominator ? unitPrice : unitPrice * 1e6,
 						wallet: signer,
 						walletAddress: arProvider.walletAddress,
 					});
