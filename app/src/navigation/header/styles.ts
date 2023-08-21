@@ -40,7 +40,7 @@ export const NavPaths = styled.div`
 	height: 100%;
 	display: flex;
 	align-items: center;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		height: auto;
 		display: block;
 	}
@@ -62,7 +62,7 @@ export const Link = styled.div`
 			text-decoration: none;
 			color: ${(props) => props.theme.colors.font.primary.active.hover};
 		}
-		@media (max-width: ${STYLING.cutoffs.initial}) {
+		@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 			height: 60px;
 			width: 100vw;
 			justify-content: left;
@@ -91,7 +91,7 @@ export const LogoContainer = styled.div`
 			text-decoration: none;
 		}
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		left: auto;
 		width: auto;
 	}
@@ -121,7 +121,7 @@ export const NC = styled.div`
 	position: absolute;
 	display: flex;
 	align-items: center;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		flex-direction: column;
 		width: auto;
 		max-width: none;
@@ -132,7 +132,7 @@ export const SC = styled.div`
 	height: 100%;
 	display: flex;
 	align-items: center;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		position: relative;
 		right: auto;
 		height: auto;
@@ -146,7 +146,7 @@ export const Connect = styled.div<{ show: boolean }>`
 	display: flex;
 	align-items: center;
 	padding: 0 20px 0 10px;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		display: ${(props) => (props.show ? 'block' : 'none')};
 		height: auto;
 		margin-top: 25px;
@@ -196,7 +196,7 @@ export const SearchWrapper = styled.div`
 	position: absolute;
 	left: 205px;
 
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		height: 100%;
 		width: fit-content;
 		left: auto;

@@ -27,7 +27,7 @@ export const FlexAction = styled.div`
 		width: 20px;
 		margin: 0 -2.5px 0 11.5px;
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		flex-direction: column-reverse;
 		align-items: flex-end;
 	}
@@ -36,8 +36,10 @@ export const FlexAction = styled.div`
 export const BalancesWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		margin: 10px 0 0 0;
+		flex-direction: column;
+		align-items: flex-end;
 	}
 `;
 
@@ -62,7 +64,7 @@ export const Balance = styled.div`
 		width: 20px;
 		margin: 0 0 0 5.5px;
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		margin: 0 0 0 10px;
 	}
 `;
@@ -95,13 +97,16 @@ export const BalanceAction = styled.button`
 	&:hover {
 		background: ${(props) => props.theme.colors.button.primary.hover};
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
-		margin: 0 0 0 10px;
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		margin: 0 0 10px 0;
 	}
 `;
 
 export const StreakWrapper = styled.div`
 	margin: 0 10px 0 0;
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+		margin: 0 0 10px 0;
+	}
 `;
 
 export const Dropdown = styled.ul`
@@ -113,7 +118,7 @@ export const Dropdown = styled.ul`
 	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		top: 78.5px;
 	}
 	li {
@@ -146,7 +151,7 @@ export const BalanceDropdown = styled(Dropdown)`
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
-	@media (max-width: ${STYLING.cutoffs.initial}) {
+	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		top: 131.5px;
 		right: 20px;
 	}

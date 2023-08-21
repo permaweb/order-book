@@ -4,7 +4,6 @@ import { ReactSVG } from 'react-svg';
 
 import { IconButton } from 'components/atoms/IconButton';
 import { Search } from 'components/organisms/Search';
-// import { Settings } from 'components/organisms/Settings';
 import { ASSETS } from 'helpers/config';
 import * as urls from 'helpers/urls';
 import { checkDesktop, checkWindowResize, hideDocumentBody, showDocumentBody } from 'helpers/window';
