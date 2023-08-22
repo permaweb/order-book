@@ -191,6 +191,9 @@ export const LabelWrapper = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 10px;
 	margin: 0 0 20px 0;
 `;
 
@@ -204,6 +207,4 @@ export const Label = styled.div`
 	}
 `;
 
-export const Value = styled(Label)`
-	margin: 0 0 0 auto;
-`;
+export const Value = styled(Label)``;

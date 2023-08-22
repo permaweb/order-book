@@ -57,9 +57,24 @@ export const SliderWrapper = styled.div`
 	margin: 0 0 20px 0;
 `;
 
+export const FieldFlex = styled.div`
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 20px 0 0 auto;
+`;
+
+export const FieldWrapper = styled.div`
+	width: 350px;
+	max-width: 50%;
+	@media (max-width: ${STYLING.cutoffs.tablet}) {
+		max-width: none;
+	}
+`;
+
 export const MaxQty = styled.div`
 	width: fit-content;
-	margin: 20px 0 0 auto;
+	margin: 0 0 0 auto;
 `;
 
 export const FormContainer = styled.div`

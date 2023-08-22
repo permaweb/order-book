@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AssetDetailType } from 'permaweb-orderbook';
+import { AssetDetailType, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
@@ -22,6 +22,8 @@ export default function AssetDetailMarket(props: IADProps) {
 	const [currentOwners, setCurrentOwners] = React.useState<OwnerType[] | null>(null);
 	const [currentSaleOwners, setCurrentSaleOwners] = React.useState<OwnerListingType[] | null>(null);
 
+	const [denominator, setDenominator] = React.useState<number | null>(null);
+
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
 
 	React.useEffect(() => {
@@ -33,7 +35,14 @@ export default function AssetDetailMarket(props: IADProps) {
 			if (asset && asset.state && orProvider) {
 				setCurrentOwners((await getOwners(asset.state.balances, orProvider, asset)) as any);
 				if (asset.orders) {
-					setCurrentSaleOwners((await getOwners(asset.orders, orProvider, asset)) as any);
+					const owners = ((await getOwners(asset.orders, orProvider, asset)) as any).filter(
+						(owner: OwnerListingType) => owner.address !== ORDERBOOK_CONTRACT
+					);
+					setCurrentSaleOwners(owners);
+				}
+
+				if (!denominator && asset.state.divisibility) {
+					setDenominator(Math.pow(10, asset.state.divisibility));
 				}
 			}
 		})();
@@ -85,7 +94,9 @@ export default function AssetDetailMarket(props: IADProps) {
 											/>
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
-												<S.DCLineDetail>{`${formatPrice(owner.sellUnitPrice)} U`}</S.DCLineDetail>
+												<S.DCLineDetail>{`${formatPrice(
+													denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice
+												)} U`}</S.DCLineDetail>
 											</S.DCLineFlex>
 										</S.DCLine>
 									);

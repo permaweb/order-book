@@ -277,8 +277,8 @@ export default function AssetSell(props: IProps) {
 	}
 
 	function handleQuantityInput(e: React.ChangeEvent<HTMLInputElement>) {
-		if (e.target.value === '') {
-			setQuantity(NaN);
+		if (e.target.value === '' || parseFloat(e.target.value) < 0) {
+			setQuantity(0);
 		} else {
 			if (!isNaN(Number(e.target.value))) setQuantity(parseFloat(e.target.value));
 		}
@@ -352,15 +352,30 @@ export default function AssetSell(props: IProps) {
 									loading || !arProvider.walletAddress || connectedDisabledSale || !tradeable || totalSalesBalance <= 0
 								}
 							/>
-							<S.MaxQty>
-								<Button
-									type={'primary'}
-									label={language.max}
-									handlePress={() => setQuantity(totalSalesBalance)}
-									disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
-									noMinWidth
-								/>
-							</S.MaxQty>
+
+							<S.FieldFlex>
+								{denominator && (
+									<S.FieldWrapper>
+										<FormField
+											type={'number'}
+											value={quantity}
+											onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleQuantityInput(e)}
+											label={`${language.assetQuantity} (${language.max}: ${totalSalesBalance})`}
+											disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
+											invalid={{ status: false, message: null }}
+										/>
+									</S.FieldWrapper>
+								)}
+								<S.MaxQty>
+									<Button
+										type={'primary'}
+										label={language.max}
+										handlePress={() => setQuantity(totalSalesBalance)}
+										disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
+										noMinWidth
+									/>
+								</S.MaxQty>
+							</S.FieldFlex>
 						</S.SliderWrapper>
 					)}
 					<S.FormWrapper>{getFields()}</S.FormWrapper>

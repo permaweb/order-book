@@ -241,3 +241,6 @@ export const SOCIAL_PATHS = [
 		href: 'https://twitter.com/OurBazAR',
 	},
 ];
+
+export const ORDERBOOK_ASSET_PATH =
+	'https://cxc5f7qktvrrxkfzkioh7rfwn77v56pe6ncqbrnok5qpz6sp3sia.arweave.net/FcXS_gqdYxuouVIcf8S2b_9e-eTzRQDFrldg_PpP3JA';

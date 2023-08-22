@@ -5,6 +5,7 @@ import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
+import { FormField } from 'components/atoms/FormField';
 import { Slider } from 'components/atoms/Slider';
 import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS } from 'helpers/config';
@@ -75,8 +76,12 @@ export default function AssetBuy(props: IProps) {
 		return false;
 	}
 
-	const handleSpendAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setAssetQuantity(Number(event.target.value));
+	const handleSpendAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.value === '' || parseFloat(e.target.value) < 0) {
+			setAssetQuantity(0);
+		} else {
+			if (!isNaN(Number(e.target.value))) setAssetQuantity(parseFloat(e.target.value));
+		}
 	};
 
 	function calcTotalPrice() {
@@ -203,16 +208,29 @@ export default function AssetBuy(props: IProps) {
 							label={language.assetPercentageInfo}
 							disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
 						/>
-						<S.MaxQty>
-							<Button
-								type={'primary'}
-								label={language.max}
-								handlePress={() => setAssetQuantity(totalSalesBalance)}
-								disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
-								noMinWidth
-							/>
-						</S.MaxQty>
-
+						<S.FieldFlex>
+							{denominator && (
+								<S.FieldWrapper>
+									<FormField
+										type={'number'}
+										value={assetQuantity}
+										onChange={handleSpendAmountChange}
+										label={`${language.assetPercentage} (${language.max}: ${totalSalesBalance})`}
+										disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
+										invalid={{ status: false, message: null }}
+									/>
+								</S.FieldWrapper>
+							)}
+							<S.MaxQty>
+								<Button
+									type={'primary'}
+									label={language.max}
+									handlePress={() => setAssetQuantity(totalSalesBalance)}
+									disabled={!arProvider.walletAddress || totalSalesBalance <= 0}
+									noMinWidth
+								/>
+							</S.MaxQty>
+						</S.FieldFlex>
 						<S.SpendInfoWrapper>
 							<S.SpendInfoContainer>
 								<span>{language.totalBuyQuantity}</span>

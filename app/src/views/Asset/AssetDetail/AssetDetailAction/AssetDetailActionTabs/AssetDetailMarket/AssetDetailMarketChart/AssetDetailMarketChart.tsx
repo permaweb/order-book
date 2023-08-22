@@ -8,6 +8,7 @@ import { ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
+import { formatAddress } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 import * as S from './styles';
@@ -79,7 +80,11 @@ export default function AssetDetailMarketChart(props: IProps) {
 		if (sortedOwners) {
 			const pieData: any = {
 				labels: sortedOwners.map((owner: OwnerType | OwnerListingType) =>
-					owner.address === ORDERBOOK_CONTRACT ? language.totalSalesPercentage : owner.handle
+					owner.address === ORDERBOOK_CONTRACT
+						? language.totalSalesPercentage
+						: owner.handle
+						? owner.handle
+						: formatAddress(owner.address, true)
 				),
 				datasets: [],
 			};

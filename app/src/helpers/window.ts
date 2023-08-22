@@ -1,7 +1,7 @@
 import { STYLING } from 'helpers/styling';
 
-export function checkDesktop(): boolean {
-	return window.innerWidth > parseInt(STYLING.cutoffs.initialWrapper);
+export function checkDesktop(cutoff?: string): boolean {
+	return window.innerWidth > parseInt(cutoff ? cutoff : STYLING.cutoffs.initial);
 }
 
 export function hideDocumentBody(): void {

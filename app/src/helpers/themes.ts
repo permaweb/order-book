@@ -54,7 +54,7 @@ const DEFAULT = {
 		alt7: '#A0D2DB',
 		alt8: '#F7ACCF',
 		alt9: '#6689A1',
-		alt10: '#D3D3D3',
+		alt10: '#F0F0F0',
 	},
 };
 export const defaultTheme: DefaultTheme = {

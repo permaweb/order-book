@@ -5,6 +5,7 @@ import { ReactSVG } from 'react-svg';
 import { IconButton } from 'components/atoms/IconButton';
 import { Search } from 'components/organisms/Search';
 import { ASSETS } from 'helpers/config';
+import { STYLING } from 'helpers/styling';
 import * as urls from 'helpers/urls';
 import { checkDesktop, checkWindowResize, hideDocumentBody, showDocumentBody } from 'helpers/window';
 import { WalletConnect } from 'wallet/WalletConnect';
@@ -12,11 +13,11 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import * as S from './styles';
 
 export default function Header() {
-	const [open, setOpen] = React.useState(checkDesktop());
-	const [desktop, setDesktop] = React.useState(checkDesktop());
+	const [open, setOpen] = React.useState(checkDesktop(STYLING.cutoffs.initialWrapper));
+	const [desktop, setDesktop] = React.useState(checkDesktop(STYLING.cutoffs.initialWrapper));
 
 	function handleWindowResize() {
-		if (checkDesktop()) {
+		if (checkDesktop(STYLING.cutoffs.initialWrapper)) {
 			setDesktop(true);
 			setOpen(true);
 		} else {
@@ -26,12 +27,12 @@ export default function Header() {
 	}
 
 	function handleNavStatus() {
-		checkDesktop() ? setOpen(true) : setOpen(!open);
+		checkDesktop(STYLING.cutoffs.initialWrapper) ? setOpen(true) : setOpen(!open);
 	}
 
 	checkWindowResize(handleWindowResize);
 
-	if (open && !checkDesktop()) {
+	if (open && !checkDesktop(STYLING.cutoffs.initialWrapper)) {
 		hideDocumentBody();
 	} else {
 		showDocumentBody();

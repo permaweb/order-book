@@ -3,7 +3,7 @@ import { ReactSVG } from 'react-svg';
 
 import * as OrderBook from 'permaweb-orderbook';
 
-import { ASSETS } from 'helpers/config';
+import { ASSETS, ORDERBOOK_ASSET_PATH } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
 
@@ -45,7 +45,7 @@ export default function AssetData(props: IProps) {
 					const contentType = assetResponse.headers.get('content-type');
 					if (assetResponse.status === 200 && contentType) {
 						setAssetRender({
-							url: assetResponse.url,
+							url: props.asset.data.id === OrderBook.ORDERBOOK_CONTRACT ? ORDERBOOK_ASSET_PATH : assetResponse.url,
 							type: 'raw',
 							contentType: contentType as ContentType,
 						});
