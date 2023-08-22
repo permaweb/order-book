@@ -91,7 +91,7 @@ export default function AssetDetailAction(props: IADProps) {
 						)}
 						{props.pendingResponse && (
 							<S.PendingLine>
-								<span>{`${language.orderPending}...`}</span>
+								<span>{`${language.pending}...`}</span>
 								<TxAddress address={props.pendingResponse.tx} wrap={true} />
 							</S.PendingLine>
 						)}

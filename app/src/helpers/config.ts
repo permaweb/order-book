@@ -28,6 +28,7 @@ import microscopeSVG from 'assets/microscope.svg';
 import ordersSVG from 'assets/orders.svg';
 import overviewSVG from 'assets/overview.svg';
 import ownersSVG from 'assets/owners.svg';
+import pasteSVG from 'assets/paste.svg';
 import provenanceSVG from 'assets/provenance.svg';
 import rendererSVG from 'assets/renderer.svg';
 import searchSVG from 'assets/search.svg';
@@ -42,6 +43,7 @@ import streak1SVG from 'assets/streak-1-7.svg';
 import streak2SVG from 'assets/streak-8-14.svg';
 import streak3SVG from 'assets/streak-15-29.svg';
 import streak4GIF from 'assets/streak-30.gif';
+import transferSVG from 'assets/transfer.svg';
 import uSVG from 'assets/u.svg';
 import udlSVG from 'assets/udl.svg';
 import unsupportedSVG from 'assets/unsupported.svg';
@@ -90,6 +92,7 @@ export const ASSETS = {
 	orders: ordersSVG,
 	overview: overviewSVG,
 	owners: ownersSVG,
+	paste: pasteSVG,
 	provenance: provenanceSVG,
 	renderer: rendererSVG,
 	search: searchSVG,
@@ -108,6 +111,7 @@ export const ASSETS = {
 		'3': streak3SVG,
 		'4': streak4GIF,
 	},
+	transfer: transferSVG,
 	u: uSVG,
 	udl: udlSVG,
 	unsupported: unsupportedSVG,
@@ -197,6 +201,7 @@ export const DETAIL_ACTION_TABS = [
 export const DETAIL_MARKET_TAB_OPTIONS = {
 	buy: language.buy,
 	sell: language.sell,
+	transfer: language.transfer,
 };
 
 export const DETAIL_MARKET_ACTION_TABS = [
@@ -207,6 +212,10 @@ export const DETAIL_MARKET_ACTION_TABS = [
 	{
 		label: DETAIL_MARKET_TAB_OPTIONS.sell,
 		icon: ASSETS.sell,
+	},
+	{
+		label: DETAIL_MARKET_TAB_OPTIONS.transfer,
+		icon: ASSETS.transfer,
 	},
 ];
 

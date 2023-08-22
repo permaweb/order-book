@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { Tabs } from 'components/molecules/Tabs';
-import { AssetBuy } from 'components/organisms/AssetBuy';
-import { AssetSell } from 'components/organisms/AssetSell';
 import { DETAIL_MARKET_ACTION_TABS, DETAIL_MARKET_TAB_OPTIONS } from 'helpers/config';
 
+import { AssetBuy } from './AssetBuy';
+import { AssetSell } from './AssetSell';
+import { AssetTransfer } from './AssetTransfer';
 import * as S from './styles';
 import { IProps } from './types';
 
@@ -25,6 +26,15 @@ export default function AssetDetailMarketAction(props: IProps) {
 			case DETAIL_MARKET_TAB_OPTIONS.sell:
 				return (
 					<AssetSell
+						asset={props.asset}
+						handleUpdate={props.handleUpdate}
+						pendingResponse={props.pendingResponse}
+						updating={props.updating}
+					/>
+				);
+			case DETAIL_MARKET_TAB_OPTIONS.transfer:
+				return (
+					<AssetTransfer
 						asset={props.asset}
 						handleUpdate={props.handleUpdate}
 						pendingResponse={props.pendingResponse}
