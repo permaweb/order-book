@@ -66,28 +66,6 @@ export const Primary = styled.button<{
 		}
 	}
 
-	&:hover svg {
-	}
-	&:focus svg {
-	}
-	&:disabled svg {
-	}
-	@keyframes gelatine {
-		from,
-		to {
-			transform: scale(1, 1);
-		}
-		25% {
-			transform: scale(0.95, 1.05);
-		}
-		50% {
-			transform: scale(1.05, 0.95);
-		}
-		75% {
-			transform: scale(0.975, 1.025);
-		}
-	}
-
 	span {
 		width: fit-content;
 		text-overflow: ellipsis;

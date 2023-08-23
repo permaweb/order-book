@@ -85,7 +85,12 @@ export function formatPrice(price: number) {
 		if (updatedPrice.toFixed(4).split('.')[1].length > 4) {
 			return updatedPrice.toExponential(2).replace(/\.?0+e/, 'e');
 		} else {
-			return updatedPrice.toFixed(4);
+			if (Number.isInteger(updatedPrice)) {
+				return updatedPrice;
+			} else {
+				const decimalPlaces = (updatedPrice.toString().split('.')[1] || []).length;
+				return updatedPrice.toFixed(decimalPlaces);
+			}
 		}
 	} else {
 		return updatedPrice.toExponential(2).replace(/\.?0+e/, 'e');

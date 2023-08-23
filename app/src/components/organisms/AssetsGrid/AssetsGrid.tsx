@@ -59,9 +59,11 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 
 	return (
 		<S.PICWrapper>
-			<S.PCLink>
-				<Link to={redirect} />
-			</S.PCLink>
+			{assetRender && !(assetRender.type === 'renderer') && (
+				<S.PCLink>
+					<Link to={redirect} />
+				</S.PCLink>
+			)}
 			<S.PCWrapper>
 				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} loadRenderer={loadRenderer} />
 			</S.PCWrapper>

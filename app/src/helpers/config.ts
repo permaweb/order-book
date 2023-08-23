@@ -53,7 +53,7 @@ import walletSVG from 'assets/wallet.svg';
 import xSVG from 'assets/x.svg';
 
 import { language } from './language';
-import { DREObjectType, WalletEnum } from './types';
+import { DREObjectType, SelectOptionType, WalletEnum } from './types';
 import { getHost } from './utils';
 
 export const APP = {
@@ -253,3 +253,8 @@ export const SOCIAL_PATHS = [
 
 export const ORDERBOOK_ASSET_PATH =
 	'https://cxc5f7qktvrrxkfzkioh7rfwn77v56pe6ncqbrnok5qpz6sp3sia.arweave.net/FcXS_gqdYxuouVIcf8S2b_9e-eTzRQDFrldg_PpP3JA';
+
+export const ASSET_SORT_OPTIONS: SelectOptionType[] = [
+	{ id: 'low-to-high', label: language.lowToHigh },
+	{ id: 'high-to-low', label: language.highToLow },
+];

@@ -88,3 +88,9 @@ export type SequenceType = {
 };
 
 export type CollectionsSortType = 'new' | 'stamps';
+
+export type AssetFilterType = 'listings';
+
+export type AssetSortType = 'low-to-high' | 'high-to-low';
+
+export type SelectOptionType = { id: AssetSortType; label: string };

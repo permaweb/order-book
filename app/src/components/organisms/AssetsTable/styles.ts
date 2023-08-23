@@ -10,7 +10,6 @@ export const Wrapper = styled.div`
 export const PAWrapper = styled.div`
 	width: 100%;
 	display: flex;
-	align-items: center;
 	flex-wrap: wrap;
 	gap: 20px;
 	justify-content: space-between;
@@ -33,8 +32,18 @@ export const AWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	flex-wrap: wrap;
+	gap: 20px;
+	button {
+	}
 	svg {
 		height: 12.5px;
 		width: 12.5px;
 	}
+	// > * {
+	// 	&:first-child {
+	// 		height: fit-content;
+	// 		width: fit-content;
+	// 	}
+	// }
 `;

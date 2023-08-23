@@ -8,6 +8,7 @@ import {
 	CursorEnum,
 	DEFAULT_COLLECTION_BANNER,
 	DEFAULT_COLLECTION_THUMB,
+	FILTERED_IDS,
 	GetCollectionArgs,
 	GetCollectionByCodeArgs,
 	getTagValue,
@@ -97,10 +98,15 @@ export async function getCollections(args: {
 
 		collections.push(await buildCollection({ node, items: null, arClient: args.arClient, useProfile: false }));
 	}
+
+	const finalCollections = [...collections].filter(
+		(collection: CollectionType) => !FILTERED_IDS.includes(collection.id)
+	);
+
 	return {
 		previousCursor: null,
 		nextCursor: gqlData.nextCursor,
-		collections: collections,
+		collections: finalCollections,
 	};
 }
 

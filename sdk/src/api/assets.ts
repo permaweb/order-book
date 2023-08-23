@@ -1,5 +1,6 @@
 import { getGqlDataByIds } from '../gql';
 import {
+	ANS_FILTER_LIST,
 	AssetArgsClientType,
 	AssetCreateArgsClientType,
 	AssetDetailType,
@@ -52,7 +53,12 @@ export async function getAssetIdsByContract(args: { arClient: any; filterListing
 				}
 			}
 		}
-		const finalAssetIds = ids.reverse().filter((id: string) => !FILTERED_IDS.includes(id));
+		const finalAssetIds = ids
+			.reverse()
+			.filter((id: string) => !FILTERED_IDS.includes(id))
+			.filter((id: string) => {
+				return !ANS_FILTER_LIST.includes(id);
+			});
 		return finalAssetIds;
 	} catch (e: any) {
 		return [];
@@ -72,6 +78,9 @@ export async function getAssetIdsByUser(args: {
 			const assetIds = balances
 				.filter((balance: BalanceType) => {
 					return balance.balance && parseInt(balance.balance) !== 0;
+				})
+				.filter((balance: BalanceType) => {
+					return !ANS_FILTER_LIST.includes(balance.contract_tx_id);
 				})
 				.map((balance: BalanceType) => {
 					return balance.contract_tx_id;
