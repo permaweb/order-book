@@ -6,6 +6,7 @@ import {
 	CollectionsResponseType,
 	CollectionType,
 	CursorEnum,
+	CURSORS,
 	DEFAULT_COLLECTION_BANNER,
 	DEFAULT_COLLECTION_THUMB,
 	FILTERED_IDS,
@@ -20,6 +21,7 @@ import {
 import { getAssetIdsByContract } from './assets';
 import { getProfile } from './profile';
 
+// TODO: add floorPrice to buildCollection
 async function buildCollection(args: {
 	node: any;
 	items?: string[] | null;
@@ -148,23 +150,54 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 
 export async function getCollectionByCode(args: GetCollectionByCodeArgs): Promise<CollectionAssetType | null> {
 	try {
-		const collectionGql = await getGQLData({
+		let cursor: string | null = null;
+		const initCollectionGql = await getGQLData({
 			ids: null,
 			tagFilters: [{ name: TAGS.keys.collectionCode, values: [args.collectionCode] }],
-			cursorObject: null,
+			cursorObject: CursorEnum.GQL,
 			uploader: null,
-			cursor: null,
+			cursor: cursor,
 			reduxCursor: null,
 			arClient: args.arClient,
 		});
 
-		if (collectionGql.data.length < 1) return null;
-		else {
-			for (let i = 0; i < collectionGql.data.length; i++) {
-				const node = collectionGql.data[i].node;
-				const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
-				if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
-					return await buildCollection({ node, items: null, arClient: args.arClient, useProfile: true });
+		cursor = initCollectionGql.nextCursor;
+		let endCheck: boolean = cursor === CURSORS.end;
+		if (endCheck) {
+			if (initCollectionGql.data.length < 1) return null;
+			else {
+				for (let i = 0; i < initCollectionGql.data.length; i++) {
+					const node = initCollectionGql.data[i].node;
+					const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
+					if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
+						return await buildCollection({ node, items: null, arClient: args.arClient, useProfile: true });
+					}
+				}
+			}
+		} else {
+			while (!endCheck) {
+				const updatedGql = await getGQLData({
+					ids: null,
+					tagFilters: [{ name: TAGS.keys.collectionCode, values: [args.collectionCode] }],
+					cursorObject: CursorEnum.GQL,
+					uploader: null,
+					cursor: cursor,
+					reduxCursor: null,
+					arClient: args.arClient,
+				});
+
+				cursor = updatedGql.nextCursor;
+				endCheck = cursor === CURSORS.end;
+
+				if (updatedGql.data.length < 1) return null;
+				else {
+					for (let i = 0; i < updatedGql.data.length; i++) {
+						const node = updatedGql.data[i].node;
+						const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
+						if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
+							return await buildCollection({ node, items: null, arClient: args.arClient, useProfile: true });
+						}
+					}
 				}
 			}
 		}

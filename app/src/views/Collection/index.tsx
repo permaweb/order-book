@@ -29,6 +29,7 @@ export default function Collection() {
 				const collectionFetch = await orProvider.orderBook.api.getCollection({
 					collectionId: id,
 					filterListings: false,
+					activeSort: 'low-to-high',
 				});
 				setCollection(collectionFetch);
 				setLoading(false);
