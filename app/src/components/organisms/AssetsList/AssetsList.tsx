@@ -58,9 +58,42 @@ export default function AssetsList(props: IProps) {
 		}
 	}, [props.assets]);
 
+	function getHeader() {
+		return (
+			<S.HeaderWrapper>
+				<S.HSection1>
+					<S.AtomicAsset>
+						<p>{language.atomicAsset}</p>
+					</S.AtomicAsset>
+					<S.SHeaderFlex>
+						<S.Listing>
+							<p>{language.listing}</p>
+						</S.Listing>
+						<S.StampCount>
+							<p>{language.stampCount}</p>
+						</S.StampCount>
+					</S.SHeaderFlex>
+				</S.HSection1>
+				<S.HSection2>
+					<S.AtomicAsset>
+						<p>{language.atomicAsset}</p>
+					</S.AtomicAsset>
+					<S.SHeaderFlex>
+						<S.Listing>
+							<p>{language.listing}</p>
+						</S.Listing>
+						<S.StampCount>
+							<p>{language.stampCount}</p>
+						</S.StampCount>
+					</S.SHeaderFlex>
+				</S.HSection2>
+			</S.HeaderWrapper>
+		);
+	}
+
 	function getData() {
 		if (!assets || props.loading) {
-			const keys = Array.from({ length: 20 }, (_, i) => i + 1);
+			const keys = Array.from({ length: 10 }, (_, i) => i + 1);
 			const elements = keys.map((element) => (
 				<S.PICWrapper key={`pic_${element}`}>
 					<S.PCLoader key={`pc_${element}`}>
@@ -68,40 +101,18 @@ export default function AssetsList(props: IProps) {
 					</S.PCLoader>
 				</S.PICWrapper>
 			));
-			return <S.C1>{elements}</S.C1>;
+			return (
+				<>
+					{getHeader()}
+					<S.C1>{elements}</S.C1>
+				</>
+			);
 		} else {
 			if (assets) {
 				if (assets.length > 0) {
 					return (
 						<>
-							<S.HeaderWrapper>
-								<S.HSection1>
-									<S.AtomicAsset>
-										<p>{language.atomicAsset}</p>
-									</S.AtomicAsset>
-									<S.SHeaderFlex>
-										<S.Listing>
-											<p>{language.listing}</p>
-										</S.Listing>
-										<S.StampCount>
-											<p>{language.stampCount}</p>
-										</S.StampCount>
-									</S.SHeaderFlex>
-								</S.HSection1>
-								<S.HSection2>
-									<S.AtomicAsset>
-										<p>{language.atomicAsset}</p>
-									</S.AtomicAsset>
-									<S.SHeaderFlex>
-										<S.Listing>
-											<p>{language.listing}</p>
-										</S.Listing>
-										<S.StampCount>
-											<p>{language.stampCount}</p>
-										</S.StampCount>
-									</S.SHeaderFlex>
-								</S.HSection2>
-							</S.HeaderWrapper>
+							{getHeader()}
 							<S.C1>
 								{assets.map((asset: AssetType, index: number) => {
 									return <AssetRow key={asset.data.id} asset={asset} index={index + 1} />;

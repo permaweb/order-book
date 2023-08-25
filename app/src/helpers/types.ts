@@ -1,4 +1,4 @@
-import { CommentType } from 'permaweb-orderbook';
+import { AssetSortType, CommentType } from 'permaweb-orderbook';
 
 export type URLViewType = {
 	label: string;
@@ -90,7 +90,5 @@ export type SequenceType = {
 export type CollectionsSortType = 'new' | 'stamps';
 
 export type AssetFilterType = 'listings';
-
-export type AssetSortType = 'low-to-high' | 'high-to-low';
 
 export type SelectOptionType = { id: AssetSortType; label: string };

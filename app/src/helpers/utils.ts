@@ -104,11 +104,12 @@ export function formatDisplayString(input: string): string {
 		.join(' ');
 }
 
-export async function rankData(
+export async function getStampData(
 	dataFetch: CollectionType[] | AssetType[] | CommentType[] | string[],
 	warp: any,
 	arweave: any,
 	wallet: any,
+	useRank: boolean,
 	_dre: string
 ) {
 	const stamps = Stamps.init({
@@ -126,18 +127,20 @@ export async function rankData(
 		return typeof dataElement === 'string' ? dataElement : { ...dataElement, stamps: counts[getDataId(dataElement)] };
 	});
 
-	// Rank by stamps
-	updatedData.sort((a: any, b: any) => {
-		const totalA = counts[getDataId(a)]?.total || 0;
-		const totalB = counts[getDataId(b)]?.total || 0;
+	if (useRank) {
+		// Rank by stamps
+		updatedData.sort((a: any, b: any) => {
+			const totalA = counts[getDataId(a)]?.total || 0;
+			const totalB = counts[getDataId(b)]?.total || 0;
 
-		if (totalB !== totalA) {
-			return totalB - totalA;
-		}
+			if (totalB !== totalA) {
+				return totalB - totalA;
+			}
 
-		// If 'total' is the same, sort by 'id' in descending order.
-		return getDataId(b).localeCompare(getDataId(a));
-	});
+			// If 'total' is the same, sort by 'id' in descending order.
+			return getDataId(b).localeCompare(getDataId(a));
+		});
+	}
 
 	return updatedData;
 }

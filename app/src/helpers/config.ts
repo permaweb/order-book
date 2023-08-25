@@ -156,7 +156,7 @@ export const API_CONFIG = {
 
 export const PAGINATORS = {
 	collection: 15,
-	contract: 13,
+	contract: 10,
 	user: 15,
 	default: 100,
 };
@@ -257,4 +257,5 @@ export const ORDERBOOK_ASSET_PATH =
 export const ASSET_SORT_OPTIONS: SelectOptionType[] = [
 	{ id: 'low-to-high', label: language.lowToHigh },
 	{ id: 'high-to-low', label: language.highToLow },
+	{ id: 'by-stamps', label: language.byStamps },
 ];

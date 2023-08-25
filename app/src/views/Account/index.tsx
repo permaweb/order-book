@@ -77,7 +77,7 @@ export default function Account() {
 				showNoResults={true}
 				loading={loading}
 				getFeaturedData={false}
-				showFilters={true}
+				showFilters={false}
 			/>
 		</>
 	);

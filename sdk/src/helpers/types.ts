@@ -96,8 +96,13 @@ export type AssetArgsType = {
 	walletAddress: string | null;
 };
 
+export type AssetArgsSortType = AssetArgsType & {
+	activeSort: AssetSortType | null;
+};
+
 export type AssetArgsClientType = AssetArgsType & {
 	arClient: any;
+	activeSort: AssetSortType | null;
 	useArweaveBundlr?: boolean;
 };
 
@@ -127,6 +132,7 @@ export type GetCollectionArgs = {
 	arClient: any;
 	collectionId: string;
 	filterListings: boolean;
+	activeSort: AssetSortType;
 };
 
 export type GetCollectionByCodeArgs = {
@@ -148,14 +154,22 @@ export type APIClientType = {
 	init: (args: APIClientInitArgs) => APIClientType;
 	createAsset: (args: AssetCreateArgsType) => Promise<string>;
 	getActivity: (args: { id: string }) => Promise<any>;
-	getAssetIdsByContract: (args: { filterListings: boolean }) => Promise<string[]>;
-	getAssetIdsByUser: (args: { walletAddress: string; filterListings: boolean }) => Promise<string[]>;
-	getAssetsByIds: (args: AssetArgsType) => Promise<AssetType[]>;
+	getAssetIdsByContract: (args: { filterListings: boolean; activeSort: AssetSortType }) => Promise<string[]>;
+	getAssetIdsByUser: (args: {
+		walletAddress: string;
+		filterListings: boolean;
+		activeSort: AssetSortType;
+	}) => Promise<string[]>;
+	getAssetsByIds: (args: AssetArgsSortType) => Promise<AssetType[]>;
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
 	search: (args: {}) => Promise<SearchReturnType>;
 	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
-	getCollection: (args: { collectionId: string; filterListings: boolean }) => Promise<CollectionAssetType>;
+	getCollection: (args: {
+		collectionId: string;
+		filterListings: boolean;
+		activeSort: AssetSortType;
+	}) => Promise<CollectionAssetType>;
 	getCollectionByCode: (args: { collectionCode: string }) => Promise<CollectionAssetType>;
 	getComments: (args: { id: string; cursor: string | null }) => Promise<CommentsResponseType>;
 	getCommentData: (args: { id: string }) => Promise<CommentDetailType>;
@@ -366,3 +380,5 @@ export type CommentsResponseType = {
 };
 
 export type TagType = { name: string; value: string };
+
+export type AssetSortType = 'low-to-high' | 'high-to-low' | 'by-stamps';

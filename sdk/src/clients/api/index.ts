@@ -17,9 +17,10 @@ import {
 	ActivityResponseType,
 	APIClientInitArgs,
 	APIClientType,
-	AssetArgsType,
+	AssetArgsSortType,
 	AssetCreateArgsType,
 	AssetDetailType,
+	AssetSortType,
 	AssetType,
 	CollectionAssetType,
 	CollectionsResponseType,
@@ -48,20 +49,36 @@ const apiClient: APIClientType = {
 		return await getActivity({ ...args, arClient: this.arClient });
 	},
 
-	getAssetIdsByContract: async function (args: { filterListings: boolean }): Promise<string[]> {
-		return await getAssetIdsByContract({ arClient: this.arClient, filterListings: args.filterListings });
+	getAssetIdsByContract: async function (args: {
+		filterListings: boolean;
+		activeSort: AssetSortType;
+	}): Promise<string[]> {
+		return await getAssetIdsByContract({
+			arClient: this.arClient,
+			filterListings: args.filterListings,
+			activeSort: args.activeSort,
+		});
 	},
 
-	getAssetIdsByUser: async function (args: { walletAddress: string; filterListings: boolean }): Promise<string[]> {
+	getAssetIdsByUser: async function (args: {
+		walletAddress: string;
+		filterListings: boolean;
+		activeSort: AssetSortType;
+	}): Promise<string[]> {
 		return await getAssetIdsByUser({ ...args, arClient: this.arClient });
 	},
 
-	getAssetsByIds: async function (args: AssetArgsType): Promise<AssetType[]> {
+	getAssetsByIds: async function (args: AssetArgsSortType): Promise<AssetType[]> {
 		return await getAssetsByIds({ ...args, arClient: this.arClient });
 	},
 
 	getAssetById: async function (args: { id: string }): Promise<AssetDetailType> {
-		return await getAssetById({ ...args, arClient: this.arClient, orderBookContract: this.orderBookContract });
+		return await getAssetById({
+			...args,
+			activeSort: null,
+			arClient: this.arClient,
+			orderBookContract: this.orderBookContract,
+		});
 	},
 
 	getProfile: async function (args: { walletAddress: string }): Promise<ProfileType> {
@@ -78,6 +95,7 @@ const apiClient: APIClientType = {
 	getCollection: async function (args: {
 		collectionId: string;
 		filterListings: boolean;
+		activeSort: AssetSortType;
 	}): Promise<CollectionAssetType> {
 		return await getCollection({ ...args, arClient: this.arClient });
 	},

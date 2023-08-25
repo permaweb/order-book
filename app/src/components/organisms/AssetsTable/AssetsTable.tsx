@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AssetType, CursorEnum } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
-// import { Select } from 'components/atoms/Select';
+import { Select } from 'components/atoms/Select';
 import { Paginator } from 'components/molecules/Paginator';
 import { AssetsGrid } from 'components/organisms/AssetsGrid';
 import { AssetsList } from 'components/organisms/AssetsList';
-import { ASSETS } from 'helpers/config';
+import { ASSET_SORT_OPTIONS, ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
-import { AssetFilterType } from 'helpers/types';
+import { SelectOptionType } from 'helpers/types';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import { ReduxAssetsUpdate } from 'store/assets/ReduxAssetsUpdate';
@@ -35,7 +35,7 @@ export default function AssetsTable(props: IProps) {
 	const [currentRecords, setCurrentRecords] = React.useState<AssetType[] | null>(null);
 	const [nPages, setNPages] = React.useState<number | null>(null);
 
-	// const [activeSortOption, setActiveSortOption] = React.useState<SelectOptionType | null>(ASSET_SORT_OPTIONS[0]);
+	const [activeSortOption, setActiveSortOption] = React.useState<SelectOptionType | null>(ASSET_SORT_OPTIONS[0]);
 
 	const lastRecordIndex = currentPage * recordsPerPage;
 	const firstRecordIndex = lastRecordIndex - recordsPerPage;
@@ -115,43 +115,43 @@ export default function AssetsTable(props: IProps) {
 		}
 	}
 
-	function handleFilterUpdate(filter: AssetFilterType) {
-		switch (filter) {
-			case 'listings':
-				setFilterListings(!filterListings);
-				dispatch(
-					assetActions.setAssets({
-						contractData: null,
-						featuredData: null,
-						accountData: { address: null, data: null },
-						collectionData: null,
-					})
-				);
-				dispatch(
-					cursorActions.setCursors({
-						[REDUX_TABLES[props.reduxCursor]]: { groups: [], count: 0 },
-					})
-				);
-				return;
-			default:
-				return;
-		}
+	function clearAssets() {
+		dispatch(
+			assetActions.setAssets({
+				contractData: null,
+				featuredData: null,
+				accountData: { address: null, data: null },
+				collectionData: null,
+			})
+		);
+		dispatch(
+			cursorActions.setCursors({
+				[REDUX_TABLES[props.reduxCursor]]: { featuredGroup: [], groups: [], count: 0 },
+			})
+		);
+		return;
 	}
 
 	function getActions() {
 		if (props.showFilters) {
 			return (
 				<>
-					{/* <Select
+					<Select
 						activeOption={activeSortOption}
-						setActiveOption={(option: SelectOptionType) => setActiveSortOption(option)}
+						setActiveOption={(option: SelectOptionType) => {
+							clearAssets();
+							setActiveSortOption(option);
+						}}
 						options={ASSET_SORT_OPTIONS.map((option: SelectOptionType) => option)}
 						disabled={!props.assets}
-					/> */}
+					/>
 					<Button
 						type={'primary'}
 						label={language.activeListings}
-						handlePress={() => handleFilterUpdate('listings')}
+						handlePress={() => {
+							clearAssets();
+							setFilterListings(!filterListings);
+						}}
 						icon={filterListings ? ASSETS.close : null}
 						active={filterListings}
 						disabled={!props.assets}
@@ -184,6 +184,7 @@ export default function AssetsTable(props: IProps) {
 			collectionId={props.collectionId}
 			getFeaturedData={props.getFeaturedData}
 			filterListings={filterListings}
+			activeSort={activeSortOption.id}
 		>
 			<div className={'view-wrapper max-cutoff'}>
 				<S.Wrapper ref={scrollRef}>

@@ -11,7 +11,7 @@ import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { CollectionsSortType } from 'helpers/types';
 import * as urls from 'helpers/urls';
-import { rankData } from 'helpers/utils';
+import { getStampData } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 
@@ -49,11 +49,12 @@ export default function CollectionsCarousel(props: IProps) {
 			case 'stamps':
 				if (orProvider.orderBook) {
 					const collectionsFetch = await orProvider.orderBook.api.getCollections({ cursor: null });
-					return await rankData(
+					return await getStampData(
 						collectionsFetch.collections,
 						orProvider.orderBook.env.arClient.warpDefault,
 						orProvider.orderBook.env.arClient.arweavePost,
 						window.arweaveWallet,
+						true,
 						dreReducer.source
 					);
 				} else {

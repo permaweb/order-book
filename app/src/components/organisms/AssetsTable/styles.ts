@@ -34,16 +34,14 @@ export const AWrapper = styled.div`
 	justify-content: flex-end;
 	flex-wrap: wrap;
 	gap: 20px;
-	button {
-	}
 	svg {
 		height: 12.5px;
 		width: 12.5px;
 	}
-	// > * {
-	// 	&:first-child {
-	// 		height: fit-content;
-	// 		width: fit-content;
-	// 	}
-	// }
+	> * {
+		&:first-child {
+			height: fit-content;
+			width: fit-content;
+		}
+	}
 `;

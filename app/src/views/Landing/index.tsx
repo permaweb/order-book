@@ -9,7 +9,7 @@ import { CollectionsCarousel } from 'components/organisms/CollectionsCarousel';
 import { FEATURE_COUNT } from 'helpers/config';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
-import { rankData } from 'helpers/utils';
+import { getStampData } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 
@@ -28,11 +28,12 @@ export default function Landing() {
 		if (orProvider.orderBook) {
 			(async function () {
 				const collectionsFetch = await orProvider.orderBook.api.getCollections({ cursor: null });
-				const collections = await rankData(
+				const collections = await getStampData(
 					collectionsFetch.collections,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost,
 					window.arweaveWallet,
+					true,
 					dreReducer.source
 				);
 				setCollections(collections);

@@ -12,7 +12,7 @@ import { ASSETS, COMMENT_SPEC } from 'helpers/config';
 import { language } from 'helpers/language';
 import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, SequenceType } from 'helpers/types';
 import * as urls from 'helpers/urls';
-import { getOwners, rankData } from 'helpers/utils';
+import { getOwners, getStampData } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
@@ -224,11 +224,12 @@ export default function AssetDetailComments(props: IAProps) {
 		(async function () {
 			if (props.asset && orProvider) {
 				const commentsFetch = await orProvider.orderBook.api.getComments({ id: props.asset.data.id, cursor: null });
-				const rankedComments = await rankData(
+				const rankedComments = await getStampData(
 					commentsFetch.comments,
 					orProvider.orderBook.env.arClient.warpDefault,
 					orProvider.orderBook.env.arClient.arweavePost,
 					window.arweaveWallet,
+					true,
 					dreReducer.source
 				);
 				setComments(rankedComments);

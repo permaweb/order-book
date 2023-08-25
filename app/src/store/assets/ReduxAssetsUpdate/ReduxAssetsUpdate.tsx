@@ -4,11 +4,11 @@ import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { AssetType, CursorEnum, OrderBook, OrderBookType } from 'permaweb-orderbook';
+import { AssetSortType, AssetType, CursorEnum, OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { API_CONFIG, CURRENCIES, FEATURE_COUNT, PAGINATORS } from 'helpers/config';
 import { APIFetchType } from 'helpers/types';
-import { rankData } from 'helpers/utils';
+import { getStampData } from 'helpers/utils';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import * as cursorActions from 'store/cursors/actions';
@@ -25,6 +25,7 @@ export default function ReduxAssetsUpdate(props: {
 	collectionId?: string;
 	getFeaturedData: boolean;
 	filterListings: boolean;
+	activeSort: AssetSortType;
 }) {
 	const dispatch = useDispatch();
 
@@ -77,17 +78,18 @@ export default function ReduxAssetsUpdate(props: {
 						let contractIds: string[] = [];
 
 						let updatedReducer: {
+							featuredGroup: string[];
 							groups: {
 								index: string;
 								ids: string[];
 							}[];
 							count: number;
-						} = { groups: [], count: 0 };
+						} = { featuredGroup: [], groups: [], count: 0 };
 						if (
 							props.collectionId ||
 							(assetsReducer.accountData.address && props.address !== assetsReducer.accountData.address)
 						) {
-							updatedReducer = { groups: [], count: 0 };
+							updatedReducer = { featuredGroup: [], groups: [], count: 0 };
 						} else updatedReducer = currentReducer[props.reduxCursor];
 
 						let paginator = PAGINATORS.default;
@@ -96,6 +98,7 @@ export default function ReduxAssetsUpdate(props: {
 								paginator = PAGINATORS.contract;
 								contractIds = await orderBook.api.getAssetIdsByContract({
 									filterListings: props.filterListings,
+									activeSort: props.activeSort,
 								});
 								break;
 							case 'user':
@@ -104,6 +107,7 @@ export default function ReduxAssetsUpdate(props: {
 									contractIds = await orderBook.api.getAssetIdsByUser({
 										walletAddress: props.address,
 										filterListings: props.filterListings,
+										activeSort: props.activeSort,
 									});
 								}
 								break;
@@ -113,6 +117,7 @@ export default function ReduxAssetsUpdate(props: {
 									const collection = await orderBook.api.getCollection({
 										collectionId: props.collectionId,
 										filterListings: props.filterListings,
+										activeSort: props.activeSort,
 									});
 									if (collection) {
 										contractIds = collection.assets;
@@ -121,11 +126,14 @@ export default function ReduxAssetsUpdate(props: {
 								break;
 						}
 
-						const rankedContractIds = await rankData(
+						const rankByStamps = props.activeSort === 'by-stamps' || props.apiFetch === 'user';
+
+						const stampContractIds = await getStampData(
 							contractIds,
 							orderBook.env.arClient.warpDefault,
 							orderBook.env.arClient.arweavePost,
 							window.arweaveWallet,
+							rankByStamps,
 							dreReducer.source
 						);
 
@@ -133,14 +141,19 @@ export default function ReduxAssetsUpdate(props: {
 							currentReducer[props.reduxCursor].groups.map((group: any) => [group.index, group.ids])
 						);
 
-						if (rankedContractIds.length <= 0) {
+						if (stampContractIds.length <= 0) {
 							updatedReducer.groups.push({
 								index: `${props.reduxCursor}-${props.cursorObject}-0`,
 								ids: [],
 							});
 						} else {
-							for (let i = 0, j = 0; i < rankedContractIds.length; i += paginator, j++) {
-								const cursorIds = [...rankedContractIds].slice(i, i + paginator);
+							updatedReducer.featuredGroup =
+								props.apiFetch === 'contract' ? stampContractIds.slice(0, FEATURE_COUNT) : [];
+							const tableStampContractIds =
+								props.apiFetch === 'contract' ? stampContractIds.slice(FEATURE_COUNT) : stampContractIds;
+
+							for (let i = 0, j = 0; i < tableStampContractIds.length; i += paginator, j++) {
+								const cursorIds = [...tableStampContractIds].slice(i, i + paginator);
 								const newIndex = `${props.reduxCursor}-${props.cursorObject}-${j}`;
 
 								if (
@@ -157,7 +170,7 @@ export default function ReduxAssetsUpdate(props: {
 							}
 						}
 
-						updatedReducer.count = rankedContractIds.length;
+						updatedReducer.count = stampContractIds.length;
 						dispatch(
 							cursorActions.setCursors({
 								[props.cursorObject]: {
@@ -169,7 +182,7 @@ export default function ReduxAssetsUpdate(props: {
 				}
 			})();
 		}
-	}, [props.address, props.collectionId, dreReducer.source, orderBook, props.filterListings]);
+	}, [props.address, props.collectionId, dreReducer.source, orderBook, props.filterListings, props.activeSort]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -177,6 +190,16 @@ export default function ReduxAssetsUpdate(props: {
 			if (cursorReducer && cursorReducer.groups.length && orderBook && props.currentTableCursor && orderBook) {
 				for (let i = 0; i < cursorReducer.groups.length; i++) {
 					if (props.currentTableCursor === cursorReducer.groups[i].index) {
+						const featuredAssets = await orderBook.api.getAssetsByIds({
+							ids: cursorReducer.featuredGroup,
+							owner: null,
+							uploader: null,
+							cursor: null,
+							reduxCursor: props.reduxCursor,
+							walletAddress: null,
+							activeSort: props.activeSort,
+						});
+
 						const fetchedAssets = await orderBook.api.getAssetsByIds({
 							ids: cursorReducer.groups[i].ids,
 							owner: null,
@@ -184,13 +207,26 @@ export default function ReduxAssetsUpdate(props: {
 							cursor: null,
 							reduxCursor: props.reduxCursor,
 							walletAddress: null,
+							activeSort: props.activeSort,
 						});
 
-						const rankedAssets = await rankData(
+						const rankByStamps = props.activeSort === 'by-stamps' || props.apiFetch === 'user';
+
+						const featuredStampAssets = await getStampData(
+							featuredAssets,
+							orderBook.env.arClient.warpDefault,
+							orderBook.env.arClient.arweavePost,
+							window.arweaveWallet,
+							rankByStamps,
+							dreReducer.source
+						);
+
+						const stampAssets = await getStampData(
 							fetchedAssets,
 							orderBook.env.arClient.warpDefault,
 							orderBook.env.arClient.arweavePost,
 							window.arweaveWallet,
+							rankByStamps,
 							dreReducer.source
 						);
 
@@ -200,25 +236,21 @@ export default function ReduxAssetsUpdate(props: {
 
 								let finalFeaturedAssets: AssetType[];
 								if (props.getFeaturedData) {
-									finalFeaturedAssets = rankedAssets.slice(0, FEATURE_COUNT);
+									finalFeaturedAssets = featuredStampAssets;
 									assetReducer['featuredData'] = finalFeaturedAssets;
 								}
 
 								let finalTableAssets: AssetType[] = [];
-								if (rankedAssets.length >= FEATURE_COUNT && props.getFeaturedData) {
-									finalTableAssets = rankedAssets.slice(FEATURE_COUNT);
-								} else {
-									finalTableAssets = rankedAssets;
-								}
+								finalTableAssets = stampAssets;
 								assetReducer['contractData'] = finalTableAssets;
 
 								dispatch(assetActions.setAssets(assetReducer));
 								break;
 							case 'user':
-								dispatch(assetActions.setAssets({ accountData: { address: props.address, data: rankedAssets } }));
+								dispatch(assetActions.setAssets({ accountData: { address: props.address, data: stampAssets } }));
 								break;
 							case 'collection':
-								dispatch(assetActions.setAssets({ collectionData: rankedAssets }));
+								dispatch(assetActions.setAssets({ collectionData: stampAssets }));
 								break;
 						}
 					}
@@ -232,6 +264,7 @@ export default function ReduxAssetsUpdate(props: {
 		dreReducer.source,
 		orderBook,
 		props.filterListings,
+		props.activeSort,
 	]);
 
 	return <>{props.children}</>;

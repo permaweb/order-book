@@ -8,9 +8,9 @@ import { CursorsType } from './types';
 
 export const initStateCursors: CursorsType = {
 	idGQL: {
-		[REDUX_TABLES.contractAssets]: { groups: [], count: 0 },
-		[REDUX_TABLES.userAssets]: { groups: [], count: 0 },
-		[REDUX_TABLES.collectionAssets]: { groups: [], count: 0 },
+		[REDUX_TABLES.contractAssets]: { featuredGroup: [], groups: [], count: 0 },
+		[REDUX_TABLES.userAssets]: { featuredGroup: [], groups: [], count: 0 },
+		[REDUX_TABLES.collectionAssets]: { featuredGroup: [], groups: [], count: 0 },
 	},
 };
 
@@ -21,13 +21,13 @@ export function cursorsReducer(state: CursorsType = initStateCursors, action: Re
 				idGQL: {
 					[REDUX_TABLES.contractAssets]: checkPayload(action.payload, CursorEnum.idGQL, REDUX_TABLES.contractAssets)
 						? action.payload.idGQL[REDUX_TABLES.contractAssets]
-						: { groups: [], count: 0 },
+						: { featuredGroup: [], groups: [], count: 0 },
 					[REDUX_TABLES.userAssets]: checkPayload(action.payload, CursorEnum.idGQL, REDUX_TABLES.userAssets)
 						? action.payload.idGQL[REDUX_TABLES.userAssets]
-						: { groups: [], count: 0 },
+						: { featuredGroup: [], groups: [], count: 0 },
 					[REDUX_TABLES.collectionAssets]: checkPayload(action.payload, CursorEnum.idGQL, REDUX_TABLES.collectionAssets)
 						? action.payload.idGQL[REDUX_TABLES.collectionAssets]
-						: { groups: [], count: 0 },
+						: { featuredGroup: [], groups: [], count: 0 },
 				},
 			});
 		default:

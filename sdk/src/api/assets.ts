@@ -4,6 +4,7 @@ import {
 	AssetArgsClientType,
 	AssetCreateArgsClientType,
 	AssetDetailType,
+	AssetSortType,
 	AssetsResponseType,
 	AssetType,
 	BalanceType,
@@ -25,42 +26,50 @@ import {
 	UserBalancesType,
 } from '../helpers';
 
-export async function createAsset(args: AssetCreateArgsClientType): Promise<string | null> {
-	const assetId = await createTransaction({
+export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetType[]> {
+	const gqlData: AssetsResponseType = await getGqlDataByIds({
+		ids: args.ids,
+		owner: args.owner,
+		uploader: args.uploader,
+		cursor: args.cursor,
+		reduxCursor: args.reduxCursor,
 		arClient: args.arClient,
-		content: args.content,
-		contentType: args.contentType,
-		tags: createTags(args),
+		walletAddress: args.walletAddress,
+		activeSort: args.activeSort,
+		useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
 	});
-	const contractId = await createContract({ arClient: args.arClient, assetId: assetId });
-	if (contractId) {
-		logValue(`Deployed Contract`, contractId, 0);
-		return contractId;
-	} else {
-		return null;
-	}
+
+	const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
+
+	const validatedAssets = getValidatedAssets(gqlData, pairs);
+	return sortAssets(validatedAssets, args.activeSort);
 }
 
-export async function getAssetIdsByContract(args: { arClient: any; filterListings: boolean }): Promise<string[]> {
+export async function getAssetIdsByContract(args: {
+	arClient: any;
+	filterListings: boolean;
+	activeSort: AssetSortType;
+}): Promise<string[]> {
 	try {
 		const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
+		const sortedPairs = sortPairs(pairs, args.activeSort);
 		const ids: string[] = [];
-		for (let i = 0; i < pairs.length; i++) {
-			if (!args.filterListings) ids.push(pairs[i].pair[0]);
+		for (let i = 0; i < sortedPairs.length; i++) {
+			if (!args.filterListings) ids.push(sortedPairs[i].pair[0]);
 			else {
-				if (pairs[i].orders && pairs[i].orders.length > 0) {
-					ids.push(pairs[i].pair[0]);
+				if (sortedPairs[i].orders && sortedPairs[i].orders.length > 0) {
+					ids.push(sortedPairs[i].pair[0]);
 				}
 			}
 		}
 		const finalAssetIds = ids
-			.reverse()
 			.filter((id: string) => !FILTERED_IDS.includes(id))
 			.filter((id: string) => {
 				return !ANS_FILTER_LIST.includes(id);
 			});
 		return finalAssetIds;
 	} catch (e: any) {
+		console.error(e);
 		return [];
 	}
 }
@@ -69,6 +78,7 @@ export async function getAssetIdsByUser(args: {
 	arClient: any;
 	walletAddress: string;
 	filterListings: boolean;
+	activeSort: AssetSortType;
 }): Promise<string[]> {
 	try {
 		const result: any = await fetch(getBalancesEndpoint(args.walletAddress));
@@ -91,6 +101,7 @@ export async function getAssetIdsByUser(args: {
 				const contractIds = await getAssetIdsByContract({
 					arClient: args.arClient,
 					filterListings: args.filterListings,
+					activeSort: 'low-to-high',
 				});
 				finalAssetIds = assetIds.filter((id: string) => contractIds.includes(id));
 			}
@@ -104,27 +115,11 @@ export async function getAssetIdsByUser(args: {
 	}
 }
 
-export async function getAssetsByIds(args: AssetArgsClientType): Promise<AssetType[]> {
-	const gqlData: AssetsResponseType = await getGqlDataByIds({
-		ids: args.ids,
-		owner: args.owner,
-		uploader: args.uploader,
-		cursor: args.cursor,
-		reduxCursor: args.reduxCursor,
-		arClient: args.arClient,
-		walletAddress: args.walletAddress,
-		useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
-	});
-
-	const pairs: OrderBookPairType[] = (await args.arClient.read(ORDERBOOK_CONTRACT)).pairs;
-
-	return getValidatedAssets(gqlData, pairs);
-}
-
 export async function getAssetById(args: {
 	id: string;
 	arClient: any;
 	orderBookContract: string;
+	activeSort: AssetSortType | null;
 }): Promise<AssetDetailType> {
 	const asset = (
 		await getAssetsByIds({
@@ -135,6 +130,7 @@ export async function getAssetById(args: {
 			reduxCursor: null,
 			walletAddress: null,
 			arClient: args.arClient,
+			activeSort: args.activeSort,
 			useArweaveBundlr: true,
 		})
 	)[0];
@@ -264,6 +260,66 @@ function getUDL(gqlData: GQLResponseType): UDLType | null {
 		licenseFee: licenseFee,
 		paymentMode: { key: TAGS.keys.udl.paymentMode, value: getTagValue(gqlData.node.tags, TAGS.keys.udl.paymentMode) },
 	};
+}
+
+function sortAssets(assets: AssetType[], activeSort: AssetSortType) {
+	assets.sort((a: AssetType, b: AssetType) => {
+		if (a.orders && b.orders) {
+			if (a.orders.length && !b.orders.length) return -1;
+			if (!a.orders.length && b.orders.length) return 1;
+
+			const aPrice = a.orders.length ? a.orders[0].price : Infinity;
+			const bPrice = b.orders.length ? b.orders[0].price : Infinity;
+
+			switch (activeSort) {
+				case 'low-to-high':
+					return aPrice - bPrice;
+				case 'high-to-low':
+					return bPrice - aPrice;
+				default:
+					return aPrice - bPrice;
+			}
+		} else return -1;
+	});
+
+	return assets;
+}
+
+function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType) {
+	pairs.sort((a: OrderBookPairType, b: OrderBookPairType) => {
+		if (a.orders.length && !b.orders.length) return -1;
+		if (!a.orders.length && b.orders.length) return 1;
+
+		const aPrice = a.orders.length ? a.orders[0].price : Infinity;
+		const bPrice = b.orders.length ? b.orders[0].price : Infinity;
+
+		switch (activeSort) {
+			case 'low-to-high':
+				return aPrice - bPrice;
+			case 'high-to-low':
+				return bPrice - aPrice;
+			default:
+				return aPrice - bPrice;
+		}
+	});
+
+	return pairs;
+}
+
+export async function createAsset(args: AssetCreateArgsClientType): Promise<string | null> {
+	const assetId = await createTransaction({
+		arClient: args.arClient,
+		content: args.content,
+		contentType: args.contentType,
+		tags: createTags(args),
+	});
+	const contractId = await createContract({ arClient: args.arClient, assetId: assetId });
+	if (contractId) {
+		logValue(`Deployed Contract`, contractId, 0);
+		return contractId;
+	} else {
+		return null;
+	}
 }
 
 function createTags(args: AssetCreateArgsClientType): TagType[] {
