@@ -99,38 +99,45 @@ export default function WalletConnect(props: { callback?: () => void }) {
 								</S.StreakWrapper>
 							)}
 							{arProvider.currencyBalances && (
-								<S.BDWrapper>
-									<S.BalanceAction
-										onClick={() => {
-											setShowGetBalanceDropdown(!showGetBalanceDropdown);
-											setShowWalletDropdown(false);
-										}}
-									>
-										<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
-										<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
-									</S.BalanceAction>
-									{showGetBalanceDropdown && (
-										<S.BalanceDropdown>
-											<p>{language.getU}</p>
-											<li
-												onClick={() => {
-													window.open(REDIRECTS.u, '_blank');
-													setShowGetBalanceDropdown(false);
-												}}
-											>
-												{language.burnYourOwn}
-											</li>
-											<li
-												onClick={() => {
-													window.open(REDIRECTS.everpay, '_blank');
-													setShowGetBalanceDropdown(false);
-												}}
-											>
-												{language.buyOnEverPay}
-											</li>
-										</S.BalanceDropdown>
-									)}
-								</S.BDWrapper>
+								<>
+									<S.Balance>
+										<p>{`${(arProvider.currencyBalances['PIXL'] / 1e6).toFixed(2)}`}</p>
+										<ReactSVG src={CURRENCY_ICONS['PIXL']} />
+									</S.Balance>
+
+									<S.BDWrapper>
+										<S.BalanceAction
+											onClick={() => {
+												setShowGetBalanceDropdown(!showGetBalanceDropdown);
+												setShowWalletDropdown(false);
+											}}
+										>
+											<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
+											<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
+										</S.BalanceAction>
+										{showGetBalanceDropdown && (
+											<S.BalanceDropdown>
+												<p>{language.getU}</p>
+												<li
+													onClick={() => {
+														window.open(REDIRECTS.u, '_blank');
+														setShowGetBalanceDropdown(false);
+													}}
+												>
+													{language.burnYourOwn}
+												</li>
+												<li
+													onClick={() => {
+														window.open(REDIRECTS.everpay, '_blank');
+														setShowGetBalanceDropdown(false);
+													}}
+												>
+													{language.buyOnEverPay}
+												</li>
+											</S.BalanceDropdown>
+										)}
+									</S.BDWrapper>
+								</>
 							)}
 							{arProvider.availableBalance !== null && (
 								<S.Balance>

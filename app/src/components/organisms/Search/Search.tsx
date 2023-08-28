@@ -23,7 +23,7 @@ export default function Search() {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [results, setResults] = React.useState<AssetType[]>([]);
 
-	const [desktop, setDesktop] = React.useState(windowUtils.checkDesktop(STYLING.cutoffs.initialWrapper));
+	const [desktop, setDesktop] = React.useState(windowUtils.checkDesktop(STYLING.cutoffs.max));
 	const [searchOpen, setSearchOpen] = React.useState<boolean>(false);
 	const [timer, setTimer] = React.useState<any>(null);
 
@@ -42,7 +42,7 @@ export default function Search() {
 	}, [value]);
 
 	function handleWindowResize() {
-		if (windowUtils.checkDesktop(STYLING.cutoffs.initialWrapper)) {
+		if (windowUtils.checkDesktop(STYLING.cutoffs.max)) {
 			setDesktop(true);
 		} else {
 			setDesktop(false);

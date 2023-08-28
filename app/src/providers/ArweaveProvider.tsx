@@ -38,6 +38,7 @@ interface ArweaveProviderProps {
 
 interface CurrencyBalancesType {
 	U: number;
+	PIXL: number;
 }
 
 const DEFAULT_CONTEXT = {
@@ -256,13 +257,18 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	React.useEffect(() => {
 		(async function () {
 			if (walletAddress && orderBook) {
-				const currencyState = await orderBook.api.arClient.read(CURRENCY_DICT['U']);
-				const balance = currencyState.balances[walletAddress];
-				if (balance !== null) {
-					setCurrencyBalances({
-						U: balance ? balance : 0,
-					});
-				}
+				const uCurrencyState = await orderBook.api.arClient.read(CURRENCY_DICT['U']);
+				const uBalance = uCurrencyState.balances[walletAddress];
+
+				const orderBookState = await orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
+
+				console.log(orderBookState);
+				const pixlBalance = orderBookState.balances[walletAddress];
+
+				setCurrencyBalances({
+					U: uBalance ? uBalance : 0,
+					PIXL: pixlBalance ? pixlBalance : 0,
+				});
 			}
 		})();
 	}, [walletAddress, orderBook, updateBalance]);

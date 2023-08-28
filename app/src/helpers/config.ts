@@ -29,6 +29,7 @@ import ordersSVG from 'assets/orders.svg';
 import overviewSVG from 'assets/overview.svg';
 import ownersSVG from 'assets/owners.svg';
 import pasteSVG from 'assets/paste.svg';
+import pixlSVG from 'assets/pixl.svg';
 import provenanceSVG from 'assets/provenance.svg';
 import rendererSVG from 'assets/renderer.svg';
 import searchSVG from 'assets/search.svg';
@@ -93,6 +94,7 @@ export const ASSETS = {
 	overview: overviewSVG,
 	owners: ownersSVG,
 	paste: pasteSVG,
+	pixl: pixlSVG,
 	provenance: provenanceSVG,
 	renderer: rendererSVG,
 	search: searchSVG,
@@ -133,6 +135,7 @@ export const DOM = {
 };
 
 export const CURRENCY_ICONS = {
+	PIXL: ASSETS.pixl,
 	[CURRENCY_DICT.U]: ASSETS.u,
 };
 

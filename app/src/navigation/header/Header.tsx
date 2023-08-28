@@ -13,11 +13,11 @@ import { WalletConnect } from 'wallet/WalletConnect';
 import * as S from './styles';
 
 export default function Header() {
-	const [open, setOpen] = React.useState(checkDesktop(STYLING.cutoffs.initialWrapper));
-	const [desktop, setDesktop] = React.useState(checkDesktop(STYLING.cutoffs.initialWrapper));
+	const [open, setOpen] = React.useState(checkDesktop(STYLING.cutoffs.max));
+	const [desktop, setDesktop] = React.useState(checkDesktop(STYLING.cutoffs.max));
 
 	function handleWindowResize() {
-		if (checkDesktop(STYLING.cutoffs.initialWrapper)) {
+		if (checkDesktop(STYLING.cutoffs.max)) {
 			setDesktop(true);
 			setOpen(true);
 		} else {
@@ -27,12 +27,12 @@ export default function Header() {
 	}
 
 	function handleNavStatus() {
-		checkDesktop(STYLING.cutoffs.initialWrapper) ? setOpen(true) : setOpen(!open);
+		checkDesktop(STYLING.cutoffs.max) ? setOpen(true) : setOpen(!open);
 	}
 
 	checkWindowResize(handleWindowResize);
 
-	if (open && !checkDesktop(STYLING.cutoffs.initialWrapper)) {
+	if (open && !checkDesktop(STYLING.cutoffs.max)) {
 		hideDocumentBody();
 	} else {
 		showDocumentBody();
