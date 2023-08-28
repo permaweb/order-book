@@ -50,7 +50,7 @@ export const SearchInput = styled.input<{ hasResults: boolean }>`
 		box-shadow: none;
 		border: 1px solid ${(props) => props.theme.colors.form.border};
 	}
-	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+	@media (max-width: ${STYLING.cutoffs.max}) {
 		font-size: ${(props) => props.theme.typography.size.base};
 	}
 `;
@@ -98,7 +98,7 @@ export const SearchResultsWrapper = styled.div`
 			text-decoration: none !important;
 		}
 	}
-	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
+	@media (max-width: ${STYLING.cutoffs.max}) {
 		position: relative;
 		top: auto;
 	}
