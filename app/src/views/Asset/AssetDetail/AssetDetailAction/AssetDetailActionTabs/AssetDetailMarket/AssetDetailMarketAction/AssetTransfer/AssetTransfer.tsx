@@ -187,8 +187,8 @@ export default function AssetTransfer(props: IProps) {
 						wallet: signer,
 						input: {
 							function: 'transfer',
-							target: address,
-							qty: quantity,
+							target: address.trim(),
+							qty: denominator ? quantity * denominator : quantity,
 						},
 					});
 
