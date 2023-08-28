@@ -335,6 +335,7 @@ export type CollectionType = {
 	creator: ProfileType;
 	block: { height: number; timestamp: number };
 	stamps?: { total: number; vouched: number };
+	floorPrice: number | null;
 };
 
 export type CollectionAssetType = CollectionType & {

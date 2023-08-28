@@ -9,6 +9,7 @@ import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'components/organisms/AssetData';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
+import { STYLING } from 'helpers/styling';
 import * as urls from 'helpers/urls';
 import * as windowUtils from 'helpers/window';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
@@ -22,7 +23,7 @@ export default function Search() {
 	const [loading, setLoading] = React.useState<boolean>(false);
 	const [results, setResults] = React.useState<AssetType[]>([]);
 
-	const [desktop, setDesktop] = React.useState(windowUtils.checkDesktop());
+	const [desktop, setDesktop] = React.useState(windowUtils.checkDesktop(STYLING.cutoffs.initialWrapper));
 	const [searchOpen, setSearchOpen] = React.useState<boolean>(false);
 	const [timer, setTimer] = React.useState<any>(null);
 
@@ -41,7 +42,7 @@ export default function Search() {
 	}, [value]);
 
 	function handleWindowResize() {
-		if (windowUtils.checkDesktop()) {
+		if (windowUtils.checkDesktop(STYLING.cutoffs.initialWrapper)) {
 			setDesktop(true);
 		} else {
 			setDesktop(false);

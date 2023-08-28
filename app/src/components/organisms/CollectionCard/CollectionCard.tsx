@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
 
 import { getTxEndpoint } from 'permaweb-orderbook';
 
@@ -9,6 +10,7 @@ import { StampWidget } from 'components/organisms/StampWidget';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
+import { formatPrice } from 'helpers/utils';
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -45,6 +47,29 @@ export default function CollectionCard(props: IProps) {
 		}
 	}
 
+	function getFloorPrice() {
+		if (props.collection.floorPrice !== null) {
+			if (props.collection.floorPrice > 0) {
+				return (
+					<S.FPWrapper>
+						<p>{`${language.floorPrice}:`}</p>
+						&nbsp;
+						<S.FPContainer>
+							<p>{formatPrice(props.collection.floorPrice)}</p>
+							<ReactSVG src={ASSETS.u} />
+						</S.FPContainer>
+					</S.FPWrapper>
+				);
+			} else {
+				return (
+					<S.FPWrapper>
+						<p>{language.noListings}</p>
+					</S.FPWrapper>
+				);
+			}
+		} else return null;
+	}
+
 	function getData() {
 		if (props.collection) {
 			const redirect = `${urls.collection}${props.collection.id}`;
@@ -67,15 +92,18 @@ export default function CollectionCard(props: IProps) {
 								/>
 							</S.ButtonWrapper>
 						)}
-						<S.StampWidget>
-							<StampWidget
-								assetId={props.collection.id}
-								title={props.collection.title}
-								stamps={props.collection.stamps ? props.collection.stamps : null}
-								hasStampedMessage={language.collectionStamped}
-								getCount={props.getStampCount ? props.getStampCount : false}
-							></StampWidget>
-						</S.StampWidget>
+						<S.SWrapper>
+							{getFloorPrice()}
+							<S.StampWidget>
+								<StampWidget
+									assetId={props.collection.id}
+									title={props.collection.title}
+									stamps={props.collection.stamps ? props.collection.stamps : null}
+									hasStampedMessage={language.collectionStamped}
+									getCount={props.getStampCount ? props.getStampCount : false}
+								/>
+							</S.StampWidget>
+						</S.SWrapper>
 					</S.InfoWrapper>
 					{!props.hideRedirect && (
 						<S.ImageLink>

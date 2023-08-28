@@ -152,7 +152,6 @@ export const BalanceDropdown = styled(Dropdown)`
 		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
-		top: 131.5px;
-		right: 20px;
+		right: 0px;
 	}
 `;

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { CursorType } from 'arcframework';
+
+import { CursorType } from 'helpers/types';
 
 export interface IProps {
 	nPages: number;
@@ -10,4 +11,5 @@ export interface IProps {
 	handleCursorFetch: (cursor: string | null) => void;
 	cursors: CursorType;
 	useIcons: boolean;
+	disabled: boolean;
 }

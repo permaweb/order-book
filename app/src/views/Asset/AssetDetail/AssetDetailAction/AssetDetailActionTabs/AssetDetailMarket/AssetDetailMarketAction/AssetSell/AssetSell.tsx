@@ -246,6 +246,7 @@ export default function AssetSell(props: IProps) {
 					});
 				}
 			} catch (e: any) {
+				console.error(e);
 				let message = '';
 				if (e.message) {
 					message = e.message;

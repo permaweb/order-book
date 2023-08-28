@@ -95,6 +95,7 @@ export default function CollectionsTable(props: IProps) {
 							previous: props.cursors.previous,
 						}}
 						useIcons={useIcons}
+						disabled={!props.collections}
 					/>
 				);
 			}

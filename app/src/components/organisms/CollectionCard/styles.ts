@@ -65,8 +65,38 @@ export const ButtonWrapper = styled.div`
 	margin: 20px 0 0 0;
 `;
 
+export const SWrapper = styled.div`
+	margin: 12.5px 0 0 0;
+`;
+
 export const StampWidget = styled.div`
 	margin: 20px 0 0 0;
+`;
+
+export const FPWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 5px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		color: ${(props) => props.theme.colors.font.primary.alt1};
+		word-wrap: break-word;
+	}
+`;
+
+export const FPContainer = styled.div`
+	display: flex;
+	align-items: center;
+	p {
+		font-weight: ${(props) => props.theme.typography.weight.bold};
+		margin: 0 7.5px 0 0;
+	}
+	svg {
+		height: 15px;
+		width: 15px;
+	}
 `;
 
 export const ImageWrapper = styled.div<{ backgroundImage: string }>`

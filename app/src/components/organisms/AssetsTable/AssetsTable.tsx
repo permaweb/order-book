@@ -109,6 +109,7 @@ export default function AssetsTable(props: IProps) {
 							previous: getPaginatorAction('prev'),
 						}}
 						useIcons={useIcons}
+						disabled={props.loading}
 					/>
 				);
 			}
@@ -143,7 +144,7 @@ export default function AssetsTable(props: IProps) {
 							setActiveSortOption(option);
 						}}
 						options={ASSET_SORT_OPTIONS.map((option: SelectOptionType) => option)}
-						disabled={!props.assets}
+						disabled={!props.assets || props.loading}
 					/>
 					<Button
 						type={'primary'}
@@ -154,7 +155,7 @@ export default function AssetsTable(props: IProps) {
 						}}
 						icon={filterListings ? ASSETS.close : null}
 						active={filterListings}
-						disabled={!props.assets}
+						disabled={!props.assets || props.loading}
 						height={40}
 						width={165}
 					/>

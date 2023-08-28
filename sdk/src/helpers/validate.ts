@@ -75,7 +75,7 @@ export async function validateAsset(args: ValidateAssetArgs) {
 
 	let keys = Object.keys(args.assetState.balances);
 	if (keys.length < 1) {
-		throw new Error(`balances object is empty in the asset state`);
+		throw new Error(`Balances object is empty in the asset state`);
 	}
 
 	let gateway = args.arClient.arweavePost.api.config.host;
@@ -83,7 +83,7 @@ export async function validateAsset(args: ValidateAssetArgs) {
 
 	const assetResponse = await fetch(`${protocol}://${gateway}/${args.asset}`);
 
-	if (!(assetResponse.status == 200)) {
+	if (!(assetResponse.status === 200 || assetResponse.status === 202)) {
 		throw new Error(`Asset data could not be retrieved`);
 	}
 
@@ -95,10 +95,11 @@ export async function validateAsset(args: ValidateAssetArgs) {
 		reduxCursor: null,
 		cursorObject: null,
 		arClient: args.arClient,
+		useArweaveBundlr: true,
 	});
 
 	if (assetGqlResponse.data.length < 1) {
-		throw new Error(`Asset could not be found via gql`);
+		throw new Error(`Asset could not be found via GQL`);
 	}
 
 	let ansTitle = getTagValue(assetGqlResponse.data[0].node.tags, TAGS.keys.ans110.title);

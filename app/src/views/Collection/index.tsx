@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
@@ -9,9 +9,11 @@ import { CollectionCard } from 'components/organisms/CollectionCard';
 import { REDUX_TABLES } from 'helpers/redux';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
+import * as assetActions from 'store/assets/actions';
 
 export default function Collection() {
 	const { id } = useParams();
+	const dispatch = useDispatch();
 
 	const orProvider = useOrderBookProvider();
 
@@ -25,7 +27,11 @@ export default function Collection() {
 		(async function () {
 			if (id && orProvider.orderBook) {
 				setAssets(null);
+				setCollection(null);
 				setLoading(true);
+
+				dispatch(assetActions.setAssets({ collectionData: null }));
+
 				const collectionFetch = await orProvider.orderBook.api.getCollection({
 					collectionId: id,
 					filterListings: false,

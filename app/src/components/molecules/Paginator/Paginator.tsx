@@ -74,7 +74,7 @@ export default function Paginator(props: IProps) {
 					src={ASSETS.arrowPrevious}
 					type={'alt1'}
 					handlePress={handlePreviousPage}
-					disabled={!props.cursors.previous}
+					disabled={!props.cursors.previous || props.disabled}
 					dimensions={{ wrapper: 25, icon: 11 }}
 				/>
 			);
@@ -84,7 +84,7 @@ export default function Paginator(props: IProps) {
 					label={language.previous}
 					type={'primary'}
 					handlePress={handlePreviousPage}
-					disabled={!props.cursors.previous}
+					disabled={!props.cursors.previous || props.disabled}
 					noMinWidth
 				/>
 			);
@@ -98,7 +98,7 @@ export default function Paginator(props: IProps) {
 					src={ASSETS.arrowNext}
 					type={'alt1'}
 					handlePress={handleNextPage}
-					disabled={!props.cursors.next || props.cursors.next === CURSORS.end}
+					disabled={!props.cursors.next || props.cursors.next === CURSORS.end || props.disabled}
 					dimensions={{ wrapper: 25, icon: 11 }}
 				/>
 			);
@@ -108,7 +108,7 @@ export default function Paginator(props: IProps) {
 					label={language.next}
 					type={'primary'}
 					handlePress={handleNextPage}
-					disabled={!props.cursors.next || props.cursors.next === CURSORS.end}
+					disabled={!props.cursors.next || props.cursors.next === CURSORS.end || props.disabled}
 					noMinWidth
 				/>
 			);

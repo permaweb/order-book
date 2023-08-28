@@ -285,7 +285,7 @@ function sortAssets(assets: AssetType[], activeSort: AssetSortType) {
 	return assets;
 }
 
-function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType) {
+export function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType) {
 	pairs.sort((a: OrderBookPairType, b: OrderBookPairType) => {
 		if (a.orders.length && !b.orders.length) return -1;
 		if (!a.orders.length && b.orders.length) return 1;

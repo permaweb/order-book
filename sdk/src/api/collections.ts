@@ -14,14 +14,15 @@ import {
 	GetCollectionByCodeArgs,
 	getTagValue,
 	getTxEndpoint,
+	ORDERBOOK_CONTRACT,
+	OrderBookPairType,
 	STORAGE,
 	TAGS,
 } from '../helpers';
 
-import { getAssetIdsByContract } from './assets';
+import { getAssetIdsByContract, sortPairs } from './assets';
 import { getProfile } from './profile';
 
-// TODO: add floorPrice to buildCollection
 async function buildCollection(args: {
 	node: any;
 	items?: string[] | null;
@@ -59,6 +60,7 @@ async function buildCollection(args: {
 		type: type,
 		creator: profile,
 		block: args.node.block,
+		floorPrice: args.items ? await getFloorPrice(args.items, args.arClient) : null,
 	};
 
 	if (args.items) {
@@ -205,4 +207,14 @@ export async function getCollectionByCode(args: GetCollectionByCodeArgs): Promis
 		console.error(error);
 	}
 	return null;
+}
+
+async function getFloorPrice(assetIds: string[], arClient: any): Promise<number> {
+	const pairs: OrderBookPairType[] = (await arClient.read(ORDERBOOK_CONTRACT)).pairs.filter((pair: OrderBookPairType) =>
+		assetIds.includes(pair.pair[0])
+	);
+	const sortedPairs = sortPairs(pairs, 'low-to-high');
+	return sortedPairs && sortedPairs.length && sortedPairs[0].orders && sortedPairs[0].orders.length
+		? sortedPairs[0].orders[0].price
+		: 0;
 }
