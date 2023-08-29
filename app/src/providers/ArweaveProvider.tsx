@@ -261,8 +261,6 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				const uBalance = uCurrencyState.balances[walletAddress];
 
 				const orderBookState = await orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
-
-				console.log(orderBookState);
 				const pixlBalance = orderBookState.balances[walletAddress];
 
 				setCurrencyBalances({

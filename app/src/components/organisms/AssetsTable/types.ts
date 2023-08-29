@@ -16,4 +16,5 @@ export interface IProps {
 	collectionId?: string;
 	getFeaturedData: boolean;
 	showFilters: boolean;
+	autoLoadRenderers?: boolean;
 }

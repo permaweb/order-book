@@ -5,7 +5,9 @@ import { ReactSVG } from 'react-svg';
 import { CURRENCY_DICT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
+import { IconButton } from 'components/atoms/IconButton';
 import { Streak } from 'components/atoms/Streak';
+import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS, REDIRECTS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
@@ -25,6 +27,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	const [showGetBalanceDropdown, setShowGetBalanceDropdown] = React.useState<boolean>(false);
 	const [copied, setCopied] = React.useState<boolean>(false);
 	const [label, setLabel] = React.useState<string | null>(null);
+	const [showUTooltip, setShowUTooltip] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		setTimeout(() => {
@@ -81,89 +84,106 @@ export default function WalletConnect(props: { callback?: () => void }) {
 	}
 
 	return (
-		<CloseHandler
-			callback={() => {
-				setShowWalletDropdown(false);
-				setShowGetBalanceDropdown(false);
-			}}
-			active={showWalletDropdown || showGetBalanceDropdown}
-			disabled={false}
-		>
-			<S.Wrapper>
-				<S.FlexAction>
-					{arProvider.walletAddress && (
-						<S.BalancesWrapper>
-							{arProvider.streak && (
-								<S.StreakWrapper>
-									<Streak streak={arProvider.streak.days} />
-								</S.StreakWrapper>
-							)}
-							{arProvider.currencyBalances && (
-								<>
-									<S.Balance>
-										<p>{`${(arProvider.currencyBalances['PIXL'] / 1e6).toFixed(2)}`}</p>
-										<ReactSVG src={CURRENCY_ICONS['PIXL']} />
-									</S.Balance>
+		<>
+			{showUTooltip && (
+				<Modal header={language.getU} handleClose={() => setShowUTooltip(false)}>
+					<S.Tooltip>
+						<p>{language.uDescription}</p>
+					</S.Tooltip>
+				</Modal>
+			)}
+			<CloseHandler
+				callback={() => {
+					setShowWalletDropdown(false);
+					setShowGetBalanceDropdown(false);
+				}}
+				active={showWalletDropdown || showGetBalanceDropdown}
+				disabled={false}
+			>
+				<S.Wrapper>
+					<S.FlexAction>
+						{arProvider.walletAddress && (
+							<S.BalancesWrapper>
+								{arProvider.streak && (
+									<S.StreakWrapper>
+										<Streak streak={arProvider.streak.days} />
+									</S.StreakWrapper>
+								)}
+								{arProvider.currencyBalances && (
+									<>
+										<S.Balance>
+											<p>{`${(arProvider.currencyBalances['PIXL'] / 1e6).toFixed(2)}`}</p>
+											<ReactSVG src={CURRENCY_ICONS['PIXL']} />
+										</S.Balance>
 
-									<S.BDWrapper>
-										<S.BalanceAction
-											onClick={() => {
-												setShowGetBalanceDropdown(!showGetBalanceDropdown);
-												setShowWalletDropdown(false);
-											}}
-										>
-											<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
-											<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
-										</S.BalanceAction>
-										{showGetBalanceDropdown && (
-											<S.BalanceDropdown>
-												<p>{language.getU}</p>
-												<li
-													onClick={() => {
-														window.open(REDIRECTS.u, '_blank');
-														setShowGetBalanceDropdown(false);
-													}}
-												>
-													{language.burnYourOwn}
-												</li>
-												<li
-													onClick={() => {
-														window.open(REDIRECTS.everpay, '_blank');
-														setShowGetBalanceDropdown(false);
-													}}
-												>
-													{language.buyOnEverPay}
-												</li>
-											</S.BalanceDropdown>
-										)}
-									</S.BDWrapper>
-								</>
-							)}
-							{arProvider.availableBalance !== null && (
-								<S.Balance>
-									<p>{`${arProvider.availableBalance.toFixed(2)}`}</p>
-									<ReactSVG src={ASSETS.arLogo} />
-								</S.Balance>
-							)}
-						</S.BalancesWrapper>
+										<S.BDWrapper>
+											<S.BalanceAction
+												onClick={() => {
+													setShowGetBalanceDropdown(!showGetBalanceDropdown);
+													setShowWalletDropdown(false);
+												}}
+											>
+												<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
+												<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
+											</S.BalanceAction>
+											{showGetBalanceDropdown && (
+												<S.BalanceDropdown>
+													<S.BDHeader>
+														<p>{language.getU}</p>
+														<IconButton
+															type={'primary'}
+															src={ASSETS.info}
+															handlePress={() => setShowUTooltip(!showUTooltip)}
+															sm
+														/>
+													</S.BDHeader>
+													<li
+														onClick={() => {
+															window.open(REDIRECTS.u, '_blank');
+															setShowGetBalanceDropdown(false);
+														}}
+													>
+														{language.burnYourOwn}
+													</li>
+													<li
+														onClick={() => {
+															window.open(REDIRECTS.everpay, '_blank');
+															setShowGetBalanceDropdown(false);
+														}}
+													>
+														{language.buyOnEverPay}
+													</li>
+												</S.BalanceDropdown>
+											)}
+										</S.BDWrapper>
+									</>
+								)}
+								{arProvider.availableBalance !== null && (
+									<S.Balance>
+										<p>{`${arProvider.availableBalance.toFixed(2)}`}</p>
+										<ReactSVG src={ASSETS.arLogo} />
+									</S.Balance>
+								)}
+							</S.BalancesWrapper>
+						)}
+						<Button
+							type={'primary'}
+							label={label ? label : ''}
+							handlePress={handlePress}
+							height={45}
+							noMinWidth
+							icon={ASSETS.wallet}
+						/>
+					</S.FlexAction>
+					{showWalletDropdown && (
+						<S.Dropdown>
+							<li onClick={handleViewAccount}>{language.account}</li>
+							<li onClick={copyAddress}>{copied ? `${language.copied}!` : language.copyAddress}</li>
+							<li onClick={handleDisconnect}>{language.disconnect}</li>
+						</S.Dropdown>
 					)}
-					<Button
-						type={'primary'}
-						label={label ? label : ''}
-						handlePress={handlePress}
-						height={45}
-						noMinWidth
-						icon={ASSETS.wallet}
-					/>
-				</S.FlexAction>
-				{showWalletDropdown && (
-					<S.Dropdown>
-						<li onClick={handleViewAccount}>{language.account}</li>
-						<li onClick={copyAddress}>{copied ? `${language.copied}!` : language.copyAddress}</li>
-						<li onClick={handleDisconnect}>{language.disconnect}</li>
-					</S.Dropdown>
-				)}
-			</S.Wrapper>
-		</CloseHandler>
+				</S.Wrapper>
+			</CloseHandler>
+		</>
 	);
 }

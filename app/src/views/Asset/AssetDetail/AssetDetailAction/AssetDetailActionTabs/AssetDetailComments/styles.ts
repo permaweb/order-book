@@ -87,7 +87,7 @@ export const CommentCreateTextArea = styled.textarea<{ invalid: boolean }>`
 	resize: none;
 	height: auto;
 	width: 100%;
-	color: ${(props) => props.theme.colors.font.primary.alt1};
+	color: ${(props) => (props.invalid ? props.theme.colors.warning : props.theme.colors.font.primary.alt1)};
 	font-size: ${(props) => props.theme.typography.size.small};
 	line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
 	font-family: ${(props) => props.theme.typography.family.primary};
@@ -99,9 +99,22 @@ export const CommentCreateTextArea = styled.textarea<{ invalid: boolean }>`
 
 export const CommentCreateSubmit = styled.div`
 	width: fit-content;
+	display: flex;
+	align-items: center;
 	margin: 20px 0 0 auto;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		margin: 20px 0 0 auto;
+	}
+`;
+
+export const CommentCreateCount = styled.div`
+	margin: 0 20px 0 0;
+	p {
+		color: ${(props) => props.theme.colors.warning};
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: calc(${(props) => props.theme.typography.size.small} + 10px);
+		font-family: ${(props) => props.theme.typography.family.primary};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
 	}
 `;
 

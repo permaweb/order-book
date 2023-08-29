@@ -125,3 +125,21 @@ export const DCLineIcon = styled.div`
 `;
 
 export const ActionContainer = styled.div``;
+
+export const ModalLinesContent = styled.div`
+	width: 100%;
+	margin: 0 0 40px 0;
+	> * {
+		&:not(:last-child) {
+			margin: 0 0 20px 0;
+		}
+		&:last-child {
+			margin: 0;
+		}
+	}
+`;
+
+export const ConfirmAction = styled.div`
+	width: fit-content;
+	margin: 0 0 0 auto;
+`;

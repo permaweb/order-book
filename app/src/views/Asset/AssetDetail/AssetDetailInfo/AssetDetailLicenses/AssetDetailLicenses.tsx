@@ -9,7 +9,7 @@ import { STORAGE, TAGS } from 'permaweb-orderbook';
 import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
-// import { Modal } from 'components/molecules/Modal';
+import { Modal } from 'components/molecules/Modal';
 import { API_CONFIG, ASSETS, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
@@ -31,7 +31,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 	const [containsLicense, setContainsLicense] = React.useState<boolean>(false);
 
 	const [loading, setLoading] = React.useState<boolean>(false);
-	// const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
+	const [showConfirmation, setShowConfirmation] = React.useState<boolean>(false);
 	const [initialDisabled, setInitialDisabled] = React.useState<boolean>(true);
 
 	const [paymentResponse, setPaymentResponse] = React.useState<ResponseType | null>(null);
@@ -115,6 +115,35 @@ export default function AssetDetailLicenses(props: IAProps) {
 		})();
 	}
 
+	function getKeys() {
+		return (
+			<>
+				{Object.keys(props.asset.data.udl).map((key: string, index: number) => {
+					return props.asset.data.udl[key].key !== TAGS.keys.udl.license &&
+						props.asset.data.udl[key].value !== STORAGE.none ? (
+						<S.DCLine key={index}>
+							<S.DCLineHeader>
+								<p>{props.asset.data.udl[key].key}</p>
+							</S.DCLineHeader>
+							<S.DCLineFlex>
+								<S.DCLineDetail>{`${formatDisplayString(props.asset.data.udl[key].value)}${
+									!props.asset.data.udl[key].icon && props.asset.data.udl[key].endText
+										? ` ${props.asset.data.udl[key].endText}`
+										: ''
+								}`}</S.DCLineDetail>
+								{props.asset.data.udl[key].icon && (
+									<S.DCLineIcon>
+										<ReactSVG src={UDL_ICONS_MAP[props.asset.data.udl[key].icon]} />
+									</S.DCLineIcon>
+								)}
+							</S.DCLineFlex>
+						</S.DCLine>
+					) : null;
+				})}
+			</>
+		);
+	}
+
 	return props.asset &&
 		(props.asset.data.udl || (props.asset.data.license && props.asset.data.license !== STORAGE.none)) ? (
 		<S.Wrapper>
@@ -139,61 +168,36 @@ export default function AssetDetailLicenses(props: IAProps) {
 									<S.ActionContainer>
 										<Button
 											type={'alt1'}
-											label={paymentResponse ? paymentResponse.message : language.payLicense}
-											handlePress={handlePay}
-											disabled={
-												!arProvider.walletAddress ||
-												licensePaid ||
-												loading ||
-												paymentResponse !== null ||
-												initialDisabled
-											}
-											loading={loading}
+											label={licensePaid ? `${language.licensePaid}!` : language.payLicense}
+											handlePress={() => setShowConfirmation(!showConfirmation)}
+											disabled={!arProvider.walletAddress || licensePaid || initialDisabled}
+											loading={false}
 											noMinWidth
 										/>
 									</S.ActionContainer>
 								)}
-								{Object.keys(props.asset.data.udl).map((key: string, index: number) => {
-									return props.asset.data.udl[key].key !== TAGS.keys.udl.license &&
-										props.asset.data.udl[key].value !== STORAGE.none ? (
-										<S.DCLine key={index}>
-											<S.DCLineHeader>
-												<p>{props.asset.data.udl[key].key}</p>
-											</S.DCLineHeader>
-											<S.DCLineFlex>
-												<S.DCLineDetail>{`${formatDisplayString(props.asset.data.udl[key].value)}${
-													!props.asset.data.udl[key].icon && props.asset.data.udl[key].endText
-														? ` ${props.asset.data.udl[key].endText}`
-														: ''
-												}`}</S.DCLineDetail>
-												{props.asset.data.udl[key].icon && (
-													<S.DCLineIcon>
-														<ReactSVG src={UDL_ICONS_MAP[props.asset.data.udl[key].icon]} />
-													</S.DCLineIcon>
-												)}
-											</S.DCLineFlex>
-										</S.DCLine>
-									) : null;
-								})}
-
-								{/* {showConfirmation && (
+								{getKeys()}
+								{showConfirmation && (
 									<Modal header={language.confirmPayment} handleClose={() => setShowConfirmation(false)}>
-										<Button
-											type={'alt1'}
-											label={paymentResponse ? paymentResponse.message : language.confirm}
-											handlePress={handlePay}
-											disabled={
-												!arProvider.walletAddress ||
-												licensePaid ||
-												loading ||
-												paymentResponse !== null ||
-												initialDisabled
-											}
-											loading={loading}
-											noMinWidth
-										/>
+										<S.ModalLinesContent>{getKeys()}</S.ModalLinesContent>
+										<S.ConfirmAction>
+											<Button
+												type={'alt1'}
+												label={paymentResponse ? paymentResponse.message : language.confirm}
+												handlePress={handlePay}
+												disabled={
+													!arProvider.walletAddress ||
+													licensePaid ||
+													loading ||
+													paymentResponse !== null ||
+													initialDisabled
+												}
+												loading={loading}
+												noMinWidth
+											/>
+										</S.ConfirmAction>
 									</Modal>
-								)} */}
+								)}
 							</>
 						)}
 						{props.asset.data.license && props.asset.data.license !== STORAGE.none && (

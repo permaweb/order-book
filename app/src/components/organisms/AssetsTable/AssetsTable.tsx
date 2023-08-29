@@ -167,7 +167,14 @@ export default function AssetsTable(props: IProps) {
 	function getTable() {
 		switch (props.tableType) {
 			case 'grid':
-				return <AssetsGrid assets={currentRecords} autoLoad={false} loaderCount={9} loading={props.loading} />;
+				return (
+					<AssetsGrid
+						assets={currentRecords}
+						autoLoad={props.autoLoadRenderers ? props.autoLoadRenderers : false}
+						loaderCount={9}
+						loading={props.loading}
+					/>
+				);
 			case 'list':
 				return <AssetsList assets={currentRecords} loading={props.loading} />;
 			default:

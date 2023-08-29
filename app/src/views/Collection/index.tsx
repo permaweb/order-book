@@ -70,6 +70,7 @@ export default function Collection() {
 					loading={loading}
 					getFeaturedData={false}
 					showFilters={true}
+					autoLoadRenderers
 				/>
 			</div>
 		</>

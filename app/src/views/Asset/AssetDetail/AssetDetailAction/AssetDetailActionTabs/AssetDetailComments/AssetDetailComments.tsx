@@ -23,6 +23,7 @@ import { IAMProps, IAProps } from '../../../types';
 import * as S from './styles';
 
 const SEQUENCE_ITERATION = 5;
+const MAX_COMMENT_LENGTH = 300;
 
 function CommentCreate(props: IAMProps) {
 	const arProvider = useArweaveProvider();
@@ -105,6 +106,11 @@ function CommentCreate(props: IAMProps) {
 		}
 	}
 
+	function getInvalidComment() {
+		if (!comment) return false;
+		return comment.length > MAX_COMMENT_LENGTH;
+	}
+
 	function getCommentCreate() {
 		if (arProvider.walletAddress) {
 			return (
@@ -128,15 +134,20 @@ function CommentCreate(props: IAMProps) {
 							onWheel={(e: any) => e.target.blur()}
 							onChange={(e: any) => setComment(e.target.value)}
 							disabled={loading || commentResponse !== null}
-							invalid={false}
+							invalid={getInvalidComment()}
 							placeholder={`${language.leaveComment}!`}
 						/>
 						<S.CommentCreateSubmit>
+							{getInvalidComment() && (
+								<S.CommentCreateCount>
+									<p>{`${MAX_COMMENT_LENGTH - comment.length}`}</p>
+								</S.CommentCreateCount>
+							)}
 							<Button
 								type={'alt1'}
 								label={commentResponse ? commentResponse.message : language.reply}
 								handlePress={(e: any) => handleSubmit(e)}
-								disabled={!comment || loading || commentResponse !== null}
+								disabled={!comment || loading || commentResponse !== null || getInvalidComment()}
 								loading={loading}
 								formSubmit
 								noMinWidth

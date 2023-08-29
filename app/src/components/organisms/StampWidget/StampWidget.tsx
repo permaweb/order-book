@@ -123,7 +123,7 @@ export default function StampWidget(props: IProps) {
 		(async function () {
 			if (props.assetId && stamps) {
 				if (updateCount) {
-					await new Promise((resolve) => setTimeout(resolve, 1000));
+					await new Promise((resolve) => setTimeout(resolve, 2500));
 				}
 				const updatedCount = await stamps.count(props.assetId);
 				setCount(updatedCount);
@@ -135,6 +135,7 @@ export default function StampWidget(props: IProps) {
 		(async function () {
 			if (props.assetId && stamps) {
 				try {
+					await new Promise((r) => setTimeout(r, 2500));
 					const hasStamped = await stamps.hasStamped(props.assetId);
 					setHasStamped(hasStamped);
 					if (hasStamped) {

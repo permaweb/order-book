@@ -141,17 +141,37 @@ export const Dropdown = styled.ul`
 export const BalanceDropdown = styled(Dropdown)`
 	top: 52.5px;
 	right: 10px;
+	@media (max-width: ${STYLING.cutoffs.max}) {
+		right: 0px;
+	}
+`;
+
+export const BDHeader = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 5px 0;
+	padding: 0 15px;
 	p {
 		width: fit-content;
 		padding: 0 0 5px 0;
-		margin: 5px 0 5px 15px;
 		font-size: ${(props) => props.theme.typography.size.xxSmall};
 		font-family: ${(props) => props.theme.typography.family.primary};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
 		color: ${(props) => props.theme.colors.font.primary.alt1};
 		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
 	}
-	@media (max-width: ${STYLING.cutoffs.max}) {
-		right: 0px;
+	svg {
+		margin: 0;
+		height: 15px;
+		width: 15px;
+	}
+`;
+
+export const Tooltip = styled.div`
+	p {
+		font-size: ${(props) => props.theme.typography.size.small};
+		line-height: 1.5;
+		color: ${(props) => props.theme.colors.font.primary.alt1};
 	}
 `;
