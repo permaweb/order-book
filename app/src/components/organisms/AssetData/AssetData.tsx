@@ -6,13 +6,13 @@ import * as OrderBook from 'permaweb-orderbook';
 import { ASSETS, ORDERBOOK_ASSET_PATH } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 
-// import { useArweaveProvider } from 'providers/ArweaveProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
 export default function AssetData(props: IProps) {
-	// const arProvider = useArweaveProvider();
+	const arProvider = useArweaveProvider();
 
 	const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
@@ -54,32 +54,22 @@ export default function AssetData(props: IProps) {
 		})();
 	}, [props.asset]);
 
-	// React.useEffect(() => {
-	// 	function handleMessage(event: any) {
-	// 		const mutationObserver = new MutationObserver(() => {
-	// 			if (event.data.type === 'setHeight' && event.data.height && document.getElementById(DOM.ids.imageIc)) {
-	// 				document.getElementById(DOM.ids.imageIc).style.height = event.data.height;
-	// 			}
-	// 		});
+	React.useEffect(() => {
+		function sendWalletConnection() {
+			if (iframeRef && iframeRef.current) {
+				iframeRef.current.contentWindow.postMessage(
+					{
+						type: 'setHeight',
+						height: `${props.frameMinHeight}px`,
+						walletConnection: arProvider.walletAddress ? 'connected' : 'none',
+					},
+					'*'
+				);
+			}
+		}
 
-	// 		mutationObserver.observe(document.body, {
-	// 			childList: true,
-	// 			subtree: true,
-	// 			attributes: false,
-	// 			characterData: false,
-	// 		});
-
-	// 		return () => {
-	// 			mutationObserver.disconnect();
-	// 		};
-	// 	}
-
-	// 	window.addEventListener('message', handleMessage);
-
-	// 	return () => {
-	// 		window.removeEventListener('message', handleMessage);
-	// 	};
-	// }, []);
+		sendWalletConnection();
+	}, [arProvider.walletAddress]);
 
 	const handleError = () => {
 		setLoadError(true);
@@ -109,8 +99,7 @@ export default function AssetData(props: IProps) {
 											{
 												type: 'setHeight',
 												height: `${props.frameMinHeight}px`,
-												// walletType: 'connection',
-												// wallet: arProvider.wallet ? arProvider.wallet : null,
+												walletConnection: arProvider.walletAddress ? 'connected' : 'none',
 											},
 											'*'
 										);
