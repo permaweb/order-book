@@ -262,36 +262,13 @@ function getUDL(gqlData: GQLResponseType): UDLType | null {
 	};
 }
 
-function sortAssets(assets: AssetType[], activeSort: AssetSortType) {
-	assets.sort((a: AssetType, b: AssetType) => {
-		if (a.orders && b.orders) {
-			if (a.orders.length && !b.orders.length) return -1;
-			if (!a.orders.length && b.orders.length) return 1;
+function sortAssets(assets: AssetType[], activeSort: AssetSortType): AssetType[] {
+	const assetsWithOrders = assets.filter((a) => a.orders && a.orders.length > 0);
+	const assetsWithoutOrders = assets.filter((a) => !a.orders || a.orders.length === 0);
 
-			const aPrice = a.orders.length ? a.orders[0].price : Infinity;
-			const bPrice = b.orders.length ? b.orders[0].price : Infinity;
-
-			switch (activeSort) {
-				case 'low-to-high':
-					return aPrice - bPrice;
-				case 'high-to-low':
-					return bPrice - aPrice;
-				default:
-					return aPrice - bPrice;
-			}
-		} else return -1;
-	});
-
-	return assets;
-}
-
-export function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType) {
-	pairs.sort((a: OrderBookPairType, b: OrderBookPairType) => {
-		if (a.orders.length && !b.orders.length) return -1;
-		if (!a.orders.length && b.orders.length) return 1;
-
-		const aPrice = a.orders.length ? a.orders[0].price : Infinity;
-		const bPrice = b.orders.length ? b.orders[0].price : Infinity;
+	assetsWithOrders.sort((a: AssetType, b: AssetType) => {
+		const aPrice = a.orders[0].price;
+		const bPrice = b.orders[0].price;
 
 		switch (activeSort) {
 			case 'low-to-high':
@@ -303,7 +280,25 @@ export function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType)
 		}
 	});
 
-	return pairs;
+	return [...assetsWithOrders, ...assetsWithoutOrders];
+}
+
+export function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType): OrderBookPairType[] {
+	const getSortKey = (pair: OrderBookPairType): number => {
+		if (!pair.orders || pair.orders.length === 0) return Infinity;
+		return pair.orders[0].price;
+	};
+
+	const direction = activeSort === 'high-to-low' ? -1 : 1;
+
+	const pairsWithOrders = pairs.filter((pair) => pair.orders && pair.orders.length > 0);
+	const pairsWithoutOrders = pairs.filter((pair) => !pair.orders || pair.orders.length === 0);
+
+	pairsWithOrders.sort((a, b) => {
+		return direction * (getSortKey(a) - getSortKey(b));
+	});
+
+	return [...pairsWithOrders, ...pairsWithoutOrders];
 }
 
 export async function createAsset(args: AssetCreateArgsClientType): Promise<string | null> {

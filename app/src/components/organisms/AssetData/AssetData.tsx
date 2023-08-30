@@ -7,19 +7,18 @@ import { ASSETS, ORDERBOOK_ASSET_PATH } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
 
+// import { useArweaveProvider } from 'providers/ArweaveProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
 export default function AssetData(props: IProps) {
+	// const arProvider = useArweaveProvider();
+
 	const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 
 	const [loadError, setLoadError] = React.useState<boolean>(false);
-
-	const handleError = () => {
-		setLoadError(true);
-	};
 
 	React.useEffect(() => {
 		(async function () {
@@ -55,6 +54,37 @@ export default function AssetData(props: IProps) {
 		})();
 	}, [props.asset]);
 
+	// React.useEffect(() => {
+	// 	function handleMessage(event: any) {
+	// 		const mutationObserver = new MutationObserver(() => {
+	// 			if (event.data.type === 'setHeight' && event.data.height && document.getElementById(DOM.ids.imageIc)) {
+	// 				document.getElementById(DOM.ids.imageIc).style.height = event.data.height;
+	// 			}
+	// 		});
+
+	// 		mutationObserver.observe(document.body, {
+	// 			childList: true,
+	// 			subtree: true,
+	// 			attributes: false,
+	// 			characterData: false,
+	// 		});
+
+	// 		return () => {
+	// 			mutationObserver.disconnect();
+	// 		};
+	// 	}
+
+	// 	window.addEventListener('message', handleMessage);
+
+	// 	return () => {
+	// 		window.removeEventListener('message', handleMessage);
+	// 	};
+	// }, []);
+
+	const handleError = () => {
+		setLoadError(true);
+	};
+
 	function getUnsupportedWrapper() {
 		return (
 			<S.UnsupportedWrapper>
@@ -76,7 +106,12 @@ export default function AssetData(props: IProps) {
 								onLoad={() => {
 									if (iframeRef.current && iframeRef.current.contentWindow && props.frameMinHeight) {
 										iframeRef.current.contentWindow.postMessage(
-											{ type: 'setHeight', height: `${props.frameMinHeight}px` },
+											{
+												type: 'setHeight',
+												height: `${props.frameMinHeight}px`,
+												// walletType: 'connection',
+												// wallet: arProvider.wallet ? arProvider.wallet : null,
+											},
 											'*'
 										);
 									}

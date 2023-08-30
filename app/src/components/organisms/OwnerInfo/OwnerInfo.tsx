@@ -57,7 +57,8 @@ export default function OwnerInfo(props: IProps) {
 	function getLabel() {
 		if (props.owner) {
 			if (props.owner.handle) return `${props.owner.handle}`;
-			else return `${formatAddress(props.owner.address, false)}`;
+			if (props.owner.address) return `${formatAddress(props.owner.address, false)}`;
+			if (props.owner.walletAddress) return `${formatAddress(props.owner.walletAddress, false)}`;
 		} else return null;
 	}
 
