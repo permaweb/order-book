@@ -71,8 +71,10 @@ export const Avatar = styled.div`
 	justify-content: center;
 	align-items: center;
 	img {
-		height: 100%;
-		width: 100%;
+		height: 100% !important;
+		width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
 	}
 	svg {
 		height: 16.5px;

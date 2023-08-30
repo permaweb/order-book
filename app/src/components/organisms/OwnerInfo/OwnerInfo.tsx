@@ -11,8 +11,9 @@ import { formatAddress } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 import * as S from './styles';
+import { IProps } from './types';
 
-export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loading, hideOrderCancel }) {
+export default function OwnerInfo(props: IProps) {
 	const arProvider = useArweaveProvider();
 
 	const [hasError, setHasError] = React.useState(false);
@@ -20,29 +21,32 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loa
 
 	React.useEffect(() => {
 		function getAddress() {
-			if (owner.address) return owner.address;
-			else if (owner.walletAddress) return owner.walletAddress;
+			if (props.owner.address) return props.owner.address;
+			else if (props.owner.walletAddress) return props.owner.walletAddress;
 			else return null;
 		}
-		if (owner) setRedirect(`${urls.account}${getAddress()}`);
-	}, [owner]);
+		if (props.owner) setRedirect(`${urls.account}${getAddress()}`);
+	}, [props.owner]);
 
 	const handleError = () => {
 		setHasError(true);
 	};
 
 	const avatar =
-		!hasError && owner && owner.avatar && owner.avatar !== AR_PROFILE.defaultAvatar ? (
-			<img src={getTxEndpoint(owner.avatar)} onError={handleError} />
+		!hasError && props.owner && props.owner.avatar && props.owner.avatar !== AR_PROFILE.defaultAvatar ? (
+			<img src={getTxEndpoint(props.owner.avatar)} onError={handleError} />
 		) : (
 			<ReactSVG src={ASSETS.user} />
 		);
 
 	function getOwnerOrder() {
-		if (!arProvider.walletAddress || !isSaleOrder) return false;
-		if (owner && asset && asset.orders && asset.orders.length) {
-			for (let i = 0; i < asset.orders.length; i++) {
-				if (owner.address === arProvider.walletAddress && asset.orders[i].creator === arProvider.walletAddress) {
+		if (!arProvider.walletAddress || !props.isSaleOrder) return false;
+		if (props.owner && props.asset && props.asset.orders && props.asset.orders.length) {
+			for (let i = 0; i < props.asset.orders.length; i++) {
+				if (
+					props.owner.address === arProvider.walletAddress &&
+					props.asset.orders[i].creator === arProvider.walletAddress
+				) {
 					return true;
 				}
 			}
@@ -51,26 +55,26 @@ export default function OwnerInfo({ owner, asset, isSaleOrder, handleUpdate, loa
 	}
 
 	function getLabel() {
-		if (owner) {
-			if (owner.handle) return `${owner.handle}`;
-			else return `${formatAddress(owner.address, false)}`;
+		if (props.owner) {
+			if (props.owner.handle) return `${props.owner.handle}`;
+			else return `${formatAddress(props.owner.address, false)}`;
 		} else return null;
 	}
 
-	return owner && !loading ? (
+	return props.owner && !props.loading ? (
 		<S.DCLineHeader>
 			<S.AvatarWrapper>
 				<S.ALink>
-					<Link to={redirect} />
+					<Link onClick={() => (props.useCallback ? props.useCallback() : {})} to={redirect} />
 				</S.ALink>
 				<S.Avatar>{avatar}</S.Avatar>
 			</S.AvatarWrapper>
-			<Link to={redirect}>
+			<Link onClick={() => (props.useCallback ? props.useCallback() : {})} to={redirect}>
 				<S.NoWrap>{getLabel()}</S.NoWrap>
 			</Link>
-			{getOwnerOrder() && !hideOrderCancel && (
+			{getOwnerOrder() && !props.hideOrderCancel && (
 				<S.OrderCancel>
-					<OrderCancel asset={asset} handleUpdate={handleUpdate} />
+					<OrderCancel asset={props.asset} handleUpdate={props.handleUpdate} />
 				</S.OrderCancel>
 			)}
 		</S.DCLineHeader>

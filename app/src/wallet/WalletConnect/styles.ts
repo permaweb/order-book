@@ -69,6 +69,31 @@ export const Balance = styled.div`
 	}
 `;
 
+export const PBalance = styled(Balance)`
+	transition: all 250ms;
+	a {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		text-decoration: none !important;
+	}
+	&:hover {
+		cursor: pointer;
+		background: ${(props) => props.theme.colors.button.primary.hover};
+		a {
+			text-decoration: none;
+		}
+	}
+	&:focus {
+		cursor: pointer;
+		background: ${(props) => props.theme.colors.button.primary.hover};
+		a {
+			text-decoration: none;
+		}
+	}
+`;
+
 export const BDWrapper = styled.div`
 	position: relative;
 `;

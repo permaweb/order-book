@@ -1,8 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
-import { CURRENCY_DICT } from 'permaweb-orderbook';
+import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
@@ -11,7 +11,7 @@ import { Modal } from 'components/molecules/Modal';
 import { ASSETS, CURRENCY_ICONS, REDIRECTS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
-import { formatAddress } from 'helpers/utils';
+import { formatAddress, formatCount } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { CloseHandler } from 'wrappers/CloseHandler';
 
@@ -111,10 +111,12 @@ export default function WalletConnect(props: { callback?: () => void }) {
 								)}
 								{arProvider.currencyBalances && (
 									<>
-										<S.Balance>
-											<p>{`${(arProvider.currencyBalances['PIXL'] / 1e6).toFixed(2)}`}</p>
-											<ReactSVG src={CURRENCY_ICONS['PIXL']} />
-										</S.Balance>
+										<S.PBalance title={language.viewUCM}>
+											<Link to={`${urls.asset}${ORDERBOOK_CONTRACT}`}>
+												<p>{`${formatCount((arProvider.currencyBalances['PIXL'] / 1e6).toFixed(2))}`}</p>
+												<ReactSVG src={CURRENCY_ICONS['PIXL']} />
+											</Link>
+										</S.PBalance>
 
 										<S.BDWrapper>
 											<S.BalanceAction
@@ -123,7 +125,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 													setShowWalletDropdown(false);
 												}}
 											>
-												<p>{`${(arProvider.currencyBalances['U'] / 1e6).toFixed(2)}`}</p>
+												<p>{`${formatCount((arProvider.currencyBalances['U'] / 1e6).toFixed(2))}`}</p>
 												<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
 											</S.BalanceAction>
 											{showGetBalanceDropdown && (
@@ -160,7 +162,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 								)}
 								{arProvider.availableBalance !== null && (
 									<S.Balance>
-										<p>{`${arProvider.availableBalance.toFixed(2)}`}</p>
+										<p>{`${formatCount(arProvider.availableBalance.toFixed(2))}`}</p>
 										<ReactSVG src={ASSETS.arLogo} />
 									</S.Balance>
 								)}
