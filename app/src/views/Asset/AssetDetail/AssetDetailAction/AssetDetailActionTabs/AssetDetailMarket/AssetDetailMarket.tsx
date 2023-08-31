@@ -7,7 +7,7 @@ import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
-import { formatPrice, getOwners } from 'helpers/utils';
+import { formatCount, formatPrice, getOwners } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from '../../../styles';
@@ -90,12 +90,12 @@ export default function AssetDetailMarket(props: IADProps) {
 												isSaleOrder={true}
 												handleUpdate={props.handleUpdate}
 												loading={false}
-												hideOrderCancel={props.updating || props.pendingResponse}
+												hideOrderCancel={props.updating || props.pendingResponse !== null}
 											/>
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
-												<S.DCLineDetail>{`${formatPrice(
-													denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice
+												<S.DCLineDetail>{`${formatCount(
+													formatPrice(denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice).toString()
 												)} U`}</S.DCLineDetail>
 											</S.DCLineFlex>
 										</S.DCLine>
