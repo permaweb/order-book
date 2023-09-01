@@ -72,6 +72,7 @@ export const SDropdown = styled.div`
 	flex-direction: column;
 	align-items: center;
 	position: absolute;
+	z-index: 1;
 	right: 0;
 	margin: 10px 0 0 0;
 	padding: 20px;

@@ -170,6 +170,7 @@ export const BalanceDropdown = styled(Dropdown)`
 	top: 52.5px;
 	right: 10px;
 	@media (max-width: ${STYLING.cutoffs.max}) {
+		top: 62.5px;
 		right: 0px;
 	}
 `;

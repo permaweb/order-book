@@ -117,12 +117,12 @@ export default function WalletConnect(props: { callback?: () => void }) {
 									</S.StreakWrapper>
 								)}
 								{arProvider.currencyBalances && (
-									<CloseHandler
-										active={showGetBalanceDropdown}
-										disabled={!showGetBalanceDropdown}
-										callback={() => setShowGetBalanceDropdown(false)}
-									>
-										<S.BDWrapper>
+									<S.BDWrapper>
+										<CloseHandler
+											active={showGetBalanceDropdown}
+											disabled={!showGetBalanceDropdown}
+											callback={() => setShowGetBalanceDropdown(false)}
+										>
 											<S.BalanceAction
 												onClick={() => {
 													setShowGetBalanceDropdown(!showGetBalanceDropdown);
@@ -161,8 +161,8 @@ export default function WalletConnect(props: { callback?: () => void }) {
 													</li>
 												</S.BalanceDropdown>
 											)}
-										</S.BDWrapper>
-									</CloseHandler>
+										</CloseHandler>
+									</S.BDWrapper>
 								)}
 								{arProvider.availableBalance !== null && (
 									<S.Balance>
