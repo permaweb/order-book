@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import cytoscape from 'cytoscape';
+import elk from 'cytoscape-elk';
 import { useTheme } from 'styled-components';
 
 import { ActivityElementType, AssetDetailType, AssetType } from 'permaweb-orderbook';
@@ -17,6 +18,8 @@ import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import * as S from './styles';
 import { IProps } from './types';
 
+cytoscape.use(elk);
+
 function Tree(props: { data: any; handleCallback: (node: any) => void; activeId: string | null }) {
 	const theme = useTheme();
 
@@ -27,8 +30,8 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 				'background-color': theme.colors.button.primary.active.background,
 				'text-valign': 'center',
 				'text-halign': 'center',
-				height: props.data && props.data.length < 20 ? '4.5px' : '25px',
-				width: props.data && props.data.length < 20 ? '4.5px' : '25px',
+				height: props.data && props.data.length < 20 ? '15px' : '25px',
+				width: props.data && props.data.length < 20 ? '15px' : '25px',
 				'border-width': props.data && props.data.length < 20 ? '0.25px' : '1px',
 				'border-color': theme.colors.border.primary,
 				'overlay-opacity': 0,
@@ -69,7 +72,11 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 
 	const cyRef = React.useRef<any>();
 
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
+		if (!cyRef.current) {
+			return;
+		}
+
 		const cy = cytoscape({
 			container: cyRef.current,
 			elements: props.data,
@@ -79,35 +86,36 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 		});
 
 		const layout = cy.layout({
-			name: 'concentric',
-			fit: true,
-			padding: 30,
-			startAngle: (Math.PI * 3) / 2,
-			sweep: undefined,
-			clockwise: true,
-			equidistant: false,
-			minNodeSpacing: 10,
-			height: undefined,
-			width: undefined,
-			avoidOverlap: true,
-			nodeDimensionsIncludeLabels: false,
-			spacingFactor: undefined,
-			concentric: function (node) {
-				return node.degree();
-			},
-			levelWidth: function (nodes) {
-				return nodes.maxDegree() / 4;
+			name: 'elk',
+			nodeDimensionsIncludeLabels: true,
+			elk: {
+				algorithm: 'org.eclipse.elk.mrtree',
+				// 'spacing.nodeNodeBetweenLayers': 10, // Increase this value to add more space between layers
+				direction: 'DOWN',
+				separateConnectedComponents: true,
 			},
 		});
 
 		layout.run();
 
-		cy.on('click', 'node', function (event) {
+		// layout.on('layoutstop', () => {
+		// 	cy.nodes().positions((node: any) => {
+		// 		let x = node.position('x');
+		// 		let y = node.position('y');
+		// 		return {
+		// 			x: y,
+		// 			y: -x,
+		// 		};
+		// 	});
+		// 	cy.fit();
+		// });
+
+		cy.on('click', 'node', function (event: any) {
 			const target = event.target;
 			props.handleCallback(target['_private'].data);
 		});
 
-		cy.on('tap', 'node', function (event) {
+		cy.on('tap', 'node', function (event: any) {
 			const target = event.target;
 			props.handleCallback(target['_private'].data);
 		});
@@ -171,6 +179,31 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 		if (data && data.length) {
 			setActiveNode(data[0].data);
 		}
+	}, [data]);
+
+	const prevDataRef = React.useRef<any[]>([]);
+
+	React.useEffect(() => {
+		(async function () {
+			if (data && data.length && data.length > 1 && JSON.stringify(prevDataRef.current) !== JSON.stringify(data)) {
+				let newNodes = [];
+				for (let i = 1; i < data.length; i++) {
+					const activityFetch = await orProvider.orderBook.api.getActivity({ id: data[i].data.id });
+					if (activityFetch.activity && activityFetch.activity.length) {
+						const childNodes = structureData(activityFetch.activity, data[i].data.id, data[i].data.owner);
+						newNodes = [...newNodes, ...childNodes];
+					}
+				}
+				if (newNodes.length) {
+					setData((prevData: any) => {
+						prevDataRef.current = [...prevData, ...newNodes];
+						return prevDataRef.current;
+					});
+				} else {
+					prevDataRef.current = data;
+				}
+			}
+		})();
 	}, [data]);
 
 	React.useEffect(() => {

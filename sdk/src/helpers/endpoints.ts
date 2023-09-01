@@ -17,3 +17,5 @@ export function getContractEndpoint(contractId: string, dreNode: string) {
 export function getTransactionLink(transactionId: string) {
 	return `https://sonar.warp.cc/#/app/interaction/${transactionId}?network=mainnet`;
 }
+
+// https://gw.warp.cc/gateway/v2/interactions-sort-key?contractId=SFKREVkacx7N64SIfAuNkMOPTocm42qbkKwzRJGfQHY&limit=15&totalCount=true&page=1

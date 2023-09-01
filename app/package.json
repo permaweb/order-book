@@ -20,10 +20,11 @@
 		"@bundlr-network/client": "^0.11.9",
 		"@permaweb/payments": "0.0.12",
 		"@permaweb/stampjs": "0.5.4",
-		"@types/cytoscape": "3.14.17",
 		"@types/react-router-dom": "^5.3.3",
 		"arweave-wallet-connector": "^1.0.2",
 		"cytoscape": "3.19.0",
+		"cytoscape-elk": "^2.2.0",
+		"elkjs": "^0.8.2",
 		"html-react-parser": "^3.0.4",
 		"permaweb-orderbook": "1.6.0",
 		"ramda": "^0.29.0",
@@ -42,7 +43,9 @@
 		"warp-contracts": "^1.4.15-rc.6",
 		"warp-contracts-plugin-deploy": "1.0.8",
 		"warp-contracts-plugin-signature": "1.0.15-beta.1",
-		"warp-contracts-pubsub": "^1.0.6"
+		"warp-contracts-pubsub": "^1.0.6",
+		"web-worker": "^1.2.0",
+		"worker-loader": "^3.0.8"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.20.12",

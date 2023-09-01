@@ -67,35 +67,32 @@ export default function Streak(props: IProps) {
 		} else return null;
 	}
 
-	function calcCountdown() {
-		if (currentBlockHeight) {
-			const rewardsInterval = 720;
-			const blockTimeMinutes = 2;
-
-			const lastRewardsBlock = Math.floor(currentBlockHeight / rewardsInterval) * rewardsInterval;
-			const nextRewardsBlock = lastRewardsBlock + rewardsInterval;
-
-			const blocksUntilNextReward = nextRewardsBlock - currentBlockHeight;
-			const minutesUntilNextReward = blocksUntilNextReward * blockTimeMinutes;
-
-			const hours = Math.floor(minutesUntilNextReward / 60);
-			const minutes = minutesUntilNextReward % 60;
-
-			return `${hours} hours ${minutes} minutes`;
-		}
-
-		return '-';
-	}
-
 	function getStreakCountdown() {
-		if (props.streak) {
-			return (
-				<>
-					<span>{`${language.approximateStreakTime}:`}</span>
-					<p>{calcCountdown()}</p>
-					<span>{`${language.approximateStreakTimeInfo}!`}</span>
-				</>
-			);
+		if (props.streak && currentBlockHeight) {
+			const rewardsInterval = 720;
+			const blockTime = 2;
+
+			const lastHeightDiff = currentBlockHeight - props.streak.lastHeight;
+			const remainingBlocks = rewardsInterval - lastHeightDiff;
+
+			const remainingBlockMinutes = Math.abs(remainingBlocks) * blockTime;
+
+			const hours = Math.floor(remainingBlockMinutes / 60);
+			const minutes = remainingBlockMinutes % 60;
+
+			const remainingTime = `${hours} hours ${minutes} minutes`;
+
+			if (props.streak.days > 0) {
+				return (
+					<>
+						<span>{`${language.approximateStreakTime}:`}</span>
+						<p>{remainingTime}</p>
+						<span>{`${
+							remainingBlocks > 0 ? language.approximateStreakTimeInfo : language.approximateStreakTimeRemaining
+						}!`}</span>
+					</>
+				);
+			} else return <span>{`${language.streakStart}!`}</span>;
 		} else return null;
 	}
 
