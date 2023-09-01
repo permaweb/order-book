@@ -11,6 +11,7 @@ export type AssetType = {
 		dateCreated: number;
 		blockHeight: number;
 		creator: string;
+		thumbnail: string | null;
 		collectionCode?: string;
 		udl?: UDLType;
 	};

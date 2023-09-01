@@ -18,7 +18,7 @@ export const SAction = styled.button`
 		background: ${(props) => props.theme.colors.button.alt2.hover};
 	}
 	&:focus {
-		background: ${(props) => props.theme.colors.button.alt2.hover};
+		background: ${(props) => props.theme.colors.button.alt2.hoverm};
 	}
 `;
 

@@ -6,6 +6,7 @@ import * as OrderBook from 'permaweb-orderbook';
 import { ASSETS, ORDERBOOK_ASSET_PATH } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
+import { checkAddress } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 
 import * as S from './styles';
@@ -83,6 +84,21 @@ export default function AssetData(props: IProps) {
 		);
 	}
 
+	function getRendererIcon() {
+		if (props.asset && props.asset.data) {
+			if (
+				props.asset.data.thumbnail &&
+				props.asset.data.thumbnail !== OrderBook.STORAGE.none &&
+				checkAddress(props.asset.data.thumbnail)
+			) {
+				return <img src={getTxEndpoint(props.asset.data.thumbnail)} />;
+			} else {
+				return <ReactSVG src={ASSETS.renderer} />;
+			}
+		}
+		return <ReactSVG src={ASSETS.renderer} />;
+	}
+
 	function getData() {
 		if (assetRender) {
 			switch (assetRender.type) {
@@ -108,16 +124,10 @@ export default function AssetData(props: IProps) {
 								onError={handleError}
 							/>
 						) : (
-							<S.FramePreview>
-								<ReactSVG src={ASSETS.renderer} />
-							</S.FramePreview>
+							<S.FramePreview>{getRendererIcon()}</S.FramePreview>
 						);
 					} else {
-						return (
-							<S.Preview>
-								<ReactSVG src={ASSETS.renderer} />
-							</S.Preview>
-						);
+						return <S.Preview>{getRendererIcon()}</S.Preview>;
 					}
 				case 'raw':
 					if (loadError) {

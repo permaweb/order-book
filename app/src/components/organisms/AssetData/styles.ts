@@ -38,6 +38,7 @@ export const FramePreview = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	img,
 	svg {
 		height: 100px;
 		width: 100px;
@@ -88,6 +89,7 @@ export const Preview = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	img,
 	svg {
 		height: 57.5px;
 		width: 57.5px;

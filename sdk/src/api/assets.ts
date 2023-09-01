@@ -166,6 +166,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
 		const collectionCode = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.collectionCode);
 		const creator = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.creator);
+		const thumbnail = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.thumbnail);
 
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {
@@ -188,6 +189,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 							: gqlData.assets[i].node.owner
 							? gqlData.assets[i].node.owner.address
 							: gqlData.assets[i].node.address,
+					thumbnail: thumbnail,
 				},
 			};
 
