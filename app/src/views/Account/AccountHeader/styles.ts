@@ -76,6 +76,31 @@ export const Header = styled.div`
 	}
 `;
 
+export const SWrapper = styled.div`
+	height: 45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: ${(props) => props.theme.colors.container.primary.background};
+	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
+	padding: 1.5px 15px 0 16.5px;
+	p {
+		color: ${(props) => props.theme.colors.font.primary.alt8};
+		font-size: ${(props) => props.theme.typography.size.small};
+		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-family: ${(props) => props.theme.typography.family.alt1};
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	img {
+		height: 17.5px;
+		width: 17.5px;
+		margin: -2.5px 0 0 7.5px;
+	}
+`;
+
 export const SubHeader = styled.div`
 	margin: -5px 0 0 0;
 	display: flex;

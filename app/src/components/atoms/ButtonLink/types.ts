@@ -13,9 +13,11 @@ export interface IProps {
 	icon?: string;
 	iconLeftAlign?: boolean;
 	noFocus?: boolean;
+	fullWidth?: boolean;
 	useMaxWidth?: boolean;
 	noMinWidth?: boolean;
 	width?: number;
 	height?: number;
+	useCallback?: () => void;
 	testingCtx?: string;
 }

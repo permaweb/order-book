@@ -108,9 +108,9 @@ export const defaultTheme: DefaultTheme = {
 				},
 			},
 			alt2: {
-				background: DEFAULT.neutral1,
-				border: DEFAULT.neutral5,
-				hover: DEFAULT.neutral2,
+				background: DEFAULT.neutral9,
+				border: DEFAULT.neutral8,
+				hover: DEFAULT.neutral17,
 				label: DEFAULT.neutral1,
 				active: {
 					background: DEFAULT.alt1,
@@ -218,6 +218,7 @@ export const defaultTheme: DefaultTheme = {
 				alt10: DEFAULT.neutral5,
 				alt11: DEFAULT.primary2,
 				alt12: DEFAULT.primary6,
+				alt13: DEFAULT.alt5,
 				active: {
 					base: DEFAULT.primary,
 					hover: DEFAULT.primary3,
@@ -369,12 +370,13 @@ export const defaultTheme: DefaultTheme = {
 	typography: {
 		family: {
 			primary: `'Inter', sans-serif`,
-			alt1: `'Inter', sans-serif`,
+			alt1: `'Quantico', sans-serif`,
 		},
 		size: {
 			h1: 'clamp(38px, 4.5vw, 62px)',
-			h2: 'clamp(26px,3.15vw,38px)',
+			h2: 'clamp(26px, 3.15vw, 38px)',
 			lg: 'clamp(18px, 1.75vw, 26px)',
+			lgAlt: '18px',
 			base: '16px',
 			small: '15px',
 			xSmall: '14px',

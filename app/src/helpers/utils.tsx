@@ -4,7 +4,7 @@ import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permaweb-orderbook';
 
-import { API_CONFIG, AR_PROFILE, STORAGE } from './config';
+import { API_CONFIG, AR_PROFILE, ASSETS, STORAGE } from './config';
 import { language } from './language';
 import { DateType, OwnerListingType, OwnerType } from './types';
 
@@ -44,10 +44,6 @@ export function formatCount(count: string): string {
 		return count.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
 }
-
-// export function formatCount(count: string): string {
-// 	return count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-// }
 
 export function formatDate(dateArg: string | number | null, dateType: DateType) {
 	if (!dateArg) {
@@ -98,10 +94,14 @@ export function formatPrice(price: number) {
 }
 
 export function formatDisplayString(input: string): string {
-	return input
+	let formattedString = input
 		.split('-')
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
+
+	formattedString = formattedString.replace(/([A-Z][a-z]*)([A-Z][a-z]*)/g, '$1 $2');
+
+	return formattedString;
 }
 
 export async function getStampData(
@@ -233,3 +233,34 @@ export function checkEqualBalances(arr1: number[], arr2: number[]) {
 }
 
 export const checkAddress = (addr: string) => /[a-z0-9_-]{43}/i.test(addr);
+
+export function getRangeLabel(number: number) {
+	if (number >= 0 && number <= 7) return '0-7';
+	if (number >= 8 && number <= 14) return '8-14';
+	if (number >= 15 && number <= 29) return '15-29';
+	if (number >= 30) return '30+';
+	return 'out-of-range';
+}
+
+export function getStreakIcon(count: number) {
+	if (count !== null) {
+		let icon: string;
+		switch (getRangeLabel(count)) {
+			case '0-7':
+				icon = ASSETS.streak['1'];
+				break;
+			case '8-14':
+				icon = ASSETS.streak['2'];
+				break;
+			case '15-29':
+				icon = ASSETS.streak['3'];
+				break;
+			case '30+':
+				icon = ASSETS.streak['4'];
+				break;
+			default:
+				break;
+		}
+		return <img src={icon} />;
+	} else return null;
+}

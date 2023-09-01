@@ -19,6 +19,7 @@ import defaultCollectionPNG from 'assets/default-collection.png';
 import detailsSVG from 'assets/details.svg';
 import htmlSVG from 'assets/html.svg';
 import infoSVG from 'assets/info.svg';
+import leaderboardSVG from 'assets/leaderboard.svg';
 import licenseSVG from 'assets/license.svg';
 import logoSVG from 'assets/logo.svg';
 import logoAltPNG from 'assets/logoAlt.png';
@@ -84,6 +85,7 @@ export const ASSETS = {
 	details: detailsSVG,
 	html: htmlSVG,
 	info: infoSVG,
+	leaderboard: leaderboardSVG,
 	license: licenseSVG,
 	logo: logoSVG,
 	logoAlt: logoAltPNG,

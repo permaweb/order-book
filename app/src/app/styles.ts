@@ -106,6 +106,7 @@ export const GlobalStyle = createGlobalStyle`
   a {
     color: ${(props) => props.theme.colors.font.primary.active.base};
     text-decoration: none;
+    transition: all 250ms;
 
     &:hover {
       text-decoration: underline;

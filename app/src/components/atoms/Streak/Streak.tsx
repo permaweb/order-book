@@ -1,24 +1,32 @@
 import React from 'react';
-import parse from 'html-react-parser';
+import { Link } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
 
-import { ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
+import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
-import { AR_PROFILE, ASSETS } from 'helpers/config';
+import { AR_PROFILE, ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
+import * as urls from 'helpers/urls';
+import { formatAddress, formatCount, getRangeLabel, getStreakIcon } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { CloseHandler } from 'wrappers/CloseHandler';
+
+import { Button } from '../Button';
+import { ButtonLink } from '../ButtonLink';
 
 import * as S from './styles';
 import { IProps } from './types';
 
-// TODO: get connected wallet balances
-// TODO: handle wallet not connected
 export default function Streak(props: IProps) {
 	const orProvider = useOrderBookProvider();
 
 	const [ownerStreaks, setOwnerStreaks] = React.useState<any>(null);
+	const [showDropdown, setShowDropdown] = React.useState<boolean>(false);
 	const [showModal, setShowModal] = React.useState<boolean>(false);
+
+	const [currentBlockHeight, setCurrentBlockHeight] = React.useState<number | null>(0);
 
 	React.useEffect(() => {
 		(async function () {
@@ -27,72 +35,131 @@ export default function Streak(props: IProps) {
 				if (orderBookState) {
 					setOwnerStreaks(await getOwnerStreaks(orderBookState.streaks, orProvider));
 				}
+
+				const info = await orProvider.orderBook.api.arClient.arweavePost.network.getInfo();
+				setCurrentBlockHeight(info.height);
 			}
 		})();
 	}, [orProvider.orderBook]);
 
-	function getRangeLabel(number: number) {
-		if (number >= 1 && number <= 7) return '1-7';
-		if (number >= 8 && number <= 14) return '8-14';
-		if (number >= 15 && number <= 29) return '15-29';
-		if (number >= 30) return '30+';
-		return 'out-of-range';
-	}
-
-	function getStreakIcon(count: string) {
-		if (count) {
-			let icon: string;
-			switch (getRangeLabel(Number(count))) {
-				case '1-7':
-					icon = ASSETS.streak['1'];
+	function getStreakHeader(count: number) {
+		if (count !== null) {
+			let title: string;
+			switch (getRangeLabel(count)) {
+				case '0-7':
+					title = count <= 0 ? language.streakTitle1 : language.streakTitle2;
 					break;
 				case '8-14':
-					icon = ASSETS.streak['2'];
+					title = language.streakTitle3;
 					break;
 				case '15-29':
-					icon = ASSETS.streak['3'];
+					title = language.streakTitle4;
 					break;
 				case '30+':
-					icon = ASSETS.streak['4'];
+					title = language.streakTitle5;
 					break;
 				default:
 					break;
 			}
-			return <img src={icon} />;
+			return (
+				<p>{`${title}, ${props.owner.handle ? props.owner.handle : formatAddress(props.owner.address, false)}!`}</p>
+			);
+		} else return null;
+	}
+
+	function calcCountdown() {
+		if (currentBlockHeight) {
+			const rewardsInterval = 720;
+			const blockTimeMinutes = 2;
+
+			const lastRewardsBlock = Math.floor(currentBlockHeight / rewardsInterval) * rewardsInterval;
+			const nextRewardsBlock = lastRewardsBlock + rewardsInterval;
+
+			const blocksUntilNextReward = nextRewardsBlock - currentBlockHeight;
+			const minutesUntilNextReward = blocksUntilNextReward * blockTimeMinutes;
+
+			const hours = Math.floor(minutesUntilNextReward / 60);
+			const minutes = minutesUntilNextReward % 60;
+
+			return `${hours} hours ${minutes} minutes`;
+		}
+
+		return '-';
+	}
+
+	function getStreakCountdown() {
+		if (props.streak) {
+			return (
+				<>
+					<span>{`${language.approximateStreakTime}:`}</span>
+					<p>{calcCountdown()}</p>
+					<span>{`${language.approximateStreakTimeInfo}!`}</span>
+				</>
+			);
 		} else return null;
 	}
 
 	return props.streak ? (
 		<>
+			<CloseHandler active={showDropdown} disabled={!showDropdown || showModal} callback={() => setShowDropdown(false)}>
+				<S.Wrapper>
+					<S.SAction onClick={() => setShowDropdown(!showDropdown)}>
+						<S.SWrapper>
+							{getStreakIcon(props.streak.days)}
+							<p>{props.streak.days}</p>
+						</S.SWrapper>
+						<S.BWrapper>
+							<p>{`${formatCount((props.pixlBalance / 1e6).toFixed(2))}`}</p>
+							<ReactSVG src={CURRENCY_ICONS['PIXL']} />
+						</S.BWrapper>
+					</S.SAction>
+					{showDropdown && (
+						<S.SDropdown className={'border-wrapper'}>
+							<S.SDHeader>{getStreakHeader(props.streak.days)}</S.SDHeader>
+							<S.SDStreak>
+								{getStreakIcon(props.streak.days)}
+								<p>{language.dayStreak(props.streak.days.toString()).toUpperCase()}</p>
+							</S.SDStreak>
+							<S.SDCountdown>{getStreakCountdown()}</S.SDCountdown>
+							<S.SDActions>
+								<S.SDActionsFlex>
+									<S.SDLink>
+										<Link onClick={() => setShowDropdown(false)} to={`${urls.asset}${ORDERBOOK_CONTRACT}`}>
+											<ReactSVG src={CURRENCY_ICONS[CURRENCY_DICT.U]} />
+											<ReactSVG src={CURRENCY_ICONS['PIXL']} />
+											<p>{language.swap}</p>
+										</Link>
+									</S.SDLink>
+									<S.SDLAction>
+										<Button
+											type={'alt2'}
+											label={language.streakLeaderboard}
+											handlePress={() => setShowModal(!showModal)}
+											height={45}
+											icon={ASSETS.leaderboard}
+											iconLeftAlign
+										/>
+									</S.SDLAction>
+								</S.SDActionsFlex>
+								<ButtonLink
+									useCallback={() => setShowDropdown(false)}
+									type={'alt1'}
+									label={language.streakInfoDetails}
+									href={`${urls.account}${props.owner.address}`}
+									height={50}
+									fullWidth
+								/>
+							</S.SDActions>
+						</S.SDropdown>
+					)}
+				</S.Wrapper>
+			</CloseHandler>
 			{showModal && (
-				<Modal header={language.streak} handleClose={() => setShowModal(false)} useMax>
+				<Modal header={language.streakLeaderboard} handleClose={() => setShowModal(false)}>
 					<S.MWrapper>
-						<S.M1>
-							<S.MHeader className={'border-wrapper-alt'}>
-								<p>{parse(language.streakInfo)}</p>
-							</S.MHeader>
-							<S.M1Body>
-								<S.MBodyFlex>
-									<span>{`${language.yourStreak}:`}</span>
-									<p>1 Day</p>
-									{getStreakIcon(props.streak)}
-								</S.MBodyFlex>
-								<S.MBodyFlex>
-									<span>{`${language.yourPixlBalane}:`}</span>
-									<p>4567.32</p>
-								</S.MBodyFlex>
-								<S.MBodyFlex>
-									<span>{`${language.yourUCMOwnershipPercentage}:`}</span>
-									<p>1.68%</p>
-								</S.MBodyFlex>
-							</S.M1Body>
-						</S.M1>
 						<S.M2>
-							<S.M2Header>
-								<p>{language.streakLeaderboard}</p>
-							</S.M2Header>
-							<S.M2Body className={'border-wrapper-alt'}>
-								{ownerStreaks &&
+							<S.M2Body>
+								{ownerStreaks ? (
 									ownerStreaks.map((owner: any, index: number) => {
 										return (
 											<S.M2BodyFlex key={index}>
@@ -105,29 +172,27 @@ export default function Streak(props: IProps) {
 														handleUpdate={() => {}}
 														loading={false}
 														hideOrderCancel={false}
-														useCallback={() => setShowModal(false)}
+														useCallback={() => {
+															setShowDropdown(false);
+															setShowModal(false);
+														}}
 													/>
 												</S.MDetailFlex>
-												<S.MDetailFlex>
+												<S.MDetailFlexAlt>
 													<p>{language.dayCount(owner.streak.days)}</p>
 													{getStreakIcon(owner.streak.days)}
-												</S.MDetailFlex>
+												</S.MDetailFlexAlt>
 											</S.M2BodyFlex>
 										);
-									})}
+									})
+								) : (
+									<p>{`${language.loading}...`}</p>
+								)}
 							</S.M2Body>
 						</S.M2>
 					</S.MWrapper>
 				</Modal>
 			)}
-			{/* <S.Wrapper onClick={() => setShowModal(!showModal)} title={language.dayStreak(props.streak).toUpperCase()}>
-				{getStreakIcon(props.streak)}
-				<p>{props.streak}</p>
-			</S.Wrapper> */}
-			<S.WrapperTemp>
-				{getStreakIcon(props.streak)}
-				<p>{language.dayStreak(props.streak).toUpperCase()}</p>
-			</S.WrapperTemp>
 		</>
 	) : null;
 }

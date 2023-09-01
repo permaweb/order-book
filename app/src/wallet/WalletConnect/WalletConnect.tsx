@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
-import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
+import { CURRENCY_DICT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
@@ -102,22 +102,26 @@ export default function WalletConnect(props: { callback?: () => void }) {
 			>
 				<S.Wrapper>
 					<S.FlexAction>
-						{arProvider.walletAddress && (
+						{arProvider.walletAddress && arProvider.currencyBalances && (
 							<S.BalancesWrapper>
 								{arProvider.streak && (
 									<S.StreakWrapper>
-										<Streak streak={arProvider.streak.days} />
+										<Streak
+											streak={arProvider.streak}
+											pixlBalance={arProvider.currencyBalances['PIXL']}
+											owner={{
+												address: arProvider.walletAddress,
+												handle: arProvider.arProfile ? arProvider.arProfile.handle : null,
+											}}
+										/>
 									</S.StreakWrapper>
 								)}
 								{arProvider.currencyBalances && (
-									<>
-										<S.PBalance title={language.viewUCM}>
-											<Link to={`${urls.asset}${ORDERBOOK_CONTRACT}`}>
-												<p>{`${formatCount((arProvider.currencyBalances['PIXL'] / 1e6).toFixed(2))}`}</p>
-												<ReactSVG src={CURRENCY_ICONS['PIXL']} />
-											</Link>
-										</S.PBalance>
-
+									<CloseHandler
+										active={showGetBalanceDropdown}
+										disabled={!showGetBalanceDropdown}
+										callback={() => setShowGetBalanceDropdown(false)}
+									>
 										<S.BDWrapper>
 											<S.BalanceAction
 												onClick={() => {
@@ -158,7 +162,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 												</S.BalanceDropdown>
 											)}
 										</S.BDWrapper>
-									</>
+									</CloseHandler>
 								)}
 								{arProvider.availableBalance !== null && (
 									<S.Balance>

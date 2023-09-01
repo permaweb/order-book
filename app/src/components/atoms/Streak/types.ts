@@ -1,3 +1,8 @@
 export interface IProps {
-	streak: string;
+	streak: { days: number; lastHeight: number };
+	pixlBalance: number;
+	owner: {
+		address: string;
+		handle: string | null;
+	};
 }

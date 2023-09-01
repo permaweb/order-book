@@ -27,7 +27,7 @@ interface ArweaveContextState {
 	walletModalVisible: boolean;
 	setWalletModalVisible: (open: boolean) => void;
 	arProfile: any;
-	streak: { days: string; lastHeight: number } | null;
+	streak: { days: number; lastHeight: number } | null;
 	currencyBalances: CurrencyBalancesType | null;
 	setUpdateBalance: (updateBalance: boolean) => void;
 }
@@ -93,7 +93,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 
 	const [availableBalance, setAvailableBalance] = React.useState<number | null>(null);
 	const [arProfile, setArProfile] = React.useState<ProfileType | null>(null);
-	const [streak, setStreak] = React.useState<{ days: string; lastHeight: number } | null>(null);
+	const [streak, setStreak] = React.useState<{ days: number; lastHeight: number } | null>(null);
 	const [currencyBalances, setCurrencyBalances] = React.useState<CurrencyBalancesType | null>(null);
 
 	const [updateBalance, setUpdateBalance] = React.useState<boolean>(false);
@@ -276,9 +276,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 			if (walletAddress && orderBook) {
 				const orderBookState = await orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
 				const streak = orderBookState.streaks[walletAddress];
-				if (streak) {
-					setStreak(streak);
-				}
+				setStreak(streak ? streak : { days: 0, lastHeight: 0 });
 			}
 		})();
 	}, [walletAddress, orderBook]);

@@ -8,12 +8,11 @@ import { CursorEnum, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
-import { Streak } from 'components/atoms/Streak';
 import { AR_PROFILE, ASSETS, REDIRECTS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
-import { formatAddress } from 'helpers/utils';
+import { formatAddress, getStreakIcon } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
@@ -136,7 +135,12 @@ export default function AccountHeader(props: IProps) {
 								</S.Header>
 								{subheader()}
 							</S.HeaderContainer>
-							{streak && <Streak streak={streak.days} />}
+							{streak && (
+								<S.SWrapper>
+									<p>{language.dayStreak(streak.days).toUpperCase()}</p>
+									{getStreakIcon(Number(streak.days))}
+								</S.SWrapper>
+							)}
 						</S.HeaderWrapper>
 						<S.ShareWrapper>
 							<CloseHandler callback={() => setShowDropdown(!showDropdown)} active={showDropdown} disabled={false}>

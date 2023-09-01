@@ -105,8 +105,8 @@ export const BalanceAction = styled.button`
 	align-items: center;
 	padding: 0 10px;
 	margin: 0 10px 0 0;
-	background: ${(props) => props.theme.colors.button.primary.background};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
+	background: ${(props) => props.theme.colors.button.alt2.background};
+	border: 1px solid ${(props) => props.theme.colors.button.alt2.border};
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
 	p {
 		color: ${(props) => props.theme.colors.font.primary.alt8};
@@ -120,7 +120,10 @@ export const BalanceAction = styled.button`
 		margin: 0 0 0 5.5px;
 	}
 	&:hover {
-		background: ${(props) => props.theme.colors.button.primary.hover};
+		background: ${(props) => props.theme.colors.button.alt2.hover};
+	}
+	&:focus {
+		background: ${(props) => props.theme.colors.button.alt2.hover};
 	}
 	@media (max-width: ${STYLING.cutoffs.max}) {
 		margin: 10px 0;

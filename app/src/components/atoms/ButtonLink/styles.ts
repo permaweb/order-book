@@ -10,7 +10,10 @@ function getHeight(height: number | undefined) {
 	}
 }
 
-function getWidth(noMinWidth: boolean | undefined, width: number | undefined) {
+function getWidth(noMinWidth: boolean | undefined, width: number | undefined, fullWidth: boolean | undefined) {
+	if (fullWidth) {
+		return `100%`;
+	}
 	if (width) {
 		return `${width.toString()}px`;
 	} else {
@@ -36,6 +39,7 @@ export const Primary = styled.div<{
 	useMaxWidth: boolean | undefined;
 	noMinWidth: boolean | undefined;
 	width: number | undefined;
+	fullWidth: boolean | undefined;
 	height: number | undefined;
 	active: boolean | undefined;
 }>`
@@ -44,7 +48,7 @@ export const Primary = styled.div<{
 		props.active ? props.theme.colors.button.primary.active.background : props.theme.colors.button.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.button.primary.border};
 	height: ${(props) => getHeight(props.height)};
-	min-width: ${(props) => getWidth(props.noMinWidth, props.width)};
+	min-width: ${(props) => getWidth(props.noMinWidth, props.width, props.fullWidth)};
 	max-width: ${(props) => (props.useMaxWidth ? STYLING.dimensions.buttonWidth : '100%')};
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -53,6 +57,7 @@ export const Primary = styled.div<{
 	align-items: center;
 	justify-content: center;
 	border-radius: ${STYLING.dimensions.borderRadiusWrapper};
+	transition: all 250ms;
 	&:hover {
 		border: 1px solid ${(props) => props.theme.colors.button.primary.border};
 		background: ${(props) =>
@@ -69,34 +74,6 @@ export const Primary = styled.div<{
 		border: 1px solid ${(props) => props.theme.colors.button.primary.disabled.border};
 		span {
 			color: ${(props) => props.theme.colors.button.primary.disabled.label};
-		}
-	}
-
-	&:hover svg {
-		animation: gelatine 0.5s;
-		animation-iteration-count: 1;
-	}
-	&:focus svg {
-		animation: gelatine 0.5s;
-		animation-iteration-count: 1;
-	}
-	&:disabled svg {
-		animation: none;
-		animation-iteration-count: 1;
-	}
-	@keyframes gelatine {
-		from,
-		to {
-			transform: scale(1, 1);
-		}
-		25% {
-			transform: scale(0.95, 1.05);
-		}
-		50% {
-			transform: scale(1.05, 0.95);
-		}
-		75% {
-			transform: scale(0.975, 1.025);
 		}
 	}
 

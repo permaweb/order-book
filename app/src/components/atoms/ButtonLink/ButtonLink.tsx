@@ -58,13 +58,18 @@ export default function ButtonLink(props: IProps) {
 
 	return (
 		<S.Wrapper>
-			<Link to={props.href} target={props.targetBlank ? '_blank' : ''}>
+			<Link
+				onClick={() => (props.useCallback ? props.useCallback() : {})}
+				to={props.href}
+				target={props.targetBlank ? '_blank' : ''}
+			>
 				<StyledButton
 					tabIndex={props.noFocus ? -1 : 0}
 					disabled={props.disabled}
 					active={props.active}
 					useMaxWidth={props.useMaxWidth}
 					noMinWidth={props.noMinWidth}
+					fullWidth={props.fullWidth}
 					width={props.width}
 					height={props.height}
 					data-testid={props.testingCtx}
