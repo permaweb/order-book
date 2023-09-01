@@ -65,3 +65,10 @@ export const ChartKey = styled.div<{ background: string }>`
 export const ChartWrapper = styled.div`
 	width: 100%;
 `;
+
+export const LoadingWrapper = styled.div`
+	margin: 10px 0 20px 0 !important;
+	@media (max-width: ${STYLING.cutoffs.secondary}) {
+		margin: 30px 0 20px 0 !important;
+	}
+`;
