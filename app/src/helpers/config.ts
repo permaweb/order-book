@@ -151,7 +151,7 @@ export const AR_WALLETS = [
 ];
 
 export const API_CONFIG = {
-	arweaveGet: 'arweave-search.goldsky.com',
+	arweaveGet: 'arweave.net',
 	arweavePost: getHost(),
 	protocol: 'https',
 	port: 443,
