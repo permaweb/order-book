@@ -18,6 +18,7 @@ import {
 	ORDERBOOK_CONTRACT,
 	OrderBookPairOrderType,
 	OrderBookPairType,
+	STAMP_CONTRACT,
 	STORAGE,
 	TAGS,
 	TagType,
@@ -157,16 +158,24 @@ export async function getAssetById(args: {
 export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBookPairType[]): AssetType[] {
 	let validatedAssets: AssetType[] = [];
 	for (let i = 0; i < gqlData.assets.length; i++) {
-		const title = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.title);
-		const description = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.description);
-		const topic = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.topic);
-		const type = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.type);
+		let title = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.title);
+		let description = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.description);
+		let topic = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.topic);
+		let type = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.type);
 		const implementation = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.implements);
 		const license = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.ans110.license);
 		const renderWith = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.renderWith);
 		const collectionCode = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.collectionCode);
 		const creator = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.creator);
 		const thumbnail = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.thumbnail);
+
+		if (gqlData.assets[i].node.id === STAMP_CONTRACT) {
+			title = '$STAMP Token';
+			description =
+				'STAMP is a permaweb protocol for content curation. Creators can publish content on the permaweb that lasts forever; the STAMP protocol enables users to provide proof of attribution to that content. This proof consists of a Signature, Timestamp, and Metadata, to show the content consumed was valued permanently.';
+			topic = '$STAMP Token';
+			type = '$STAMP Token';
+		}
 
 		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
 			let asset: AssetType = {

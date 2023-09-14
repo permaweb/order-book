@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactSVG } from 'react-svg';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
-import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
+import { CURRENCY_DICT, OrderBookPairOrderType, STAMP_CONTRACT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
@@ -48,6 +48,9 @@ export default function AssetBuy(props: IProps) {
 
 			if (!denominator && props.asset.state.divisibility) {
 				setDenominator(Math.pow(10, props.asset.state.divisibility));
+			}
+			if (!denominator && props.asset.data.id === STAMP_CONTRACT) {
+				setDenominator(Math.pow(10, 12));
 			}
 		}
 	}, [props.asset, denominator]);

@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactSVG } from 'react-svg';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
-import { CURRENCY_DICT, OrderBookPairOrderType } from 'permaweb-orderbook';
+import { CURRENCY_DICT, OrderBookPairOrderType, STAMP_CONTRACT } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
@@ -69,6 +69,9 @@ export default function AssetSell(props: IProps) {
 
 			if (!denominator && props.asset.state.divisibility) {
 				setDenominator(Math.pow(10, props.asset.state.divisibility));
+			}
+			if (!denominator && props.asset.data.id === STAMP_CONTRACT) {
+				setDenominator(Math.pow(10, 12));
 			}
 		}
 	}, [props.asset, arProvider.walletAddress, denominator]);
@@ -205,6 +208,20 @@ export default function AssetSell(props: IProps) {
 		);
 	}
 
+	function getSellQuantity() {
+		if (props.asset.data.id === STAMP_CONTRACT) {
+			return quantity * 1e12;
+		}
+		return denominator ? quantity * denominator : quantity;
+	}
+
+	function getSellPrice() {
+		if (props.asset.data.id === STAMP_CONTRACT) {
+			return (unitPrice * quantity * 1e6) / getSellQuantity();
+		}
+		return denominator ? unitPrice : unitPrice * 1e6;
+	}
+
 	async function sellAsset(e: any) {
 		e.preventDefault();
 		if (props.asset && orProvider.orderBook) {
@@ -217,8 +234,8 @@ export default function AssetSell(props: IProps) {
 
 					const response = await orProvider.orderBook.sell({
 						assetId: props.asset.data.id,
-						qty: denominator ? quantity * denominator : quantity,
-						price: denominator ? unitPrice : unitPrice * 1e6,
+						qty: getSellQuantity(),
+						price: getSellPrice(),
 						wallet: signer,
 						walletAddress: arProvider.walletAddress,
 					});

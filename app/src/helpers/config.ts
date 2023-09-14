@@ -151,7 +151,7 @@ export const AR_WALLETS = [
 ];
 
 export const API_CONFIG = {
-	arweaveGet: 'arweave.net',
+	arweaveGet: getHost(),
 	arweavePost: getHost(),
 	protocol: 'https',
 	port: 443,
@@ -258,6 +258,8 @@ export const SOCIAL_PATHS = [
 
 export const ORDERBOOK_ASSET_PATH =
 	'https://cxc5f7qktvrrxkfzkioh7rfwn77v56pe6ncqbrnok5qpz6sp3sia.arweave.net/FcXS_gqdYxuouVIcf8S2b_9e-eTzRQDFrldg_PpP3JA';
+export const STAMP_ASSET_PATH =
+	'https://7nvuz4m3gvkej42fu7z7z2e6dat7xhr4ddnygx6uo42fvn7ov6na.arweave.net/-2tM8Zs1VETzRafz_OieGCf7njwY24Nf1Hc0Wrfur5o';
 
 export const ASSET_SORT_OPTIONS: SelectOptionType[] = [
 	{ id: 'low-to-high', label: language.lowToHigh },

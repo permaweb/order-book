@@ -104,6 +104,10 @@ export const BUNDLR_CONFIG = {
 	node: 'https://node2.bundlr.network',
 };
 
+export const GOLDSKY_CONFIG = {
+	node: 'https://arweave-search.goldsky.com',
+};
+
 export const FILTERED_IDS = [
 	'fjgMN5h1bybEULC2ho9SzCc_noUUC3ieYztmlfnxWro',
 	'6Twb5wMKt52-tg5PKfZwH157Nxed6sevSHTmxqx_44c',
@@ -214,3 +218,5 @@ export const FILTERED_IDS = [
 ];
 
 export const ANS_FILTER_LIST = [CURRENCY_DICT['U'], 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo'];
+
+export const STAMP_CONTRACT = 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo';

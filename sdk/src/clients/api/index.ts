@@ -11,6 +11,7 @@ import {
 	getCommentData,
 	getComments,
 	getProfile,
+	getProfiles,
 	search,
 } from '../../api';
 import {
@@ -84,6 +85,13 @@ const apiClient: APIClientType = {
 	getProfile: async function (args: { walletAddress: string }): Promise<ProfileType> {
 		return await getProfile({
 			walletAddress: args.walletAddress,
+			arClient: this.arClient,
+		});
+	},
+
+	getProfiles: async function (args: { addresses: string[] }): Promise<ProfileType[]> {
+		return await getProfiles({
+			addresses: args.addresses,
 			arClient: this.arClient,
 		});
 	},

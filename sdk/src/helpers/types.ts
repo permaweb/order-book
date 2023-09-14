@@ -164,6 +164,7 @@ export type APIClientType = {
 	getAssetsByIds: (args: AssetArgsSortType) => Promise<AssetType[]>;
 	getAssetById: (args: { id: string }) => Promise<AssetType>;
 	getProfile: (args: { walletAddress: string }) => Promise<ProfileType>;
+	getProfiles: (args: { addresses: string[] }) => Promise<ProfileType[]>;
 	search: (args: {}) => Promise<SearchReturnType>;
 	getCollections: (args: { cursor: string | null }) => Promise<CollectionsResponseType>;
 	getCollection: (args: {

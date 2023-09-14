@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AssetDetailType, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
+import { AssetDetailType, ORDERBOOK_CONTRACT, STAMP_CONTRACT } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
@@ -44,6 +44,9 @@ export default function AssetDetailMarket(props: IADProps) {
 				if (!denominator && asset.state.divisibility) {
 					setDenominator(Math.pow(10, asset.state.divisibility));
 				}
+				if (!denominator && props.asset.data.id === STAMP_CONTRACT) {
+					setDenominator(Math.pow(10, 12));
+				}
 			}
 		})();
 	}, [asset]);
@@ -54,6 +57,13 @@ export default function AssetDetailMarket(props: IADProps) {
 		} else {
 			return null;
 		}
+	}
+
+	function getActiveSaleOrderPrice(owner: any) {
+		if (props.asset.data.id === STAMP_CONTRACT) return `${owner.sellUnitPrice} U`;
+		return `${formatCount(
+			formatPrice(denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice).toString()
+		)} U`;
 	}
 
 	return asset ? (
@@ -94,9 +104,7 @@ export default function AssetDetailMarket(props: IADProps) {
 											/>
 											<S.DCLineFlex>
 												<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
-												<S.DCLineDetail>{`${formatCount(
-													formatPrice(denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice).toString()
-												)} U`}</S.DCLineDetail>
+												<S.DCLineDetail>{getActiveSaleOrderPrice(owner)}</S.DCLineDetail>
 											</S.DCLineFlex>
 										</S.DCLine>
 									);

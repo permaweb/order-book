@@ -1,6 +1,8 @@
 import React from 'react';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
+import { STAMP_CONTRACT } from 'permaweb-orderbook';
+
 import { Button } from 'components/atoms/Button';
 import { FormField } from 'components/atoms/FormField';
 import { IconButton } from 'components/atoms/IconButton';
@@ -67,6 +69,9 @@ export default function AssetTransfer(props: IProps) {
 
 			if (!denominator && props.asset.state.divisibility) {
 				setDenominator(Math.pow(10, props.asset.state.divisibility));
+			}
+			if (!denominator && props.asset.data.id === STAMP_CONTRACT) {
+				setDenominator(Math.pow(10, 12));
 			}
 		}
 	}, [props.asset, arProvider.walletAddress, denominator]);

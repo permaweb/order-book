@@ -1,6 +1,6 @@
 import { getGQLData } from '../gql';
 
-import { STORAGE, TAGS } from './config';
+import { STAMP_CONTRACT, STORAGE, TAGS } from './config';
 import { ValidateAssetArgs, ValidateBuyArgs, ValidateSellArgs } from './types';
 import { getTagValue, isSingleQtyAsset } from './utils';
 
@@ -106,7 +106,9 @@ export async function validateAsset(args: ValidateAssetArgs) {
 	let ansDescription = getTagValue(assetGqlResponse.data[0].node.tags, TAGS.keys.ans110.description);
 	let ansType = getTagValue(assetGqlResponse.data[0].node.tags, TAGS.keys.ans110.type);
 
-	if (ansTitle === STORAGE.none || ansDescription === STORAGE.none || ansType === STORAGE.none) {
-		throw new Error(`Asset must contain ANS-110 tags - Title, Description, and Type `);
+	if (assetGqlResponse.data[0].node.id !== STAMP_CONTRACT) {
+		if (ansTitle === STORAGE.none || ansDescription === STORAGE.none || ansType === STORAGE.none) {
+			throw new Error(`Asset must contain ANS-110 tags - Title, Description, and Type `);
+		}
 	}
 }

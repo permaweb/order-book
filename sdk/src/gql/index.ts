@@ -1,4 +1,4 @@
-import { BUNDLR_CONFIG, CURSORS, PAGINATOR } from '../helpers/config';
+import { BUNDLR_CONFIG, CURSORS, GOLDSKY_CONFIG, PAGINATOR } from '../helpers/config';
 import {
 	AGQLResponseType,
 	ArweaveClientType,
@@ -14,11 +14,13 @@ export async function getGQLData(args: {
 	tagFilters: TagFilterType[] | null;
 	uploader: string | null;
 	cursor: string | null;
+	owners?: string[];
 	reduxCursor: string | null;
 	cursorObject: CursorObjectKeyType;
 	arClient: ArweaveClientType;
 	minBlock?: number;
 	useArweaveNet?: boolean;
+	useGoldsky?: boolean;
 	useArweaveBundlr?: boolean;
 	customPaginator?: number;
 }): Promise<AGQLResponseType> {
@@ -31,7 +33,7 @@ export async function getGQLData(args: {
 
 	let ids = args.ids ? JSON.stringify(args.ids) : null;
 	let tags = args.tagFilters ? unquoteJsonKeys(args.tagFilters) : null;
-	let owners = args.uploader ? JSON.stringify([args.uploader]) : null;
+	let owners = args.uploader ? JSON.stringify([args.uploader]) : args.owners ? JSON.stringify(args.owners) : null;
 	let cursor = args.cursor ? `"${args.cursor}"` : null;
 
 	const block = args.minBlock
@@ -44,6 +46,7 @@ export async function getGQLData(args: {
 		arClient: args.arClient,
 		useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
 		useArweaveNet: args.useArweaveNet ? args.useArweaveNet : false,
+		useGoldsky: args.useGoldsky ? args.useGoldsky : false,
 		ids: ids,
 		tags: tags,
 		owners: owners,
@@ -67,6 +70,7 @@ export async function getGQLData(args: {
 						arClient: args.arClient,
 						useArweaveBundlr: args.useArweaveBundlr ? args.useArweaveBundlr : false,
 						useArweaveNet: args.useArweaveNet ? args.useArweaveNet : false,
+						useGoldsky: args.useGoldsky ? args.useGoldsky : false,
 						ids: null,
 						tags: tags,
 						owners: owners,
@@ -97,6 +101,7 @@ async function getResponse(args: {
 	arClient: any;
 	useArweaveBundlr: boolean;
 	useArweaveNet: boolean;
+	useGoldsky: boolean;
 	ids: any;
 	tags: any;
 	owners: any;
@@ -105,7 +110,7 @@ async function getResponse(args: {
 	block: any;
 	customPaginator: number | null;
 }) {
-	const { useArweaveBundlr, useArweaveNet, arClient, ids, tags, owners, cursor, after, block, customPaginator } = args;
+	const { useArweaveBundlr, useGoldsky, arClient, ids, tags, owners, cursor, after, block, customPaginator } = args;
 
 	const fetchArweaveNet = async () =>
 		arClient.arweavePost.api.post(
@@ -122,20 +127,50 @@ async function getResponse(args: {
 			})
 		);
 
-	const fetchGoldsky = async () =>
-		arClient.arweaveGet.api.post(
-			'/graphql',
-			getQuery({
-				useArweaveBundlr: false,
-				ids,
-				tags,
-				owners,
-				cursor,
-				after,
-				block,
-				customPaginator,
-			})
-		);
+	// const fetchGoldsky = async () =>
+	// 	arClient.arweaveGet.api.post(
+	// 		'/graphql',
+	// 		getQuery({
+	// 			useArweaveBundlr: false,
+	// 			ids,
+	// 			tags,
+	// 			owners,
+	// 			cursor,
+	// 			after,
+	// 			block,
+	// 			customPaginator,
+	// 		})
+	// 	);
+
+	const fetchGoldsky = async () => {
+		try {
+			const response = await fetch(`${GOLDSKY_CONFIG.node}/graphql`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(
+					getQuery({
+						useArweaveBundlr: false,
+						ids,
+						tags,
+						owners,
+						cursor,
+						after,
+						block,
+						customPaginator,
+					})
+				),
+			});
+			const responseData = await response.json();
+			const responseLength = responseData.data.transactions.edges.length;
+			if (responseLength > 0) return { data: responseData };
+			else return await fetchArweaveNet();
+		} catch (error: any) {
+			console.warn(error);
+			return await fetchArweaveNet();
+		}
+	};
 
 	const fetchBundlr = async () => {
 		try {
@@ -175,13 +210,13 @@ async function getResponse(args: {
 			},
 		},
 		{
-			enabled: useArweaveNet,
+			enabled: useGoldsky ? !useGoldsky : true,
 			execute: async () => {
 				return await fetchArweaveNet();
 			},
 		},
 		{
-			enabled: true,
+			enabled: useGoldsky,
 			execute: async () => {
 				return await fetchGoldsky();
 			},

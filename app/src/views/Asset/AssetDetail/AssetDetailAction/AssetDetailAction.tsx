@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AssetDetailType, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
+import { AssetDetailType, ORDERBOOK_CONTRACT, STAMP_CONTRACT } from 'permaweb-orderbook';
 
 import { TxAddress } from 'components/atoms/TxAddress';
 import { Modal } from 'components/molecules/Modal';
@@ -10,7 +10,7 @@ import { StampWidget } from 'components/organisms/StampWidget';
 import { REDIRECTS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
-import { formatPrice, getOwners } from 'helpers/utils';
+import { formatCount, formatPrice, getOwners } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
 import * as S from '../styles';
@@ -49,9 +49,19 @@ export default function AssetDetailAction(props: IADProps) {
 				if (!denominator && asset.state.divisibility) {
 					setDenominator(Math.pow(10, asset.state.divisibility));
 				}
+				if (!denominator && props.asset.data.id === STAMP_CONTRACT) {
+					setDenominator(Math.pow(10, 12));
+				}
 			}
 		})();
 	}, [asset]);
+
+	function getActiveSaleOrderPrice(owner: any) {
+		// if (props.asset.data.id === STAMP_CONTRACT) return `${owner.sellUnitPrice} U`;
+		return `${formatCount(
+			formatPrice(denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice).toString()
+		)} U`;
+	}
 
 	return asset ? (
 		<>
@@ -129,7 +139,7 @@ export default function AssetDetailAction(props: IADProps) {
 											props.handleUpdate(orderResponse);
 										}}
 										loading={false}
-										hideOrderCancel={props.updating || props.pendingResponse}
+										hideOrderCancel={props.updating || props.pendingResponse !== null}
 									/>
 									<S.DCLineDetail>{`${(owner.ownerPercentage * 100).toFixed(2)}%`}</S.DCLineDetail>
 								</S.DCLine>
@@ -160,13 +170,11 @@ export default function AssetDetailAction(props: IADProps) {
 											props.handleUpdate(orderResponse);
 										}}
 										loading={false}
-										hideOrderCancel={props.updating || props.pendingResponse}
+										hideOrderCancel={props.updating || props.pendingResponse !== null}
 									/>
 									<S.DCLineFlex>
 										<S.DCSalePercentage>{`${(owner.sellPercentage * 100).toFixed(2)}%`}</S.DCSalePercentage>
-										<S.DCLineDetail>{`${formatPrice(
-											denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice
-										)} U`}</S.DCLineDetail>
+										<S.DCLineDetail>{getActiveSaleOrderPrice(owner)}</S.DCLineDetail>
 									</S.DCLineFlex>
 								</S.DCLine>
 							);

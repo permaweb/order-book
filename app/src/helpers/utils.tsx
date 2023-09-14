@@ -165,21 +165,23 @@ export async function getOwners(
 		const totalBalance = balances.reduce((a: number, b: number) => a + b, 0);
 
 		if (Array.isArray(addressObject)) {
+			const profiles = await orProvider.orderBook.api.getProfiles({
+				addresses: addressObject.map((owner: any) => owner.creator),
+			});
 			const owners: OwnerListingType[] = [];
 
-			for (let i = 0; i < addressObject.length; i++) {
-				if (addressObject[i].creator) {
-					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: addressObject[i].creator });
-					let handle = profile ? profile.handle : null;
-
-					let avatar = profile ? profile.avatar : null;
+			if (profiles.length === addressObject.length) {
+				for (let i = 0; i < profiles.length; i++) {
+					let avatar = profiles[i].avatar;
 					if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
 					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
 
+					let handle = profiles[i].handle;
 					handle =
-						!handle && addressObject[i].creator === orProvider.orderBook.env.orderBookContract
+						!handle && profiles[i].walletAddress === orProvider.orderBook.env.orderBookContract
 							? language.orderBook
 							: handle;
+
 					owners.push({
 						address: addressObject[i].creator,
 						handle: handle,
@@ -190,29 +192,23 @@ export async function getOwners(
 					});
 				}
 			}
-
 			return owners;
 		} else {
-			let owners: OwnerType[] = await Promise.all(
-				Object.keys(addressObject).map(async (address: string) => {
-					const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
-					const ownerPercentage = addressObject[address] / totalBalance;
-					let handle = profile ? profile.handle : null;
+			const profiles = await orProvider.orderBook.api.getProfiles({ addresses: Object.keys(addressObject) });
+			let owners: OwnerType[] = [];
+			for (let i = 0; i < profiles.length; i++) {
+				let avatar = profiles[i].avatar;
+				if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
+				if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
 
-					let avatar = profile ? profile.avatar : null;
-					if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
-					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
-
-					handle = !handle && address === orProvider.orderBook.env.orderBookContract ? language.orderBook : handle;
-					return {
-						address: address,
-						handle: handle,
-						avatar: avatar,
-						balance: addressObject[address],
-						ownerPercentage: ownerPercentage,
-					};
-				})
-			);
+				owners.push({
+					address: profiles[i].walletAddress,
+					handle: profiles[i].handle,
+					avatar: profiles[i].avatar,
+					balance: addressObject[profiles[i].walletAddress],
+					ownerPercentage: addressObject[profiles[i].walletAddress] / totalBalance,
+				});
+			}
 
 			owners = owners.filter((owner: OwnerType) => owner.balance > 0);
 

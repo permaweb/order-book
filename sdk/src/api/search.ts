@@ -24,12 +24,14 @@ export async function search(args: SearchArgs & { arClient: ArweaveClientType })
 		// id search
 		let result: AGQLResponseType = await getGQLData({
 			ids: [args.term],
-			tagFilters: [{ name: 'Indexed-By', values: ['ucm'] }],
+			// tagFilters: [{ name: 'Indexed-By', values: ['ucm'] }],
+			tagFilters: null,
 			uploader: args.uploader,
 			cursor: args.cursor,
 			reduxCursor: args.reduxCursor,
 			cursorObject: null,
 			arClient: args.arClient,
+			useGoldsky: true,
 		});
 
 		let ar = getAssetsResponseObject(result);
@@ -46,10 +48,10 @@ export async function search(args: SearchArgs & { arClient: ArweaveClientType })
 						values: [`${args.term}`],
 						match: `FUZZY_OR`,
 					},
-					{
-						name: 'Indexed-By',
-						values: ['ucm'],
-					},
+					// {
+					// 	name: 'Indexed-By',
+					// 	values: ['ucm'],
+					// },
 				];
 
 				let result: AGQLResponseType = await getGQLData({
@@ -60,6 +62,7 @@ export async function search(args: SearchArgs & { arClient: ArweaveClientType })
 					reduxCursor: args.reduxCursor,
 					cursorObject: null,
 					arClient: args.arClient,
+					useGoldsky: true,
 				});
 
 				let ar = getAssetsResponseObject(result);

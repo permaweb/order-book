@@ -22,8 +22,6 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 			: props.collection.thumbnail;
 	}
 
-	console.log(props.collection);
-
 	return (
 		<S.PICWrapper>
 			<S.PCWrapper>

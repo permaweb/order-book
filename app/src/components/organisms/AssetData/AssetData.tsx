@@ -3,7 +3,7 @@ import { ReactSVG } from 'react-svg';
 
 import * as OrderBook from 'permaweb-orderbook';
 
-import { ASSETS, ORDERBOOK_ASSET_PATH } from 'helpers/config';
+import { ASSETS, ORDERBOOK_ASSET_PATH, STAMP_ASSET_PATH } from 'helpers/config';
 import { getRendererEndpoint, getTxEndpoint } from 'helpers/endpoints';
 import { AssetRenderType, ContentType } from 'helpers/types';
 import { checkAddress } from 'helpers/utils';
@@ -20,6 +20,14 @@ export default function AssetData(props: IProps) {
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 
 	const [loadError, setLoadError] = React.useState<boolean>(false);
+
+	function getAssetPath(assetResponse: any) {
+		if (props.asset) {
+			if (props.asset.data.id === OrderBook.ORDERBOOK_CONTRACT) return ORDERBOOK_ASSET_PATH;
+			if (props.asset.data.id === OrderBook.STAMP_CONTRACT) return STAMP_ASSET_PATH;
+			return assetResponse.url;
+		} else return '';
+	}
 
 	React.useEffect(() => {
 		(async function () {
@@ -45,9 +53,9 @@ export default function AssetData(props: IProps) {
 					const contentType = assetResponse.headers.get('content-type');
 					if (assetResponse.status === 200 && contentType) {
 						setAssetRender({
-							url: props.asset.data.id === OrderBook.ORDERBOOK_CONTRACT ? ORDERBOOK_ASSET_PATH : assetResponse.url,
+							url: getAssetPath(assetResponse),
 							type: 'raw',
-							contentType: contentType as ContentType,
+							contentType: props.asset.data.id === OrderBook.STAMP_CONTRACT ? 'image' : (contentType as ContentType),
 						});
 					}
 				}
