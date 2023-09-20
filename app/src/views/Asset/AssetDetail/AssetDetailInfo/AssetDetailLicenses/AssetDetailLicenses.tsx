@@ -10,7 +10,7 @@ import { Button } from 'components/atoms/Button';
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { Modal } from 'components/molecules/Modal';
-import { API_CONFIG, ASSETS, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
+import { API_CONFIG, ASSETS, CC_LICENSE, REDIRECTS, UDL_ICONS_MAP } from 'helpers/config';
 import { language } from 'helpers/language';
 import { ResponseType } from 'helpers/types';
 import { formatDisplayString, getHost } from 'helpers/utils';
@@ -64,6 +64,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 				props.asset.data.udl &&
 				props.asset.data.udl.license &&
 				props.asset.data.udl.license.value !== STORAGE.none &&
+				props.asset.data.udl.license.value !== CC_LICENSE &&
 				payments
 			) {
 				setContainsLicense(true);
@@ -152,7 +153,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 				icon={ASSETS.license}
 				content={
 					<S.DrawerContent>
-						{props.asset.data.udl && (
+						{props.asset.data.udl && props.asset.data.udl.license.value !== CC_LICENSE && (
 							<>
 								<S.HeaderFlex>
 									<S.Logo>

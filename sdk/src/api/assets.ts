@@ -168,6 +168,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 		const collectionCode = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.collectionCode);
 		const creator = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.creator);
 		const thumbnail = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.thumbnail);
+		const holderTitle = getTagValue(gqlData.assets[i].node.tags, TAGS.keys.holderTitle);
 
 		if (gqlData.assets[i].node.id === STAMP_CONTRACT) {
 			title = '$STAMP Token';
@@ -188,6 +189,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 					implementation: implementation,
 					license: license,
 					renderWith: renderWith ? renderWith : null,
+					holderTitle: holderTitle ? holderTitle : null,
 					dateCreated: gqlData.assets[i].node.block
 						? gqlData.assets[i].node.block.timestamp * 1000
 						: gqlData.assets[i].node.timestamp,

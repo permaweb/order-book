@@ -154,7 +154,6 @@ export const ThumbnailWrapper = styled.div`
 	height: 85px;
 	width: 85px;
 	background: ${(props) => props.theme.colors.container.primary.background};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
 	margin: 0 15px;
 	overflow: hidden;

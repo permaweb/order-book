@@ -38,6 +38,7 @@ export const TAGS = {
 		dataProtocol: 'Data-Protocol',
 		dataSource: 'Data-Source',
 		dateCreated: 'Date-Created',
+		holderTitle: 'Holder-Title',
 		indexedBy: 'Indexed-By',
 		initialOwner: 'Initial-Owner',
 		initState: 'Init-State',
@@ -71,6 +72,9 @@ export const TAGS = {
 		comment: 'comment',
 		contentTypes: {
 			textPlain: 'text/plain',
+		},
+		holderTitle: {
+			sponsor: 'sponsor',
 		},
 		indexer: 'ucm',
 		profileVersions: {

@@ -266,3 +266,5 @@ export const ASSET_SORT_OPTIONS: SelectOptionType[] = [
 	{ id: 'high-to-low', label: language.highToLow },
 	{ id: 'by-stamps', label: language.byStamps },
 ];
+
+export const CC_LICENSE = 'x5UYiin_eRB0XCpZAkpduL0JIaXAUe9Bi2-RXGloBQI';

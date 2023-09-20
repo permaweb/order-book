@@ -142,6 +142,7 @@ export const language = {
 		twitter: `Twitter`,
 	},
 	showMore: `Show More`,
+	sponsoredAsset: `Sponsored Asset`,
 	standard: `Standard`,
 	stamp: `STAMP`,
 	stamps: `Stamps`,

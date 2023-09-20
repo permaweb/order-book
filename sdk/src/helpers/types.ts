@@ -8,6 +8,7 @@ export type AssetType = {
 		implementation: string;
 		license: string;
 		renderWith: string | null;
+		holderTitle: string | null;
 		dateCreated: number;
 		blockHeight: number;
 		creator: string;

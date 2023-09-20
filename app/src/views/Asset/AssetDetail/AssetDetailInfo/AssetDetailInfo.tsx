@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AssetDetailType, CollectionAssetType } from 'permaweb-orderbook';
+import { AssetDetailType, CollectionAssetType, TAGS } from 'permaweb-orderbook';
 
 import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
@@ -19,10 +19,13 @@ import { IAProps } from '../types';
 
 import { AssetDetailLicenses } from './AssetDetailLicenses';
 
+// TODO: sponsor / creator attributions
 export default function AssetDetailInfo(props: IAProps) {
 	const orProvider = useOrderBookProvider();
 
 	const [creator, setCreator] = React.useState<OwnerType | OwnerListingType | null>(null);
+	const [sponsored, setSponsored] = React.useState<boolean>(false);
+
 	const [collection, setCollection] = React.useState<CollectionAssetType | null>(null);
 
 	React.useEffect(() => {
@@ -47,6 +50,18 @@ export default function AssetDetailInfo(props: IAProps) {
 		})();
 	}, [props.asset, orProvider.orderBook]);
 
+	React.useEffect(() => {
+		(async function () {
+			if (
+				props.asset &&
+				props.asset.data.holderTitle &&
+				props.asset.data.holderTitle === TAGS.values.holderTitle.sponsor
+			) {
+				setSponsored(true);
+			}
+		})();
+	}, [props.asset]);
+
 	return props.asset ? (
 		<S.C1Wrapper>
 			<S.C1>
@@ -62,7 +77,7 @@ export default function AssetDetailInfo(props: IAProps) {
 						content={
 							<S.DrawerContent>
 								<S.DCHeader>{props.asset.data.title}</S.DCHeader>
-								{creator && (
+								{creator && !sponsored && (
 									<S.DCOwnerFlex>
 										<p>{language.createdBy}</p>
 										<OwnerInfo
@@ -73,6 +88,11 @@ export default function AssetDetailInfo(props: IAProps) {
 											loading={false}
 											hideOrderCancel={false}
 										/>
+									</S.DCOwnerFlex>
+								)}
+								{sponsored && (
+									<S.DCOwnerFlex>
+										<p>{language.sponsoredAsset}</p>
 									</S.DCOwnerFlex>
 								)}
 								{collection && (
