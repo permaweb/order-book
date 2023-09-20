@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { STYLING } from 'helpers/styling';
+
 export const Wrapper = styled.div`
 	height: 100%;
 	width: 100%;
@@ -42,6 +44,10 @@ export const FramePreview = styled.div`
 	svg {
 		height: 100px;
 		width: 100px;
+		border-radius: ${STYLING.dimensions.borderRadius};
+	}
+	img {
+		border-radius: ${STYLING.dimensions.borderRadius};
 	}
 	background: ${(props) => props.theme.colors.container.primary.background};
 `;
@@ -93,6 +99,10 @@ export const Preview = styled.div`
 	svg {
 		height: 57.5px;
 		width: 57.5px;
+		border-radius: ${STYLING.dimensions.borderRadius};
+	}
+	img {
+		border-radius: ${STYLING.dimensions.borderRadius};
 	}
 `;
 
