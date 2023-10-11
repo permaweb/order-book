@@ -178,7 +178,7 @@ export function getValidatedAssets(gqlData: AssetsResponseType, pairs?: OrderBoo
 			type = '$STAMP Token';
 		}
 
-		if (title !== STORAGE.none && description !== STORAGE.none && type !== STORAGE.none) {
+		if (title !== STORAGE.none) {
 			let asset: AssetType = {
 				data: {
 					id: gqlData.assets[i].node.id,
