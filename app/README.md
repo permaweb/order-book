@@ -1,4 +1,4 @@
-# Marketplace UI
+# BazAR UI
 
 ## Prerequisites
 
