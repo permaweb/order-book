@@ -219,6 +219,7 @@ export const FILTERED_IDS = [
 	'5slxbV2C2Vd6sD0RYR1QzPrhVGpJ3tRSwBH1JpmRYq0',
 	'yR5X4BZllnjaZAAEBz-608BE2fqZk9c5HsHviyiZahA',
 	'ThVyY-Wg99gah__3mjWy4Mov7S3ZoWZ-UF2UbZPfIzA',
+	'727tWCz4Bd7EtqAEGJH01HgTZH0JomZyf6wRGzjmtrc',
 ];
 
 export const ANS_FILTER_LIST = [CURRENCY_DICT['U'], 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo'];
