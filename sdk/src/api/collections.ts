@@ -132,6 +132,7 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 
 		const node = collectionGql.data[0].node;
 		let items = collection.items;
+
 		const contractIds = await getAssetIdsByContract({
 			arClient: args.arClient,
 			filterListings: args.filterListings,
@@ -141,6 +142,7 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 			items = collection.items.filter((id: string) => contractIds.includes(id));
 		} else {
 			items = contractIds.filter((id: string) => collection.items.includes(id));
+			if (items.length <= 0) items = collection.items;
 		}
 
 		return await buildCollection({ node, items: items, arClient: args.arClient, useProfile: true });
