@@ -30,7 +30,7 @@ export default function Streak(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (orProvider.orderBook) {
+			if (orProvider.orderBook && showDropdown) {
 				const orderBookState = await orProvider.orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
 				if (orderBookState) {
 					setOwnerStreaks(await getOwnerStreaks(orderBookState.streaks, orProvider));
@@ -40,7 +40,7 @@ export default function Streak(props: IProps) {
 				setCurrentBlockHeight(info.height);
 			}
 		})();
-	}, [orProvider.orderBook]);
+	}, [orProvider.orderBook, showDropdown]);
 
 	function getStreakHeader(count: number) {
 		if (count !== null) {

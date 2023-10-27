@@ -19,7 +19,6 @@ import { IAProps } from '../types';
 
 import { AssetDetailLicenses } from './AssetDetailLicenses';
 
-// TODO: sponsor / creator attributions
 export default function AssetDetailInfo(props: IAProps) {
 	const orProvider = useOrderBookProvider();
 

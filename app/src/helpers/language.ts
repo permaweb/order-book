@@ -122,6 +122,7 @@ export const language = {
 	quantityExceedsBalance: `Quantity exceeds max available balance`,
 	quantityMustBeInteger: `Quantity must be an integer`,
 	rank: `Rank`,
+	recentlyListed: `Recently Listed`,
 	recipientAddress: `Recipient Address`,
 	relatedTransactions: `Related Transactions`,
 	reply: `Reply`,

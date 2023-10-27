@@ -186,6 +186,7 @@ export default function ReduxAssetsUpdate(props: {
 
 	React.useEffect(() => {
 		(async function () {
+			console.log('---');
 			const cursorReducer = cursorsReducer[props.cursorObject][props.reduxCursor];
 			if (cursorReducer && cursorReducer.groups.length && orderBook && props.currentTableCursor && orderBook) {
 				for (let i = 0; i < cursorReducer.groups.length; i++) {

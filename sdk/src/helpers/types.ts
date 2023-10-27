@@ -385,4 +385,4 @@ export type CommentsResponseType = {
 
 export type TagType = { name: string; value: string };
 
-export type AssetSortType = 'low-to-high' | 'high-to-low' | 'by-stamps';
+export type AssetSortType = 'recently-listed' | 'low-to-high' | 'high-to-low' | 'by-stamps';

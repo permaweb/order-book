@@ -297,6 +297,8 @@ function sortAssets(assets: AssetType[], activeSort: AssetSortType): AssetType[]
 }
 
 export function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType): OrderBookPairType[] {
+	if (activeSort === 'recently-listed') return pairs.reverse();
+
 	const getSortKey = (pair: OrderBookPairType): number => {
 		if (!pair.orders || pair.orders.length === 0) return Infinity;
 		return pair.orders[0].price;

@@ -262,6 +262,7 @@ export const STAMP_ASSET_PATH =
 	'https://7nvuz4m3gvkej42fu7z7z2e6dat7xhr4ddnygx6uo42fvn7ov6na.arweave.net/-2tM8Zs1VETzRafz_OieGCf7njwY24Nf1Hc0Wrfur5o';
 
 export const ASSET_SORT_OPTIONS: SelectOptionType[] = [
+	{ id: 'recently-listed', label: language.recentlyListed },
 	{ id: 'low-to-high', label: language.lowToHigh },
 	{ id: 'high-to-low', label: language.highToLow },
 	{ id: 'by-stamps', label: language.byStamps },

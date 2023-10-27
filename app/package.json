@@ -26,7 +26,7 @@
 		"cytoscape-elk": "^2.2.0",
 		"elkjs": "^0.8.2",
 		"html-react-parser": "^3.0.4",
-		"permaweb-orderbook": "1.6.51",
+		"permaweb-orderbook": "1.6.52",
 		"ramda": "^0.29.0",
 		"react": "^18.2.0",
 		"react-chartjs-2": "^5.2.0",
