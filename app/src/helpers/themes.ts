@@ -111,11 +111,11 @@ export const defaultTheme: DefaultTheme = {
 				background: DEFAULT.neutral9,
 				border: DEFAULT.neutral8,
 				hover: DEFAULT.neutral17,
-				label: DEFAULT.neutral1,
+				label: DEFAULT.neutral4,
 				active: {
 					background: DEFAULT.alt1,
 					hover: DEFAULT.neutral2,
-					label: DEFAULT.neutral1,
+					label: DEFAULT.neutral4,
 				},
 				disabled: {
 					background: DEFAULT.neutral13,

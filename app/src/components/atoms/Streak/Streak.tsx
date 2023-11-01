@@ -137,7 +137,7 @@ export default function Streak(props: IProps) {
 									</S.SDLink>
 									<S.SDLAction>
 										<Button
-											type={'alt2'}
+											type={'primary'}
 											label={language.streakLeaderboard}
 											handlePress={() => setShowModal(!showModal)}
 											height={45}
