@@ -5,4 +5,5 @@ export interface IProps {
 		address: string;
 		handle: string | null;
 	};
+	handlePress: () => void;
 }

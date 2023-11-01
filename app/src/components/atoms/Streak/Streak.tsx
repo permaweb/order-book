@@ -103,7 +103,12 @@ export default function Streak(props: IProps) {
 		<>
 			<CloseHandler active={showDropdown} disabled={!showDropdown || showModal} callback={() => setShowDropdown(false)}>
 				<S.Wrapper>
-					<S.SAction onClick={() => setShowDropdown(!showDropdown)}>
+					<S.SAction
+						onClick={() => {
+							setShowDropdown(!showDropdown);
+							props.handlePress();
+						}}
+					>
 						<S.SWrapper>
 							{getStreakIcon(props.streak.days)}
 							<p>{props.streak.days}</p>

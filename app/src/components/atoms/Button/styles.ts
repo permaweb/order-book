@@ -37,7 +37,7 @@ export const Primary = styled.button<{
 	background: ${(props) =>
 		props.active ? props.theme.colors.button.primary.active.background : props.theme.colors.button.primary.background};
 	border: 1px solid ${(props) => props.theme.colors.button.primary.border};
-	height: ${(props) => getHeight(props.height)};
+	min-height: ${(props) => getHeight(props.height)};
 	min-width: ${(props) => getWidth(props.noMinWidth, props.width, props.fullWidth)};
 	max-width: ${(props) => (props.useMaxWidth ? STYLING.dimensions.buttonWidth : '100%')};
 	overflow: hidden;
