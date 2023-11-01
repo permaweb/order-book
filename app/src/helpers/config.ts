@@ -60,7 +60,7 @@ import { getHost } from './utils';
 
 export const APP = {
 	appKey: 'appVersion',
-	appVersion: '1.0.5',
+	appVersion: '1.0.6',
 	orderTx: 'orderTx',
 	providerKey: 'providerVersion',
 	providerVersion: '1.0.3',
@@ -265,7 +265,27 @@ export const ASSET_SORT_OPTIONS: SelectOptionType[] = [
 	{ id: 'recently-listed', label: language.recentlyListed },
 	{ id: 'low-to-high', label: language.lowToHigh },
 	{ id: 'high-to-low', label: language.highToLow },
-	{ id: 'by-stamps', label: language.byStamps },
+	// { id: 'by-stamps', label: language.byStamps },
 ];
 
 export const CC_LICENSE = 'x5UYiin_eRB0XCpZAkpduL0JIaXAUe9Bi2-RXGloBQI';
+
+export const CURSORS = {
+	p1: 'P1',
+	end: 'END',
+};
+
+export const PAGINATOR = 100;
+
+export const GATEWAYS = {
+	arweave: 'arweave.net',
+	goldsky: 'arweave-search.goldsky.com',
+};
+
+export const CONTRACT_OPTIONS = {
+	allowBigInt: true,
+	internalWrites: true,
+	remoteStateSyncEnabled: true,
+	remoteStateSyncSource: DRE_NODES[0].source,
+	unsafeClient: 'skip' as any,
+};

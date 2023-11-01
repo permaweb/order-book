@@ -28,6 +28,7 @@ export const WalletListItem = styled.button`
 	}
 	span {
 		font-size: ${(props) => props.theme.typography.size.small};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		margin-top: 2.5px;
 	}
 `;

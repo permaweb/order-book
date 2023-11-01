@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AssetType, CursorEnum } from 'permaweb-orderbook';
+import { AssetType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Select } from 'components/atoms/Select';
@@ -11,7 +11,7 @@ import { AssetsList } from 'components/organisms/AssetsList';
 import { ASSET_SORT_OPTIONS, ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { REDUX_TABLES } from 'helpers/redux';
-import { SelectOptionType } from 'helpers/types';
+import { CursorEnum, SelectOptionType } from 'helpers/types';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import { ReduxAssetsUpdate } from 'store/assets/ReduxAssetsUpdate';
@@ -133,16 +133,19 @@ export default function AssetsTable(props: IProps) {
 		return;
 	}
 
+	function handleSortUpdate(option: SelectOptionType) {
+		// if (option.id === 'recently-listed') window.location.reload();
+		clearAssets();
+		setActiveSortOption(option);
+	}
+
 	function getActions() {
 		if (props.showFilters) {
 			return (
 				<>
 					<Select
 						activeOption={activeSortOption}
-						setActiveOption={(option: SelectOptionType) => {
-							clearAssets();
-							setActiveSortOption(option);
-						}}
+						setActiveOption={(option: SelectOptionType) => handleSortUpdate(option)}
 						options={ASSET_SORT_OPTIONS.map((option: SelectOptionType) => option)}
 						disabled={!props.assets || props.loading}
 					/>

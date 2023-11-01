@@ -20,6 +20,7 @@ export default function AssetData(props: IProps) {
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 
 	const [loadError, setLoadError] = React.useState<boolean>(false);
+	const [contain, setContain] = React.useState<boolean>(false);
 
 	function getAssetPath(assetResponse: any) {
 		if (props.asset) {
@@ -31,37 +32,60 @@ export default function AssetData(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (props.asset) {
-				const renderWith =
-					props.asset.data?.renderWith && props.asset.data.renderWith !== OrderBook.STORAGE.none
-						? props.asset.data.renderWith
-						: '[]';
-				let parsedRenderWith: string | null = null;
-				try {
-					parsedRenderWith = JSON.parse(renderWith);
-				} catch (e: any) {
-					parsedRenderWith = renderWith;
-				}
-				if (parsedRenderWith && parsedRenderWith.length) {
-					setAssetRender({
-						url: getRendererEndpoint(parsedRenderWith, props.asset.data.id),
-						type: 'renderer',
-						contentType: 'renderer',
-					});
-				} else {
-					const assetResponse = await fetch(getTxEndpoint(props.asset.data.id));
-					const contentType = assetResponse.headers.get('content-type');
-					if (assetResponse.status === 200 && contentType) {
+			if (props.assetRender) {
+				setAssetRender(props.assetRender);
+			} else {
+				if (props.asset && !props.assetRender) {
+					const renderWith =
+						props.asset.data?.renderWith && props.asset.data.renderWith !== OrderBook.STORAGE.none
+							? props.asset.data.renderWith
+							: '[]';
+					let parsedRenderWith: string | null = null;
+					try {
+						parsedRenderWith = JSON.parse(renderWith);
+					} catch (e: any) {
+						parsedRenderWith = renderWith;
+					}
+					if (parsedRenderWith && parsedRenderWith.length) {
 						setAssetRender({
-							url: getAssetPath(assetResponse),
-							type: 'raw',
-							contentType: props.asset.data.id === OrderBook.STAMP_CONTRACT ? 'image' : (contentType as ContentType),
+							url: getRendererEndpoint(parsedRenderWith, props.asset.data.id),
+							type: 'renderer',
+							contentType: 'renderer',
 						});
+					} else {
+						const assetResponse = await fetch(getTxEndpoint(props.asset.data.id));
+						const contentType = assetResponse.headers.get('content-type');
+
+						if (assetResponse.status === 200 && contentType) {
+							setAssetRender({
+								url: getAssetPath(assetResponse),
+								type: 'raw',
+								contentType: props.asset.data.id === OrderBook.STAMP_CONTRACT ? 'image' : (contentType as ContentType),
+							});
+						}
 					}
 				}
 			}
 		})();
-	}, [props.asset]);
+	}, [props.asset, props.assetRender]);
+
+	React.useEffect(() => {
+		if (assetRender) {
+			if (assetRender.contentType.startsWith('image')) {
+				let img = new Image();
+				img.onload = function () {
+					const imageElement = this as HTMLImageElement;
+					if (imageElement.height > imageElement.width || imageElement.width >= 2 * imageElement.height) {
+						setContain(true);
+					}
+				};
+				img.onerror = function () {
+					console.error('Error loading the image.');
+				};
+				img.src = assetRender.url;
+			}
+		}
+	}, [assetRender]);
 
 	React.useEffect(() => {
 		function sendWalletConnection() {
@@ -153,7 +177,7 @@ export default function AssetData(props: IProps) {
 						}
 					}
 					if (assetRender.contentType.includes('image')) {
-						return <S.Image src={assetRender.url} onError={handleError} />;
+						return <S.Image src={assetRender.url} contain={contain} onError={handleError} />;
 					}
 					if (assetRender.contentType.includes('audio')) {
 						if (!props.preview) {

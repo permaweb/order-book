@@ -65,7 +65,8 @@ export const HeaderContainer = styled.div``;
 export const Header = styled.div`
 	margin: 0 0 20px 0;
 	h2 {
-		font-weight: ${(props) => props.theme.typography.weight.bold};
+		font-weight: ${(props) => props.theme.typography.weight.mediumß};
+		font-family: ${(props) => props.theme.typography.family.alt1};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		text-align: left;
 	}
@@ -89,7 +90,7 @@ export const SWrapper = styled.div`
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;

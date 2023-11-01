@@ -9,6 +9,7 @@ import { ActivityElementType, AssetDetailType, AssetType } from 'permaweb-orderb
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'components/organisms/AssetData';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
+import { getAssetById } from 'gql';
 import { REDIRECTS, STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
@@ -90,25 +91,12 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 			nodeDimensionsIncludeLabels: true,
 			elk: {
 				algorithm: 'org.eclipse.elk.mrtree',
-				// 'spacing.nodeNodeBetweenLayers': 10, // Increase this value to add more space between layers
 				direction: 'DOWN',
 				separateConnectedComponents: true,
 			},
 		});
 
 		layout.run();
-
-		// layout.on('layoutstop', () => {
-		// 	cy.nodes().positions((node: any) => {
-		// 		let x = node.position('x');
-		// 		let y = node.position('y');
-		// 		return {
-		// 			x: y,
-		// 			y: -x,
-		// 		};
-		// 	});
-		// 	cy.fit();
-		// });
 
 		cy.on('click', 'node', function (event: any) {
 			const target = event.target;
@@ -212,7 +200,7 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 				setActiveAsset(null);
 				setActiveOwner(null);
 
-				const asset = await orProvider.orderBook.api.getAssetById({ id: activeNode.id });
+				const asset = await getAssetById({ id: activeNode.id });
 				const owner = (await getOwners([{ creator: activeNode.owner }], orProvider, props.asset as AssetDetailType))[0];
 
 				setActiveAsset(asset);

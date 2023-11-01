@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { TwitterShareButton } from 'react-share';
 import { ReactSVG } from 'react-svg';
 
-import { CursorEnum, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
+import { CursorEnum } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
@@ -22,9 +22,11 @@ import * as S from './styles';
 import { IProps } from './types';
 
 export default function AccountHeader(props: IProps) {
+	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
+	const ucmReducer = useSelector((state: RootState) => state.ucmReducer);
+
 	const arProvider = useArweaveProvider();
 	const orProvider = useOrderBookProvider();
-	const cursorsReducer = useSelector((state: RootState) => state.cursorsReducer);
 
 	const [addressCopied, setAddressCopied] = React.useState<boolean>(false);
 	const [urlCopied, setUrlCopied] = React.useState<boolean>(false);
@@ -44,14 +46,13 @@ export default function AccountHeader(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (props.profile && orProvider.orderBook) {
-				const orderBookState = await orProvider.orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
-				const streak = orderBookState.streaks[props.profile.walletAddress];
+			if (props.profile && orProvider.orderBook && ucmReducer) {
+				const streak = ucmReducer.streaks[props.profile.walletAddress];
 				if (streak) setStreak(streak);
 				else setStreak(null);
 			}
 		})();
-	}, [props.profile, orProvider.orderBook]);
+	}, [props.profile, orProvider.orderBook, ucmReducer]);
 
 	const copyText = React.useCallback(async (text: string, type: 'address' | 'url') => {
 		if (text) {

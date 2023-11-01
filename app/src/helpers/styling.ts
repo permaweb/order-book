@@ -15,7 +15,7 @@ export const STYLING = {
 		buttonWidth: '150px',
 		listWidth: '600px',
 		listDetailWidth: '500px',
-		navHeight: '125px',
+		navHeight: '80px',
 		footerHeight: '50px',
 		formHeightMin: '37.5px',
 		formHeightSm: '42.5px',

@@ -173,6 +173,7 @@ module.exports = {
 			assets: path.resolve(__dirname, 'src/assets/'),
 			components: path.resolve(__dirname, 'src/components/'),
 			filters: path.resolve(__dirname, 'src/filters/'),
+			gql: path.resolve(__dirname, 'src/gql/'),
 			helpers: path.resolve(__dirname, 'src/helpers/'),
 			hooks: path.resolve(__dirname, 'src/hooks/'),
 			navigation: path.resolve(__dirname, 'src/navigation/'),

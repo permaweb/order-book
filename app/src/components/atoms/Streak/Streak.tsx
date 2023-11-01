@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
@@ -11,6 +12,7 @@ import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
 import { formatAddress, formatCount, getRangeLabel, getStreakIcon } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import { RootState } from 'store';
 import { CloseHandler } from 'wrappers/CloseHandler';
 
 import { Button } from '../Button';
@@ -20,6 +22,8 @@ import * as S from './styles';
 import { IProps } from './types';
 
 export default function Streak(props: IProps) {
+	const ucmReducer = useSelector((state: RootState) => state.ucmReducer);
+
 	const orProvider = useOrderBookProvider();
 
 	const [ownerStreaks, setOwnerStreaks] = React.useState<any>(null);
@@ -31,16 +35,15 @@ export default function Streak(props: IProps) {
 	React.useEffect(() => {
 		(async function () {
 			if (orProvider.orderBook && showDropdown) {
-				const orderBookState = await orProvider.orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
-				if (orderBookState) {
-					setOwnerStreaks(await getOwnerStreaks(orderBookState.streaks, orProvider));
+				if (ucmReducer) {
+					setOwnerStreaks(await getOwnerStreaks(ucmReducer.streaks, orProvider));
 				}
 
 				const info = await orProvider.orderBook.api.arClient.arweavePost.network.getInfo();
 				setCurrentBlockHeight(info.height);
 			}
 		})();
-	}, [orProvider.orderBook, showDropdown]);
+	}, [orProvider.orderBook, showDropdown, ucmReducer]);
 
 	function getStreakHeader(count: number) {
 		if (count !== null) {

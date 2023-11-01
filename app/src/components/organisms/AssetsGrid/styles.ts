@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	margin: -15px;
-	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+	@media (max-width: ${STYLING.cutoffs.initial}) {
 		width: 100%;
 		margin: 0;
 	}
@@ -20,7 +20,7 @@ export const Header = styled.div`
 	flex-wrap: wrap;
 	margin-left: 15px;
 	margin-top: 20px;
-	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+	@media (max-width: ${STYLING.cutoffs.initial}) {
 		width: 100%;
 		margin: 0;
 	}
@@ -29,8 +29,9 @@ export const Header = styled.div`
 export const Header1 = styled.div`
 	height: 40px;
 	p {
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-family: ${(props) => props.theme.typography.family.alt1};
 	}
 `;
 
@@ -42,7 +43,7 @@ export const PICWrapper = styled.div`
 	border-radius: ${STYLING.dimensions.borderRadius};
 	background: ${(props) => props.theme.colors.container.primary.background};
 	position: relative;
-	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+	@media (max-width: ${STYLING.cutoffs.initial}) {
 		width: 100%;
 		margin: 0 0 40px 0;
 	}

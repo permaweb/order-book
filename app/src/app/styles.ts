@@ -129,7 +129,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     &:disabled {
-      cursor: not-allowed;
+      cursor: default;
     }
   }
 
@@ -147,7 +147,7 @@ export const GlobalStyle = createGlobalStyle`
       outline: 0;
     }
     &:disabled {
-      cursor: not-allowed;
+      cursor: default;
     }
   }
 
@@ -200,5 +200,25 @@ export const GlobalStyle = createGlobalStyle`
     background: ${(props) =>
 			`linear-gradient(to bottom, ${props.theme.colors.container.primary.backgroundGradient}, ${props.theme.colors.container.primary.background1Gradient})`};
     z-index: -1;
-  }  
+  }
+
+  .app-loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ${open} ${fadeIn2};
+    svg {
+      height: auto;
+      width: 75px;
+      margin: 0 0 12.5px 0;
+    }
+    span {
+      font-size: ${(props) => props.theme.typography.size.xSmall}
+    }
+  }
 `;

@@ -52,10 +52,11 @@ export const FramePreview = styled.div`
 	background: ${(props) => props.theme.colors.container.primary.background};
 `;
 
-export const Image = styled.img`
+export const Image = styled.img<{ contain: boolean }>`
 	height: 100%;
 	width: 100%;
-	object-fit: cover;
+	object-fit: ${(props) => (props.contain ? 'contain' : 'cover')};
+	background: ${(props) => props.theme.colors.container.alt12.background};
 `;
 
 export const AudioWrapper = styled.div`

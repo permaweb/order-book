@@ -30,7 +30,7 @@ export const CollectionCard = styled.div`
 export const InfoWrapper = styled.div`
 	height: 100%;
 	width: calc(100% - 800px);
-	padding: 110px 30px;
+	padding: 90px 30px;
 	h2,
 	p {
 		text-align: left;
@@ -39,6 +39,8 @@ export const InfoWrapper = styled.div`
 		line-height: 1.5;
 		margin: 0 0 25px 0;
 		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-size: clamp(28px, 3.35vw, 40px);
 	}
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
 		height: auto;

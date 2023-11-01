@@ -7,6 +7,7 @@ import { Drawer } from 'components/atoms/Drawer';
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'components/organisms/AssetData';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
+import { getCollectionByCode } from 'gql';
 import { ASSETS, STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
 import { OwnerListingType, OwnerType } from 'helpers/types';
@@ -41,7 +42,7 @@ export default function AssetDetailInfo(props: IAProps) {
 	React.useEffect(() => {
 		(async function () {
 			if (props.asset && props.asset.data.collectionCode && orProvider.orderBook) {
-				const collection = await orProvider.orderBook.api.getCollectionByCode({
+				const collection = await getCollectionByCode({
 					collectionCode: props.asset.data.collectionCode,
 				});
 				setCollection(collection);

@@ -25,6 +25,7 @@ export default function CollectionsSort(props: IProps) {
 					handlePress={() => props.setCurrentSort('stamps')}
 					active={props.currentSort === 'stamps'}
 					icon={props.currentSort === 'stamps' ? ASSETS.checkmark : null}
+					disabled={props.stampDisabled}
 					noMinWidth
 				/>
 			</S.Action>

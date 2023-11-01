@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { assetsReducer } from './assets/reducers';
 import { cursorsReducer } from './cursors/reducers';
 import { dreReducer } from './dre/reducers';
+import { ucmReducer } from './ucm/reducers';
 
 declare const window: any;
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
 	assetsReducer,
 	cursorsReducer,
 	dreReducer,
+	ucmReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,21 +1,17 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsTable } from 'components/organisms/AssetsTable';
 import { CollectionCard } from 'components/organisms/CollectionCard';
+import { getCollection } from 'gql';
 import { REDUX_TABLES } from 'helpers/redux';
-import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
-import * as assetActions from 'store/assets/actions';
 
 export default function Collection() {
 	const { id } = useParams();
-	const dispatch = useDispatch();
-
-	const orProvider = useOrderBookProvider();
 
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
@@ -25,14 +21,12 @@ export default function Collection() {
 
 	React.useEffect(() => {
 		(async function () {
-			if (id && orProvider.orderBook) {
+			if (id) {
 				setAssets(null);
 				setCollection(null);
 				setLoading(true);
 
-				dispatch(assetActions.setAssets({ collectionData: null }));
-
-				const collectionFetch = await orProvider.orderBook.api.getCollection({
+				const collectionFetch = await getCollection({
 					collectionId: id,
 					filterListings: false,
 					activeSort: 'low-to-high',
@@ -41,7 +35,7 @@ export default function Collection() {
 				setLoading(false);
 			}
 		})();
-	}, [id, orProvider.orderBook]);
+	}, [id]);
 
 	React.useEffect(() => {
 		if (assetsReducer.collectionData) {
@@ -50,7 +44,7 @@ export default function Collection() {
 		} else {
 			setLoading(true);
 		}
-	}, [assetsReducer.collectionData, collection]);
+	}, [assetsReducer.collectionData]);
 
 	return (
 		<>

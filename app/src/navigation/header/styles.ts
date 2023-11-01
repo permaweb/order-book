@@ -16,7 +16,6 @@ export const NavWrapper = styled.div`
 	height: calc(100% - 45px);
 	width: 100%;
 	max-width: ${STYLING.cutoffs.max};
-	padding: 0 20px;
 	display: flex;
 	position: absolute;
 	top: 50%;
@@ -31,9 +30,6 @@ export const NavContainer = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
-	background: ${(props) => props.theme.colors.navigation.header.backgroundNav};
-	border: 1px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadius};
 `;
 
 export const NavPaths = styled.div`
@@ -109,7 +105,7 @@ export const LogoContent = styled.div`
 	padding: 2.5px 0 0 0;
 	svg {
 		height: auto;
-		width: 150px;
+		width: 60px;
 	}
 `;
 
@@ -194,7 +190,7 @@ export const SearchWrapper = styled.div`
 	width: 600px;
 	max-width: 35%;
 	position: absolute;
-	left: 205px;
+	left: 115px;
 
 	@media (max-width: ${STYLING.cutoffs.max}) {
 		height: 100%;

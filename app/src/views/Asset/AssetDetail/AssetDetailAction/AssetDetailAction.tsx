@@ -57,7 +57,6 @@ export default function AssetDetailAction(props: IADProps) {
 	}, [asset]);
 
 	function getActiveSaleOrderPrice(owner: any) {
-		// if (props.asset.data.id === STAMP_CONTRACT) return `${owner.sellUnitPrice} U`;
 		return `${formatCount(
 			formatPrice(denominator ? owner.sellUnitPrice * denominator : owner.sellUnitPrice).toString()
 		)} U`;

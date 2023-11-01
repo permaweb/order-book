@@ -8,6 +8,7 @@ import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
 import { StampWidget } from 'components/organisms/StampWidget';
+import { getAssetById } from 'gql';
 import { ASSETS, COMMENT_SPEC } from 'helpers/config';
 import { language } from 'helpers/language';
 import { FinalCommentType, OwnerListingType, OwnerType, ResponseType, SequenceType } from 'helpers/types';
@@ -237,8 +238,6 @@ export default function AssetDetailComments(props: IAProps) {
 				const commentsFetch = await orProvider.orderBook.api.getComments({ id: props.asset.data.id, cursor: null });
 				const rankedComments = await getStampData(
 					commentsFetch.comments,
-					orProvider.orderBook.env.arClient.warpDefault,
-					orProvider.orderBook.env.arClient.arweavePost,
 					window.arweaveWallet,
 					true,
 					dreReducer.source
@@ -295,7 +294,7 @@ export default function AssetDetailComments(props: IAProps) {
 
 		if (orProvider.orderBook) {
 			try {
-				const comment = await orProvider.orderBook.api.getAssetById({ id: id });
+				const comment = await getAssetById({ id: id });
 				const ownerDetail = (
 					await getOwners([{ creator: comment.data.creator }], orProvider, props.asset as AssetDetailType)
 				)[0];

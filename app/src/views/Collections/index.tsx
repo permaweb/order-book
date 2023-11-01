@@ -5,13 +5,12 @@ import { CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
 import { Loader } from 'components/atoms/Loader';
 import { CollectionsTable } from 'components/organisms/CollectionsTable';
+import { getCollections } from 'gql';
 import { REDUX_TABLES } from 'helpers/redux';
 import { getStampData } from 'helpers/utils';
-import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 
 export default function Collections() {
-	const orProvider = useOrderBookProvider();
 	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	const [collections, setCollections] = React.useState<CollectionType[] | null>(null);
@@ -24,26 +23,22 @@ export default function Collections() {
 	});
 
 	React.useEffect(() => {
-		if (orProvider.orderBook) {
-			(async function () {
-				setCollections(null);
-				const collectionsFetch = await orProvider.orderBook.api.getCollections({
-					cursor: cursor,
-				});
-				const collections = await getStampData(
-					collectionsFetch.collections,
-					orProvider.orderBook.env.arClient.warpDefault,
-					orProvider.orderBook.env.arClient.arweavePost,
-					window.arweaveWallet,
-					true,
-					dreReducer.source
-				);
+		(async function () {
+			setCollections(null);
+			const collectionsFetch = await getCollections({
+				cursor: cursor,
+			});
+			const collections = await getStampData(
+				collectionsFetch.collections,
+				window.arweaveWallet,
+				true,
+				dreReducer.source
+			);
 
-				setCursorState(handleCursors(cursor, collectionsFetch.nextCursor, cursorState.list));
-				setCollections(collections);
-			})();
-		}
-	}, [orProvider.orderBook, dreReducer.source, cursor]);
+			setCursorState(handleCursors(cursor, collectionsFetch.nextCursor, cursorState.list));
+			setCollections(collections);
+		})();
+	}, [dreReducer.source, cursor]);
 
 	function handlePageFetch(updatedCursor: string | null) {
 		setCursor(updatedCursor);

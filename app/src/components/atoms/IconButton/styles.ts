@@ -37,7 +37,7 @@ export const Primary = styled.button<{
 				: props.theme.colors.icon.inactive};
 
 		&:hover {
-			cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+			cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
 			opacity: ${(props) => (props.disabled ? '1' : '0.75')};
 		}
 	}
@@ -72,7 +72,7 @@ export const Alt1 = styled(Primary)<{
 		transform: translate(-50%, -50%);
 
 		&:hover {
-			cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+			cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
 			opacity: 1;
 		}
 	}

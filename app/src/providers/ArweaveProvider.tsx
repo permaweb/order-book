@@ -1,14 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Arweave from 'arweave';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { CURRENCY_DICT, OrderBook, ORDERBOOK_CONTRACT, OrderBookType, ProfileType } from 'permaweb-orderbook';
+import { CURRENCY_DICT, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
-import { API_CONFIG, APP, AR_WALLETS, ASSETS, CURRENCIES, WALLET_PERMISSIONS } from 'helpers/config';
+import { getProfiles } from 'gql';
+import { APP, AR_WALLETS, ASSETS, CONTRACT_OPTIONS, WALLET_PERMISSIONS } from 'helpers/config';
 import { getArweaveBalanceEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { WalletEnum } from 'helpers/types';
@@ -82,9 +82,10 @@ function WalletList(props: { handleConnect: (walletType: WalletEnum.arConnect | 
 }
 
 export function ArweaveProvider(props: ArweaveProviderProps) {
+	const ucmReducer = useSelector((state: RootState) => state.ucmReducer);
+
 	const wallets = AR_WALLETS;
 
-	const [orderBook, setOrderBook] = React.useState<OrderBookType>();
 	const [walletModalVisible, setWalletModalVisible] = React.useState<boolean>(false);
 
 	const [wallet, setWallet] = React.useState<any>(null);
@@ -100,8 +101,6 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	const [newVersion, setNewVersion] = React.useState<boolean>(
 		!localStorage.getItem(APP.providerKey) || localStorage.getItem(APP.providerKey) !== APP.providerVersion
 	);
-
-	const dreReducer = useSelector((state: RootState) => state.dreReducer);
 
 	async function handleArConnect() {
 		if (!walletAddress) {
@@ -208,60 +207,33 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 	}, [walletType]);
 
 	React.useEffect(() => {
-		const arweaveGet = Arweave.init({
-			host: API_CONFIG.arweaveGet,
-			port: API_CONFIG.port,
-			protocol: API_CONFIG.protocol,
-			timeout: API_CONFIG.timeout,
-			logging: API_CONFIG.logging,
-		});
-
-		const arweavePost = Arweave.init({
-			host: API_CONFIG.arweavePost,
-			port: API_CONFIG.port,
-			protocol: API_CONFIG.protocol,
-			timeout: API_CONFIG.timeout,
-			logging: API_CONFIG.logging,
-		});
-
-		const warp = WarpFactory.forMainnet({
-			...defaultCacheOptions,
-			inMemory: true,
-		}).use(new DeployPlugin());
-
-		setOrderBook(
-			OrderBook.init({
-				currency: CURRENCIES.default,
-				arweaveGet: arweaveGet,
-				arweavePost: arweavePost,
-				bundlrKey: null,
-				warp: warp,
-				warpDreNode: dreReducer.source,
-			})
-		);
-	}, [dreReducer.source]);
-
-	React.useEffect(() => {
 		(async function () {
-			if (walletAddress && orderBook) {
-				const profile = await orderBook.api.getProfile({ walletAddress: walletAddress });
+			if (walletAddress && ucmReducer) {
+				const profile = (await getProfiles({ addresses: [walletAddress] }))[0];
 				if (profile) {
 					setArProfile(profile);
 				} else {
 					setArProfile(null);
 				}
+				const streak = ucmReducer.streaks[walletAddress];
+				setStreak(streak ? streak : { days: 0, lastHeight: 0 });
 			}
 		})();
-	}, [walletAddress, orderBook]);
+	}, [walletAddress, ucmReducer]);
 
 	React.useEffect(() => {
 		(async function () {
-			if (walletAddress && orderBook) {
-				const uCurrencyState = await orderBook.api.arClient.read(CURRENCY_DICT['U']);
+			if (walletAddress && ucmReducer) {
+				const warp = WarpFactory.forMainnet({
+					...defaultCacheOptions,
+					inMemory: true,
+				}).use(new DeployPlugin());
+
+				const contract = warp.contract(CURRENCY_DICT['U']).setEvaluationOptions(CONTRACT_OPTIONS);
+				const uCurrencyState = (await contract.readState()).cachedValue.state as any;
 				const uBalance = uCurrencyState.balances[walletAddress];
 
-				const orderBookState = await orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
-				const pixlBalance = orderBookState.balances[walletAddress];
+				const pixlBalance = ucmReducer.balances[walletAddress];
 
 				setCurrencyBalances({
 					U: uBalance ? uBalance : 0,
@@ -269,17 +241,7 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				});
 			}
 		})();
-	}, [walletAddress, orderBook, updateBalance]);
-
-	React.useEffect(() => {
-		(async function () {
-			if (walletAddress && orderBook) {
-				const orderBookState = await orderBook.api.arClient.read(ORDERBOOK_CONTRACT);
-				const streak = orderBookState.streaks[walletAddress];
-				setStreak(streak ? streak : { days: 0, lastHeight: 0 });
-			}
-		})();
-	}, [walletAddress, orderBook]);
+	}, [walletAddress, ucmReducer, updateBalance]);
 
 	return (
 		<>

@@ -72,7 +72,8 @@ export const Option = styled.li<{ active: boolean }>`
 	height: 40px;
 	display: flex;
 	align-items: center;
-	cursor: pointer;
+	cursor: ${(props) => (props.active ? 'default' : 'pointer')};
+	pointer-events: ${(props) => (props.active ? 'none' : 'all')};
 	color: ${(props) => props.theme.colors.font.primary.alt8};
 	font-size: ${(props) => props.theme.typography.size.xSmall};
 	font-weight: ${(props) => props.theme.typography.weight.medium};

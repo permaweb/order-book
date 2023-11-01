@@ -141,7 +141,6 @@ export async function getCollection(args: GetCollectionArgs): Promise<Collection
 		if (args.filterListings) {
 			items = collection.items.filter((id: string) => contractIds.includes(id));
 		} else {
-			// items = contractIds.filter((id: string) => collection.items.includes(id));
 			items = collection.items;
 		}
 

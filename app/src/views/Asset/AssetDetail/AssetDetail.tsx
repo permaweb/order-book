@@ -1,16 +1,20 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
+import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 import { initPubSub, subscribe } from 'warp-contracts-pubsub';
 
-import { AssetDetailType, OrderBookPairOrderType } from 'permaweb-orderbook';
+import { AssetDetailType, ORDERBOOK_CONTRACT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Loader } from 'components/atoms/Loader';
-import { APP, DRE_STATE_CHANNEL } from 'helpers/config';
+import { getAssetById } from 'gql';
+import { APP, CONTRACT_OPTIONS, DRE_STATE_CHANNEL } from 'helpers/config';
 import { language } from 'helpers/language';
 import { checkEqualBalances } from 'helpers/utils';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
-import { useOrderBookProvider } from 'providers/OrderBookProvider';
+import * as ucmActions from 'store/ucm/actions';
 
 import AssetDetailAction from './AssetDetailAction/AssetDetailAction';
 import { AssetDetailInfo } from './AssetDetailInfo';
@@ -19,11 +23,14 @@ import { IProps } from './types';
 
 initPubSub();
 
+LoggerFactory.INST.logLevel('fatal');
+
 export default function AssetDetail(props: IProps) {
+	const dispatch = useDispatch();
+
 	const navigate = useNavigate();
 
 	const arProvider = useArweaveProvider();
-	const orProvider = useOrderBookProvider();
 
 	const [asset, setAsset] = React.useState<AssetDetailType | null>(null);
 
@@ -32,7 +39,6 @@ export default function AssetDetail(props: IProps) {
 	const [updating, setUpdating] = React.useState<boolean>(false);
 
 	const [arProviderUpdate, setArProviderUpdate] = React.useState(false);
-	const [orProviderUpdate, _setOrProviderUpdate] = React.useState(false);
 
 	const [pendingOrderBookResponse, setPendingOrderBookResponse] = React.useState<{ tx: string } | null>(null);
 
@@ -55,18 +61,16 @@ export default function AssetDetail(props: IProps) {
 
 	React.useEffect(() => {
 		(async function () {
-			if (orProvider.orderBook) {
-				setLoading(true);
-				try {
-					setAsset((await orProvider.orderBook.api.getAssetById({ id: props.assetId })) as AssetDetailType);
-				} catch (e: any) {
-					console.error(e);
-					setErrorFetchingAsset(true);
-				}
-				setLoading(false);
+			setLoading(true);
+			try {
+				setAsset((await getAssetById({ id: props.assetId })) as AssetDetailType);
+			} catch (e: any) {
+				console.error(e);
+				setErrorFetchingAsset(true);
 			}
+			setLoading(false);
 		})();
-	}, [orProvider.orderBook, props.assetId]);
+	}, [props.assetId]);
 
 	async function updateAsset(poll: boolean) {
 		if (poll) {
@@ -76,65 +80,70 @@ export default function AssetDetail(props: IProps) {
 				await new Promise((r) => setTimeout(r, 3000));
 				tryCount++;
 
-				orProvider.setUpdate(!orProviderUpdate);
+				const warp = WarpFactory.forMainnet({
+					...defaultCacheOptions,
+					inMemory: true,
+				}).use(new DeployPlugin());
 
-				if (orProvider && orProvider.orderBook) {
-					const updatedAsset = (await orProvider.orderBook.api.getAssetById({
-						id: props.assetId,
-					})) as AssetDetailType;
+				const contract = warp.contract(ORDERBOOK_CONTRACT).setEvaluationOptions(CONTRACT_OPTIONS);
+				const contractState = (await contract.readState()).cachedValue.state as any;
+				dispatch(ucmActions.setUCM(contractState));
 
-					const currentAssetQuantities = asset.orders.reduce(
+				const updatedAsset = (await getAssetById({
+					id: props.assetId,
+				})) as AssetDetailType;
+
+				const currentAssetQuantities = asset.orders.reduce(
+					(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
+					0
+				);
+
+				const currentAssetBalances = Object.keys(asset.state.balances).map(
+					(address: string) => asset.state.balances[address]
+				);
+
+				if (updateAsset && updatedAsset.state && updatedAsset.state.balances) {
+					const updatedAssetBalances = Object.keys(updatedAsset.state.balances).map(
+						(address: string) => asset.state.balances[address]
+					);
+
+					const updatedAssetQuantities = updatedAsset.orders.reduce(
 						(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
 						0
 					);
 
-					const currentAssetBalances = Object.keys(asset.state.balances).map(
-						(address: string) => asset.state.balances[address]
-					);
+					let balanceCheck: boolean;
+					let quantityCheck: boolean;
+					if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
+						const asset = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`)).asset;
 
-					if (updateAsset && updatedAsset.state && updatedAsset.state.balances) {
-						const updatedAssetBalances = Object.keys(updatedAsset.state.balances).map(
-							(address: string) => asset.state.balances[address]
-						);
-
-						const updatedAssetQuantities = updatedAsset.orders.reduce(
+						const storageAssetQuantities = asset.orders.reduce(
 							(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
 							0
 						);
 
-						let balanceCheck: boolean;
-						let quantityCheck: boolean;
-						if (localStorage.getItem(`${APP.orderTx}-${props.assetId}`)) {
-							const asset = JSON.parse(localStorage.getItem(`${APP.orderTx}-${props.assetId}`)).asset;
+						const storageAssetBalances = Object.keys(asset.state.balances).map(
+							(address: string) => asset.state.balances[address]
+						);
 
-							const storageAssetQuantities = asset.orders.reduce(
-								(acc: number, order: OrderBookPairOrderType) => acc + order.quantity,
-								0
-							);
+						quantityCheck = storageAssetQuantities === updatedAssetBalances;
+						balanceCheck = checkEqualBalances(storageAssetBalances, updatedAssetBalances);
+					} else {
+						quantityCheck = currentAssetQuantities === updatedAssetQuantities;
+						balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
+					}
 
-							const storageAssetBalances = Object.keys(asset.state.balances).map(
-								(address: string) => asset.state.balances[address]
-							);
+					if ((!quantityCheck && !balanceCheck) || tryCount >= 10) {
+						localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
+						setArProviderUpdate((prev) => !prev);
+						setPendingOrderBookResponse(null);
+						setUpdating(true);
 
-							quantityCheck = storageAssetQuantities === updatedAssetBalances;
-							balanceCheck = checkEqualBalances(storageAssetBalances, updatedAssetBalances);
-						} else {
-							quantityCheck = currentAssetQuantities === updatedAssetQuantities;
-							balanceCheck = checkEqualBalances(currentAssetBalances, updatedAssetBalances);
-						}
-
-						if ((!quantityCheck && !balanceCheck) || tryCount >= 10) {
-							localStorage.removeItem(`${APP.orderTx}-${props.assetId}`);
-							setArProviderUpdate((prev) => !prev);
-							setPendingOrderBookResponse(null);
-							setUpdating(true);
-
-							setAsset(updatedAsset);
-							await new Promise((resolve) => setTimeout(resolve, 1000));
-							setUpdating(false);
-							fetchSuccess = true;
-							return;
-						}
+						setAsset(updatedAsset);
+						await new Promise((resolve) => setTimeout(resolve, 1000));
+						setUpdating(false);
+						fetchSuccess = true;
+						return;
 					}
 				}
 			}
@@ -146,7 +155,16 @@ export default function AssetDetail(props: IProps) {
 			setPendingOrderBookResponse(null);
 			setUpdating(true);
 
-			const updatedAsset = (await orProvider.orderBook.api.getAssetById({
+			const warp = WarpFactory.forMainnet({
+				...defaultCacheOptions,
+				inMemory: true,
+			}).use(new DeployPlugin());
+
+			const contract = warp.contract(ORDERBOOK_CONTRACT).setEvaluationOptions(CONTRACT_OPTIONS);
+			const contractState = (await contract.readState()).cachedValue.state as any;
+			dispatch(ucmActions.setUCM(contractState));
+
+			const updatedAsset = (await getAssetById({
 				id: props.assetId,
 			})) as AssetDetailType;
 
@@ -167,7 +185,7 @@ export default function AssetDetail(props: IProps) {
 			);
 		}
 
-		if (arProvider && orProvider.orderBook && orderBookResponse) {
+		if (arProvider && orderBookResponse) {
 			setPendingOrderBookResponse({ tx: orderBookResponse.originalTxId });
 
 			if (!orderBookResponse.bundlrResponse) {
@@ -181,7 +199,7 @@ export default function AssetDetail(props: IProps) {
 				}, 30000);
 
 				const orderBookSubscription = await subscribe(
-					DRE_STATE_CHANNEL(orProvider.orderBook.env.orderBookContract),
+					DRE_STATE_CHANNEL(ORDERBOOK_CONTRACT),
 					async ({ data }) => {
 						clearTimeout(timeoutId);
 						const parsedData = JSON.parse(data);

@@ -23,7 +23,7 @@ export const SearchIcon = styled.div<{ disabled: boolean | undefined }>`
         width: 15px;
         fill ${(props) => props.theme.colors.icon.primary.alt1.fill};
         &:hover {
-            cursor: ${(props) => (props.disabled ? 'not-allowed' : 'default')};
+            cursor: ${(props) => (props.disabled ? 'default' : 'default')};
         }
     }
 `;

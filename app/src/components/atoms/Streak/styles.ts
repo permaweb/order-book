@@ -32,7 +32,7 @@ export const SWrapper = styled.div`
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -53,7 +53,7 @@ export const BWrapper = styled.div`
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		font-size: ${(props) => props.theme.typography.size.small};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -104,7 +104,7 @@ export const SDStreak = styled.div`
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		font-size: ${(props) => props.theme.typography.size.lg};
 		font-weight: ${(props) => props.theme.typography.weight.medium};
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -130,7 +130,7 @@ export const SDCountdown = styled.div`
 		color: ${(props) => props.theme.colors.font.primary.alt13};
 		font-size: ${(props) => props.theme.typography.size.lg};
 		font-weight: ${(props) => props.theme.typography.weight.bold};
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 		margin: 10px 0;
 	}
 `;
@@ -289,6 +289,6 @@ export const MDetailFlex = styled.div`
 
 export const MDetailFlexAlt = styled(MDetailFlex)`
 	p {
-		font-family: ${(props) => props.theme.typography.family.alt1};
+		font-family: ${(props) => props.theme.typography.family.primary};
 	}
 `;

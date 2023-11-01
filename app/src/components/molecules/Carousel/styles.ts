@@ -21,8 +21,9 @@ export const Header = styled.div`
 	gap: 10px;
 	margin: 0 0 20px 0;
 	p {
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: ${(props) => props.theme.typography.weight.medium};
+		font-family: ${(props) => props.theme.typography.family.alt1};
 	}
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		flex-direction: column;

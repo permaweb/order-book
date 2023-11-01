@@ -1,5 +1,8 @@
 import Stamps from '@permaweb/stampjs';
+import Arweave from 'arweave';
 import { always, compose, cond, equals, identity, join, split, T, takeLast } from 'ramda';
+import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
+import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permaweb-orderbook';
@@ -7,6 +10,8 @@ import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permawe
 import { API_CONFIG, AR_PROFILE, ASSETS, STORAGE } from './config';
 import { language } from './language';
 import { DateType, OwnerListingType, OwnerType } from './types';
+
+LoggerFactory.INST.logLevel('fatal');
 
 export function getHost() {
 	return compose(
@@ -106,12 +111,23 @@ export function formatDisplayString(input: string): string {
 
 export async function getStampData(
 	dataFetch: CollectionType[] | AssetType[] | CommentType[] | string[],
-	warp: any,
-	arweave: any,
 	wallet: any,
 	useRank: boolean,
 	_dre: string
 ) {
+	const arweave = Arweave.init({
+		host: API_CONFIG.arweavePost,
+		port: API_CONFIG.port,
+		protocol: API_CONFIG.protocol,
+		timeout: API_CONFIG.timeout,
+		logging: API_CONFIG.logging,
+	});
+
+	const warp = WarpFactory.forMainnet({
+		...defaultCacheOptions,
+		inMemory: true,
+	}).use(new DeployPlugin());
+
 	const stamps = Stamps.init({
 		warp: warp,
 		arweave: arweave,

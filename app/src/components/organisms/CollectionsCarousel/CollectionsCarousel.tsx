@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { CollectionType } from 'permaweb-orderbook';
@@ -11,9 +10,6 @@ import { ASSETS } from 'helpers/config';
 import { language } from 'helpers/language';
 import { CollectionsSortType } from 'helpers/types';
 import * as urls from 'helpers/urls';
-import { getStampData } from 'helpers/utils';
-import { useOrderBookProvider } from 'providers/OrderBookProvider';
-import { RootState } from 'store';
 
 import { CollectionCard } from '../CollectionCard';
 import { CollectionsSort } from '../CollectionsSort';
@@ -24,9 +20,6 @@ import { IProps } from './types';
 export default function CollectionsCarousel(props: IProps) {
 	const navigate = useNavigate();
 
-	const orProvider = useOrderBookProvider();
-	const dreReducer = useSelector((state: RootState) => state.dreReducer);
-
 	const [collections, setCollections] = React.useState<CollectionType[] | null>(null);
 	const [currentSort, setCurrentSort] = React.useState<CollectionsSortType>('new');
 
@@ -34,32 +27,24 @@ export default function CollectionsCarousel(props: IProps) {
 		(async function () {
 			if (props.collections) {
 				setCollections(null);
-				setCollections(await sortCollections(props.collections));
+				const sortedCollections = sortCollections([...props.collections]);
+				setCollections(sortedCollections);
 			}
 		})();
 	}, [props.collections, currentSort]);
 
-	async function sortCollections(collectionsArg: CollectionType[]) {
+	function sortCollections(collectionsArg: CollectionType[]) {
 		switch (currentSort) {
 			case 'new':
-				const sortedCollections = collectionsArg.sort(
+				const timeSortedCollections = collectionsArg.sort(
 					(a: CollectionType, b: CollectionType) => b.block.timestamp - a.block.timestamp
 				);
-				return sortedCollections;
+				return timeSortedCollections;
 			case 'stamps':
-				if (orProvider.orderBook) {
-					const collectionsFetch = await orProvider.orderBook.api.getCollections({ cursor: null });
-					return await getStampData(
-						collectionsFetch.collections,
-						orProvider.orderBook.env.arClient.warpDefault,
-						orProvider.orderBook.env.arClient.arweavePost,
-						window.arweaveWallet,
-						true,
-						dreReducer.source
-					);
-				} else {
-					return collectionsArg;
-				}
+				const stampSortedCollections = collectionsArg.sort(
+					(a: CollectionType, b: CollectionType) => b.stamps.total - a.stamps.total
+				);
+				return stampSortedCollections;
 			default:
 				return collectionsArg;
 		}
@@ -83,6 +68,7 @@ export default function CollectionsCarousel(props: IProps) {
 								<CollectionsSort
 									currentSort={currentSort}
 									setCurrentSort={(sort: CollectionsSortType) => setCurrentSort(sort)}
+									stampDisabled={collections && !collections[0].stamps}
 								/>
 							}
 						/>

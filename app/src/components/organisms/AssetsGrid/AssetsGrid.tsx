@@ -57,7 +57,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 		})();
 	}, [props.asset]);
 
-	return (
+	return assetRender ? (
 		<S.PICWrapper>
 			{assetRender && !(assetRender.type === 'renderer') && (
 				<S.PCLink>
@@ -65,7 +65,13 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 				</S.PCLink>
 			)}
 			<S.PCWrapper>
-				<AssetData asset={props.asset} frameMinHeight={350} autoLoad={props.autoLoad} loadRenderer={loadRenderer} />
+				<AssetData
+					asset={props.asset}
+					assetRender={assetRender}
+					frameMinHeight={350}
+					autoLoad={props.autoLoad}
+					loadRenderer={loadRenderer}
+				/>
 			</S.PCWrapper>
 			<S.ICWrapper>
 				<S.ICFlex>
@@ -110,6 +116,15 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 					</S.ICWidgetIcons>
 				</S.ICBottom>
 			</S.ICWrapper>
+		</S.PICWrapper>
+	) : (
+		<S.PICWrapper>
+			<S.PCLoader>
+				<Loader placeholder />
+			</S.PCLoader>
+			<S.ICLoader>
+				<Loader placeholder />
+			</S.ICLoader>
 		</S.PICWrapper>
 	);
 }
