@@ -175,7 +175,7 @@ export default function WalletConnect(props: { callback?: () => void }) {
 								arProvider.arProfile.avatar === 'ar://OrG-ZG2WN3wdcwvpjz1ihPe4MI24QBJUpsJGIdL85wA' ? (
 									<ReactSVG src={ASSETS.user} />
 								) : (
-									<S.Avatar src={getTxEndpoint(arProvider.arProfile.avatar.substring(5))} />
+									<S.Avatar src={getTxEndpoint(arProvider.arProfile.avatar)} />
 								)}
 							</S.AvatarWrapper>
 							<S.DHeader>
