@@ -189,6 +189,7 @@ export const language = {
 	unitPriceAboveDecimal: `Unit price must be above 0.000001`,
 	unitPriceAboveZero: `Unit price must be above 0`,
 	unitPriceBelowDecimal: `Unit price must have at most 6 decimal places`,
+	updating: `Updating`,
 	updatingAsset: `Updating Asset`,
 	totalPriceAboveZero: `Unit price must be above 0`,
 	viewAllCollections: `View All Collections`,

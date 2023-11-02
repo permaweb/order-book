@@ -56,6 +56,14 @@ export default function CollectionsCarousel(props: IProps) {
 		});
 	}
 
+	function getStampSortDisabled() {
+		if (!collections) return true;
+		for (let i = 0; i < collections.length; i++) {
+			if (collections[i].stamps) return false;
+		}
+		return true;
+	}
+
 	function getData() {
 		if (collections) {
 			if (collections.length > 0) {
@@ -68,7 +76,7 @@ export default function CollectionsCarousel(props: IProps) {
 								<CollectionsSort
 									currentSort={currentSort}
 									setCurrentSort={(sort: CollectionsSortType) => setCurrentSort(sort)}
-									stampDisabled={collections && !collections[0].stamps}
+									stampDisabled={getStampSortDisabled()}
 								/>
 							}
 						/>

@@ -20,7 +20,7 @@ export default function AssetData(props: IProps) {
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 
 	const [loadError, setLoadError] = React.useState<boolean>(false);
-	const [contain, setContain] = React.useState<boolean>(false);
+	const [contain, setContain] = React.useState<boolean>(true);
 
 	function getAssetPath(assetResponse: any) {
 		if (props.asset) {
@@ -77,6 +77,8 @@ export default function AssetData(props: IProps) {
 					const imageElement = this as HTMLImageElement;
 					if (imageElement.height > imageElement.width || imageElement.width >= 2 * imageElement.height) {
 						setContain(true);
+					} else {
+						setContain(false);
 					}
 				};
 				img.onerror = function () {

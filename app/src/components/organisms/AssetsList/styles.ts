@@ -133,6 +133,8 @@ export const AFlex = styled.div`
 	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
 		width: 100%;
 		margin: 0 0 20px 0;
+		justify-content: space-between;
+		align-items: flex-start;
 	}
 `;
 
@@ -149,6 +151,9 @@ export const ATitle = styled.div`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+	@media (max-width: calc(${STYLING.cutoffs.initialWrapper} + 50px)) {
+		text-align: right;
 	}
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		width: 165px;

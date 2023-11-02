@@ -147,7 +147,7 @@ export const DCLineDetail = styled.p`
 	display: flex;
 	align-items: center;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
-		max-width: 120px;
+		max-width: 127.5px;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;

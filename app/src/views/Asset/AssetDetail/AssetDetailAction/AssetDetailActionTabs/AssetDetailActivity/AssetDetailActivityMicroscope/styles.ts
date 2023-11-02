@@ -9,6 +9,8 @@ export const Wrapper = styled.div`
 `;
 
 export const Header = styled.div`
+	display: flex;
+	justify-content: space-between;
 	p {
 		font-size: ${(props) => props.theme.typography.size.base};
 		line-height: calc(${(props) => props.theme.typography.size.base} + 5px);
@@ -24,6 +26,10 @@ export const Header = styled.div`
 		background: ${(props) => props.theme.colors.container.alt2.background};
 		border: 1px solid ${(props) => props.theme.colors.border.primary};
 		border-radius: ${STYLING.dimensions.borderRadiusField};
+	}
+	span {
+		display: block;
+		margin: 0 0 0 10px;
 	}
 `;
 

@@ -87,13 +87,22 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 		});
 
 		const layout = cy.layout({
-			name: 'elk',
-			nodeDimensionsIncludeLabels: true,
-			elk: {
-				algorithm: 'org.eclipse.elk.mrtree',
-				direction: 'DOWN',
-				separateConnectedComponents: true,
-			},
+			name: 'circle',
+			fit: true,
+			padding: 30,
+			avoidOverlap: true,
+			nodeDimensionsIncludeLabels: false,
+			spacingFactor: undefined,
+			radius: undefined,
+			startAngle: (3 / 2) * Math.PI,
+			sweep: undefined,
+			clockwise: true,
+			sort: undefined,
+			animate: 'end',
+			animationDuration: 500,
+			animationEasing: undefined,
+			ready: undefined,
+			stop: undefined,
 		});
 
 		layout.run();
@@ -158,6 +167,8 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 	const [activeOwner, setActiveOwner] = React.useState<OwnerType | OwnerListingType | null>(null);
 	const [activeAsset, setActiveAsset] = React.useState<AssetType | null>(null);
 
+	const [updateMessage, setUpdateMessage] = React.useState<string | null>(null);
+
 	React.useEffect(() => {
 		if (props.asset && props.activity)
 			setData(structureData(props.activity, props.asset.data.id, props.asset.data.creator));
@@ -176,6 +187,7 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 			if (data && data.length && data.length > 1 && JSON.stringify(prevDataRef.current) !== JSON.stringify(data)) {
 				let newNodes = [];
 				for (let i = 1; i < data.length; i++) {
+					setUpdateMessage(`${language.updating}...`);
 					const activityFetch = await orProvider.orderBook.api.getActivity({ id: data[i].data.id });
 					if (activityFetch.activity && activityFetch.activity.length) {
 						const childNodes = structureData(activityFetch.activity, data[i].data.id, data[i].data.owner);
@@ -190,6 +202,7 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 				} else {
 					prevDataRef.current = data;
 				}
+				setUpdateMessage(null);
 			}
 		})();
 	}, [data]);
@@ -217,6 +230,7 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 		<S.Wrapper className={'border-wrapper'}>
 			<S.Header>
 				<p>{language.relatedTransactions}</p>
+				{updateMessage && <span>{updateMessage}</span>}
 			</S.Header>
 			<Tree
 				data={data}

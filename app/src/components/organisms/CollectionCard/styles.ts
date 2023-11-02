@@ -104,17 +104,20 @@ export const FPContainer = styled.div`
 export const ImageWrapper = styled.div<{ backgroundImage: string }>`
 	height: 100%;
 	width: 800px;
+	max-width: 100%;
 	background-image: url(${(props) => props.backgroundImage});
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
+	background-color: ${(props) => props.theme.colors.container.alt12.background};
 	border-radius: ${STYLING.dimensions.borderRadius};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
-		height: 450px;
+		height: 192.5px;
 		width: 100%;
 		border-left: none;
 		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
+		// background-size: contain;
 	}
 `;
 
