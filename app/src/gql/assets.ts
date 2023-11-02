@@ -2,19 +2,16 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
 import {
-	ANS_FILTER_LIST,
 	BalanceType,
-	FILTERED_IDS,
 	getBalancesEndpoint,
 	getTagValue,
-	STAMP_CONTRACT,
 	STORAGE,
 	TAGS,
 	UDL_ICONS,
 	UserBalancesType,
 } from 'permaweb-orderbook';
 
-import { CONTRACT_OPTIONS, GATEWAYS } from 'helpers/config';
+import { ANS_FILTER_LIST, CONTRACT_OPTIONS, FILTERED_IDS, GATEWAYS, STAMP_CONTRACT } from 'helpers/config';
 import {
 	AGQLResponseType,
 	AssetDetailType,

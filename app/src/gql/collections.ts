@@ -1,13 +1,6 @@
-import {
-	DEFAULT_COLLECTION_BANNER,
-	DEFAULT_COLLECTION_THUMB,
-	FILTERED_IDS,
-	getTagValue,
-	STORAGE,
-	TAGS,
-} from 'permaweb-orderbook';
+import { DEFAULT_COLLECTION_BANNER, DEFAULT_COLLECTION_THUMB, getTagValue, STORAGE, TAGS } from 'permaweb-orderbook';
 
-import { CURSORS, GATEWAYS } from 'helpers/config';
+import { CURSORS, FILTERED_IDS, GATEWAYS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import {
 	CollectionAssetType,
