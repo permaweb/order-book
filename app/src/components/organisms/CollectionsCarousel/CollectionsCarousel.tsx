@@ -42,7 +42,7 @@ export default function CollectionsCarousel(props: IProps) {
 				return timeSortedCollections;
 			case 'stamps':
 				const stampSortedCollections = collectionsArg.sort(
-					(a: CollectionType, b: CollectionType) => b.stamps.total - a.stamps.total
+					(a: CollectionType, b: CollectionType) => (b.stamps ? b.stamps.total : 0) - (a.stamps ? a.stamps.total : 0)
 				);
 				return stampSortedCollections;
 			default:
