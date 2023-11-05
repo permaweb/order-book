@@ -315,7 +315,8 @@ export function sortAssets(assets: AssetType[], activeSort: AssetSortType): Asse
 
 export function sortPairs(pairs: OrderBookPairType[], activeSort: AssetSortType): OrderBookPairType[] {
 	if (activeSort === 'recently-listed') {
-		pairs.reverse();
+		const recentPairs = [...pairs].reverse();
+		return recentPairs;
 	}
 
 	const getSortKey = (pair: OrderBookPairType): number => {
