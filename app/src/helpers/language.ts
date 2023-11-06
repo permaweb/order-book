@@ -184,7 +184,7 @@ export const language = {
 	transactionId: `Transaction ID`,
 	transfer: `Transfer`,
 	transferPendingDescription: `Your transfer is pending and will resolve shortly, you may close this window.`,
-	uDescription: `$U is the native currency of the permaweb. $U creates a fast and efficient user experience for the permaweb with a focus on permanence and verification. Get $U by burning or swapping $AR here.`,
+	uDescription: `$U is the native currency of the permaweb. $U creates a fast and efficient user experience for the permaweb with a focus on permanence and verification.`,
 	unitPrice: `Unit Price`,
 	unitPriceAboveDecimal: `Unit price must be above 0.000001`,
 	unitPriceAboveZero: `Unit price must be above 0`,
