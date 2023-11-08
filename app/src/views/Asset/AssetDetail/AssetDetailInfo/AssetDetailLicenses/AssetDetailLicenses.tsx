@@ -67,6 +67,7 @@ export default function AssetDetailLicenses(props: IAProps) {
 				props.asset.data.udl.license.value !== CC_LICENSE &&
 				(props.asset.data.udl.accessFee.value !== STORAGE.none ||
 					props.asset.data.udl.licenseFee.value !== STORAGE.none ||
+					props.asset.data.udl.commercialFee.value !== STORAGE.none ||
 					props.asset.data.udl.derivationFee.value !== STORAGE.none) &&
 				payments
 			) {

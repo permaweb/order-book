@@ -117,6 +117,7 @@ export function getGQLResponseObject(args: GQLArgsType, gqlResponse: AGQLRespons
 	};
 }
 
+export * from './activity';
 export * from './assets';
 export * from './collections';
 export * from './profiles';

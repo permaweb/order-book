@@ -4,15 +4,15 @@ import cytoscape from 'cytoscape';
 import elk from 'cytoscape-elk';
 import { useTheme } from 'styled-components';
 
-import { ActivityElementType, AssetDetailType, AssetType } from 'permaweb-orderbook';
+import { AssetDetailType, AssetType } from 'permaweb-orderbook';
 
 import { TxAddress } from 'components/atoms/TxAddress';
 import { AssetData } from 'components/organisms/AssetData';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
-import { getAssetById } from 'gql';
+import { getActivity, getAssetById } from 'gql';
 import { REDIRECTS, STORAGE } from 'helpers/config';
 import { language } from 'helpers/language';
-import { OwnerListingType, OwnerType } from 'helpers/types';
+import { ActivityElementType, OwnerListingType, OwnerType } from 'helpers/types';
 import { getOwners } from 'helpers/utils';
 import { useOrderBookProvider } from 'providers/OrderBookProvider';
 
@@ -31,9 +31,9 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 				'background-color': theme.colors.button.primary.active.background,
 				'text-valign': 'center',
 				'text-halign': 'center',
-				height: props.data && props.data.length < 20 ? '15px' : '25px',
-				width: props.data && props.data.length < 20 ? '15px' : '25px',
-				'border-width': props.data && props.data.length < 20 ? '0.25px' : '1px',
+				height: '35px',
+				width: '35px',
+				'border-width': '1px',
 				'border-color': theme.colors.border.primary,
 				'overlay-opacity': 0,
 			},
@@ -42,6 +42,12 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 			selector: `node[type = "stamp"]`,
 			style: {
 				'background-color': theme.colors.stats.alt1,
+			},
+		},
+		{
+			selector: `node[type = "udl-interaction"]`,
+			style: {
+				'background-color': theme.colors.stats.alt4,
 			},
 		},
 		{
@@ -66,7 +72,7 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 			selector: 'edge',
 			style: {
 				'line-color': theme.colors.border.primary,
-				width: props.data && props.data.length < 20 ? 0.25 : 1.5,
+				width: 1.5,
 			},
 		},
 	];
@@ -89,7 +95,7 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 		const layout = cy.layout({
 			name: 'circle',
 			fit: true,
-			padding: 30,
+			padding: 5,
 			avoidOverlap: true,
 			nodeDimensionsIncludeLabels: false,
 			spacingFactor: undefined,
@@ -98,7 +104,7 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 			sweep: undefined,
 			clockwise: true,
 			sort: undefined,
-			animate: 'end',
+			animate: undefined,
 			animationDuration: 500,
 			animationEasing: undefined,
 			ready: undefined,
@@ -130,6 +136,9 @@ function Tree(props: { data: any; handleCallback: (node: any) => void; activeId:
 				switch (node.data().type) {
 					case 'stamp':
 						node.style('background-color', theme.colors.stats.alt1);
+						break;
+					case 'udl-interaction':
+						node.style('background-color', theme.colors.stats.alt4);
 						break;
 					case 'comment':
 						node.style('background-color', theme.colors.stats.alt2);
@@ -188,7 +197,7 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 				let newNodes = [];
 				for (let i = 1; i < data.length; i++) {
 					setUpdateMessage(`${language.updating}...`);
-					const activityFetch = await orProvider.orderBook.api.getActivity({ id: data[i].data.id });
+					const activityFetch = await getActivity({ id: data[i].data.id });
 					if (activityFetch.activity && activityFetch.activity.length) {
 						const childNodes = structureData(activityFetch.activity, data[i].data.id, data[i].data.owner);
 						newNodes = [...newNodes, ...childNodes];
@@ -271,6 +280,11 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 										<p>{activeNode.protocolName.charAt(0).toUpperCase() + activeNode.protocolName.slice(1)}</p>
 									</S.TFlex>
 								)}
+								{activeNode.interactionType && activeNode.interactionType !== STORAGE.none && (
+									<S.TFlex>
+										<p>{activeNode.interactionType.charAt(0).toUpperCase() + activeNode.interactionType.slice(1)}</p>
+									</S.TFlex>
+								)}
 								{activeNode && (
 									<S.ACLink>
 										<Link target={'_blank'} to={REDIRECTS.viewblock(activeNode.id)}>
@@ -297,6 +311,10 @@ export default function AssetDetailActivityMicroscope(props: IProps) {
 								<S.TKey background={theme.colors.stats.alt2} />
 								<p>{language.comment}</p>
 							</S.TKeyLine>
+							<S.TKeyLine>
+								<S.TKey background={theme.colors.stats.alt4} />
+								<p>{language.udlInteraction}</p>
+							</S.TKeyLine>
 						</S.TKeyWrapper>
 					</S.TxHeader>
 					{props.asset && activeAsset && activeAsset.data.id !== props.asset.data.id && (
@@ -318,6 +336,7 @@ function structureData(activity: ActivityElementType[], rootId: string, rootOwne
 			owner: element.owner,
 			dataProtocol: element.dataProtocol,
 			protocolName: element.protocolName,
+			interactionType: element.interactionType ? element.interactionType : null,
 			type: getType(element),
 		},
 	}));
@@ -328,6 +347,7 @@ function structureData(activity: ActivityElementType[], rootId: string, rootOwne
 			owner: rootOwner,
 			dataProtocol: STORAGE.none,
 			protocolName: STORAGE.none,
+			interactionType: null,
 			type: 'root',
 		},
 	});
@@ -342,6 +362,7 @@ function structureData(activity: ActivityElementType[], rootId: string, rootOwne
 				owner: element.owner,
 				dataProtocol: element.dataProtocol,
 				protocolName: element.protocolName,
+				interactionType: element.interactionType ? element.interactionType : null,
 				type: getType(element),
 			},
 		}))
@@ -353,5 +374,7 @@ function structureData(activity: ActivityElementType[], rootId: string, rootOwne
 function getType(element: ActivityElementType) {
 	if (element.protocolName && element.protocolName.toLowerCase() === 'stamp') return 'stamp';
 	if (element.dataProtocol && element.dataProtocol.toLowerCase() === 'comment') return 'comment';
+	if (element.interactionType && element.interactionType.toLowerCase().replace(' ', '') === 'udlinteraction')
+		return 'udl-interaction';
 	return null;
 }

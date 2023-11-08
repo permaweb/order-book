@@ -259,3 +259,20 @@ export type AssetDetailType = AssetType & {
 	state: any;
 	orders: any;
 };
+
+export type ActivityElementType = {
+	id: string;
+	dataProtocol: string | null;
+	dataSource: string;
+	dateCreated: number;
+	owner: string;
+	protocolName: string | null;
+	interactionType?: string;
+	stamps?: { total: number; vouched: number };
+};
+
+export type ActivityResponseType = {
+	activity: ActivityElementType[];
+	nextCursor: string | null;
+	previousCursor: string | null;
+};

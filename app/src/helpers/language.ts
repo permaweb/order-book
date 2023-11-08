@@ -191,6 +191,7 @@ export const language = {
 	unitPriceBelowDecimal: `Unit price must have at most 6 decimal places`,
 	updating: `Updating`,
 	updatingAsset: `Updating Asset`,
+	udlInteraction: `UDL Interaction`,
 	totalPriceAboveZero: `Unit price must be above 0`,
 	viewAllCollections: `View All Collections`,
 	viewblock: `Viewblock`,
