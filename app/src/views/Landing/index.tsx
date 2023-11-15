@@ -28,13 +28,17 @@ export default function Landing() {
 				const collectionsFetch = await getCollections({ cursor: null });
 				setCollections(collectionsFetch.collections);
 
-				const stampCollections = await getStampData(
-					collectionsFetch.collections,
-					window.arweaveWallet,
-					true,
-					dreReducer.source
-				);
-				setCollections(stampCollections);
+				try {
+					const stampCollections = await getStampData(
+						collectionsFetch.collections,
+						window.arweaveWallet,
+						true,
+						dreReducer.source
+					);
+					setCollections(stampCollections);
+				} catch (e: any) {
+					console.error(e);
+				}
 			} catch (e: any) {
 				console.error(e);
 				setCollections([]);

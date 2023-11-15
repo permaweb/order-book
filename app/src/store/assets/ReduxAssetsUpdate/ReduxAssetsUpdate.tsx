@@ -175,7 +175,12 @@ export default function ReduxAssetsUpdate(props: {
 						});
 
 						const rankByStamps = props.activeSort === 'by-stamps' || props.apiFetch === 'user';
-						const stampAssets = await getStampData(assets, window.arweaveWallet, rankByStamps, dreReducer.source);
+						let stampAssets;
+						try {
+							stampAssets = await getStampData(assets, window.arweaveWallet, rankByStamps, dreReducer.source);
+						} catch (e: any) {
+							stampAssets = assets;
+						}
 
 						const featuredStampAssets = sortAssets(
 							stampAssets.filter((_stampAsset, index) => cursorReducer.featuredGroup.includes(assets[index].data.id)),
