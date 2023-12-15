@@ -478,6 +478,13 @@ export const FILTERED_IDS = [
 	'4Ypwu-ZLApSGbibYEjMUxpCssboVSxhulu4lX__GqbA',
 	'DGySa2rCqnSKuRpeAkmIsGr4-xbrlsUShux4R-vKoo4',
 	'oQhPfuRPTRL4ISSy4-Ks44ZE-wFpYwkURpma-YSRPOI',
+	'FUs8F9UR8cDoSDNHhXRsCZNYV3tqxEYaCZMB1OoMLCc',
+	'QySf0tDrlAG-1c84kYSVvY4zlXbh7Wzo3RU87Ujjunw',
+	'2FzAOlpALIvy_p1r6L4-IgYdKdFgyor1Xsy0OmZGn1s',
+	'7aa-AfLUWrD47fBrbUFGLXCP2nwmq3ItJH5XnbOtF1g',
+	'akJgImE8yGzu6Hf3Zu65IVQjSMlbugJq_2_Eze_vh8g',
+	'Na9Zo3NsteOryL0vX5wDX7Reee3F5y8zHusRSAt-adA',
+	'',
 ];
 
 export const ANS_FILTER_LIST = [CURRENCY_DICT['U'], 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo'];
