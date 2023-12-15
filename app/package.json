@@ -40,7 +40,7 @@
 		"redux-persist": "^6.0.0",
 		"redux-thunk": "^2.4.2",
 		"styled-components": "^5.3.6",
-		"warp-contracts": "^1.4.15-rc.6",
+		"warp-contracts": "1.4.26",
 		"warp-contracts-plugin-deploy": "1.0.8",
 		"warp-contracts-plugin-signature": "1.0.15-beta.1",
 		"warp-contracts-pubsub": "^1.0.6",
