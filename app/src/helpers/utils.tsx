@@ -7,6 +7,8 @@ import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
 import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permaweb-orderbook';
 
+import { getProfiles } from 'gql';
+
 import { API_CONFIG, AR_PROFILE, ASSETS, STORAGE } from './config';
 import { language } from './language';
 import { DateType, OwnerListingType, OwnerType } from './types';
@@ -181,7 +183,7 @@ export async function getOwners(
 		const totalBalance = balances.reduce((a: number, b: number) => a + b, 0);
 
 		if (Array.isArray(addressObject)) {
-			const profiles = await orProvider.orderBook.api.getProfiles({
+			const profiles = await getProfiles({
 				addresses: addressObject.map((owner: any) => owner.creator),
 			});
 			const owners: OwnerListingType[] = [];
@@ -210,7 +212,7 @@ export async function getOwners(
 			}
 			return owners;
 		} else {
-			const profiles = await orProvider.orderBook.api.getProfiles({ addresses: Object.keys(addressObject) });
+			const profiles = await getProfiles({ addresses: Object.keys(addressObject) });
 			let owners: OwnerType[] = [];
 			for (let i = 0; i < profiles.length; i++) {
 				let avatar = profiles[i].avatar;

@@ -36,6 +36,8 @@ export const InfoWrapper = styled.div`
 		text-align: left;
 	}
 	h2 {
+		max-height: 170px;
+		overflow: hidden;
 		line-height: 1.5;
 		margin: 0 0 25px 0;
 		font-weight: ${(props) => props.theme.typography.weight.medium};
@@ -113,11 +115,10 @@ export const ImageWrapper = styled.div<{ backgroundImage: string }>`
 	border-radius: ${STYLING.dimensions.borderRadius};
 	border-left: 1px solid ${(props) => props.theme.colors.border.primary};
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
-		height: 192.5px;
+		height: 232.5px;
 		width: 100%;
 		border-left: none;
 		border-bottom: 1px solid ${(props) => props.theme.colors.border.primary};
-		// background-size: contain;
 	}
 `;
 
@@ -141,7 +142,7 @@ export const ImageLink = styled.div`
 		width: 100%;
 	}
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
-		height: 450px;
+		height: 192.5px;
 		width: 100%;
 		border-left: none;
 	}

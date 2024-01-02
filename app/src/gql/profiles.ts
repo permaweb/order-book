@@ -50,8 +50,8 @@ export async function getProfiles(args: { addresses: string[] }): Promise<Profil
 				finalProfile = {
 					handle: fetchedProfile.handle ? fetchedProfile.handle : null,
 					avatar: avatar,
-					twitter: fetchedProfile.links.twitter ? fetchedProfile.links.twitter : null,
-					discord: fetchedProfile.links.discord ? fetchedProfile.links.discord : null,
+					twitter: fetchedProfile.links && fetchedProfile.links.twitter ? fetchedProfile.links.twitter : null,
+					discord: fetchedProfile.links && fetchedProfile.links.discord ? fetchedProfile.links.discord : null,
 					walletAddress: args.addresses[i],
 				};
 			}

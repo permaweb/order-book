@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CollectionType, getTxEndpoint } from 'permaweb-orderbook';
+import { CollectionType, DEFAULT_COLLECTION_THUMB, getTxEndpoint } from 'permaweb-orderbook';
 
 import { Paginator } from 'components/molecules/Paginator';
 import { StampWidget } from 'components/organisms/StampWidget';
@@ -15,11 +15,29 @@ import { IProps } from './types';
 function CollectionRow(props: { collection: CollectionType; index: number }) {
 	const redirect = `${urls.collection}${props.collection.id}`;
 
+	// const [imageUrl, setImageUrl] = React.useState<string | null>(null);
+
+	// React.useEffect(() => {
+	// 	(async function () {
+	// 		const imageResponse = await fetch(
+	// 			getTxEndpoint(props.collection.thumbnail ? props.state.image : FALLBACK_IMAGE)
+	// 		);
+	// 		setImageUrl(imageResponse.status ? imageResponse.url : getTxEndpoint(FALLBACK_IMAGE));
+	// 	})();
+	// });
+
+	const [hasError, setHasError] = React.useState<boolean>(false);
+
 	let thumbnail: string = getTxEndpoint(props.collection.banner);
 	if (props.collection.thumbnail) {
-		thumbnail = checkAddress(props.collection.thumbnail)
-			? getTxEndpoint(props.collection.thumbnail)
-			: props.collection.thumbnail;
+		if (!hasError) {
+			if (props.collection.thumbnail.includes('https://')) thumbnail = props.collection.thumbnail;
+			else {
+				thumbnail = checkAddress(props.collection.thumbnail)
+					? getTxEndpoint(props.collection.thumbnail)
+					: props.collection.thumbnail;
+			}
+		} else thumbnail = DEFAULT_COLLECTION_THUMB;
 	}
 
 	return (
@@ -32,7 +50,7 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 							<Link to={redirect} />
 						</S.CollectionLink>
 						<S.ThumbnailWrapper>
-							<img src={thumbnail} />
+							<img src={thumbnail} onError={() => setHasError(true)} />
 						</S.ThumbnailWrapper>
 					</S.AWrapper>
 					<S.ATitle>
