@@ -7,6 +7,7 @@ import { CURRENCY_DICT, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
 import { OwnerInfo } from 'components/organisms/OwnerInfo';
+import { getProfiles } from 'gql';
 import { AR_PROFILE, ASSETS, CURRENCY_ICONS } from 'helpers/config';
 import { language } from 'helpers/language';
 import * as urls from 'helpers/urls';
@@ -96,7 +97,7 @@ export default function Streak(props: IProps) {
 					</>
 				);
 			} else return <span>{`${language.streakStart}!`}</span>;
-		} else return null;
+		} else return <span>{`${language.loading}...`}</span>;
 	}
 
 	return props.streak ? (
@@ -205,7 +206,7 @@ export default function Streak(props: IProps) {
 async function getOwnerStreaks(streaks: any, orProvider: any) {
 	let owners: any[] = await Promise.all(
 		Object.keys(streaks).map(async (address: string) => {
-			const profile = await orProvider.orderBook.api.getProfile({ walletAddress: address });
+			const profile = (await getProfiles({ addresses: [address] }))[0];
 			let handle = profile ? profile.handle : null;
 
 			let avatar = profile ? profile.avatar : null;

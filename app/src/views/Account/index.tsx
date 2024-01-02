@@ -5,9 +5,9 @@ import { useParams } from 'react-router-dom';
 import { AssetType, PAGINATOR } from 'permaweb-orderbook';
 
 import { AssetsTable } from 'components/organisms/AssetsTable';
+import { getProfiles } from 'gql';
 import { REDUX_TABLES } from 'helpers/redux';
 import * as windowUtils from 'helpers/window';
-import { useOrderBookProvider } from 'providers/OrderBookProvider';
 import { RootState } from 'store';
 import * as assetActions from 'store/assets/actions';
 import * as cursorActions from 'store/cursors/actions';
@@ -17,8 +17,6 @@ import { AccountHeader } from './AccountHeader';
 export default function Account() {
 	const { id } = useParams();
 	const dispatch = useDispatch();
-
-	const orProvider = useOrderBookProvider();
 
 	const [idParam, setIdParam] = React.useState<string | null>(null);
 
@@ -49,10 +47,17 @@ export default function Account() {
 	}, [idParam]);
 
 	React.useEffect(() => {
-		if (idParam && orProvider.orderBook) {
-			orProvider.orderBook.api.getProfile({ walletAddress: idParam }).then(setProfile);
-		}
-	}, [idParam, orProvider.orderBook]);
+		(async function () {
+			if (idParam) {
+				try {
+					const profile = (await getProfiles({ addresses: [idParam] }))[0];
+					setProfile(profile);
+				} catch (e: any) {
+					console.error(e);
+				}
+			}
+		})();
+	}, [idParam]);
 
 	React.useEffect(() => {
 		if (assetsReducer.accountData && assetsReducer.accountData.data) {
