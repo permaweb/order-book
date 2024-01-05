@@ -190,11 +190,11 @@ export async function getOwners(
 
 			if (profiles.length === addressObject.length) {
 				for (let i = 0; i < profiles.length; i++) {
-					let avatar = profiles[i].avatar;
+					let avatar = profiles[i].avatar ?? null;
 					if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
 					if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
 
-					let handle = profiles[i].handle;
+					let handle = profiles[i].handle ?? null;
 					handle =
 						!handle && profiles[i].walletAddress === orProvider.orderBook.env.orderBookContract
 							? language.orderBook
@@ -215,14 +215,14 @@ export async function getOwners(
 			const profiles = await getProfiles({ addresses: Object.keys(addressObject) });
 			let owners: OwnerType[] = [];
 			for (let i = 0; i < profiles.length; i++) {
-				let avatar = profiles[i].avatar;
+				let avatar = profiles[i].avatar ?? null;
 				if (avatar === AR_PROFILE.defaultAvatar) avatar = null;
 				if (avatar && avatar.includes('ar://')) avatar = avatar.substring(5);
 
 				owners.push({
 					address: profiles[i].walletAddress,
-					handle: profiles[i].handle,
-					avatar: profiles[i].avatar,
+					handle: profiles[i].handle ?? null,
+					avatar: profiles[i].avatar ?? null,
 					balance: addressObject[profiles[i].walletAddress],
 					ownerPercentage: addressObject[profiles[i].walletAddress] / totalBalance,
 				});
