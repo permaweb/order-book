@@ -42,10 +42,12 @@ export default function AssetDetailInfo(props: IAProps) {
 	React.useEffect(() => {
 		(async function () {
 			if (props.asset && props.asset.data.collectionCode && orProvider.orderBook) {
-				const collection = await getCollectionByCode({
+				const collectionFetch = await getCollectionByCode({
 					collectionCode: props.asset.data.collectionCode,
 				});
-				setCollection(collection);
+				setCollection(collectionFetch);
+
+				console.log(props.asset.data);
 			}
 		})();
 	}, [props.asset, orProvider.orderBook]);

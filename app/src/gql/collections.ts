@@ -1,6 +1,6 @@
 import { DEFAULT_COLLECTION_BANNER, DEFAULT_COLLECTION_THUMB, getTagValue, STORAGE, TAGS } from 'permaweb-orderbook';
 
-import { CURSORS, FILTERED_IDS, GATEWAYS } from 'helpers/config';
+import { FILTERED_IDS, GATEWAYS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import {
 	CollectionAssetType,
@@ -105,45 +105,48 @@ export async function getCollectionByCode(args: { collectionCode: string }): Pro
 		});
 
 		cursor = initCollectionGql.nextCursor;
-		let endCheck: boolean = cursor === CURSORS.end;
-		if (endCheck) {
-			if (initCollectionGql.data.length < 1) return null;
-			else {
-				for (let i = 0; i < initCollectionGql.data.length; i++) {
-					const node = initCollectionGql.data[i].node;
-					const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
-					if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
-						return await buildCollection({ node, items: null, useProfile: true });
-					}
-				}
-			}
-		} else {
-			while (!endCheck) {
-				const updatedGql = await getGQLData({
-					gateway: GATEWAYS.arweave,
-					ids: null,
-					tagFilters: [{ name: TAGS.keys.collectionCode, values: [args.collectionCode] }],
-					owners: null,
-					cursor: cursor,
-					reduxCursor: null,
-					cursorObjectKey: CursorEnum.GQL,
-				});
-
-				cursor = updatedGql.nextCursor;
-				endCheck = cursor === CURSORS.end;
-
-				if (updatedGql.data.length < 1) return null;
-				else {
-					for (let i = 0; i < updatedGql.data.length; i++) {
-						const node = updatedGql.data[i].node;
-						const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
-						if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
-							return await buildCollection({ node, items: null, useProfile: true });
-						}
-					}
+		// let endCheck: boolean = cursor === CURSORS.end;
+		// if (endCheck) {
+		if (initCollectionGql.data.length < 1) return null;
+		else {
+			for (let i = 0; i < initCollectionGql.data.length; i++) {
+				const node = initCollectionGql.data[i].node;
+				const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
+				if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
+					return await buildCollection({ node, items: null, useProfile: true });
 				}
 			}
 		}
+		// }
+		// else {
+		// 	let count = 0;
+		// 	while (!endCheck || count < 5) {
+		// 		count = count + 1;
+		// 		const updatedGql = await getGQLData({
+		// 			gateway: GATEWAYS.arweave,
+		// 			ids: null,
+		// 			tagFilters: [{ name: TAGS.keys.collectionCode, values: [args.collectionCode] }],
+		// 			owners: null,
+		// 			cursor: cursor,
+		// 			reduxCursor: null,
+		// 			cursorObjectKey: CursorEnum.GQL,
+		// 		});
+
+		// 		cursor = updatedGql.nextCursor;
+		// 		endCheck = cursor === CURSORS.end;
+
+		// 		if (updatedGql.data.length < 1) return null;
+		// 		else {
+		// 			for (let i = 0; i < updatedGql.data.length; i++) {
+		// 				const node = updatedGql.data[i].node;
+		// 				const dataProtocol = getTagValue(node.tags, TAGS.keys.dataProtocol);
+		// 				if (dataProtocol && dataProtocol.toLowerCase() === TAGS.values.collection.toLowerCase()) {
+		// 					return await buildCollection({ node, items: null, useProfile: true });
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 	} catch (error: any) {
 		console.error(error);
 	}

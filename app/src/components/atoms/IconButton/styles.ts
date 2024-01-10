@@ -63,8 +63,8 @@ export const Alt1 = styled(Primary)<{
 	}
 
 	svg {
-		height: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
-		width: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `17.5px`)};
+		height: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `15px`)};
+		width: ${(props) => (props.dimensions ? `${props.dimensions.icon.toString()}px` : `15px`)};
 		fill: ${(props) => props.theme.colors.button.primary.label};
 		position: absolute;
 		top: 50%;

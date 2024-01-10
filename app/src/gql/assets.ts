@@ -183,6 +183,8 @@ export function getValidatedAssets(gqlData: AGQLResponseType, pairs?: OrderBookP
 		const holderTitle = getTagValue(gqlData.data[i].node.tags, TAGS.keys.holderTitle);
 		const dataProtocol = getTagValue(gqlData.data[i].node.tags, TAGS.keys.dataProtocol);
 
+		const dateCreated = getTagValue(gqlData.data[i].node.tags, TAGS.keys.dateCreated);
+
 		if (gqlData.data[i].node.id === STAMP_CONTRACT) {
 			title = '$STAMP Token';
 			description =
@@ -205,7 +207,11 @@ export function getValidatedAssets(gqlData: AGQLResponseType, pairs?: OrderBookP
 					holderTitle: holderTitle ? holderTitle : null,
 					dateCreated: gqlData.data[i].node.block
 						? gqlData.data[i].node.block.timestamp * 1000
-						: gqlData.data[i].node.timestamp,
+						: gqlData.data[i].node.timestamp
+						? gqlData.data[i].node.timestamp
+						: dateCreated !== STORAGE.none
+						? Number(dateCreated)
+						: 0,
 					blockHeight: gqlData.data[i].node.block ? gqlData.data[i].node.block.height : 0,
 					creator:
 						creator && creator !== STORAGE.none
