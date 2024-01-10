@@ -21,7 +21,7 @@ export default function CollectionsCarousel(props: IProps) {
 	const navigate = useNavigate();
 
 	const [collections, setCollections] = React.useState<CollectionType[] | null>(null);
-	const [currentSort, setCurrentSort] = React.useState<CollectionsSortType>('stamps');
+	const [currentSort, setCurrentSort] = React.useState<CollectionsSortType>('new');
 
 	React.useEffect(() => {
 		(async function () {

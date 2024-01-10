@@ -487,6 +487,19 @@ export const FILTERED_IDS = [
 	'ZRK28PABoWhGdPhWJ9m-G-KSrDy5EjQy-Ozn27qthAU',
 	'oQp3EsloR3jVJCOtnPdQUAXVmQJzDHsJyHBfj7-RPUg',
 	'yAhYg3GmiV2VlYiFSaHpj8RPVuXkbbxFmChiJxRI-8U',
+	'Yhw7i0bN_MukGd_ABoDxRPXH-DzRE9W6PUn-fwqOQI0',
+	'yhD12uUysr9lZNK_nwgkpQ-amkctVJiF6Jq3_-sMbgc',
+	'uwy2OLIPIWuRtAr4a4hzy-1WXs4mo_F3opJaW4z3-lY',
+	'TuW2KENVTWg-k2Pv_s4pFmb61is3o9Dzb8oqcGtCKaY',
+	'SnBfHNu55CGV3surC7_HK8sQSjekn3eugrx9ZQLVdlk',
+	'nUuszlBIHsKOlJbctPRJoznwrrh38yZ40IjnUs8Zdmc',
+	'n0kXNSH4QGyVBfdvhYkPFjz6T5lppldAjLfAjzxporM',
+	'GdnFpN4SkfRcvrBolWeffC6Qg42HnLBpu8lGkUIhbHY',
+	'GdnFpN4SkfRcvrBolWeffC6Qg42HnLBpu8lGkUIhbHY',
+	'1ThvhrPOs9bQfVIKXRMVcItc3WLruvSOpXTh1bFyHbY',
+	'8S-uZ1k8oKcLg21IbM4KSTIGY4IRFJIgms5TuzAi7xc',
+	'm-kP0eoljmAlY17o1Sj7a9YHhs54EcRIhJX1weqDXng',
+	'yif1-t4XkrJ-lQEqy0tEO3x7PRJaCi16WRtVTChlJnk',
 ];
 
 export const ANS_FILTER_LIST = [CURRENCY_DICT['U'], 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo'];
