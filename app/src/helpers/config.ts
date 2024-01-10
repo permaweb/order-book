@@ -484,7 +484,9 @@ export const FILTERED_IDS = [
 	'7aa-AfLUWrD47fBrbUFGLXCP2nwmq3ItJH5XnbOtF1g',
 	'akJgImE8yGzu6Hf3Zu65IVQjSMlbugJq_2_Eze_vh8g',
 	'Na9Zo3NsteOryL0vX5wDX7Reee3F5y8zHusRSAt-adA',
-	'',
+	'ZRK28PABoWhGdPhWJ9m-G-KSrDy5EjQy-Ozn27qthAU',
+	'oQp3EsloR3jVJCOtnPdQUAXVmQJzDHsJyHBfj7-RPUg',
+	'yAhYg3GmiV2VlYiFSaHpj8RPVuXkbbxFmChiJxRI-8U',
 ];
 
 export const ANS_FILTER_LIST = [CURRENCY_DICT['U'], 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo'];
