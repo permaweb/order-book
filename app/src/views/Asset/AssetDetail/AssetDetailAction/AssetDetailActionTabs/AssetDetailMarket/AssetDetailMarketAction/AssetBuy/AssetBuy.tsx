@@ -261,6 +261,11 @@ export default function AssetBuy(props: IProps) {
 		);
 	}
 
+	function getTotalSalesPercentage() {
+		if (totalSalesBalance <= 0 || totalBalance <= 0) return `0%`;
+		return `${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`;
+	}
+
 	return (
 		<>
 			<S.Wrapper>
@@ -277,7 +282,7 @@ export default function AssetBuy(props: IProps) {
 						</S.DCLine>
 						<S.DCLine>
 							<S.DCLineHeader>{`${language.totalSalesPercentage}:`}</S.DCLineHeader>
-							<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
+							<S.DCLineDetail>{getTotalSalesPercentage()}</S.DCLineDetail>
 						</S.DCLine>
 					</S.DCWrapper>
 				) : (

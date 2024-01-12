@@ -43,7 +43,7 @@ export const AvatarWrapper = styled.div`
 	margin: 0 5px 0 0;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border: 1.5px solid ${(props) => props.theme.colors.border.primary};
-	border-radius: ${STYLING.dimensions.borderRadius};
+	border-radius: 50%;
 	svg {
 		height: 65px;
 		width: 65px;
@@ -57,7 +57,7 @@ export const AvatarWrapper = styled.div`
 export const Avatar = styled.img`
 	height: 100%;
 	width: 100%;
-	border-radius: ${STYLING.dimensions.borderRadiusField};
+	border-radius: 50%;
 `;
 
 export const HeaderContainer = styled.div``;
@@ -65,7 +65,7 @@ export const HeaderContainer = styled.div``;
 export const Header = styled.div`
 	margin: 0 0 20px 0;
 	h2 {
-		font-weight: ${(props) => props.theme.typography.weight.mediumß};
+		font-weight: ${(props) => props.theme.typography.weight.bold};
 		font-family: ${(props) => props.theme.typography.family.alt1};
 		color: ${(props) => props.theme.colors.font.primary.alt8};
 		text-align: left;

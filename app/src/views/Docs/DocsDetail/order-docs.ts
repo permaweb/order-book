@@ -18,7 +18,7 @@ export const docsOrder = [
 			{
 				name: 'Customize a permaweb profile',
 				path: 'creating-a-permaweb-profile',
-			}
+			},
 		],
 	},
 	{
@@ -44,7 +44,7 @@ export const docsOrder = [
 			{
 				name: 'Stamp token ($STAMP)',
 				path: 'stamp-token',
-			}
+			},
 		],
 	},
 	{
@@ -62,7 +62,7 @@ export const docsOrder = [
 			{
 				name: 'What is the Universal Data License (UDL)?',
 				path: 'universal-data-license',
-			}
+			},
 		],
 	},
 ];

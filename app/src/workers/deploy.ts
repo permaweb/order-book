@@ -1,25 +1,24 @@
-const Bundlr = require('@bundlr-network/client');
 const Arweave = require('arweave');
+const Irys = require('@irys/sdk');
 const { defaultCacheOptions, WarpFactory } = require('warp-contracts');
 
 const ANT = 'qsxW8tchN_UVORsCSehUxMNbexsDd7hXpWFQi_jt22M';
 const DEPLOY_FOLDER = './dist';
-const BUNDLR_NODE = 'https://node2.bundlr.network';
+const UPLOAD_NODE = 'https://turbo.ardrive.io';
 
 (async () => {
 	const jwk = JSON.parse(Buffer.from(process.env.DEPLOY_KEY as any, 'base64').toString('utf-8'));
 
-	const arweave = Arweave.init({ host: 'arweave.net', port: 443, protocol: 'https' });
-	const bundlr = new (Bundlr as any).default(BUNDLR_NODE, 'arweave', jwk);
-	const warp = WarpFactory.custom(arweave, defaultCacheOptions, 'mainnet').useArweaveGateway().build();
+	const irys = new Irys({ url: UPLOAD_NODE, token: 'arweave', key: jwk });
 
+	const arweave = Arweave.init({ host: 'arweave.net', port: 443, protocol: 'https' });
+	const warp = WarpFactory.custom(arweave, defaultCacheOptions, 'mainnet').useArweaveGateway().build();
 	const warpContract = warp.contract(ANT).connect(jwk);
 	const contractState: any = (await warpContract.readState()).cachedValue.state;
-	console.log(contractState);
 
 	try {
 		console.log(`Deploying ${DEPLOY_FOLDER} folder`);
-		const bundlrResult = await bundlr.uploadFolder(DEPLOY_FOLDER, {
+		const txResult = await irys.uploadFolder(DEPLOY_FOLDER, {
 			indexFile: 'index.html',
 		});
 
@@ -29,12 +28,12 @@ const BUNDLR_NODE = 'https://node2.bundlr.network';
 			{
 				function: 'setRecord',
 				subDomain: '@',
-				transactionId: bundlrResult.id,
+				transactionId: txResult.id,
 			},
 			{ disableBundling: true }
 		);
 
-		console.log(`Deployed [${bundlrResult.id}] to [${contractState.name}]`);
+		console.log(`Deployed [${txResult.id}] to [${contractState.name}]`);
 	} catch (e: any) {
 		console.error(e);
 	}

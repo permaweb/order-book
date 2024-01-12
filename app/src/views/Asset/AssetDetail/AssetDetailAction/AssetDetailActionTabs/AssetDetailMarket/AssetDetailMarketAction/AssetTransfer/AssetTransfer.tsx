@@ -289,6 +289,11 @@ export default function AssetTransfer(props: IProps) {
 		}
 	}
 
+	function getTotalTransferPercentage() {
+		if (totalTransferBalance <= 0 || totalBalance <= 0) return `0%`;
+		return `${((totalTransferBalance / totalBalance) * 100).toFixed(2)}%`;
+	}
+
 	return (
 		<>
 			<S.Wrapper>
@@ -304,7 +309,7 @@ export default function AssetTransfer(props: IProps) {
 						</S.DCLine>
 						<S.DCLine>
 							<S.DCLineHeader>{`${language.totalAvailableTransferPercentage}:`}</S.DCLineHeader>
-							<S.DCLineDetail>{`${((totalTransferBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
+							<S.DCLineDetail>{getTotalTransferPercentage()}</S.DCLineDetail>
 						</S.DCLine>
 					</S.DCWrapper>
 				) : (
@@ -368,7 +373,11 @@ export default function AssetTransfer(props: IProps) {
 							</S.TransferInfoContainer>
 							<S.TransferInfoContainer>
 								<span>{language.totalTransferPercentage}</span>
-								<p>{isNaN(quantity) || quantity < 0 ? `0.00%` : `${((quantity / totalBalance) * 100).toFixed(2)}%`}</p>
+								<p>
+									{isNaN(quantity) || quantity <= 0 || isNaN(totalBalance) || totalBalance <= 0
+										? `0.00%`
+										: `${((quantity / totalBalance) * 100).toFixed(2)}%`}
+								</p>
 							</S.TransferInfoContainer>
 						</S.TransferInfoWrapper>
 					</S.TransferWrapper>

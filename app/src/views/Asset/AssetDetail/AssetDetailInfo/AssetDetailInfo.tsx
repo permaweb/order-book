@@ -46,8 +46,6 @@ export default function AssetDetailInfo(props: IAProps) {
 					collectionCode: props.asset.data.collectionCode,
 				});
 				setCollection(collectionFetch);
-
-				console.log(props.asset.data);
 			}
 		})();
 	}, [props.asset, orProvider.orderBook]);

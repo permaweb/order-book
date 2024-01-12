@@ -8,6 +8,4 @@ User's reward share weight starts at one, and each additional day of the streak 
 
 Read more about the tokenomics of $PIXL [here](https://ucm-wiki.g8way.io/#/en/PIXL-Token).
 
-
 **Disclaimer: $PIXL is a fun reward designed to incentivize discovery and interaction with atomic assets, and does not necessarily have financial value.**
-

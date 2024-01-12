@@ -330,6 +330,11 @@ export default function AssetSell(props: IProps) {
 		}
 	}
 
+	function getTotalSalesPercentage() {
+		if (totalSalesBalance <= 0 || totalBalance <= 0) return `0%`;
+		return `${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`;
+	}
+
 	return (
 		<>
 			<S.Wrapper>
@@ -345,7 +350,7 @@ export default function AssetSell(props: IProps) {
 						</S.DCLine>
 						<S.DCLine>
 							<S.DCLineHeader>{`${language.totalAvailableSalesPercentage}:`}</S.DCLineHeader>
-							<S.DCLineDetail>{`${((totalSalesBalance / totalBalance) * 100).toFixed(2)}%`}</S.DCLineDetail>
+							<S.DCLineDetail>{getTotalSalesPercentage()}</S.DCLineDetail>
 						</S.DCLine>
 					</S.DCWrapper>
 				) : (
@@ -401,11 +406,15 @@ export default function AssetSell(props: IProps) {
 						<S.SpendInfoWrapper>
 							<S.SpendInfoContainer>
 								<span>{language.totalListingQuantity}</span>
-								<p>{isNaN(quantity) || quantity < 0 ? 0 : formatCount(quantity.toString())}</p>
+								<p>{isNaN(quantity) || quantity <= 0 ? 0 : formatCount(quantity.toString())}</p>
 							</S.SpendInfoContainer>
 							<S.SpendInfoContainer>
 								<span>{language.totalListingPercentage}</span>
-								<p>{isNaN(quantity) || quantity < 0 ? `0.00%` : `${((quantity / totalBalance) * 100).toFixed(2)}%`}</p>
+								<p>
+									{isNaN(quantity) || quantity <= 0 || isNaN(totalBalance) || totalBalance <= 0
+										? `0.00%`
+										: `${((quantity / totalBalance) * 100).toFixed(2)}%`}
+								</p>
 							</S.SpendInfoContainer>
 						</S.SpendInfoWrapper>
 						<S.PriceInfoWrapper>
