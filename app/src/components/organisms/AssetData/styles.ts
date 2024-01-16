@@ -49,7 +49,7 @@ export const FramePreview = styled.div`
 	img {
 		border-radius: ${STYLING.dimensions.borderRadius};
 	}
-	background: ${(props) => props.theme.colors.container.primary.background};
+	background: ${(props) => props.theme.colors.container.alt1.background};
 `;
 
 export const Image = styled.img<{ contain: boolean }>`

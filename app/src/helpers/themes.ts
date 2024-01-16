@@ -66,7 +66,7 @@ export const defaultTheme: DefaultTheme = {
 			color: DEFAULT.neutral4,
 		},
 		border: {
-			primary: DEFAULT.neutral5,
+			primary: DEFAULT.neutral8,
 			alt1: DEFAULT.primary3,
 			alt2: DEFAULT.primary4,
 			alt3: DEFAULT.neutral6,
@@ -323,7 +323,7 @@ export const defaultTheme: DefaultTheme = {
 			},
 		},
 		shadow: {
-			primary: DEFAULT.neutral9,
+			primary: DEFAULT.neutral17,
 		},
 		stats: {
 			primary: DEFAULT.stats.primary,

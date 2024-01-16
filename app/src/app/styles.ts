@@ -177,12 +177,14 @@ export const GlobalStyle = createGlobalStyle`
     background: ${(props) => props.theme.colors.container.primary.background};
     border-radius: ${STYLING.dimensions.borderRadius};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
+    box-shadow: 0 5px 15px 0 ${(props) => props.theme.colors.shadow.primary};
   }
 
   .border-wrapper-alt {
     background: ${(props) => props.theme.colors.container.alt2.background};
     border-radius: ${STYLING.dimensions.borderRadius};
     border: 1px solid ${(props) => props.theme.colors.border.primary};
+    box-shadow: 0 5px 15px 0 ${(props) => props.theme.colors.shadow.primary};
   }
 
   .background-wrapper {

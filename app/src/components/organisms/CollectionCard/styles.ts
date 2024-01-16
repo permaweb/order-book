@@ -142,7 +142,7 @@ export const ImageLink = styled.div`
 		width: 100%;
 	}
 	@media (max-width: ${STYLING.cutoffs.initialWrapper}) {
-		height: 192.5px;
+		height: 232.5px;
 		width: 100%;
 		border-left: none;
 	}

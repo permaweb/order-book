@@ -26,8 +26,7 @@ export default function Landing() {
 		(async function () {
 			try {
 				const collectionsFetch = await getCollections({ cursor: null });
-				setCollections(collectionsFetch.collections);
-
+				// setCollections(collectionsFetch.collections);
 				try {
 					const stampCollections = await getStampData(
 						collectionsFetch.collections,
