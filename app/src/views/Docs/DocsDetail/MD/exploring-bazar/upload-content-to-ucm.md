@@ -4,7 +4,7 @@ As BazAR serves as a user interface for the UCM protocol, there are multiple met
 
 Content can be uploaded from:
 
-- [Atomic asset collection uploader](https://atomicasset.arweave.dev/#/collection-create)
+- [Helix collection creator and uploader](https://helix.arweave.dev/)
 - [Akord Mint](https://mint.akord.com/login)
 - [Fair Protocol AI generated art](https://fair.arweave.dev/)
 - [Alex. Archive Artifact sponsorships](https://alex.arweave.dev/#/trade/)
