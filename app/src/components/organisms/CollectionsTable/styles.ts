@@ -44,7 +44,6 @@ export const Rank = styled.div`
 
 export const Collection = styled.div`
 	min-width: 110px;
-	margin: 0 0 0 88.5px;
 	@media (max-width: ${STYLING.cutoffs.secondary}) {
 		margin: 0;
 	}
@@ -155,7 +154,7 @@ export const ThumbnailWrapper = styled.div`
 	width: 85px;
 	background: ${(props) => props.theme.colors.container.primary.background};
 	border-radius: ${STYLING.dimensions.borderRadiusField};
-	margin: 0 15px;
+	margin: 0 15px 0 0;
 	overflow: hidden;
 	img {
 		height: 100%;

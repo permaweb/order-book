@@ -44,7 +44,7 @@ function CollectionRow(props: { collection: CollectionType; index: number }) {
 		<S.PICWrapper>
 			<S.PCWrapper>
 				<S.AFlex>
-					<p>{props.index}</p>
+					{/* <p>{props.index}</p> */}
 					<S.AWrapper>
 						<S.CollectionLink>
 							<Link to={redirect} />
@@ -125,9 +125,9 @@ export default function CollectionsTable(props: IProps) {
 			</S.Header>
 			<S.Body>
 				<S.HSection1>
-					<S.Rank>
+					{/* <S.Rank>
 						<p>{language.rank}</p>
-					</S.Rank>
+					</S.Rank> */}
 					<S.Collection>
 						<p>{language.collection}</p>
 					</S.Collection>

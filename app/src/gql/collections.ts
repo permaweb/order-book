@@ -1,6 +1,6 @@
 import { DEFAULT_COLLECTION_BANNER, DEFAULT_COLLECTION_THUMB, getTagValue, STORAGE, TAGS } from 'permaweb-orderbook';
 
-import { FILTERED_IDS, GATEWAYS } from 'helpers/config';
+import { CURSORS, FILTERED_IDS, GATEWAYS } from 'helpers/config';
 import { getTxEndpoint } from 'helpers/endpoints';
 import {
 	CollectionAssetType,
@@ -52,6 +52,11 @@ export async function getCollection(args: CollectionFetchArgs): Promise<Collecti
 }
 
 export async function getCollections(args: { cursor: string | null }): Promise<CollectionsResponseType> {
+	let cursor = null;
+	if (args.cursor) {
+		if (args.cursor !== CURSORS.p1 && args.cursor !== CURSORS.end) cursor = args.cursor;
+	}
+
 	const gqlData = await getGQLData({
 		gateway: GATEWAYS.arweave,
 		ids: null,
@@ -62,11 +67,12 @@ export async function getCollections(args: { cursor: string | null }): Promise<C
 			},
 		],
 		owners: null,
-		cursor: args.cursor,
+		cursor: cursor,
 		reduxCursor: null,
 		cursorObjectKey: CursorEnum.GQL,
 		minBlock: 1242062,
 	});
+
 	const collections: CollectionType[] = [];
 	for (let i = 0; i < gqlData.data.length; i++) {
 		const node = gqlData.data[i].node;

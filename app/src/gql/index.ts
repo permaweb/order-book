@@ -106,8 +106,8 @@ export function getGQLResponseObject(args: GQLArgsType, gqlResponse: AGQLRespons
 		cursorState = store.getState().cursorsReducer[args.cursorObjectKey][args.reduxCursor];
 	}
 
-	let nextCursor: string | null = cursorState ? cursorState.next : null;
-	let previousCursor: string | null = cursorState ? cursorState.previous : null;
+	let nextCursor: string | null = cursorState ? cursorState.next : gqlResponse.nextCursor;
+	let previousCursor: string | null = cursorState ? cursorState.previous : gqlResponse.previousCursor;
 
 	return {
 		data: gqlResponse.data,
