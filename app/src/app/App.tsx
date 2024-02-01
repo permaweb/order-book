@@ -54,7 +54,7 @@ export default function App() {
 			) : (
 				<div className={'app-loader'}>
 					<ReactSVG src={ASSETS.logo} />
-					<span>{`${language.fetchingUCM}...`}</span>
+					<span>{`${language.fetching}...`}</span>
 				</div>
 			)}
 		</>
