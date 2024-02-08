@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
 		padding: 0 !important;
 		background: transparent !important;
 		border: none !important;
+		box-shadow: none !important;
 	}
 `;
 
@@ -58,6 +59,7 @@ export const Avatar = styled.img`
 	height: 100%;
 	width: 100%;
 	border-radius: 50%;
+	object-fit: cover;
 `;
 
 export const HeaderContainer = styled.div``;
