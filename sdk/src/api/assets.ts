@@ -390,7 +390,7 @@ async function createTransaction(args: { arClient: any; content: any; contentTyp
 	try {
 		const txRes = await args.arClient.arweavePost.createTransaction({ data: finalContent }, 'use_wallet');
 		args.tags.forEach((tag: TagType) => txRes.addTag(tag.name, tag.value));
-		const response = await global.window.arweaveWallet.dispatch(txRes);
+		const response = await (global.window as any).arweaveWallet.dispatch(txRes);
 		return response.id;
 	} catch (e: any) {
 		throw new Error(`Error creating transaction ...\n ${e}`);

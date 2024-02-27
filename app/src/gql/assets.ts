@@ -3,6 +3,7 @@ import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
 import {
 	BalanceType,
+	CONTRACT_CONFIG,
 	getBalancesEndpoint,
 	getTagValue,
 	STORAGE,
@@ -47,7 +48,9 @@ export async function getAssetById(args: { id: string }): Promise<AssetDetailTyp
 				const warp = WarpFactory.forMainnet({
 					...defaultCacheOptions,
 					inMemory: true,
-				}).use(new DeployPlugin());
+				})
+					.use(new DeployPlugin())
+					.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 				const contract = warp.contract(args.id).setEvaluationOptions(CONTRACT_OPTIONS);
 				const contractState = (await contract.readState()).cachedValue.state as any;

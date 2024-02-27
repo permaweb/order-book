@@ -5,7 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 import { initPubSub, subscribe } from 'warp-contracts-pubsub';
 
-import { AssetDetailType, ORDERBOOK_CONTRACT, OrderBookPairOrderType } from 'permaweb-orderbook';
+import { AssetDetailType, CONTRACT_CONFIG, ORDERBOOK_CONTRACT, OrderBookPairOrderType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { Loader } from 'components/atoms/Loader';
@@ -83,7 +83,9 @@ export default function AssetDetail(props: IProps) {
 				const warp = WarpFactory.forMainnet({
 					...defaultCacheOptions,
 					inMemory: true,
-				}).use(new DeployPlugin());
+				})
+					.use(new DeployPlugin())
+					.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 				const contract = warp.contract(ORDERBOOK_CONTRACT).setEvaluationOptions(CONTRACT_OPTIONS);
 				const contractState = (await contract.readState()).cachedValue.state as any;
@@ -158,7 +160,9 @@ export default function AssetDetail(props: IProps) {
 			const warp = WarpFactory.forMainnet({
 				...defaultCacheOptions,
 				inMemory: true,
-			}).use(new DeployPlugin());
+			})
+				.use(new DeployPlugin())
+				.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 			const contract = warp.contract(ORDERBOOK_CONTRACT).setEvaluationOptions(CONTRACT_OPTIONS);
 			const contractState = (await contract.readState()).cachedValue.state as any;

@@ -5,7 +5,7 @@ import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts'
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 import { InjectedArweaveSigner } from 'warp-contracts-plugin-signature';
 
-import { AssetDetailType, AssetType, CollectionType, CommentType } from 'permaweb-orderbook';
+import { AssetDetailType, AssetType, CollectionType, CommentType, CONTRACT_CONFIG } from 'permaweb-orderbook';
 
 import { getProfiles } from 'gql';
 
@@ -128,7 +128,9 @@ export async function getStampData(
 	const warp = WarpFactory.forMainnet({
 		...defaultCacheOptions,
 		inMemory: true,
-	}).use(new DeployPlugin());
+	})
+		.use(new DeployPlugin())
+		.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 	const stamps = Stamps.init({
 		warp: warp,

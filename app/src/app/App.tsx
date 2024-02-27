@@ -4,7 +4,7 @@ import { ReactSVG } from 'react-svg';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
+import { CONTRACT_CONFIG, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
 import { APP, ASSETS, CONTRACT_OPTIONS, DOM } from 'helpers/config';
 import { language } from 'helpers/language';
@@ -32,7 +32,9 @@ export default function App() {
 			const warp = WarpFactory.forMainnet({
 				...defaultCacheOptions,
 				inMemory: true,
-			}).use(new DeployPlugin());
+			})
+				.use(new DeployPlugin())
+				.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 			const contract = warp.contract(ORDERBOOK_CONTRACT).setEvaluationOptions(CONTRACT_OPTIONS);
 			const contractState = (await contract.readState()).cachedValue.state as any;

@@ -16,11 +16,48 @@ export default function AssetData(props: IProps) {
 	const arProvider = useArweaveProvider();
 
 	const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
+	const wrapperRef = React.useRef<any>(null);
+
+	const [wrapperVisible, setWrapperVisible] = React.useState<boolean>(false);
+	const [frameLoaded, setFrameLoaded] = React.useState<boolean>(false);
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 
 	const [loadError, setLoadError] = React.useState<boolean>(false);
 	const [contain, setContain] = React.useState<boolean>(true);
+
+	const checkVisibility = () => {
+		const element = wrapperRef.current;
+		if (!element) return;
+
+		const scroll = window.scrollY || window.pageYOffset;
+		const boundsTop = element.getBoundingClientRect().top + scroll;
+
+		const viewport = {
+			top: scroll,
+			bottom: scroll + window.innerHeight,
+		};
+
+		const bounds = {
+			top: boundsTop,
+			bottom: boundsTop + element.clientHeight,
+		};
+
+		const visible = bounds.bottom >= viewport.top && bounds.top <= viewport.bottom;
+		setWrapperVisible(visible);
+		if (visible) setFrameLoaded(true);
+	};
+
+	React.useEffect(() => {
+		checkVisibility();
+		window.addEventListener('scroll', checkVisibility);
+		window.addEventListener('resize', checkVisibility);
+
+		return () => {
+			window.removeEventListener('scroll', checkVisibility);
+			window.removeEventListener('resize', checkVisibility);
+		};
+	}, [props.asset]);
 
 	function getAssetPath(assetResponse: any) {
 		if (props.asset) {
@@ -138,7 +175,7 @@ export default function AssetData(props: IProps) {
 			switch (assetRender.type) {
 				case 'renderer':
 					if (!props.preview) {
-						return props.loadRenderer || props.autoLoad ? (
+						return (props.loadRenderer || props.autoLoad) && (wrapperVisible || frameLoaded) ? (
 							<S.Frame
 								ref={iframeRef}
 								src={assetRender.url}
@@ -222,5 +259,5 @@ export default function AssetData(props: IProps) {
 		} else return null;
 	}
 
-	return <S.Wrapper>{getData()}</S.Wrapper>;
+	return <S.Wrapper ref={wrapperRef}>{getData()}</S.Wrapper>;
 }

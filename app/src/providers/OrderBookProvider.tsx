@@ -4,7 +4,7 @@ import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { OrderBook, OrderBookType } from 'permaweb-orderbook';
+import { CONTRACT_CONFIG, OrderBook, OrderBookType } from 'permaweb-orderbook';
 
 import { API_CONFIG, CURRENCIES } from 'helpers/config';
 import { useArweaveProvider } from 'providers/ArweaveProvider';
@@ -59,7 +59,9 @@ export function OrderBookProvider(props: OrderBookProviderProps) {
 		const warp = WarpFactory.forMainnet({
 			...defaultCacheOptions,
 			inMemory: true,
-		}).use(new DeployPlugin());
+		})
+			.use(new DeployPlugin())
+			.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 		setOrderBook(
 			OrderBook.init({

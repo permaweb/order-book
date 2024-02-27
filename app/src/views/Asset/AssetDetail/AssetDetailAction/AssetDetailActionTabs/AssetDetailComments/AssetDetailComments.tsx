@@ -64,13 +64,14 @@ function CommentCreate(props: IAMProps) {
 		}
 	}, []);
 
+	// TODO: remove bundlr
 	async function handleSubmit(e: any) {
 		if (arProvider.walletAddress && orProvider.orderBook) {
 			e.preventDefault();
 			e.stopPropagation();
 			setLoading(true);
 			try {
-				await orProvider.orderBook.api.arClient.bundlr.ready();
+				// await orProvider.orderBook.api.arClient.bundlr.ready();
 
 				const contractId = await orProvider.orderBook.api.createAsset({
 					content: comment,

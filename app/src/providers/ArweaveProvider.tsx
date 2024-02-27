@@ -4,7 +4,7 @@ import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { defaultCacheOptions, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { CURRENCY_DICT, ProfileType } from 'permaweb-orderbook';
+import { CONTRACT_CONFIG, CURRENCY_DICT, ProfileType } from 'permaweb-orderbook';
 
 import { Modal } from 'components/molecules/Modal';
 import { getProfiles } from 'gql';
@@ -227,7 +227,9 @@ export function ArweaveProvider(props: ArweaveProviderProps) {
 				const warp = WarpFactory.forMainnet({
 					...defaultCacheOptions,
 					inMemory: true,
-				}).use(new DeployPlugin());
+				})
+					.use(new DeployPlugin())
+					.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 				const contract = warp.contract(CURRENCY_DICT['U']).setEvaluationOptions(CONTRACT_OPTIONS);
 				const uCurrencyState = (await contract.readState()).cachedValue.state as any;

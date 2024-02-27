@@ -103,13 +103,17 @@ export const UDL_ICONS = {
 	u: 'U',
 };
 
-export const BUNDLR_CONFIG = {
+export const UPLOAD_CONFIG = {
 	currency: 'arweave',
 	node: 'https://node2.bundlr.network',
 };
 
-export const GOLDSKY_CONFIG = {
+export const GATEWAY_CONFIG = {
 	node: 'https://arweave-search.goldsky.com',
+};
+
+export const CONTRACT_CONFIG = {
+	gwUrl: 'https://gw.warp.cc/',
 };
 
 export const FILTERED_IDS = [

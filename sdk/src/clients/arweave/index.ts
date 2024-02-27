@@ -1,6 +1,4 @@
-import Bundlr from '@bundlr-network/client';
-
-import { ArweaveClientInitArgs, ArweaveClientType, BUNDLR_CONFIG, WriteContractArgs } from '../../helpers';
+import { ArweaveClientInitArgs, ArweaveClientType, WriteContractArgs } from '../../helpers';
 
 const arClient: ArweaveClientType = {
 	arweaveGet: null,
@@ -19,7 +17,7 @@ const arClient: ArweaveClientType = {
 		this.arweaveGet = args.arweaveGet;
 		this.arweavePost = args.arweavePost;
 
-		if (args.bundlrKey) this.bundlr = new Bundlr(BUNDLR_CONFIG.node, BUNDLR_CONFIG.currency, args.bundlrKey);
+		// if (args.bundlrKey) this.bundlr = new Bundlr(UPLOAD_CONFIG.node, UPLOAD_CONFIG.currency, args.bundlrKey);
 
 		this.warpDefault = args.warp;
 		this.options.remoteStateSyncSource = args.warpDreNode;

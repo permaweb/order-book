@@ -4,7 +4,7 @@ import Arweave from 'arweave';
 import { defaultCacheOptions, LoggerFactory, WarpFactory } from 'warp-contracts';
 import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
-import { AssetSortType, AssetType } from 'permaweb-orderbook';
+import { AssetSortType, AssetType, CONTRACT_CONFIG } from 'permaweb-orderbook';
 
 import { getAssetIdsByContract, getAssetIdsByUser, getAssetsByIds, getCollection, sortAssets } from 'gql';
 import { API_CONFIG, FEATURE_COUNT, GATEWAYS, PAGINATORS } from 'helpers/config';
@@ -49,7 +49,9 @@ export default function ReduxAssetsUpdate(props: {
 		const warp = WarpFactory.forMainnet({
 			...defaultCacheOptions,
 			inMemory: true,
-		}).use(new DeployPlugin());
+		})
+			.use(new DeployPlugin())
+			.useGwUrl(CONTRACT_CONFIG.gwUrl);
 
 		setArweavePost(arweavePost);
 		setWarp(warp);

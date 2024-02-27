@@ -1,4 +1,4 @@
-import { CURRENCY_DICT } from 'permaweb-orderbook';
+import { CONTRACT_CONFIG, CURRENCY_DICT } from 'permaweb-orderbook';
 
 import activitySVG from 'assets/activity.svg';
 import arLogoSVG from 'assets/ar-logo.svg';
@@ -357,6 +357,7 @@ export const CONTRACT_OPTIONS = {
 	remoteStateSyncEnabled: true,
 	remoteStateSyncSource: DRE_NODES[0].source,
 	unsafeClient: 'skip' as any,
+	sequenceUrl: CONTRACT_CONFIG.gwUrl,
 };
 
 export const FILTERED_IDS = [
@@ -501,6 +502,8 @@ export const FILTERED_IDS = [
 	'm-kP0eoljmAlY17o1Sj7a9YHhs54EcRIhJX1weqDXng',
 	'yif1-t4XkrJ-lQEqy0tEO3x7PRJaCi16WRtVTChlJnk',
 	'V67IhQMrc_yf1rSvWmvOeNBOAPYrOA5y4XwZUWoPMg0',
+	'cv_I3qgwLHFX4rEmy71hX1H2eJ9KKg_k7Q31YmokDt8',
+	'LUCE13mvfgtWp5Q-9uWr7pASwUG6NfDECJKd3EOJhQE',
 ];
 
 export const ANS_FILTER_LIST = [CURRENCY_DICT['U'], 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo'];

@@ -1,4 +1,4 @@
-import { BUNDLR_CONFIG, CURSORS, GOLDSKY_CONFIG, PAGINATOR } from '../helpers/config';
+import { CURSORS, GATEWAY_CONFIG, PAGINATOR, UPLOAD_CONFIG } from '../helpers/config';
 import {
 	AGQLResponseType,
 	ArweaveClientType,
@@ -144,7 +144,7 @@ async function getResponse(args: {
 
 	const fetchGoldsky = async () => {
 		try {
-			const response = await fetch(`${GOLDSKY_CONFIG.node}/graphql`, {
+			const response = await fetch(`${GATEWAY_CONFIG.node}/graphql`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ async function getResponse(args: {
 
 	const fetchBundlr = async () => {
 		try {
-			const response = await fetch(`${BUNDLR_CONFIG.node}/graphql`, {
+			const response = await fetch(`${UPLOAD_CONFIG.node}/graphql`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
