@@ -4,22 +4,8 @@ export const docsOrder = [
 		path: 'introduction',
 	},
 	{
-		name: 'Getting started on the permaweb',
-		path: 'new-to-permaweb',
-		children: [
-			{
-				name: 'Create an Arweave wallet',
-				path: 'creating-a-wallet',
-			},
-			{
-				name: 'Get vouched',
-				path: 'getting-vouched',
-			},
-			{
-				name: 'Customize a permaweb profile',
-				path: 'creating-a-permaweb-profile',
-			},
-		],
+		name: 'Geting started on the permaweb',
+		path: 'getting-started',
 	},
 	{
 		name: 'Permaweb concepts',
@@ -34,7 +20,7 @@ export const docsOrder = [
 				path: 'profit-sharing-token',
 			},
 			{
-				name: '$U token',
+				name: 'U token ($U)',
 				path: 'u-token',
 			},
 			{
@@ -52,7 +38,7 @@ export const docsOrder = [
 		path: 'exploring-bazar',
 		children: [
 			{
-				name: 'What is BazAR and UCM?',
+				name: 'BazAR/UCM explained',
 				path: 'bazar-built-on-ucm',
 			},
 			{
@@ -60,7 +46,7 @@ export const docsOrder = [
 				path: 'upload-content-to-ucm',
 			},
 			{
-				name: 'What is the Universal Data License (UDL)?',
+				name: 'Universal Data License (UDL) explained',
 				path: 'universal-data-license',
 			},
 		],
