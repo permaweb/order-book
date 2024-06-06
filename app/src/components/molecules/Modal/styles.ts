@@ -56,7 +56,7 @@ export const LT = styled.div`
 
 export const Title = styled.p`
 	color: ${(props) => props.theme.colors.font.primary.alt8};
-	font-size: ${(props) => props.theme.typography.size.xSmall};
+	font-size: ${(props) => props.theme.typography.size.base};
 	font-weight: ${(props) => props.theme.typography.weight.medium};
 	line-height: calc(${(props) => props.theme.typography.size.xSmall} + 5px);
 	font-family: ${(props) => props.theme.typography.family.primary};

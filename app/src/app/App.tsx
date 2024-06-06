@@ -6,6 +6,7 @@ import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 
 import { CONTRACT_CONFIG, ORDERBOOK_CONTRACT } from 'permaweb-orderbook';
 
+import { Modal } from 'components/molecules/Modal';
 import { APP, ASSETS, CONTRACT_OPTIONS, DOM } from 'helpers/config';
 import { language } from 'helpers/language';
 import { Footer } from 'navigation/footer';
@@ -20,6 +21,8 @@ export default function App() {
 	const dispatch = useDispatch();
 
 	const ucmReducer = useSelector((state: RootState) => state.ucmReducer);
+
+	const [showInfo, setShowInfo] = React.useState<boolean>(true);
 
 	if (!localStorage.getItem(APP.appKey) || localStorage.getItem(APP.appKey) !== APP.appVersion) {
 		localStorage.clear();
@@ -52,6 +55,23 @@ export default function App() {
 					<Header />
 					<Routes />
 					<Footer />
+					{showInfo && (
+						<Modal header={'BazAR Update'} handleClose={() => setShowInfo(false)}>
+							<div className={'modal-info'}>
+								<p>
+									<b>BazAR</b> is migrating to <b>AO</b>!<br />
+									<br />
+									Information on how to migrate existing atomic assets onto AO will be released soon.
+									<br />
+									<br />
+									All $U holders, stay tuned for important updates!
+									<br />
+									<br />
+									You can start interacting with <b>AO BazAR</b> <a href="https://ao-bazar.arweave.dev">here</a>.
+								</p>
+							</div>
+						</Modal>
+					)}
 				</>
 			) : (
 				<div className={'app-loader'}>
