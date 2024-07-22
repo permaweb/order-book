@@ -191,6 +191,6 @@ export const NoAssetsContainer = styled.div`
 	}
 `;
 
-export const MigrateButton = styled.div`  
-  margin-left: 10px;
-`
+export const MigrateButton = styled.div`
+	margin-left: 10px;
+`;

@@ -17,4 +17,5 @@ export interface IProps {
 	getFeaturedData: boolean;
 	showFilters: boolean;
 	autoLoadRenderers?: boolean;
+	showMigration?: boolean;
 }

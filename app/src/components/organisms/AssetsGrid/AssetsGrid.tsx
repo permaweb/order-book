@@ -1,24 +1,23 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-import { AssetType, getTxEndpoint, STORAGE, TagType } from 'permaweb-orderbook';
 import { connect, createDataItemSigner, dryrun, message, result } from '@permaweb/aoconnect';
+
+import { AssetType, getTxEndpoint, ORDERBOOK_CONTRACT, STORAGE, TagType } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
 import { Loader } from 'components/atoms/Loader';
+import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'components/organisms/AssetData';
 import { AssetOrders } from 'components/organisms/AssetOrders';
 import { StampWidget } from 'components/organisms/StampWidget';
-import { Modal } from 'components/molecules/Modal';
+import { getGQLData } from 'gql';
+import { getAssetById } from 'gql/assets';
 import { ASSETS, GATEWAYS } from 'helpers/config';
 import { getRendererEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
 import { AssetRenderType, ContentType } from 'helpers/types';
-import { getGQLData } from 'gql';
-import { getAssetById } from 'gql/assets';
 import * as urls from 'helpers/urls';
-
 
 import * as S from './styles';
 import { IProps } from './types';
@@ -37,8 +36,8 @@ export const AO = {
 };
 
 function convertToLuaTable(obj) {
-  const entries = Object.entries(obj).map(([key, value]) => `['${key}'] = ${value}`);
-  return `{ ${entries.join(', ')} }`;
+	const entries = Object.entries(obj).map(([key, value]) => `['${key}'] = ${value}`);
+	return `{ ${entries.join(', ')} }`;
 }
 
 export type AOProfileType = {
@@ -130,178 +129,182 @@ export async function getProfileByWalletAddress(args: { address: string }): Prom
 }
 
 async function uploadToAO(asset: AssetType) {
-  let fetchedAsset = await getGQLData({
-    gateway: GATEWAYS.arweave,
-    ids: [asset.data.id],
-    tagFilters: null,
-    owners: null,
-    cursor: null,
-    reduxCursor: null,
-    cursorObjectKey: null,
-  });
-  
-  let tags: TagType[] = fetchedAsset.data[0].node.tags.filter((tag) => {
-    return tag.name !== 'App-Name'
-    && tag.name !== 'App-Version'
-    && tag.name !== 'Contract-Src'
-    && tag.name !== 'Contract-Manifest'
-    && tag.name !== 'Init-State';
-  }).map((tag) => {
-    return {
-      name: tag.name,
-      value: tag.value,
-    };
-  });
-  tags.push({ name: 'Migrated-From', value: asset.data.id });
+	let fetchedAsset = await getGQLData({
+		gateway: GATEWAYS.arweave,
+		ids: [asset.data.id],
+		tagFilters: null,
+		owners: null,
+		cursor: null,
+		reduxCursor: null,
+		cursorObjectKey: null,
+	});
 
-  let processSrc = null;
+	let tags: TagType[] = fetchedAsset.data[0].node.tags
+		.filter((tag) => {
+			return (
+				tag.name !== 'App-Name' &&
+				tag.name !== 'App-Version' &&
+				tag.name !== 'Contract-Src' &&
+				tag.name !== 'Contract-Manifest' &&
+				tag.name !== 'Init-State'
+			);
+		})
+		.map((tag) => {
+			return {
+				name: tag.name,
+				value: tag.value,
+			};
+		});
+	tags.push({ name: 'Migrated-From', value: asset.data.id });
 
-  const processSrcFetch = await fetch(getTxEndpoint(AO.assetSrc));
-  if (processSrcFetch.ok) {
-    processSrc = await processSrcFetch.text();
-  } else {
-    throw new Error('Failed to fetch process source');
-  }
+	let processSrc = null;
 
-  processSrc = processSrc.replace('[Owner]', `['${asset.data.creator}']`);
-  processSrc = processSrc.replaceAll(`'<NAME>'`, `[[${asset.data.title}]]`);
-  processSrc = processSrc.replaceAll('<TICKER>', 'ATOMIC');
-  processSrc = processSrc.replaceAll('<DENOMINATION>', '1');
-  processSrc = processSrc.replaceAll('<BALANCE>','1');
+	const processSrcFetch = await fetch(getTxEndpoint(AO.assetSrc));
+	if (processSrcFetch.ok) {
+		processSrc = await processSrcFetch.text();
+	} else {
+		throw new Error('Failed to fetch process source');
+	}
 
-  const buffer: any = new Buffer(await (await fetch(getTxEndpoint(asset.data.id))).arrayBuffer());
+	processSrc = processSrc.replace('[Owner]', `['${asset.data.creator}']`);
+	processSrc = processSrc.replaceAll(`'<NAME>'`, `[[${asset.data.title}]]`);
+	processSrc = processSrc.replaceAll('<TICKER>', 'ATOMIC');
+	processSrc = processSrc.replaceAll('<DENOMINATION>', '1');
+	processSrc = processSrc.replaceAll('<BALANCE>', '1');
 
-  const aos = connect();
+	const buffer: any = new Buffer(await (await fetch(getTxEndpoint(asset.data.id))).arrayBuffer());
 
-  let processId = await aos.spawn({
-    module: AO.module,
-    scheduler: AO.scheduler,
-    signer: createDataItemSigner(globalThis.arweaveWallet),
-    tags: tags,
-    data: buffer,
-  });
+	const aos = connect();
 
-  let fetchedAssetId: string;
-  let retryCount = 0;
-  while (!fetchedAssetId) {
-    await new Promise((r) => setTimeout(r, 2000));
-    const gqlResponse = await getGQLData({
-      gateway: GATEWAYS.goldsky,
-      ids: [processId],
-      tagFilters: null,
-      owners: null,
-      cursor: null,
-      reduxCursor: null,
-      cursorObjectKey: null,
-    });
+	let processId = await aos.spawn({
+		module: AO.module,
+		scheduler: AO.scheduler,
+		signer: createDataItemSigner(globalThis.arweaveWallet),
+		tags: tags,
+		data: buffer,
+	});
 
-    if (gqlResponse && gqlResponse.data.length) {
-      console.log(`Fetched transaction:`, gqlResponse.data[0].node.id);
-      fetchedAssetId = gqlResponse.data[0].node.id;
-    } else {
-      console.log(`Transaction not found:`, processId);
-      retryCount++;
-      if (retryCount >= 10) {
-        throw new Error(`Transaction not found after 10 attempts, process deployment retries failed`);
-      }
-    }
-  }
+	let fetchedAssetId: string;
+	let retryCount = 0;
+	while (!fetchedAssetId) {
+		await new Promise((r) => setTimeout(r, 2000));
+		const gqlResponse = await getGQLData({
+			gateway: GATEWAYS.goldsky,
+			ids: [processId],
+			tagFilters: null,
+			owners: null,
+			cursor: null,
+			reduxCursor: null,
+			cursorObjectKey: null,
+		});
 
-  if (fetchedAssetId) {
-    const evalMessage = await aos.message({
-      process: processId,
-      signer: createDataItemSigner(globalThis.arweaveWallet),
-      tags: [{ name: 'Action', value: 'Eval' }],
-      data: processSrc,
-    });
+		if (gqlResponse && gqlResponse.data.length) {
+			console.log(`Fetched transaction:`, gqlResponse.data[0].node.id);
+			fetchedAssetId = gqlResponse.data[0].node.id;
+		} else {
+			console.log(`Transaction not found:`, processId);
+			retryCount++;
+			if (retryCount >= 10) {
+				throw new Error(`Transaction not found after 10 attempts, process deployment retries failed`);
+			}
+		}
+	}
 
-    const evalResult = await aos.result({
-      message: evalMessage,
-      process: processId,
-    });
+	if (fetchedAssetId) {
+		const evalMessage = await aos.message({
+			process: processId,
+			signer: createDataItemSigner(globalThis.arweaveWallet),
+			tags: [{ name: 'Action', value: 'Eval' }],
+			data: processSrc,
+		});
 
-    if (evalResult) {
-      let assetState = (await getAssetById({ id: asset.data.id })).state;
-      let balances = {};
+		const evalResult = await aos.result({
+			message: evalMessage,
+			process: processId,
+		});
 
-      for(let key in assetState.balances) {
-        let profile = await getProfileByWalletAddress({ address: key });
-        if(profile.id) {
-          balances[profile.id] = assetState.balances[key];
-        } else {
-          balances[key] = assetState.balances[key];
-        }
-      }
+		if (evalResult) {
+			let assetState = (await getAssetById({ id: asset.data.id })).state;
+			let balances = {};
 
-      const luaTable = convertToLuaTable(balances);
+			for (let key in assetState.balances) {
+				let profile = await getProfileByWalletAddress({ address: key });
+				if (profile.id) {
+					balances[profile.id] = assetState.balances[key];
+				} else {
+					balances[key] = assetState.balances[key];
+				}
+			}
 
-      await aos.message({
-        process: processId,
-        signer: createDataItemSigner(globalThis.arweaveWallet),
-        tags: [{ name: 'Action', value: 'Eval' }],
-        data: `Balances = ${luaTable}`,
-      });
-    }
-  } else {
-    throw new Error('Error fetching from gateway');
-  }
+			const luaTable = convertToLuaTable(balances);
+
+			await aos.message({
+				process: processId,
+				signer: createDataItemSigner(globalThis.arweaveWallet),
+				tags: [{ name: 'Action', value: 'Eval' }],
+				data: `Balances = ${luaTable}`,
+			});
+		}
+	} else {
+		throw new Error('Error fetching from gateway');
+	}
 }
 
-function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
+function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean; showMigration: boolean }) {
 	const navigate = useNavigate();
 	const redirect = `${urls.asset}${props.asset.data.id}`;
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 	const [loadRenderer, setLoadRenderer] = React.useState<boolean>(false);
 
-  const [migrationRunning, setMigrationRunning] = React.useState(false);
-  const [isMigrated, setIsMigrated] = React.useState(false);
+	const [migrationRunning, setMigrationRunning] = React.useState(false);
+	const [isMigrated, setIsMigrated] = React.useState(false);
 
-  const [showMigratedModal, setShowMigratedModal] = React.useState<boolean>(false);
-  const [migrationMessage, setMigrationMessage] = React.useState<string>('');
+	const [showMigratedModal, setShowMigratedModal] = React.useState<boolean>(false);
+	const [migrationMessage, setMigrationMessage] = React.useState<string>('');
 
-  const migrateAsset = async () => {
-    setMigrationRunning(true);
-    try {
-      await uploadToAO(props.asset);
-      setShowMigratedModal(true);
-      setMigrationMessage('Asset migrated successfully!');
-    } catch(e: any) {
-      setShowMigratedModal(true);
-      setMigrationMessage(`Error migrating asset: ${e.message}`);
-    }
-    setMigrationRunning(false);
-    setIsMigrated(true);
-  }
+	const migrateAsset = async () => {
+		setMigrationRunning(true);
+		try {
+			await uploadToAO(props.asset);
+			setShowMigratedModal(true);
+			setMigrationMessage('Asset migrated successfully!');
+		} catch (e: any) {
+			setShowMigratedModal(true);
+			setMigrationMessage(`Error migrating asset: ${e.message}`);
+		}
+		setMigrationRunning(false);
+		setIsMigrated(true);
+	};
 
-  React.useEffect(() => {
+	React.useEffect(() => {
 		(async function () {
-      if(props.asset) {
-        let fetchedAssets = await getGQLData({
-          gateway: GATEWAYS.goldsky,
-          ids: null,
-          tagFilters: [{ name: 'Migrated-From', values: [props.asset.data.id] }],
-          owners: null,
-          cursor: null,
-          reduxCursor: null,
-          cursorObjectKey: null,
-        });
-        if(fetchedAssets.data.length > 0) {
-          for(let i=0;i<fetchedAssets.data.length;i++) {
-            let processId = fetchedAssets.data[i].node.id;
-            const evalMessage = await message({
-              process: processId,
-              signer: createDataItemSigner(globalThis.arweaveWallet),
-              tags: [{ name: 'Action', value: 'Eval' }],
-              data: 'return Handlers.list',
-            });
-            const { Output } = await result({ message: evalMessage, process: processId });
-            if (Output && Output.data && Output.data.output && Output.data.output.includes('Balances')) {
-              setIsMigrated(true);
-            }
-          }
-        } 
-      }
+			if (props.asset) {
+				let fetchedAssets = await getGQLData({
+					gateway: GATEWAYS.goldsky,
+					ids: null,
+					tagFilters: [{ name: 'Migrated-From', values: [props.asset.data.id] }],
+					owners: null,
+					cursor: null,
+					reduxCursor: null,
+					cursorObjectKey: null,
+				});
+				if (fetchedAssets.data.length > 0) {
+					for (let i = 0; i < fetchedAssets.data.length; i++) {
+						let processId = fetchedAssets.data[i].node.id;
+						const evalMessage = await message({
+							process: processId,
+							signer: createDataItemSigner(globalThis.arweaveWallet),
+							tags: [{ name: 'Action', value: 'Eval' }],
+							data: 'return Handlers.list',
+						});
+						const { Output } = await result({ message: evalMessage, process: processId });
+						if (Output && Output.data && Output.data.output && Output.data.output.includes('Balances')) {
+							setIsMigrated(true);
+						}
+					}
+				}
+			}
 		})();
 	}, [props.asset]);
 
@@ -339,14 +342,12 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 
 	return assetRender ? (
 		<S.PICWrapper>
-      {showMigratedModal && (
-						<Modal header={'BazAR Update'} handleClose={() => setShowMigratedModal(false)}>
-							<div className={'modal-info'}>
-								<p>
-									{ migrationMessage }
-								</p>
-							</div>
-						</Modal>
+			{showMigratedModal && (
+				<Modal header={'BazAR Update'} handleClose={() => setShowMigratedModal(false)}>
+					<div className={'modal-info'}>
+						<p>{migrationMessage}</p>
+					</div>
+				</Modal>
 			)}
 			{assetRender && !(assetRender.type === 'renderer') && (
 				<S.PCLink>
@@ -402,18 +403,22 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 							title={props.asset.data.title}
 							stamps={props.asset.stamps ? props.asset.stamps : null}
 						/>
-            <S.MigrateButton>
-              <Button
-                type={'primary'}
-                label={!migrationRunning ? language.migrate : language.migrating}
-                handlePress={() => { migrateAsset() }}
-                tooltip={language.migrate}
-                width={100}
-                noMinWidth={false}
-                height={40}
-                disabled={isMigrated ? true : false}
-              />
-            </S.MigrateButton>
+						{props.showMigration && props.asset.data.id !== ORDERBOOK_CONTRACT && (
+							<S.MigrateButton>
+								<Button
+									type={'primary'}
+									label={!migrationRunning ? language.migrate : language.migrating}
+									handlePress={() => {
+										migrateAsset();
+									}}
+									tooltip={language.migrate}
+									width={100}
+									noMinWidth={false}
+									height={40}
+									disabled={isMigrated ? true : migrationRunning}
+								/>
+							</S.MigrateButton>
+						)}
 					</S.ICWidgetIcons>
 				</S.ICBottom>
 			</S.ICWrapper>
@@ -457,7 +462,15 @@ export default function AssetsGrid(props: IProps) {
 			if (assets) {
 				if (assets.length > 0) {
 					return assets.map((asset: AssetType, index: number) => {
-						return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;
+						return (
+							<AssetTile
+								key={asset.data.id}
+								asset={asset}
+								index={index + 1}
+								autoLoad={props.autoLoad}
+								showMigration={props.showMigration}
+							/>
+						);
 					});
 				} else {
 					return (
