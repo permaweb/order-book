@@ -147,3 +147,7 @@ export const ImageLink = styled.div`
 		border-left: none;
 	}
 `;
+
+export const MigrateButton = styled.div`
+	margin: 20px 0 0 0;
+`;
