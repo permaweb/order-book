@@ -31,7 +31,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean; 
 
 	const [migrationRunning, setMigrationRunning] = React.useState(false);
 	const [disableMigrate, setDisableMigrate] = React.useState(true);
-
+  const [showMigration, setShowMigration] = React.useState<boolean>(false);
 	const [showMigratedModal, setShowMigratedModal] = React.useState<boolean>(false);
 	const [migrationMessage, setMigrationMessage] = React.useState<string>('');
 
@@ -53,6 +53,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean; 
 		(async function () {
 			if (props.asset) {
         if(props.asset.data.creator === await window.arweaveWallet.getActiveAddress()) {
+          setShowMigration(true);
           let fetchedAssets = await getGQLData({
             gateway: GATEWAYS.goldsky,
             ids: null,
@@ -183,7 +184,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean; 
 							title={props.asset.data.title}
 							stamps={props.asset.stamps ? props.asset.stamps : null}
 						/>
-						{props.showMigration && props.asset.data.id !== ORDERBOOK_CONTRACT && (
+						{showMigration && props.asset.data.id !== ORDERBOOK_CONTRACT && (
 							<S.MigrateButton>
 								<Button
 									type={'primary'}
