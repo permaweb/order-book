@@ -110,6 +110,7 @@ export default function Collection() {
   const handleMigrate = async () => {
     setMigrationRunning(true);
     setDisableMigrate(true);
+    setButtonMessage(language.migrating);
 		try {
       setShowMigratedModal(true);
 			await uploadCollectionToAO(
@@ -120,10 +121,12 @@ export default function Collection() {
         }
       );
 			setMigrationMessage('Collection migrated successfully!');
+      setButtonMessage(language.migrationComplete);
 		} catch (e: any) {
 			setShowMigratedModal(true);
       setDisableMigrate(false);
 			setMigrationMessage(`Error migrating collection: ${e.message}`);
+      setButtonMessage(language.migrate);
 		}
 		setMigrationRunning(false);
   }
