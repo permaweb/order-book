@@ -97,7 +97,7 @@ export const language = {
 	microscope: `Microscope`,
 	migrate: `Migrate to AO`,
 	migrating: `Migrating...`,
-	migrationComplete: `Migration Complete`,
+	migrationComplete: `Migration complete, click to migrate again`,
 	myAssets: `My Assets`,
 	new: `New`,
 	next: `Next`,

@@ -57,54 +57,55 @@ export default function Collection() {
 		}
 	}, [assetsReducer.collectionData]);
 
-	React.useEffect(() => {
-		(async function () {
-			if (assetsReducer.collectionData) {
-				if (collection && collection.creator && collection.creator.walletAddress) {
-					if (collection.creator.walletAddress === (await window.arweaveWallet.getActiveAddress())) {
-						let profile = await getProfileByWalletAddress({ address: collection.creator.walletAddress });
-						if (profile && profile.id) {
-							setShowMigration(true);
-							setButtonMessage(language.checkingMigration);
-							let fetchedCollections = await getGQLData({
-								gateway: GATEWAYS.goldsky,
-								ids: null,
-								tagFilters: [{ name: 'Migrated-From', values: [collection.id] }],
-								owners: null,
-								cursor: null,
-								reduxCursor: null,
-								cursorObjectKey: null,
-							});
-							if (fetchedCollections.data.length > 0) {
-								let found = false;
-								for (let i = 0; i < fetchedCollections.data.length; i++) {
-									let processId = fetchedCollections.data[i].node.id;
-									const evalMessage = await message({
-										process: processId,
-										signer: createDataItemSigner(globalThis.arweaveWallet),
-										tags: [{ name: 'Action', value: 'Eval' }],
-										data: 'return Handlers.list',
-									});
-									const { Output } = await result({ message: evalMessage, process: processId });
-									if (Output && Output.data && Output.data.output && Output.data.output.includes('Update-Assets')) {
-										found = true;
-									}
-								}
-								if (!found) {
-									setDisableMigrate(false);
-									setButtonMessage(language.migrate);
-								} else {
-									setButtonMessage(language.migrationComplete);
-								}
-							} else {
-								setDisableMigrate(false);
-								setButtonMessage(language.migrate);
-							}
-						}
-					}
-				}
-			}
-		})();
+  React.useEffect(() => {
+    (async function () {
+      if (assetsReducer.collectionData) {
+        if(collection && collection.creator && collection.creator.walletAddress) {
+          if(collection.creator.walletAddress === await window.arweaveWallet.getActiveAddress()) {
+            let profile = await getProfileByWalletAddress({ address: collection.creator.walletAddress });
+            if(profile && profile.id) {
+              setShowMigration(true);
+              setButtonMessage(language.checkingMigration)
+              let fetchedCollections = await getGQLData({
+                gateway: GATEWAYS.goldsky,
+                ids: null,
+                tagFilters: [{ name: 'Migrated-From', values: [collection.id] }],
+                owners: null,
+                cursor: null,
+                reduxCursor: null,
+                cursorObjectKey: null,
+              });
+              if (fetchedCollections.data.length > 0) {
+                let found = false;
+                for (let i = 0; i < fetchedCollections.data.length; i++) {
+                  let processId = fetchedCollections.data[i].node.id;
+                  const evalMessage = await message({
+                    process: processId,
+                    signer: createDataItemSigner(globalThis.arweaveWallet),
+                    tags: [{ name: 'Action', value: 'Eval' }],
+                    data: 'return Handlers.list',
+                  });
+                  const { Output } = await result({ message: evalMessage, process: processId });
+                  if (Output && Output.data && Output.data.output && Output.data.output.includes('Update-Assets')) {
+                    found = true;
+                  }
+                }
+                if (!found) {
+                  setDisableMigrate(false);
+                  setButtonMessage(language.migrate);
+                } else {
+                  setDisableMigrate(false);
+                  setButtonMessage(language.migrationComplete);
+                }
+              } else {
+                setDisableMigrate(false);
+                setButtonMessage(language.migrate);
+              }
+            }
+          }
+        }
+      } 
+    })();
 	}, [assetsReducer.collectionData]);
 
 	const handleMigrate = async () => {
@@ -117,7 +118,8 @@ export default function Collection() {
 				setMigrationMessage(`${progressPercent}% Complete`);
 			});
 			setMigrationMessage('Collection migrated successfully!');
-			setButtonMessage(language.migrationComplete);
+      setDisableMigrate(false);
+      setButtonMessage(language.migrationComplete);
 		} catch (e: any) {
 			setShowMigratedModal(true);
 			setDisableMigrate(false);
