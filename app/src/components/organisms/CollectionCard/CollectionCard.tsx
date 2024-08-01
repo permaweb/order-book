@@ -103,20 +103,20 @@ export default function CollectionCard(props: IProps) {
 									getCount={props.getStampCount ? props.getStampCount : false}
 								/>
 							</S.StampWidget>
-              {props.showMigration && (
-                <S.MigrateButton>
-                  <Button
-                    type={'primary'}
-                    label={props.buttonMessage}
-                    handlePress={props.handleMigrate}
-                    tooltip={language.migrate}
-                    width={100}
-                    noMinWidth={false}
-                    height={40}
-                    disabled={props.disableMigrate ? true : props.migrationRunning}
-                  />
-                </S.MigrateButton>
-              )}
+							{props.showMigration && (
+								<S.MigrateButton>
+									<Button
+										type={'primary'}
+										label={props.buttonMessage}
+										handlePress={props.handleMigrate}
+										tooltip={language.migrate}
+										width={100}
+										noMinWidth={false}
+										height={40}
+										disabled={props.disableMigrate ? true : props.migrationRunning}
+									/>
+								</S.MigrateButton>
+							)}
 						</S.SWrapper>
 					</S.InfoWrapper>
 					{!props.hideRedirect && (

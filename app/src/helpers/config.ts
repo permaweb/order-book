@@ -142,7 +142,7 @@ export const TAGS = {
 		appName: 'App-Name',
 		banner: 'Banner',
 		collectionCode: 'Collection-Code',
-    collectionId: 'Collection-Id',
+		collectionId: 'Collection-Id',
 		collectionName: 'Collection-Name',
 		contentType: 'Content-Type',
 		contractSrc: 'Contract-Src',
@@ -158,7 +158,7 @@ export const TAGS = {
 		license: 'License',
 		name: 'Name',
 		paymentFee: 'Payment-Fee',
-    profileCreator: 'Profile-Creator',
+		profileCreator: 'Profile-Creator',
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
@@ -189,7 +189,7 @@ export const TAGS = {
 		contentTypes: {
 			textPlain: 'text/plain',
 		},
-    document: 'Document',
+		document: 'Document',
 		holderTitle: {
 			sponsor: 'sponsor',
 		},
