@@ -116,6 +116,9 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 		cursorObjectKey: null,
 	});
 
+	let licenseTag = fetchedAsset.data[0].node.tags.filter((tag) => tag.name === 'License');
+	let licenseTagVal = licenseTag.length > 0 ? { name: TAGS.keys.license, value: TAGS.values.license } : null;
+
 	let tags: TagType[] = fetchedAsset.data[0].node.tags
 		.filter((tag) => {
 			return (
@@ -124,7 +127,8 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 				tag.name !== 'Contract-Src' &&
 				tag.name !== 'Contract-Manifest' &&
 				tag.name !== 'Init-State' &&
-				tag.name !== 'Collection-Code'
+				tag.name !== 'Collection-Code' &&
+				tag.name !== 'License'
 			);
 		})
 		.map((tag) => {
@@ -141,6 +145,10 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 
 	if (collectionName) {
 		tags.push({ name: TAGS.keys.collectionName, value: collectionName });
+	}
+
+	if (licenseTagVal) {
+		tags.push(licenseTagVal);
 	}
 
 	let processSrc = null;
@@ -259,8 +267,14 @@ export async function createTransaction(args: { content: any; contentType: strin
 }
 
 async function uploadCollection(collection: CollectionType, profileId: string) {
-	let bannerTx: any = collection.banner;
-	let thumbnailTx: any = collection.thumbnail;
+	let bannerTx: any = null;
+	if (!collection.banner.includes(DEFAULT_UCM_BANNER)) {
+		bannerTx = collection.banner;
+	}
+	let thumbnailTx: any = null;
+	if (!collection.thumbnail.includes(DEFAULT_UCM_THUMBNAIL)) {
+		thumbnailTx = collection.thumbnail;
+	}
 
 	const dateTime = new Date().getTime().toString();
 
