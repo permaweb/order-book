@@ -91,12 +91,11 @@ export default function Collection() {
                   }
                 }
                 if (!found) {
-                  setDisableMigrate(false);
-                  setButtonMessage(language.migrate);
-                } else {
-                  setDisableMigrate(false);
-                  setButtonMessage(language.migrationComplete);
-                }
+									setDisableMigrate(false);
+									setButtonMessage(language.migrate);
+								} else {
+									setButtonMessage(language.migrationComplete);
+								}
               } else {
                 setDisableMigrate(false);
                 setButtonMessage(language.migrate);
@@ -118,7 +117,6 @@ export default function Collection() {
 				setMigrationMessage(`${progressPercent}% Complete`);
 			});
 			setMigrationMessage('Collection migrated successfully!');
-      setDisableMigrate(false);
       setButtonMessage(language.migrationComplete);
 		} catch (e: any) {
 			setShowMigratedModal(true);
