@@ -87,7 +87,17 @@ export default function Collection() {
                   });
                   const { Output } = await result({ message: evalMessage, process: processId });
                   if (Output && Output.data && Output.data.output && Output.data.output.includes('Update-Assets')) {
-                    found = true;
+                    const evalMessageAssets = await message({
+                      process: processId,
+                      signer: createDataItemSigner(globalThis.arweaveWallet),
+                      tags: [{ name: 'Action', value: 'Eval' }],
+                      data: 'return Assets',
+                    });
+                    const { Output: OutputAssets } = await result({ message: evalMessageAssets, process: processId });
+                    let s = OutputAssets.data.output.toString();
+                    const cleanedStr = s.replace(/[{}]/g, '').trim();
+                    const foundIds = cleanedStr.split(',').map((id: any) => id.trim().replace(/^"|"$/g, ''));
+                    if(foundIds.length == assetsReducer.collectionData.length) found = true;
                   }
                 }
                 if (!found) {
