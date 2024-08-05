@@ -176,6 +176,12 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 
 	const buffer: any = new Buffer(await (await fetch(getTxEndpoint(asset.data.id))).arrayBuffer());
 
+  const MAX_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+
+  if (buffer.length > MAX_SIZE) {
+      throw new Error('Asset size exceeds 10MB');
+  }
+
 	const aos = connect();
 
 	let processId = await aos.spawn({

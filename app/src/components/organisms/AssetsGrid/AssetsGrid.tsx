@@ -80,7 +80,7 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean; 
                   found = true;
                 }
               }
-              if (!found) {
+              if (found) {
                 setDisableMigrate(false);
               }
             } else {
