@@ -122,6 +122,8 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 		cursorObjectKey: null,
 	});
 
+  if(!fetchedAsset || !fetchedAsset.data || (fetchedAsset.data.length < 1)) throw new Error('Asset not found on gateway');
+
 	let licenseTag = fetchedAsset.data[0].node.tags.filter((tag) => tag.name === 'License');
 	let licenseTagVal = licenseTag.length > 0 ? { name: TAGS.keys.license, value: TAGS.values.license } : null;
 
@@ -478,7 +480,7 @@ async function messageResults(args: {
 		const response = {};
 
 		for (const result of messageResults.edges) {
-			if (result.node && result.node.Messages && result.node.Messages.length) {
+			if (result && result.node && result.node.Messages && result.node.Messages.length) {
 				const resultSet = [args.action];
 				if (args.responses) resultSet.push(...args.responses);
 
