@@ -106,6 +106,12 @@ export async function getProfileByWalletAddress(args: { address: string }): Prom
 }
 
 export async function uploadToAO(asset: AssetType, collectionId?: string, collectionName?: string) {
+  let mainProfile = await getProfileByWalletAddress({ address: asset.data.creator });
+
+  if(!mainProfile || !mainProfile.id) {
+    throw new Error('Could not locate ao profile.')
+  }
+
 	let fetchedAsset = await getGQLData({
 		gateway: GATEWAYS.arweave,
 		ids: [asset.data.id],
@@ -238,6 +244,23 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 				tags: [{ name: 'Action', value: 'Eval' }],
 				data: `Balances = ${luaTable}`,
 			});
+
+      let creatorBalance = assetState.balances[asset.data.creator];
+      let balance = '';
+      if(creatorBalance) {
+        balance = creatorBalance.toString();
+      }
+
+      await aos.message({
+        process: processId,
+        signer: createDataItemSigner(globalThis.arweaveWallet),
+        tags: [
+          { name: 'Action', value: 'Add-Asset-To-Profile' },
+          { name: 'ProfileProcess', value: mainProfile.id },
+          { name: 'Quantity', value: balance },
+        ],
+        data: JSON.stringify({ Id: processId, Quantity: balance }),
+      });
 		}
 
 		return processId;
