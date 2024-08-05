@@ -97,7 +97,24 @@ export default function Collection() {
                     let s = OutputAssets.data.output.toString();
                     const cleanedStr = s.replace(/[{}]/g, '').trim();
                     const foundIds = cleanedStr.split(',').map((id: any) => id.trim().replace(/^"|"$/g, ''));
-                    if(foundIds.length == assetsReducer.collectionData.length) found = true;
+                    // the assets made it into the collection
+                    if(foundIds.length == assetsReducer.collectionData.length) {
+                      const evalMessageAssetsProfile = await message({
+                        process: profile.id,
+                        signer: createDataItemSigner(globalThis.arweaveWallet),
+                        tags: [{ name: 'Action', value: 'Eval' }],
+                        data: 'return Assets',
+                      });
+                      const { Output: OutputAssetsProfile } = await result({ message: evalMessageAssetsProfile, process: profile.id });
+                      let foundInProfile = 0;
+                      for(let i=0; i<foundIds.length; i++) {
+                        // the asset made it to the profile
+                        if(OutputAssetsProfile.data.output.toString().includes(foundIds[i])) {
+                          foundInProfile += 1;
+                        }
+                      }
+                      if(foundIds.length == foundInProfile) found = true;
+                    }
                   }
                 }
                 if (!found) {
