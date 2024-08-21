@@ -53,40 +53,40 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean; 
 		(async function () {
 			if (props.asset) {
 				if (props.asset.data.creator === (await window.arweaveWallet.getActiveAddress())) {
-          let profile = await getProfileByWalletAddress({ address: props.asset.data.creator });
-          if(profile && profile.id) {
-            setShowMigration(true);
-            let fetchedAssets = await getGQLData({
-              gateway: GATEWAYS.goldsky,
-              ids: null,
-              tagFilters: [{ name: 'Migrated-From', values: [props.asset.data.id] }],
-              owners: null,
-              cursor: null,
-              reduxCursor: null,
-              cursorObjectKey: null,
-            });
-            if (fetchedAssets.data.length > 0) {
-              let found = false;
-              for (let i = 0; i < fetchedAssets.data.length; i++) {
-                let processId = fetchedAssets.data[i].node.id;
-                const evalMessage = await message({
-                  process: processId,
-                  signer: createDataItemSigner(globalThis.arweaveWallet),
-                  tags: [{ name: 'Action', value: 'Eval' }],
-                  data: 'return Handlers.list',
-                });
-                const { Output } = await result({ message: evalMessage, process: processId });
-                if (Output && Output.data && Output.data.output && Output.data.output.includes('Balances')) {
-                  found = true;
-                }
-              }
-              if (!found) {
-                setDisableMigrate(false);
-              }
-            } else {
-              setDisableMigrate(false);
-            }
-          }
+					let profile = await getProfileByWalletAddress({ address: props.asset.data.creator });
+					if (profile && profile.id) {
+						setShowMigration(true);
+						let fetchedAssets = await getGQLData({
+							gateway: GATEWAYS.goldsky,
+							ids: null,
+							tagFilters: [{ name: 'Migrated-From', values: [props.asset.data.id] }],
+							owners: null,
+							cursor: null,
+							reduxCursor: null,
+							cursorObjectKey: null,
+						});
+						if (fetchedAssets.data.length > 0) {
+							let found = false;
+							for (let i = 0; i < fetchedAssets.data.length; i++) {
+								let processId = fetchedAssets.data[i].node.id;
+								const evalMessage = await message({
+									process: processId,
+									signer: createDataItemSigner(globalThis.arweaveWallet),
+									tags: [{ name: 'Action', value: 'Eval' }],
+									data: 'return Handlers.list',
+								});
+								const { Output } = await result({ message: evalMessage, process: processId });
+								if (Output && Output.data && Output.data.output && Output.data.output.includes('Balances')) {
+									found = true;
+								}
+							}
+							if (!found) {
+								setDisableMigrate(false);
+							}
+						} else {
+							setDisableMigrate(false);
+						}
+					}
 				}
 			}
 		})();

@@ -22,7 +22,8 @@ export default function App() {
 
 	const ucmReducer = useSelector((state: RootState) => state.ucmReducer);
 
-	const [showInfo, setShowInfo] = React.useState<boolean>(true);
+	// TODO: Remove
+	const [showInfo, setShowInfo] = React.useState<boolean>(false);
 
 	if (!localStorage.getItem(APP.appKey) || localStorage.getItem(APP.appKey) !== APP.appVersion) {
 		localStorage.clear();

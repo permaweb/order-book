@@ -1,7 +1,7 @@
 import { connect, createDataItemSigner, dryrun, message, results } from '@permaweb/aoconnect';
 import Arweave from 'arweave';
 
-import { AssetType, CollectionType, getTagValue, getTxEndpoint, TagType } from 'permaweb-orderbook';
+import { AssetType, CollectionType, getTagValue, getTxEndpoint, ORDERBOOK_CONTRACT, TagType } from 'permaweb-orderbook';
 
 import { getGQLData } from 'gql';
 import { getAssetById } from 'gql/assets';
@@ -106,12 +106,39 @@ export async function getProfileByWalletAddress(args: { address: string }): Prom
 }
 
 export async function uploadToAO(asset: AssetType, collectionId?: string, collectionName?: string) {
-  let mainProfile = await getProfileByWalletAddress({ address: asset.data.creator });
+	let assetCheck = await getGQLData({
+		gateway: GATEWAYS.goldsky,
+		ids: null,
+		tagFilters: [{ name: 'Migrated-From', values: [asset.data.id] }],
+		owners: null,
+		cursor: null,
+		reduxCursor: null,
+		cursorObjectKey: null,
+	});
+	if (assetCheck.data.length > 0) {
+		console.log('Asset migration found');
+		let processId = assetCheck.data[0].node.id;
+		const assetFetch = await readHandler({
+			processId: processId,
+			action: 'Info',
+		});
 
-  if(!mainProfile || !mainProfile.id) {
-    throw new Error('Could not locate ao profile.')
-  }
+		if (assetFetch) {
+			return processId;
+		} else {
+			console.log('No asset process found');
+		}
+	} else {
+		console.log('No asset migration found');
+	}
 
+	let mainProfile = await getProfileByWalletAddress({ address: asset.data.creator });
+
+	if (!mainProfile || !mainProfile.id) {
+		throw new Error('Could not locate AO profile.');
+	}
+
+	console.log('Fetching legacy asset...');
 	let fetchedAsset = await getGQLData({
 		gateway: GATEWAYS.arweave,
 		ids: [asset.data.id],
@@ -121,8 +148,6 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 		reduxCursor: null,
 		cursorObjectKey: null,
 	});
-
-  if(!fetchedAsset || !fetchedAsset.data || (fetchedAsset.data.length < 1)) throw new Error('Asset not found on gateway');
 
 	let licenseTag = fetchedAsset.data[0].node.tags.filter((tag) => tag.name === 'License');
 	let licenseTagVal = licenseTag.length > 0 ? { name: TAGS.keys.license, value: TAGS.values.license } : null;
@@ -176,14 +201,15 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 
 	const buffer: any = new Buffer(await (await fetch(getTxEndpoint(asset.data.id))).arrayBuffer());
 
-  const MAX_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+	const MAX_SIZE = 10 * 1024 * 1024; // 10MB in bytes
 
-  if (buffer.length > MAX_SIZE) {
-      throw new Error('Asset size exceeds 10MB');
-  }
+	if (buffer.length > MAX_SIZE) {
+		throw new Error('Asset size exceeds 10MB');
+	}
 
 	const aos = connect();
 
+	console.log('Spawning process...');
 	let processId = await aos.spawn({
 		module: AO.module,
 		scheduler: AO.scheduler,
@@ -195,6 +221,7 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 	let fetchedAssetId: string;
 	let retryCount = 0;
 	while (!fetchedAssetId) {
+		console.log('Checking process on gateway...');
 		await new Promise((r) => setTimeout(r, 2000));
 		const gqlResponse = await getGQLData({
 			gateway: GATEWAYS.goldsky,
@@ -212,8 +239,8 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 		} else {
 			console.log(`Transaction not found:`, processId);
 			retryCount++;
-			if (retryCount >= 10) {
-				throw new Error(`Transaction not found after 10 attempts, process deployment retries failed`);
+			if (retryCount >= 1000) {
+				throw new Error(`Transaction not found after 1000 attempts, process deployment retries failed`);
 			}
 		}
 	}
@@ -226,50 +253,42 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 			data: processSrc,
 		});
 
-		const evalResult = await aos.result({
-			message: evalMessage,
-			process: processId,
-		});
+		console.log('Eval message:', evalMessage);
 
-		if (evalResult) {
-			let assetState = (await getAssetById({ id: asset.data.id })).state;
-			let balances = {};
+		let assetState = (await getAssetById({ id: asset.data.id })).state;
+		let balances = {};
 
-			for (let key in assetState.balances) {
-				let profile = await getProfileByWalletAddress({ address: key });
-				if (profile.id) {
-					balances[profile.id] = assetState.balances[key];
-				} else {
-					balances[key] = assetState.balances[key];
-				}
+		console.log('Transferring balances to owners...');
+		for (let key in assetState.balances) {
+			let profile = mainProfile;
+			if (key !== ORDERBOOK_CONTRACT) {
+				profile = await getProfileByWalletAddress({ address: key });
 			}
-
-			const luaTable = convertToLuaTable(balances);
-
-			await aos.message({
-				process: processId,
-				signer: createDataItemSigner(globalThis.arweaveWallet),
-				tags: [{ name: 'Action', value: 'Eval' }],
-				data: `Balances = ${luaTable}`,
-			});
-
-      let creatorBalance = assetState.balances[asset.data.creator];
-      let balance = '';
-      if(creatorBalance) {
-        balance = creatorBalance.toString();
-      }
-
-      await aos.message({
-        process: processId,
-        signer: createDataItemSigner(globalThis.arweaveWallet),
-        tags: [
-          { name: 'Action', value: 'Add-Asset-To-Profile' },
-          { name: 'ProfileProcess', value: mainProfile.id },
-          { name: 'Quantity', value: balance },
-        ],
-        data: JSON.stringify({ Id: processId, Quantity: balance }),
-      });
+			if (profile.id) {
+				console.log('Adding uploaded asset...');
+				await aos.message({
+					process: profile.id,
+					signer: createDataItemSigner(globalThis.arweaveWallet),
+					tags: [
+						{ name: 'Action', value: 'Add-Uploaded-Asset' },
+						{ name: 'Quantity', value: assetState.balances[key].toString() },
+					],
+					data: JSON.stringify({ Id: processId, Quantity: assetState.balances[key].toString() }),
+				});
+				balances[profile.id] = assetState.balances[key];
+			} else {
+				balances[mainProfile.id] = assetState.balances[key];
+			}
 		}
+
+		console.log('Creating asset balances...');
+		const luaTable = convertToLuaTable(balances);
+		await aos.message({
+			process: processId,
+			signer: createDataItemSigner(globalThis.arweaveWallet),
+			tags: [{ name: 'Action', value: 'Eval' }],
+			data: `Balances = ${luaTable}`,
+		});
 
 		return processId;
 	} else {
@@ -298,6 +317,24 @@ export async function createTransaction(args: { content: any; contentType: strin
 }
 
 async function uploadCollection(collection: CollectionType, profileId: string) {
+	let fetchedCollections = await getGQLData({
+		gateway: GATEWAYS.goldsky,
+		ids: null,
+		tagFilters: [{ name: 'Migrated-From', values: [collection.id] }],
+		owners: null,
+		cursor: null,
+		reduxCursor: null,
+		cursorObjectKey: null,
+	});
+	if (fetchedCollections.data.length > 0) {
+		console.log('Collection migration found');
+		let processId = fetchedCollections.data[0].node.id;
+		console.log('Collection already migrated:', processId);
+		return processId;
+	} else {
+		console.log('No migration found');
+	}
+
 	let bannerTx: any = null;
 	if (!collection.banner.includes(DEFAULT_UCM_BANNER)) {
 		bannerTx = collection.banner;
@@ -554,28 +591,60 @@ export async function uploadCollectionToAO(
 	let collectionId = await uploadCollection(collection, profile.id);
 	progressCallback(parseFloat(((1 / totalCount) * 100).toFixed(2)));
 
-	let assetIds = [];
-	for (let i = 0; i < assets.length; i++) {
-		assetIds.push(await uploadToAO(assets[i], collectionId, collection.name));
-		const percentageProgress = parseFloat((((i + 3) / totalCount) * 100).toFixed(2));
-		progressCallback(percentageProgress);
-	}
+	console.log('AO collection:', collectionId);
 
-	await messageResults({
-		processId: profile.id,
-		action: 'Run-Action',
-		wallet: await window.arweaveWallet.getActiveAddress(),
-		tags: null,
-		data: {
-			Target: collectionId,
-			Action: 'Update-Assets',
-			Input: JSON.stringify({
-				AssetIds: assetIds,
-				UpdateType: 'Add',
-			}),
-		},
-		handler: 'Update-Assets',
+	await new Promise((r) => setTimeout(r, 2000));
+
+	let fetchedCollections = await getGQLData({
+		gateway: GATEWAYS.goldsky,
+		ids: null,
+		tagFilters: [{ name: 'Migrated-From', values: [collection.id] }],
+		owners: null,
+		cursor: null,
+		reduxCursor: null,
+		cursorObjectKey: null,
 	});
+	if (fetchedCollections.data.length > 0) {
+		console.log('Collection migration found');
+		let processId = fetchedCollections.data[0].node.id;
+		const collectionFetch = await readHandler({
+			processId: processId,
+			action: 'Info',
+		});
+
+		if (collectionFetch) {
+			if (collectionFetch.Assets && collectionFetch.Assets.length === (collection as any).assets.length) {
+				console.log('All assets migrated');
+			} else {
+				console.log('Some assets not yet migrated');
+				let assetIds = [];
+				for (let i = 0; i < assets.length; i++) {
+					const assetProcessId = await uploadToAO(assets[i], collectionId, collection.name);
+					console.log('Asset process:', assetProcessId);
+					assetIds.push(assetProcessId);
+					const percentageProgress = parseFloat((((i + 3) / totalCount) * 100).toFixed(2));
+					progressCallback(percentageProgress);
+				}
+				await messageResults({
+					processId: profile.id,
+					action: 'Run-Action',
+					wallet: await window.arweaveWallet.getActiveAddress(),
+					tags: null,
+					data: {
+						Target: collectionId,
+						Action: 'Update-Assets',
+						Input: JSON.stringify({
+							AssetIds: assetIds,
+							UpdateType: 'Add',
+						}),
+					},
+					handler: 'Update-Assets',
+				});
+			}
+		} else {
+			console.log('No collection found');
+		}
+	}
 
 	progressCallback(100.0);
 }

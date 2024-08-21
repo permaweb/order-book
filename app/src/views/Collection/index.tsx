@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { createDataItemSigner, message, result } from '@permaweb/aoconnect/browser';
 
 import { AssetType, CollectionType, PAGINATOR } from 'permaweb-orderbook';
 
@@ -11,12 +10,15 @@ import { CollectionCard } from 'components/organisms/CollectionCard';
 import { getCollection, getGQLData } from 'gql';
 import { GATEWAYS } from 'helpers/config';
 import { language } from 'helpers/language';
-import { getProfileByWalletAddress, uploadCollectionToAO } from 'helpers/migration';
+import { getProfileByWalletAddress, readHandler, uploadCollectionToAO } from 'helpers/migration';
 import { REDUX_TABLES } from 'helpers/redux';
+import { useArweaveProvider } from 'providers/ArweaveProvider';
 import { RootState } from 'store';
 
 export default function Collection() {
 	const { id } = useParams();
+
+	const arProvider = useArweaveProvider();
 
 	const assetsReducer = useSelector((state: RootState) => state.assetsReducer);
 
@@ -57,82 +59,61 @@ export default function Collection() {
 		}
 	}, [assetsReducer.collectionData]);
 
-  React.useEffect(() => {
-    (async function () {
-      if (assetsReducer.collectionData) {
-        if(collection && collection.creator && collection.creator.walletAddress) {
-          if(collection.creator.walletAddress === await window.arweaveWallet.getActiveAddress()) {
-            let profile = await getProfileByWalletAddress({ address: collection.creator.walletAddress });
-            if(profile && profile.id) {
-              setShowMigration(true);
-              setButtonMessage(language.checkingMigration)
-              let fetchedCollections = await getGQLData({
-                gateway: GATEWAYS.goldsky,
-                ids: null,
-                tagFilters: [{ name: 'Migrated-From', values: [collection.id] }],
-                owners: null,
-                cursor: null,
-                reduxCursor: null,
-                cursorObjectKey: null,
-              });
-              if (fetchedCollections.data.length > 0) {
-                let found = false;
-                for (let i = 0; i < fetchedCollections.data.length; i++) {
-                  let processId = fetchedCollections.data[i].node.id;
-                  const evalMessage = await message({
-                    process: processId,
-                    signer: createDataItemSigner(globalThis.arweaveWallet),
-                    tags: [{ name: 'Action', value: 'Eval' }],
-                    data: 'return Handlers.list',
-                  });
-                  const { Output } = await result({ message: evalMessage, process: processId });
-                  if (Output && Output.data && Output.data.output && Output.data.output.includes('Update-Assets')) {
-                    const evalMessageAssets = await message({
-                      process: processId,
-                      signer: createDataItemSigner(globalThis.arweaveWallet),
-                      tags: [{ name: 'Action', value: 'Eval' }],
-                      data: 'return Assets',
-                    });
-                    const { Output: OutputAssets } = await result({ message: evalMessageAssets, process: processId });
-                    let s = OutputAssets.data.output.toString();
-                    const cleanedStr = s.replace(/[{}]/g, '').trim();
-                    const foundIds = cleanedStr.split(',').map((id: any) => id.trim().replace(/^"|"$/g, ''));
-                    // the assets made it into the collection
-                    if(foundIds.length == assetsReducer.collectionData.length) {
-                      const evalMessageAssetsProfile = await message({
-                        process: profile.id,
-                        signer: createDataItemSigner(globalThis.arweaveWallet),
-                        tags: [{ name: 'Action', value: 'Eval' }],
-                        data: 'return Assets',
-                      });
-                      const { Output: OutputAssetsProfile } = await result({ message: evalMessageAssetsProfile, process: profile.id });
-                      let foundInProfile = 0;
-                      for(let i=0; i<foundIds.length; i++) {
-                        // the asset made it to the profile
-                        if(OutputAssetsProfile.data.output.toString().includes(foundIds[i])) {
-                          foundInProfile += 1;
-                        }
-                      }
-                      if(foundIds.length == foundInProfile) found = true;
-                    }
-                  }
-                }
-                if (!found) {
-									setDisableMigrate(false);
-									setButtonMessage(language.migrate);
+	React.useEffect(() => {
+		(async function () {
+			if (assetsReducer.collectionData) {
+				if (collection && collection.creator && collection.creator.walletAddress) {
+					if (collection.creator.walletAddress === arProvider.walletAddress) {
+						setShowMigration(true);
+						setButtonMessage(language.checkingMigration);
+						console.log('Checking profile for migration...');
+						let profile = await getProfileByWalletAddress({ address: collection.creator.walletAddress });
+						if (profile && profile.id) {
+							setButtonMessage(language.migrate);
+							console.log('Profile found');
+							setButtonMessage(language.checkingMigration);
+							let fetchedCollections = await getGQLData({
+								gateway: GATEWAYS.goldsky,
+								ids: null,
+								tagFilters: [{ name: 'Migrated-From', values: [collection.id] }],
+								owners: null,
+								cursor: null,
+								reduxCursor: null,
+								cursorObjectKey: null,
+							});
+							if (fetchedCollections.data.length > 0) {
+								console.log('Collection migration found');
+								let processId = fetchedCollections.data[0].node.id;
+								const collectionFetch = await readHandler({
+									processId: processId,
+									action: 'Info',
+								});
+
+								if (collectionFetch) {
+									if (collectionFetch.Assets && collectionFetch.Assets.length === (collection as any).assets.length) {
+										console.log('All assets migrated');
+										setButtonMessage(language.migrationComplete);
+										setDisableMigrate(true);
+									} else {
+										console.log('Some assets not yet migrated');
+										setDisableMigrate(false);
+									}
 								} else {
-									setButtonMessage(language.migrationComplete);
+									console.log('No collection found');
 								}
-              } else {
-                setDisableMigrate(false);
-                setButtonMessage(language.migrate);
-              }
-            }
-          }
-        }
-      } 
-    })();
-	}, [assetsReducer.collectionData]);
+							} else {
+								console.log('No collection migration found');
+								setDisableMigrate(false);
+								setButtonMessage(language.migrate);
+							}
+						} else {
+							console.log('No profile found');
+						}
+					}
+				}
+			}
+		})();
+	}, [assetsReducer.collectionData, arProvider.walletAddress]);
 
 	const handleMigrate = async () => {
 		setMigrationRunning(true);
@@ -144,7 +125,7 @@ export default function Collection() {
 				setMigrationMessage(`${progressPercent}% Complete`);
 			});
 			setMigrationMessage('Collection migrated successfully!');
-      setButtonMessage(language.migrationComplete);
+			setButtonMessage(language.migrationComplete);
 		} catch (e: any) {
 			setShowMigratedModal(true);
 			setDisableMigrate(false);
