@@ -176,6 +176,7 @@ export default function AssetsTable(props: IProps) {
 						autoLoad={props.autoLoadRenderers ? props.autoLoadRenderers : false}
 						loaderCount={9}
 						loading={props.loading}
+						showMigration={props.showMigration}
 					/>
 				);
 			case 'list':

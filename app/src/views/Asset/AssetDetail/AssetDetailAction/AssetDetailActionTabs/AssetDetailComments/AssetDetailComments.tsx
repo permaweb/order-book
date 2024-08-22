@@ -64,7 +64,6 @@ function CommentCreate(props: IAMProps) {
 		}
 	}, []);
 
-	// TODO: remove bundlr
 	async function handleSubmit(e: any) {
 		if (arProvider.walletAddress && orProvider.orderBook) {
 			e.preventDefault();

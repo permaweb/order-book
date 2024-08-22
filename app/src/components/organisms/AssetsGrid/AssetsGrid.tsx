@@ -1,29 +1,96 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { createDataItemSigner, message, result } from '@permaweb/aoconnect';
 
-import { AssetType, getTxEndpoint, STORAGE } from 'permaweb-orderbook';
+import { AssetType, getTxEndpoint, ORDERBOOK_CONTRACT, STORAGE } from 'permaweb-orderbook';
 
 import { Button } from 'components/atoms/Button';
 import { IconButton } from 'components/atoms/IconButton';
 import { Loader } from 'components/atoms/Loader';
+import { Modal } from 'components/molecules/Modal';
 import { AssetData } from 'components/organisms/AssetData';
 import { AssetOrders } from 'components/organisms/AssetOrders';
 import { StampWidget } from 'components/organisms/StampWidget';
-import { ASSETS } from 'helpers/config';
+import { getGQLData } from 'gql';
+import { ASSETS, GATEWAYS } from 'helpers/config';
 import { getRendererEndpoint } from 'helpers/endpoints';
 import { language } from 'helpers/language';
+import { getProfileByWalletAddress, uploadToAO } from 'helpers/migration';
 import { AssetRenderType, ContentType } from 'helpers/types';
 import * as urls from 'helpers/urls';
 
 import * as S from './styles';
 import { IProps } from './types';
 
-function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }) {
+function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean; showMigration: boolean }) {
 	const navigate = useNavigate();
 	const redirect = `${urls.asset}${props.asset.data.id}`;
 
 	const [assetRender, setAssetRender] = React.useState<AssetRenderType | null>(null);
 	const [loadRenderer, setLoadRenderer] = React.useState<boolean>(false);
+
+	const [migrationRunning, setMigrationRunning] = React.useState(false);
+	const [disableMigrate, setDisableMigrate] = React.useState(true);
+	const [showMigration, setShowMigration] = React.useState<boolean>(false);
+	const [showMigratedModal, setShowMigratedModal] = React.useState<boolean>(false);
+	const [migrationMessage, setMigrationMessage] = React.useState<string>('');
+
+	const migrateAsset = async () => {
+		setMigrationRunning(true);
+		try {
+			await uploadToAO(props.asset);
+			setShowMigratedModal(true);
+			setMigrationMessage('Asset migrated successfully!');
+		} catch (e: any) {
+			setShowMigratedModal(true);
+			setMigrationMessage(`Error migrating asset: ${e.message}`);
+		}
+		setMigrationRunning(false);
+		setDisableMigrate(true);
+	};
+
+	React.useEffect(() => {
+		(async function () {
+			if (props.asset) {
+				if (props.asset.data.creator === (await window.arweaveWallet.getActiveAddress())) {
+					let profile = await getProfileByWalletAddress({ address: props.asset.data.creator });
+					if (profile && profile.id) {
+						setShowMigration(true);
+						let fetchedAssets = await getGQLData({
+							gateway: GATEWAYS.goldsky,
+							ids: null,
+							tagFilters: [{ name: 'Migrated-From', values: [props.asset.data.id] }],
+							owners: null,
+							cursor: null,
+							reduxCursor: null,
+							cursorObjectKey: null,
+						});
+						if (fetchedAssets.data.length > 0) {
+							let found = false;
+							for (let i = 0; i < fetchedAssets.data.length; i++) {
+								let processId = fetchedAssets.data[i].node.id;
+								const evalMessage = await message({
+									process: processId,
+									signer: createDataItemSigner(globalThis.arweaveWallet),
+									tags: [{ name: 'Action', value: 'Eval' }],
+									data: 'return Handlers.list',
+								});
+								const { Output } = await result({ message: evalMessage, process: processId });
+								if (Output && Output.data && Output.data.output && Output.data.output.includes('Balances')) {
+									found = true;
+								}
+							}
+							if (!found) {
+								setDisableMigrate(false);
+							}
+						} else {
+							setDisableMigrate(false);
+						}
+					}
+				}
+			}
+		})();
+	}, [props.asset]);
 
 	React.useEffect(() => {
 		(async function () {
@@ -59,6 +126,13 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 
 	return assetRender ? (
 		<S.PICWrapper>
+			{showMigratedModal && (
+				<Modal header={'BazAR Update'} handleClose={() => setShowMigratedModal(false)}>
+					<div className={'modal-info'}>
+						<p>{migrationMessage}</p>
+					</div>
+				</Modal>
+			)}
 			{assetRender && !(assetRender.type === 'renderer') && (
 				<S.PCLink>
 					<Link to={redirect} />
@@ -113,6 +187,22 @@ function AssetTile(props: { asset: AssetType; index: number; autoLoad: boolean }
 							title={props.asset.data.title}
 							stamps={props.asset.stamps ? props.asset.stamps : null}
 						/>
+						{showMigration && props.asset.data.id !== ORDERBOOK_CONTRACT && (
+							<S.MigrateButton>
+								<Button
+									type={'primary'}
+									label={!migrationRunning ? language.migrate : language.migrating}
+									handlePress={() => {
+										migrateAsset();
+									}}
+									tooltip={language.migrate}
+									width={100}
+									noMinWidth={false}
+									height={40}
+									disabled={disableMigrate ? true : migrationRunning}
+								/>
+							</S.MigrateButton>
+						)}
 					</S.ICWidgetIcons>
 				</S.ICBottom>
 			</S.ICWrapper>
@@ -156,7 +246,15 @@ export default function AssetsGrid(props: IProps) {
 			if (assets) {
 				if (assets.length > 0) {
 					return assets.map((asset: AssetType, index: number) => {
-						return <AssetTile key={asset.data.id} asset={asset} index={index + 1} autoLoad={props.autoLoad} />;
+						return (
+							<AssetTile
+								key={asset.data.id}
+								asset={asset}
+								index={index + 1}
+								autoLoad={props.autoLoad}
+								showMigration={props.showMigration}
+							/>
+						);
 					});
 				} else {
 					return (

@@ -83,6 +83,7 @@ export default function Account() {
 				loading={loading}
 				getFeaturedData={false}
 				showFilters={false}
+				showMigration={true}
 			/>
 		</>
 	);

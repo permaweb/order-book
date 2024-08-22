@@ -6,4 +6,5 @@ export interface IProps {
 	loaderCount: number;
 	loading: boolean;
 	title?: string;
+	showMigration?: boolean;
 }

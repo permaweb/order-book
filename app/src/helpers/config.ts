@@ -142,9 +142,12 @@ export const TAGS = {
 		appName: 'App-Name',
 		banner: 'Banner',
 		collectionCode: 'Collection-Code',
+		collectionId: 'Collection-Id',
+		collectionName: 'Collection-Name',
 		contentType: 'Content-Type',
 		contractSrc: 'Contract-Src',
 		creator: 'Creator',
+		currency: 'Currency',
 		dataProtocol: 'Data-Protocol',
 		dataSource: 'Data-Source',
 		dateCreated: 'Date-Created',
@@ -152,8 +155,10 @@ export const TAGS = {
 		indexedBy: 'Indexed-By',
 		initialOwner: 'Initial-Owner',
 		initState: 'Init-State',
+		license: 'License',
 		name: 'Name',
 		paymentFee: 'Payment-Fee',
+		profileCreator: 'Profile-Creator',
 		protocolName: 'Protocol-Name',
 		uploaderTxId: 'Uploader-Tx-Id',
 		renderWith: 'Render-With',
@@ -184,10 +189,13 @@ export const TAGS = {
 		contentTypes: {
 			textPlain: 'text/plain',
 		},
+		document: 'Document',
 		holderTitle: {
 			sponsor: 'sponsor',
 		},
 		indexer: 'ucm',
+		license: 'dE0rmDfl9_OWjkDznNEXHaSO_JohJkRolvMzaCroUdw',
+		licenseCurrency: 'xU9zFkq3X2ZQ6olwNVvr1vUWIjc3kXTWr7xKQD6dh10',
 		profileVersions: {
 			'0.2': 'Account-0.2',
 			'0.3': 'Account-0.3',
@@ -509,3 +517,25 @@ export const FILTERED_IDS = [
 export const ANS_FILTER_LIST = [CURRENCY_DICT['U'], 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo'];
 
 export const STAMP_CONTRACT = 'TlqASNDLA1Uh8yFiH-BzR_1FDag4s735F3PoUFEv2Mo';
+
+export const AO = {
+	module: 'Pq2Zftrqut0hdisH_MC2pDOT6S4eQFoxGsFUzR6r350',
+	scheduler: '_GQ33BkPtZrqxA84vM8Zk-N2aO0toNNu_C-l-rawrBA',
+	assetSrc: 'Fmtgzy1Chs-5ZuUwHpQjQrQ7H7v1fjsP0Bi8jVaDIKA',
+	defaultToken: 'xU9zFkq3X2ZQ6olwNVvr1vUWIjc3kXTWr7xKQD6dh10',
+	ucm: 'U3TjJAZWJjlWBB4KAXSHKzuky81jtyh0zqH8rUL4Wd0',
+	pixl: 'DM3FoZUq_yebASPhgd8pEIRIzDW6muXEhxz5-JwbZwo',
+	collectionsRegistry: 'TFWDmf8a3_nw43GCm_CuYlYoylHAjCcFGbgHfDaGcsg',
+	collectionSrc: '2ZDuM2VUCN8WHoAKOOjiH4_7Apq0ZHKnTWdLppxCdGY',
+	profileRegistry: 'SNy4m-DrqxWl01YqGM4sxI8qCni-58re8uuJLvZPypY',
+	profileSrc: 'pbrl1fkS3_SZP3RqqPIjbt3-f81L9vIpV2_OnUmxqGQ',
+};
+
+export const CONTENT_TYPES = {
+	json: 'application/json',
+	mp4: 'video/mp4',
+	textPlain: 'text/plain',
+};
+
+export const DEFAULT_UCM_BANNER = 'eXCtpVbcd_jZ0dmU2PZ8focaKxBGECBQ8wMib7sIVPo';
+export const DEFAULT_UCM_THUMBNAIL = 'lJovHqM9hwNjHV5JoY9NGWtt0WD-5D4gOqNL2VWW5jk';

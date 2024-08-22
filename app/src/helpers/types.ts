@@ -276,3 +276,15 @@ export type ActivityResponseType = {
 	nextCursor: string | null;
 	previousCursor: string | null;
 };
+
+export type AOProfileType = {
+	id: string;
+	walletAddress: string;
+	displayName: string | null;
+	username: string | null;
+	bio: string | null;
+	avatar: string | null;
+	banner: string | null;
+};
+
+export type ProfileHeaderType = AOProfileType;

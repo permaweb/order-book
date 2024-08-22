@@ -190,3 +190,7 @@ export const NoAssetsContainer = styled.div`
 		color: ${(props) => props.theme.colors.warning};
 	}
 `;
+
+export const MigrateButton = styled.div`
+	margin-left: 10px;
+`;
