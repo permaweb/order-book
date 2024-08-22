@@ -264,7 +264,7 @@ export async function uploadToAO(asset: AssetType, collectionId?: string, collec
 			if (key !== ORDERBOOK_CONTRACT) {
 				profile = await getProfileByWalletAddress({ address: key });
 			}
-			if (profile.id) {
+			if (profile.id && Number(assetState.balances[key]) > 0) {
 				console.log('Adding uploaded asset...');
 				await aos.message({
 					process: profile.id,
